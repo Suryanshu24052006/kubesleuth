@@ -1,127 +1,143 @@
-# kubesleuth — an AI agent for Kubernetes root-cause analysis
+# kubesleuth
 
-Inter IIT Tech Meet 15.0 · Prepathon · Development PS
+An AI agent that investigates Kubernetes incidents and writes a root-cause analysis, built for the
+Inter IIT Tech Meet 15.0 Prepathon (Development PS).
 
-kubesleuth investigates Kubernetes incidents the way an SRE does: it forms **competing hypotheses**,
-gathers evidence from **Kubernetes, metrics, logs, traces and change history** through a
-**read-only MCP broker**, updates beliefs with a **verifiable evidence ledger**, and stops when the
-evidence is decisive or says what is missing. The environment reproduces **six real production
-post-mortems** (Cloudflare 2019, Knight Capital 2012, AWS S3 2017, GitHub, Chef 2014, AWS EBS 2012) on a
-local kind cluster with a ground truth for each.
+When something breaks in a cluster, the error you see is rarely where the problem started. A 5xx at
+the edge might really be a config change three services away, made ten minutes earlier. I wanted an
+agent that works the way a good on-call engineer does: look around, come up with a few possible
+explanations, check the ones that can be told apart, and only commit to an answer when the evidence
+from several places agrees. If the evidence isn't there, it should say so.
+
+## How it's put together
+
+There are two pieces, and keeping them apart is the most important design decision in the project.
 
 ```
             Alertmanager webhook / CLI / HTTP
                           │ incident
-┌─────────────────────────▼──────────────────────────┐   namespace kubesleuth (PSS "restricted",
-│ agent  (LangGraph)          NO k8s credentials     │   default-deny NetworkPolicy)
-│  triage → hypothesize → plan → act → assess → decide ──► report (facts / hypotheses / evidence /
-│            ▲   LLM         firewall   LLM   ledger │            timeline / confidence / uncertainty)
+┌─────────────────────────▼──────────────────────────┐
+│ agent (LangGraph)            no k8s credentials    │
+│  triage → hypothesize → plan → act → assess → decide ──► RCA report
+│            ▲                                       │
 │            └──────────────── loop ─────────────────┘
 └─────────────────────────┬──────────────────────────┘
-                          │ MCP (streamable HTTP), 11 read-only tools
+                          │ MCP, 11 read-only tools
 ┌─────────────────────────▼──────────────────────────┐
-│ broker                 read-only ServiceAccount    │  policy · redaction · injection flagging ·
-│  change journal (watch) · log mining · onsets      │  rate limit · audit log
+│ broker                 read-only ServiceAccount    │
 └──┬──────────────┬──────────────┬─────────────┬─────┘
- kube-apiserver  Prometheus     Loki          Jaeger      (+ Alertmanager)
- (RBAC: get/list/watch in `shop` only, no Secrets, no exec)
+ Kubernetes API  Prometheus     Loki          Jaeger      (+ Alertmanager)
 ```
 
-## What makes it different
+The **agent** is the part that talks to the LLM. It has no Kubernetes credentials at all, not even
+the client library, and its network policy only lets it reach the broker. The **broker** is a small
+read-only MCP server. It is the only thing that can query the cluster and the observability stack,
+and it can only read one namespace. So even if the model were completely fooled by something it read
+in a log, the worst it could do is make more read-only queries.
 
-| Idea | Why it matters |
-|---|---|
-| **Evidence ledger with machine-verified quotes** | Every evidence claim must cite an observation id and quote it *verbatim*; the code checks the substring. Fabricated or hallucinated evidence is rejected and counted, never scored. |
-| **Posteriors computed by code, not by the model** | The LLM grades evidence (supports/contradicts, weak/moderate/strong); fixed log-odds weights, source-diversity decay and an "unexplained" alternative turn that into posteriors. "High" confidence needs ≥2 independent sources and no strong contradiction. |
-| **Symptom vs cause is structural** | Hypotheses carry `layer: symptom|cause`; symptoms are tracked but can never be concluded as root cause. |
-| **Change journal** | The broker watches Deployments/ConfigMaps/Services/HPAs (list+watch, the informer pattern) and records field-level diffs and *who* changed them (`kubectl` vs HPA vs Helm), because the API only stores current state. |
-| **Model-friendly observability** | Logs are template-mined (thousands of lines → a dozen patterns); metrics come back as stats + sparkline + **onset time**, which the agent lines up against change times. |
-| **Two independent security layers** | The agent pod has no credentials at all and only reaches the broker; the broker enforces scope, and RBAC enforces it again. A *compromised-model* test proves nothing gets through. |
-| **Discriminating tool choice** | The planner is asked for calls whose result would *differ* between hypotheses (information gain), not confirmation. |
-| **Real post-mortems as scenarios** | Each scenario reproduces the mechanism of a documented outage, with the hard parts that fooled humans (partial failures, victims ≠ culprits, amplifiers, latent bugs). |
+## What I think is interesting about it
 
-## Scenarios
+- **The agent can't make up evidence.** Every piece of evidence has to quote the tool output word for
+  word, and code checks that the quote is really there. If it isn't, the claim is thrown out and
+  shown in the report as rejected.
+- **Confidence comes from the evidence, not from the model.** The model says whether something supports
+  or contradicts a hypothesis and how strongly. The code turns that into a probability. "High"
+  confidence needs at least two independent sources agreeing and nothing strongly against it.
+- **Symptoms and causes are kept apart.** Restarts, failed probes and 5xx errors are tracked as things
+  that need explaining, and the agent is never allowed to report one of them as the root cause.
+- **It knows what changed and who changed it.** Kubernetes only stores the current state of an object,
+  so the broker watches Deployments, ConfigMaps, Services and HPAs and records field-level diffs,
+  like `DB_POOL_SIZE 4 → 30 (by kubectl)`.
+- **The data is shaped for reasoning.** Thousands of log lines get grouped into a handful of
+  patterns, and each metric comes back with the time it started going wrong, so the agent can check
+  whether a change happened *before* the problem.
+- **It asks useful questions.** When choosing what to query next, the agent is asked for queries whose
+  answer would be different depending on which explanation is true, not ones that just confirm its
+  current favourite.
 
-| Id | Post-mortem | Mechanism reproduced | Why it is hard |
+## The failure scenarios
+
+Instead of inventing failures, I recreated six real outages from public post-mortems (mostly from
+[danluu/post-mortems](https://github.com/danluu/post-mortems)). Each one has a known root cause so the
+agent's answer can be scored, and each keeps the part that made the real incident hard to diagnose.
+
+| Scenario | Based on | What happens | Why it's tricky |
 |---|---|---|---|
-| `cloudflare-2019-waf-regex` | Cloudflare, Jul 2019 | WAF rule with the original backtracking regex hot-reloaded from a ConfigMap; CPU pinned on the event loop | no rollout or restart, only a ConfigMap edit; HPA scale-out and probe failures are loud symptoms |
-| `knight-2012-stale-version-flag` | Knight Capital, Aug 2012 | forgotten `pricing-legacy` (v0.9.7) behind the same Service; repurposed flag re-activates dead "PowerPeg" code | only 1 pod of 3 fails; the flag flip is the trigger, not the defect |
-| `aws-s3-2017-capacity-removal` | AWS S3, Feb 2017 | typo'd label selector scales `inventory` 4→1 instead of `catalog-indexer` | nothing crashes or changes config; only a human-made replica change and CPU throttling |
-| `github-conn-saturation` | GitHub 2022 (also Mailgun, incident.io) | DB_POOL_SIZE 4→30 rollout exhausts Postgres `max_connections`; inventory fails first | the failing service is not the one that changed (the PDF's own example chain) |
-| `chef-2014-healthcheck-timeouts` | Chef Supermarket, Jul 2014 | aggressive deep liveness probe + Chaos Mesh 850 ms DB latency → restart storm | two real changes; the visible DB latency is the trigger, the probe is the root cause |
-| `aws-ebs-2012-latent-leak` | AWS EBS, Oct 2012 | collector Service renamed; clients keep the old DNS name; unbounded telemetry buffer → OOMKilled loop | three hops and minutes between change and symptom; decisive log is in the *previous* container |
+| `cloudflare-2019-waf-regex` | Cloudflare, July 2019 | A WAF rule with Cloudflare's original regex is pushed through a ConfigMap; it backtracks badly and pins the CPU | No deploy or restart, just a ConfigMap edit. The autoscaler maxing out looks like the problem but isn't |
+| `knight-2012-stale-version-flag` | Knight Capital, 2012 | An old deployment left behind the same Service wakes up dead code when a reused feature flag is turned on | Only one pod in three fails, and the flag is the trigger, not the bug |
+| `aws-s3-2017-capacity-removal` | AWS S3, Feb 2017 | A mistyped label selector scales `inventory` from 4 replicas to 1 | Nothing crashes and no config changes, only a replica count edited by a person |
+| `github-conn-saturation` | GitHub 2022, also Mailgun and incident.io | Raising a DB pool size from 4 to 30 uses up all Postgres connections | The service that fails (inventory) isn't the one that changed (checkout) |
+| `chef-2014-healthcheck-timeouts` | Chef, July 2014 | An aggressive liveness probe plus a little DB latency from Chaos Mesh causes a restart storm | Two real changes, and the visible one (DB latency) isn't the root cause |
+| `aws-ebs-2012-latent-leak` | AWS EBS, Oct 2012 | A renamed telemetry Service triggers an unbounded buffer, then OOMKilled crash loops | Three hops and several minutes between cause and symptom; the key log is in the crashed container |
 
-Details, reproduction notes and ground truth: [`scenarios/*/scenario.yaml`](scenarios/). An adversarial
-`review-bot` runs continuously and logs prompt-injection payloads plus irrelevant warnings, so every
-investigation happens with hostile noise in the data.
+There's also a `review-bot` pod that keeps writing prompt-injection messages and irrelevant warnings
+into its logs, so every investigation has hostile noise to deal with.
 
-## Quick start
+## Running it
 
-### 0. No cluster, no API key (2 minutes)
+### Without a cluster (about 2 minutes)
 ```bash
-make venv                       # Python 3.11+
-make test                       # 76 tests: policy, sanitizer, MCP protocol, ledger, full scripted investigations
-make demo-offline REASONER=rules            # deterministic baseline on a recorded incident
-make security-probe-offline                 # 14 attacks against the broker, all refused
-ANTHROPIC_API_KEY=... make demo-offline     # same incident with the LLM reasoner
+make venv                                   # needs Python 3.11+
+make test                                   # 76 tests
+make demo-offline REASONER=rules            # runs on a recorded incident, no API key needed
+make security-probe-offline                 # throws 14 attacks at the broker
+ANTHROPIC_API_KEY=... make demo-offline     # same incident, with the LLM
 ```
 
-### 1. Prerequisites for the live environment
-Docker, [kind](https://kind.sigs.k8s.io/) ≥ 0.24 (its CNI enforces NetworkPolicy), kubectl, Helm 3, Python 3.11+,
-~8 GB RAM for Docker. One LLM key: `ANTHROPIC_API_KEY` (default model `anthropic:claude-sonnet-5-5`),
-or `GOOGLE_API_KEY` with `MODEL=google_genai:gemini-2.5-flash`, or `OPENAI_API_KEY` with `MODEL=openai:gpt-4.1`.
+### The full environment
+You'll need Docker, [kind](https://kind.sigs.k8s.io/) 0.24 or newer, kubectl, Helm 3, Python 3.11+,
+about 8 GB of RAM for Docker, and one LLM key: `ANTHROPIC_API_KEY`, or `GOOGLE_API_KEY` with
+`KUBESLEUTH_MODEL=google_genai:gemini-2.5-flash`, or `OPENAI_API_KEY` with `KUBESLEUTH_MODEL=openai:gpt-4.1`.
+On Windows, run everything inside WSL2.
 
-### 2. Bring everything up
 ```bash
-export ANTHROPIC_API_KEY=...     # stored as a Secret for the in-cluster agent
-make venv && make up             # ~10 min first time: kind, Prometheus/Alertmanager/Grafana, Loki+Alloy,
-                                 # Jaeger, Traefik (Ingress + Gateway API), metrics-server, Chaos Mesh, shop, kubesleuth
-curl -s 'http://shop.localhost:8080/?q=tent'     # the shop through the Ingress
-make ports                       # Grafana :3000 (admin/kubesleuth), Prometheus :9090, Jaeger :16686, agent :8081
+export ANTHROPIC_API_KEY=...
+make venv && make up          # first run takes ~10 minutes: kind, Prometheus, Alertmanager, Grafana,
+                              # Loki, Jaeger, Traefik, metrics-server, Chaos Mesh, the shop and kubesleuth
+curl -s 'http://shop.localhost:8080/?q=tent'
+make ports                    # Grafana :3000 (admin/kubesleuth), Prometheus :9090, Jaeger :16686, agent :8081
 ```
 
-### 3. Break it, investigate it
+Break something and let the agent find it:
 ```bash
-make scenarios                                   # list
-make scenario S=github-conn-saturation           # inject; the ShopEdgeHigh5xxRate alert fires in ~2-3 min
+make scenarios
+make scenario S=github-conn-saturation     # the alert fires after 2-3 minutes
 make investigate INCIDENT="The checkout service is experiencing a sudden increase in 5xx errors."
-#   -> live progress (hypotheses, tool calls, posteriors per round), then reports/<id>.md and .json
-make reset                                       # back to healthy
+make reset
 ```
-Alert-driven path: Alertmanager posts firing `namespace=shop` alerts to the in-cluster agent, which
-investigates on its own; browse reports at `http://localhost:8081` (`make ports`).
+You'll see the hypotheses, tool calls and probabilities round by round, and the report ends up in
+`reports/`. The agent also runs on its own when Alertmanager fires; those reports are at
+`http://localhost:8081`.
 
-### 4. Evaluate and demonstrate the boundary
+To score every scenario and check the security boundary:
 ```bash
-make eval            # every scenario: reset → inject → wait for alert → investigate → score vs ground truth
-make eval-rules      # the same with the rule baseline, to see what the LLM adds
-make security-demo   # RBAC matrix, no token in agent pod, NetworkPolicy reachability, broker attacks, audit log
+make eval            # reset, inject, wait for the alert, investigate, score, for every scenario
+make eval-rules      # same thing with the simple rule-based baseline, for comparison
+make security-demo   # RBAC, credentials, network policy and broker attack checks on the live cluster
 ```
-Results land in `eval/results/<timestamp>/summary.md` with per-scenario reports.
 
-## Repository map
+## Where things are
 
-| Path | What |
+| Path | What's in it |
 |---|---|
-| `broker/` | read-only MCP server: `policy.py` (scope, PromQL scoping), `sanitize.py` (redaction, injection flags), `journal.py` (change journal), `tools.py` (11 tools), `logmine.py`, `timeseries.py`, `fixtures.py` (offline mode), `server.py` (MCP, rate limit, audit) |
-| `agent/` | LangGraph agent: `investigation.py` (graph + stopping rule), `ledger.py` (hypotheses, grounded evidence, posteriors), `reasoners.py` (LLM / rules / scripted), `toolclient.py` (MCP client + firewall), `timeline.py`, `report.py`, `server.py` (Alertmanager webhook), `security_probe.py` |
-| `shop/` | demo microservices with real failure mechanisms (one image, many roles) |
-| `deploy/` | manifests: shop (Deployments, StatefulSet+PVC, Services, Ingress, HTTPRoute, HPA, ServiceMonitor, alert rules), kubesleuth (RBAC, NetworkPolicy, hardened pods), Jaeger |
-| `cluster/` | kind config and pinned Helm values |
-| `scenarios/` | six post-mortem reproductions with ground truth |
-| `eval/` | harness and scorer |
-| `fixtures/` | recorded incident snapshots for offline runs and tests |
-| `docs/` | [technical write-up](docs/WRITEUP.md), [security model](docs/SECURITY.md), [Kubernetes concepts used here](docs/K8S_CONCEPTS.md) |
+| `agent/` | the LangGraph agent: the investigation loop, the evidence ledger, the LLM and rule-based reasoners, the MCP client with its firewall, timeline and report building, the Alertmanager webhook |
+| `broker/` | the read-only MCP server: access policy, redaction and injection flagging, the change journal, the 11 tools, log pattern mining, metric onset detection, offline mode |
+| `shop/` | the demo microservices; each failure is a real mechanism, not a "return 500" switch |
+| `deploy/` | Kubernetes manifests for the shop, kubesleuth (RBAC, network policies, hardened pods) and Jaeger |
+| `cluster/` | the kind config and pinned Helm values |
+| `scenarios/` | the six post-mortem reproductions and their ground truth |
+| `eval/` | the evaluation harness and scorer |
+| `fixtures/` | recorded incidents for offline runs and tests |
+| `docs/` | [write-up](docs/WRITEUP.md), [security model](docs/SECURITY.md), [Kubernetes concepts used](docs/K8S_CONCEPTS.md), and a [sample report](docs/sample-report-rules-offline.md) |
 
-## Validation status (please read)
+## What has and hasn't been tested
 
-Verified in development: all unit, protocol and scripted end-to-end tests (76), the offline demo,
-the 14-attack broker probe, the LLM code path through LangChain structured output (with a fake chat
-model), all manifests against Kubernetes 1.33 schemas with kubeconform (CRDs included), every pinned
-Helm chart version and the values keys used, the Chaos Mesh CRD fields, and each failure mechanism in
-the shop services locally (e.g. the Cloudflare regex adds ~300 ms of CPU per request).
+Tested so far: all 76 unit, protocol and end-to-end tests (including one that simulates a fully
+hijacked model), the offline demo, all 14 broker attacks being blocked, the LLM path through
+LangChain's structured output, every manifest against the Kubernetes 1.33 schemas, every pinned Helm
+chart version and the values I set, and each failure mechanism in the shop services on its own (the
+Cloudflare regex adds about 300 ms of CPU per request).
 
-**Not yet verified:** a full run on a live kind cluster with a real LLM. The build environment had no
-access to container registries, so images could not be pulled. Expect to tune scenario timings
-(`wait_seconds`) and possibly chart values on first run; run `make eval` and commit the
-`summary.md` it produces as the results table.
+Not tested yet: a complete run on a live kind cluster with a real LLM. I couldn't pull container
+images where I was building this, so the first `make up` may need some tuning of scenario timings or
+chart values. Running `make eval` will produce the results table, which I'll add here.
