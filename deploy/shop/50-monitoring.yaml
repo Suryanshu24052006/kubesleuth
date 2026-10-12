@@ -1,0 +1,47 @@
+# Prometheus scrapes every shop Service labelled monitoring=shop.
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: shop
+  namespace: shop
+spec:
+  selector:
+    matchLabels: {monitoring: shop}
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 15s
+---
+# Symptom-level alerts. Alertmanager routes namespace=shop alerts to the kubesleuth agent.
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: shop-slo
+  namespace: shop
+spec:
+  groups:
+    - name: shop.slo
+      rules:
+        - alert: ShopEdgeHigh5xxRate
+          expr: |
+            sum(rate(http_requests_total{namespace="shop", svc="edge", code=~"5.."}[2m]))
+              / clamp_min(sum(rate(http_requests_total{namespace="shop", svc="edge"}[2m])), 0.001) > 0.05
+          for: 1m
+          labels: {severity: critical, namespace: shop, service: edge}
+          annotations:
+            summary: "Edge is returning >5% 5xx responses"
+            description: "{{ $value | humanizePercentage }} of edge requests fail with 5xx."
+        - alert: ShopEdgeLatencyHigh
+          expr: |
+            histogram_quantile(0.95, sum by (le) (rate(http_request_duration_seconds_bucket{namespace="shop", svc="edge"}[2m]))) > 1.5
+          for: 2m
+          labels: {severity: warning, namespace: shop, service: edge}
+          annotations:
+            summary: "Edge p95 latency above 1.5s"
+        - alert: ShopEdgeTrafficDrop
+          expr: |
+            sum(rate(http_requests_total{namespace="shop", svc="edge"}[2m])) < 5
+          for: 2m
+          labels: {severity: warning, namespace: shop, service: edge}
+          annotations:
+            summary: "Edge is serving almost no traffic (requests may be timing out before reaching it)"

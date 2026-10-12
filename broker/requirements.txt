@@ -1,0 +1,7 @@
+# Broker: the ONLY component with cluster credentials. No LLM libraries here.
+kubernetes==37.0.1
+mcp==2.3.0
+httpx==0.28.1
+pydantic==2.14.1
+uvicorn==0.54.0
+starlette==1.7.0

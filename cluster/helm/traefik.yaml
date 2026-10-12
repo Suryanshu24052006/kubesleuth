@@ -1,0 +1,26 @@
+# Ingress controller (and Gateway API implementation) for kind.
+# ingress-nginx was retired upstream, so we use Traefik, which serves both
+# networking.k8s.io/v1 Ingress and gateway.networking.k8s.io HTTPRoute.
+service:
+  type: NodePort
+ports:
+  web:
+    nodePort: 30080
+ingressClass:
+  enabled: true
+  isDefaultClass: true
+providers:
+  kubernetesIngress:
+    enabled: true
+  kubernetesGateway:
+    enabled: true
+gateway:
+  listeners:
+    web:
+      namespacePolicy: All
+nodeSelector:
+  kubernetes.io/hostname: kubesleuth-control-plane   # the node with the port mapping
+tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
+    effect: NoSchedule

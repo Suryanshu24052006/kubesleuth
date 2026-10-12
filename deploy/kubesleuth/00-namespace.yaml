@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kubesleuth
+  labels:
+    # Pods here must satisfy the "restricted" Pod Security Standard.
+    pod-security.kubernetes.io/enforce: restricted

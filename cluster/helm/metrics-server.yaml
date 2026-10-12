@@ -1,0 +1,3 @@
+# metrics-server powers `kubectl top` and the HorizontalPodAutoscaler.
+args:
+  - --kubelet-insecure-tls   # kind kubelets use self-signed serving certs

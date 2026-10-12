@@ -1,0 +1,67 @@
+# recommendations: buffers telemetry events until the collector accepts them.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recommendations
+  namespace: shop
+  labels: {app: recommendations}
+spec:
+  replicas: 2
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels: {app: recommendations}
+  template:
+    metadata:
+      labels: {app: recommendations}
+    spec:
+      containers:
+        - name: recommendations
+          image: shop:1.4.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: ROLE
+              value: recommendations
+            - name: POD_NAME
+              valueFrom: {fieldRef: {fieldPath: metadata.name}}
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: http://jaeger.observability.svc:4318
+            - name: TELEMETRY_URL
+              value: http://telemetry-collector:8080/ingest
+            - name: TELEMETRY_EVENT_BYTES
+              value: "48000"
+          ports:
+            - {name: http, containerPort: 8080}
+          livenessProbe:
+            httpGet: {path: /healthz, port: http}
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          readinessProbe:
+            httpGet: {path: /healthz, port: http}
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 2
+          resources:
+            requests: {cpu: 50m, memory: 96Mi}
+            limits: {cpu: "300m", memory: 192Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          volumeMounts:
+            - {name: tmp, mountPath: /tmp}
+      volumes:
+        - name: tmp
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: recommendations
+  namespace: shop
+  labels: {app: recommendations, monitoring: shop}
+spec:
+  selector: {app: recommendations}
+  ports:
+    - {name: http, port: 8080, targetPort: http}

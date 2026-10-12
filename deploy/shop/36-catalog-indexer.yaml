@@ -1,0 +1,63 @@
+# catalog-indexer: a low-value batch tier that operators routinely scale down (see scenario s3-capacity-removal).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-indexer
+  namespace: shop
+  labels: {app: catalog-indexer, tier: backend}
+spec:
+  replicas: 3
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels: {app: catalog-indexer}
+  template:
+    metadata:
+      labels: {app: catalog-indexer, tier: backend}
+    spec:
+      containers:
+        - name: catalog-indexer
+          image: shop:1.4.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: ROLE
+              value: catalog-indexer
+            - name: POD_NAME
+              valueFrom: {fieldRef: {fieldPath: metadata.name}}
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: http://jaeger.observability.svc:4318
+          ports:
+            - {name: http, containerPort: 8080}
+          livenessProbe:
+            httpGet: {path: /healthz, port: http}
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          readinessProbe:
+            httpGet: {path: /healthz, port: http}
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 2
+          resources:
+            requests: {cpu: 20m, memory: 64Mi}
+            limits: {cpu: "100m", memory: 128Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          volumeMounts:
+            - {name: tmp, mountPath: /tmp}
+      volumes:
+        - name: tmp
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog-indexer
+  namespace: shop
+  labels: {app: catalog-indexer, monitoring: shop}
+spec:
+  selector: {app: catalog-indexer}
+  ports:
+    - {name: http, port: 8080, targetPort: http}

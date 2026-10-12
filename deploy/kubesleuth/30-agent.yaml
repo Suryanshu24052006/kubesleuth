@@ -1,0 +1,78 @@
+# Reports are kept on a PersistentVolumeClaim so they survive agent restarts.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kubesleuth-reports
+  namespace: kubesleuth
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubesleuth-agent
+  namespace: kubesleuth
+  labels: {app: kubesleuth-agent}
+spec:
+  replicas: 1
+  strategy: {type: Recreate}   # RWO volume
+  selector:
+    matchLabels: {app: kubesleuth-agent}
+  template:
+    metadata:
+      labels: {app: kubesleuth-agent}
+    spec:
+      serviceAccountName: kubesleuth-agent
+      automountServiceAccountToken: false      # no Kubernetes credentials in this pod, at all
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        fsGroup: 10001
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: agent
+          image: kubesleuth-agent:0.1.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - {name: BROKER_URL, value: "http://kubesleuth-broker:8090/mcp"}
+            - {name: KUBESLEUTH_NAMESPACE, value: shop}
+            - {name: REPORT_DIR, value: /data/reports}
+            - {name: KUBESLEUTH_REASONER, value: llm}
+            - {name: KUBESLEUTH_MODEL, value: "anthropic:claude-sonnet-5-5"}
+            - {name: MAX_ROUNDS, value: "6"}
+            - {name: HOME, value: /tmp}
+          envFrom:
+            # created by `make llm-secret` from ANTHROPIC_API_KEY / GOOGLE_API_KEY / OPENAI_API_KEY
+            - secretRef: {name: kubesleuth-llm, optional: true}
+          ports:
+            - {name: http, containerPort: 8080}
+          readinessProbe:
+            httpGet: {path: /healthz, port: http}
+          resources:
+            requests: {cpu: 50m, memory: 192Mi}
+            limits: {cpu: "1", memory: 768Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          volumeMounts:
+            - {name: reports, mountPath: /data}
+            - {name: tmp, mountPath: /tmp}
+      volumes:
+        - name: reports
+          persistentVolumeClaim: {claimName: kubesleuth-reports}
+        - name: tmp
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubesleuth-agent
+  namespace: kubesleuth
+spec:
+  selector: {app: kubesleuth-agent}
+  ports:
+    - {name: http, port: 8080, targetPort: http}

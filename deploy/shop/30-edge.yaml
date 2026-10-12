@@ -1,0 +1,83 @@
+# edge: public entrypoint behind Traefik. Runs WAF rules from a hot-reloaded ConfigMap.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: edge
+  namespace: shop
+  labels: {app: edge}
+spec:
+  replicas: 2
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels: {app: edge}
+  template:
+    metadata:
+      labels: {app: edge}
+    spec:
+      containers:
+        - name: edge
+          image: shop:1.4.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: ROLE
+              value: edge
+            - name: POD_NAME
+              valueFrom: {fieldRef: {fieldPath: metadata.name}}
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: http://jaeger.observability.svc:4318
+            - name: WAF_RULES_FILE
+              value: /etc/waf/rules.json
+          ports:
+            - {name: http, containerPort: 8080}
+          livenessProbe:
+            httpGet: {path: /healthz, port: http}
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 3
+          readinessProbe:
+            httpGet: {path: /healthz, port: http}
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 2
+          resources:
+            requests: {cpu: 100m, memory: 96Mi}
+            limits: {cpu: "500m", memory: 256Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          volumeMounts:
+            - {name: tmp, mountPath: /tmp}
+            - {name: waf, mountPath: /etc/waf, readOnly: true}
+      volumes:
+        - name: tmp
+          emptyDir: {}
+        - name: waf
+          configMap: {name: edge-waf-rules}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: edge
+  namespace: shop
+  labels: {app: edge, monitoring: shop}
+spec:
+  selector: {app: edge}
+  ports:
+    - {name: http, port: 8080, targetPort: http}
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: edge
+  namespace: shop
+spec:
+  scaleTargetRef: {apiVersion: apps/v1, kind: Deployment, name: edge}
+  minReplicas: 2
+  maxReplicas: 4
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target: {type: Utilization, averageUtilization: 70}

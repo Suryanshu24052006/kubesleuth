@@ -1,0 +1,29 @@
+id: github-conn-saturation
+title: Config rollout raises a connection pool size and exhausts Postgres connection slots
+postmortem:
+  company: GitHub (MySQL connection saturation); same pattern in Mailgun, incident.io, CircleCI
+  date: 2021-2022
+  url: https://github.blog/2022-03-23-an-update-on-recent-service-disruptions/
+  summary: >
+    Database connection exhaustion triggered by load and configuration changes cascaded into
+    failures of services that shared the database. This is also the example chain in the problem
+    statement (new deployment -> configuration change -> more DB connections -> saturation -> 5xx).
+reproduction: >
+  `checkout-config` DB_POOL_SIZE goes from 4 to 30 and checkout is restarted to pick it up.
+  Each new checkout pod opens 30 connections; Postgres runs with max_connections=40. The first
+  victim is not checkout but inventory, which opens one connection per request and now gets
+  "FATAL: sorry, too many clients already", returns 500, and checkout/edge return 5xx.
+why_hard: >
+  The failing service (inventory) is not the one that changed (checkout's config). A symptom-level
+  agent blames inventory or Postgres. The causal link needs the ConfigMap diff + rollout timing
+  (k8s), the error text (logs/traces) and the error onset (metrics).
+category: configuration
+ground_truth:
+  components: [checkout-config, checkout]
+  categories: [configuration]
+  keywords: [DB_POOL_SIZE, pool, max_connections, too many clients, connection]
+  must_not_blame: [inventory, edge, postgres]
+multi_source: true
+incident: "The checkout service is experiencing a sudden increase in 5xx errors."
+alert: ShopEdgeHigh5xxRate
+wait_seconds: 180

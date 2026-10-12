@@ -1,0 +1,48 @@
+# loadgen: steady synthetic traffic through the Ingress (Traefik) so metrics, logs and traces exist.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loadgen
+  namespace: shop
+  labels: {app: loadgen}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels: {app: loadgen}
+  template:
+    metadata:
+      labels: {app: loadgen}
+    spec:
+      containers:
+        - name: loadgen
+          image: shop:1.4.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: ROLE
+              value: loadgen
+            - name: POD_NAME
+              valueFrom: {fieldRef: {fieldPath: metadata.name}}
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: http://jaeger.observability.svc:4318
+            - name: TARGET_URL
+              value: http://traefik.traefik.svc/
+            - name: TARGET_HOST
+              value: shop.localhost
+            - name: RPS
+              value: "20"
+          ports:
+            - {name: http, containerPort: 8080}
+          resources:
+            requests: {cpu: 50m, memory: 96Mi}
+            limits: {cpu: "300m", memory: 192Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          volumeMounts:
+            - {name: tmp, mountPath: /tmp}
+      volumes:
+        - name: tmp
+          emptyDir: {}

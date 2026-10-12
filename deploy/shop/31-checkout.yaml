@@ -1,0 +1,72 @@
+# checkout: orchestrates pricing/inventory/recommendations and writes orders to Postgres.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: checkout
+  namespace: shop
+  labels: {app: checkout}
+spec:
+  replicas: 3
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels: {app: checkout}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: {maxSurge: 1, maxUnavailable: 1}
+  template:
+    metadata:
+      labels: {app: checkout}
+    spec:
+      containers:
+        - name: checkout
+          image: shop:1.4.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: ROLE
+              value: checkout
+            - name: POD_NAME
+              valueFrom: {fieldRef: {fieldPath: metadata.name}}
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: http://jaeger.observability.svc:4318
+            - name: DB_PASSWORD
+              valueFrom: {secretKeyRef: {name: postgres-auth, key: POSTGRES_PASSWORD}}
+            - name: DATABASE_URL
+              value: postgresql://shop:$(DB_PASSWORD)@postgres:5432/shop
+          envFrom:
+            - configMapRef: {name: checkout-config}
+          ports:
+            - {name: http, containerPort: 8080}
+          livenessProbe:
+            httpGet: {path: /healthz, port: http}
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          readinessProbe:
+            httpGet: {path: /readyz, port: http}
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 2
+          resources:
+            requests: {cpu: 100m, memory: 128Mi}
+            limits: {cpu: "500m", memory: 256Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          volumeMounts:
+            - {name: tmp, mountPath: /tmp}
+      volumes:
+        - name: tmp
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: checkout
+  namespace: shop
+  labels: {app: checkout, monitoring: shop}
+spec:
+  selector: {app: checkout}
+  ports:
+    - {name: http, port: 8080, targetPort: http}

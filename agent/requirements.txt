@@ -1,0 +1,12 @@
+# Agent: talks to the LLM and to the broker over MCP. No Kubernetes client library here.
+mcp==2.3.0
+langgraph==1.2.14
+langchain==1.4.4
+langchain-core==1.6.10
+langchain-anthropic==1.7.6
+langchain-google-genai==4.4.1
+langchain-openai==1.7.1
+pydantic==2.14.1
+fastapi==0.143.0
+uvicorn==0.54.0
+httpx==0.28.1

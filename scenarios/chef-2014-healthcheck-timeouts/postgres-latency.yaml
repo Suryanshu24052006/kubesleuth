@@ -1,0 +1,17 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: postgres-latency
+  namespace: shop
+spec:
+  action: delay
+  mode: all
+  selector:
+    namespaces: [shop]
+    labelSelectors: {app: postgres}
+  delay:
+    latency: "850ms"
+    jitter: "200ms"
+    correlation: "25"
+  direction: to
+  duration: "30m"

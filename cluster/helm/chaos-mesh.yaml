@@ -1,0 +1,8 @@
+# Chaos Mesh on kind: kind nodes run containerd.
+chaosDaemon:
+  runtime: containerd
+  socketPath: /run/containerd/containerd.sock
+dashboard:
+  securityMode: false   # local demo only
+controllerManager:
+  replicaCount: 1

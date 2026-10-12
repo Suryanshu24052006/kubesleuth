@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubesleuth-broker
+  namespace: kubesleuth
+  labels: {app: kubesleuth-broker}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: kubesleuth-broker}
+  template:
+    metadata:
+      labels: {app: kubesleuth-broker}
+    spec:
+      serviceAccountName: kubesleuth-broker
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: broker
+          image: kubesleuth-broker:0.1.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - {name: ALLOWED_NAMESPACES, value: shop}
+            - {name: PROMETHEUS_URL, value: "http://kps-prometheus.monitoring.svc:9090"}
+            - {name: ALERTMANAGER_URL, value: "http://kps-alertmanager.monitoring.svc:9093"}
+            - {name: LOKI_URL, value: "http://loki.observability.svc:3100"}
+            - {name: JAEGER_URL, value: "http://jaeger.observability.svc:16686"}
+            - {name: BROKER_RATE, value: "5"}
+            - {name: BROKER_BURST, value: "30"}
+          ports:
+            - {name: mcp, containerPort: 8090}
+          readinessProbe:
+            httpGet: {path: /healthz, port: mcp}
+          livenessProbe:
+            httpGet: {path: /healthz, port: mcp}
+            periodSeconds: 20
+          resources:
+            requests: {cpu: 50m, memory: 128Mi}
+            limits: {cpu: 500m, memory: 384Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          volumeMounts:
+            - {name: tmp, mountPath: /tmp}
+      volumes:
+        - name: tmp
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubesleuth-broker
+  namespace: kubesleuth
+spec:
+  selector: {app: kubesleuth-broker}
+  ports:
+    - {name: mcp, port: 8090, targetPort: mcp}

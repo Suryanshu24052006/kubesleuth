@@ -1,0 +1,76 @@
+# Default deny: nothing in the kubesleuth namespace talks to anything unless allowed below.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny
+  namespace: kubesleuth
+spec:
+  podSelector: {}
+  policyTypes: [Ingress, Egress]
+---
+# Agent: may call the broker, DNS and the public internet on 443 (LLM API) - never the
+# Kubernetes API, Prometheus/Loki directly, or any other in-cluster address.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: agent
+  namespace: kubesleuth
+spec:
+  podSelector:
+    matchLabels: {app: kubesleuth-agent}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from:   # Alertmanager webhook
+        - namespaceSelector:
+            matchLabels: {kubernetes.io/metadata.name: monitoring}
+      ports: [{port: 8080}]
+  egress:
+    - to:
+        - podSelector:
+            matchLabels: {app: kubesleuth-broker}
+      ports: [{port: 8090}]
+    - to:
+        - namespaceSelector:
+            matchLabels: {kubernetes.io/metadata.name: kube-system}
+          podSelector:
+            matchLabels: {k8s-app: kube-dns}
+      ports: [{port: 53, protocol: UDP}, {port: 53, protocol: TCP}]
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+            except: [10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 100.64.0.0/10, 169.254.0.0/16]
+      ports: [{port: 443}]
+---
+# Broker: reachable only from the agent; may reach the API server and the observability stack.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: broker
+  namespace: kubesleuth
+spec:
+  podSelector:
+    matchLabels: {app: kubesleuth-broker}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels: {app: kubesleuth-agent}
+      ports: [{port: 8090}]
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels: {kubernetes.io/metadata.name: kube-system}
+          podSelector:
+            matchLabels: {k8s-app: kube-dns}
+      ports: [{port: 53, protocol: UDP}, {port: 53, protocol: TCP}]
+    - ports: [{port: 6443}, {port: 443}]   # kube-apiserver (post-DNAT on kind it is node-ip:6443)
+      to:
+        - ipBlock: {cidr: 0.0.0.0/0}
+    - to:
+        - namespaceSelector:
+            matchLabels: {kubernetes.io/metadata.name: monitoring}
+      ports: [{port: 9090}, {port: 9093}]
+    - to:
+        - namespaceSelector:
+            matchLabels: {kubernetes.io/metadata.name: observability}
+      ports: [{port: 3100}, {port: 16686}]

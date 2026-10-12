@@ -1,0 +1,60 @@
+# Prometheus + Alertmanager + Grafana + kube-state-metrics + node-exporter
+fullnameOverride: kps
+
+# kind does not expose these control-plane endpoints; scraping them only produces noise.
+kubeEtcd: {enabled: false}
+kubeScheduler: {enabled: false}
+kubeControllerManager: {enabled: false}
+kubeProxy: {enabled: false}
+defaultRules:
+  rules:
+    etcd: false
+    kubeSchedulerAlerting: false
+    kubeSchedulerRecording: false
+    kubeControllerManager: false
+    kubeProxy: false
+
+prometheus:
+  prometheusSpec:
+    # pick up ServiceMonitors / PrometheusRules from every namespace (shop included)
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    ruleSelectorNilUsesHelmValues: false
+    scrapeInterval: 15s
+    evaluationInterval: 15s
+    retention: 12h
+    resources:
+      requests: {cpu: 200m, memory: 512Mi}
+
+alertmanager:
+  config:
+    global:
+      resolve_timeout: 5m
+    route:
+      receiver: "null"
+      group_by: [alertname, namespace]
+      group_wait: 20s
+      group_interval: 2m
+      repeat_interval: 1h
+      routes:
+        # Every alert from the shop namespace triggers an investigation.
+        - receiver: kubesleuth
+          matchers: ['namespace="shop"']
+    receivers:
+      - name: "null"
+      - name: kubesleuth
+        webhook_configs:
+          - url: http://kubesleuth-agent.kubesleuth.svc:8080/alerts
+            send_resolved: false
+
+grafana:
+  adminPassword: kubesleuth
+  additionalDataSources:
+    - name: Loki
+      type: loki
+      access: proxy
+      url: http://loki.observability.svc:3100
+    - name: Jaeger
+      type: jaeger
+      access: proxy
+      url: http://jaeger.observability.svc:16686

@@ -1,0 +1,32 @@
+id: aws-ebs-2012-latent-leak
+title: Unreachable telemetry collector triggers a latent memory leak and OOM crash loop
+postmortem:
+  company: Amazon Web Services (EBS, us-east-1)
+  date: 2012-10-22
+  url: https://aws.amazon.com/message/680342/
+  summary: >
+    A DNS update for a replaced data-collection server did not propagate. Agents on storage
+    servers kept trying to reach the old address, and a latent memory leak in the reporting agent
+    slowly consumed memory until storage servers could no longer serve requests.
+reproduction: >
+  The telemetry collector is "migrated": a new Service `telemetry-collector-v2` is created and the
+  old `telemetry-collector` Service is deleted, but recommendations is still configured with the old
+  DNS name. Every flush now fails with a name-resolution error, and the recommendations service keeps
+  failed events in an unbounded in-memory queue (the latent bug). Memory climbs to the 192Mi limit,
+  the container is OOMKilled, restarts, and loops. checkout treats recommendations as a hard
+  dependency, so the edge returns 502s whenever recommendations is down.
+why_hard: >
+  Three hops between trigger and symptom (Service deleted -> buffer growth -> OOMKilled ->
+  checkout 502), minutes of delay between the change and the first error, and the loudest signal
+  (OOMKilled) is itself a symptom of the buffer growth. Logs from the *previous* container
+  instance hold the decisive warning.
+category: resource_exhaustion
+ground_truth:
+  components: [recommendations, telemetry-collector]
+  categories: [resource_exhaustion, dependency]
+  keywords: [telemetry, buffer, collector, memory, oom, leak]
+  must_not_blame: [checkout, edge, postgres, inventory]
+multi_source: true   # Service deletion (journal) + memory ramp & OOMKilled (metrics/k8s) + previous logs
+incident: "Checkout is intermittently failing with 502s; recommendations pods are restarting."
+alert: ShopEdgeHigh5xxRate / KubePodCrashLooping
+wait_seconds: 420

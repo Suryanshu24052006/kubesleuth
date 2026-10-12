@@ -1,0 +1,31 @@
+# Ingress (networking.k8s.io/v1), served by Traefik: http://shop.localhost:8080/
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: shop
+  namespace: shop
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: shop.localhost
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service: {name: edge, port: {number: 8080}}
+---
+# Same route via Gateway API (bonus). Traefik's chart creates Gateway "traefik-gateway".
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: shop
+  namespace: shop
+spec:
+  parentRefs:
+    - name: traefik-gateway
+      namespace: traefik
+  hostnames: ["gw.shop.localhost"]
+  rules:
+    - backendRefs:
+        - {name: edge, port: 8080}

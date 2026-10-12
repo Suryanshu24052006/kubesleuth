@@ -1,0 +1,31 @@
+id: knight-2012-stale-version-flag
+title: Repurposed feature flag re-activates dead code on a forgotten old-version deployment
+postmortem:
+  company: Knight Capital
+  date: 2012-08-01
+  url: https://dougseven.com/2014/04/17/knightmare-a-devops-cautionary-tale/
+  also: https://www.sec.gov/litigation/admin/2013/34-70694.pdf
+  summary: >
+    New code was deployed to 7 of 8 servers. A flag that used to enable the retired "Power Peg"
+    logic was repurposed for the new feature. When it was turned on, the eighth server, still on
+    the old build, ran Power Peg again: $460M lost in 45 minutes.
+reproduction: >
+  A stale Deployment `pricing-legacy` (image shop:0.9.7, left over from a migration) carries the
+  same `app: pricing` label, so the `pricing` Service load-balances to it alongside the current
+  1.4.0 pods. Then the `smart_routing` flag is switched on in the `feature-flags` ConfigMap. The
+  1.4.0 pods use the new smart router; the 0.9.7 pod interprets the same flag as the legacy
+  PowerPeg router and rejects orders with 500. About a third of pricing calls fail.
+why_hard: >
+  Errors are partial (one pod of three), the flag change is the visible trigger but not the
+  defect, and nothing in the current Deployment looks wrong. The agent has to break errors down
+  by pod, notice two workloads/images behind one Service, and link the flag to the old build.
+category: version_skew
+ground_truth:
+  components: [pricing-legacy, pricing]
+  categories: [version_skew, deployment, configuration, code_defect]
+  keywords: [legacy, 0.9.7, stale, old version, powerpeg, smart_routing, version]
+  must_not_blame: [checkout, edge, postgres]
+multi_source: true   # per-pod error metrics + Service backing workloads/images (k8s) + logs
+incident: "Checkout errors jumped to roughly a third of requests a few minutes ago."
+alert: ShopEdgeHigh5xxRate
+wait_seconds: 210

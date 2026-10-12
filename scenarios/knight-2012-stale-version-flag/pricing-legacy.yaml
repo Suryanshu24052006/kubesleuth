@@ -1,0 +1,35 @@
+# Left behind by an old migration: same `app: pricing` label, so the pricing Service routes to it.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pricing-legacy
+  namespace: shop
+  labels: {app: pricing, track: legacy}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: pricing, track: legacy}
+  template:
+    metadata:
+      labels: {app: pricing, track: legacy}
+    spec:
+      containers:
+        - name: pricing
+          image: shop:0.9.7
+          imagePullPolicy: IfNotPresent
+          env:
+            - {name: ROLE, value: pricing}
+            - {name: FLAGS_FILE, value: /etc/flags/flags.json}
+            - name: POD_NAME
+              valueFrom: {fieldRef: {fieldPath: metadata.name}}
+            - {name: OTEL_EXPORTER_OTLP_ENDPOINT, value: "http://jaeger.observability.svc:4318"}
+          ports: [{name: http, containerPort: 8080}]
+          readinessProbe: {httpGet: {path: /healthz, port: http}, periodSeconds: 5}
+          resources:
+            requests: {cpu: 50m, memory: 96Mi}
+            limits: {cpu: 300m, memory: 192Mi}
+          volumeMounts:
+            - {name: flags, mountPath: /etc/flags, readOnly: true}
+      volumes:
+        - name: flags
+          configMap: {name: feature-flags}

@@ -1,0 +1,12 @@
+# kind cluster for kubesleuth: 1 control-plane + 1 worker.
+# Traefik's web entrypoint is a NodePort (30080) mapped to localhost:8080 -> http://shop.localhost:8080
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: kubesleuth
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      - containerPort: 30080
+        hostPort: 8080
+        protocol: TCP
+  - role: worker

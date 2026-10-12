@@ -1,0 +1,42 @@
+# Runtime configuration. Scenario scripts mutate these (exactly how config pushes
+# cause real incidents); `make reset` restores them.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: checkout-config
+  namespace: shop
+data:
+  DB_POOL_SIZE: "4"
+  UPSTREAM_TIMEOUT_SECONDS: "2.0"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: edge-waf-rules
+  namespace: shop
+data:
+  rules.json: |
+    {"rules": [
+      {"id": "sqli-union-select", "pattern": "(?i)union\\s+select", "action": "block"},
+      {"id": "path-traversal", "pattern": "\\.\\./\\.\\./", "action": "block"}
+    ]}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: feature-flags
+  namespace: shop
+data:
+  flags.json: |
+    {"smart_routing": false, "new_checkout_ui": true}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-auth
+  namespace: shop
+type: Opaque
+stringData:
+  POSTGRES_USER: shop
+  POSTGRES_DB: shop
+  POSTGRES_PASSWORD: change-me-local-only

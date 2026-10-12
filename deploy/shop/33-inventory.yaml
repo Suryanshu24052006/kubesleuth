@@ -1,0 +1,69 @@
+# inventory: CPU-bound per request, opens one DB connection per request (naive client).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory
+  namespace: shop
+  labels: {app: inventory, tier: backend}
+spec:
+  replicas: 4
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels: {app: inventory}
+  template:
+    metadata:
+      labels: {app: inventory, tier: backend}
+    spec:
+      containers:
+        - name: inventory
+          image: shop:1.4.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: ROLE
+              value: inventory
+            - name: POD_NAME
+              valueFrom: {fieldRef: {fieldPath: metadata.name}}
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: http://jaeger.observability.svc:4318
+            - name: DB_PASSWORD
+              valueFrom: {secretKeyRef: {name: postgres-auth, key: POSTGRES_PASSWORD}}
+            - name: DATABASE_URL
+              value: postgresql://shop:$(DB_PASSWORD)@postgres:5432/shop
+            - name: WORK_SECONDS
+              value: "0.012"
+          ports:
+            - {name: http, containerPort: 8080}
+          livenessProbe:
+            httpGet: {path: /healthz, port: http}
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          readinessProbe:
+            httpGet: {path: /healthz, port: http}
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 2
+          resources:
+            requests: {cpu: 100m, memory: 96Mi}
+            limits: {cpu: "250m", memory: 192Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          volumeMounts:
+            - {name: tmp, mountPath: /tmp}
+      volumes:
+        - name: tmp
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: inventory
+  namespace: shop
+  labels: {app: inventory, monitoring: shop}
+spec:
+  selector: {app: inventory}
+  ports:
+    - {name: http, port: 8080, targetPort: http}

@@ -1,0 +1,31 @@
+id: aws-s3-2017-capacity-removal
+title: A mistyped capacity-removal command scales a critical tier down
+postmortem:
+  company: Amazon Web Services (S3, us-east-1)
+  date: 2017-02-28
+  url: https://aws.amazon.com/message/41926/
+  summary: >
+    An engineer ran a playbook command meant to remove a small number of servers from a billing
+    subsystem; one input was entered incorrectly and a much larger set of servers, supporting the
+    index and placement subsystems, was removed. S3 in us-east-1 failed for hours.
+reproduction: >
+  The operator intends to shrink the low-value `catalog-indexer` tier with
+  `kubectl scale deploy -l app=catalog-indexer --replicas=1`, but types the broader selector
+  `-l tier=backend`, which also matches `inventory`. inventory drops from 4 to 1 replica. It is
+  CPU-bound with a 250m limit, so the survivor is throttled, queues build, checkout's 2 s
+  upstream timeout fires and the edge returns 5xx/504.
+why_hard: >
+  Nothing crashed and no config or image changed; the only change is a replica count edited by a
+  human (managedFields manager "kubectl", not the HPA). Symptoms show up as timeouts in checkout.
+  The agent must follow traces to inventory, see CPU throttling on the single pod, and find the
+  scale event and who made it.
+category: capacity
+ground_truth:
+  components: [inventory]
+  categories: [capacity, resource_exhaustion]
+  keywords: [replica, scale, scaled, capacity, throttl, 4 to 1, "1/"]
+  must_not_blame: [checkout, edge, postgres, catalog-indexer]
+multi_source: true   # scale event & managedFields (k8s) + throttling (metrics) + timeouts (traces/logs)
+incident: "Checkout requests are timing out and the edge is returning 5xx."
+alert: ShopEdgeHigh5xxRate / ShopEdgeLatencyHigh
+wait_seconds: 180

@@ -1,0 +1,82 @@
+# ---------------------------------------------------------------------------
+# Broker identity: read-only, and only inside the namespaces under investigation.
+# The ClusterRole is a *template*; it grants nothing until bound. It is bound with a
+# RoleBinding in the `shop` namespace only, so even a bug in the broker's own policy
+# cannot read other namespaces. Secrets, pods/exec, pods/portforward and every write
+# verb are absent.
+# ---------------------------------------------------------------------------
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubesleuth-broker
+  namespace: kubesleuth
+automountServiceAccountToken: true
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kubesleuth-namespace-reader
+rules:
+  - apiGroups: [""]
+    resources: [pods, pods/log, services, endpoints, events, configmaps, persistentvolumeclaims]
+    verbs: [get, list, watch]
+  - apiGroups: [apps]
+    resources: [deployments, replicasets, statefulsets, daemonsets]
+    verbs: [get, list, watch]
+  - apiGroups: [autoscaling]
+    resources: [horizontalpodautoscalers]
+    verbs: [get, list, watch]
+  - apiGroups: [networking.k8s.io]
+    resources: [ingresses, networkpolicies]
+    verbs: [get, list, watch]
+  - apiGroups: [discovery.k8s.io]
+    resources: [endpointslices]
+    verbs: [get, list, watch]
+  - apiGroups: [events.k8s.io]
+    resources: [events]
+    verbs: [get, list, watch]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kubesleuth-broker-reader
+  namespace: shop
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kubesleuth-namespace-reader
+subjects:
+  - kind: ServiceAccount
+    name: kubesleuth-broker
+    namespace: kubesleuth
+---
+# Node health (conditions, allocatable) is cluster-scoped: read-only nodes only.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kubesleuth-node-reader
+rules:
+  - apiGroups: [""]
+    resources: [nodes]
+    verbs: [get, list]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kubesleuth-broker-node-reader
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kubesleuth-node-reader
+subjects:
+  - kind: ServiceAccount
+    name: kubesleuth-broker
+    namespace: kubesleuth
+---
+# Agent identity: no RBAC bindings at all, and no token is mounted.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubesleuth-agent
+  namespace: kubesleuth
+automountServiceAccountToken: false

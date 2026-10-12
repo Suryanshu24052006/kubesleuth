@@ -1,0 +1,30 @@
+id: cloudflare-2019-waf-regex
+title: WAF rule with catastrophic regex backtracking exhausts CPU at the edge
+postmortem:
+  company: Cloudflare
+  date: 2019-07-02
+  url: https://blog.cloudflare.com/details-of-the-cloudflare-outage-on-july-2-2019/
+  summary: >
+    A new WAF rule containing `.*(?:.*=.*)` was pushed globally (in simulate/log mode). Its
+    backtracking cost pinned CPUs on every edge machine; requests timed out and 502s followed.
+reproduction: >
+  The edge service hot-reloads WAF rules from the ConfigMap `edge-waf-rules` (mounted volume,
+  no restart, no rollout). We add a rule with the exact problematic sub-expression in "log"
+  action. Loadgen requests carry long numeric session ids, which make the pattern backtrack
+  super-linearly (measured in Python: 200 digits ~150 ms, 400 digits ~2 s per evaluation). The
+  regex runs on the asyncio event loop, so one slow request stalls the whole pod: latency
+  explodes, probes time out, the HPA scales edge to max, and requests fail.
+why_hard: >
+  No deployment, no image change, no restart: only a ConfigMap edit. The HPA scale-out and probe
+  failures are loud symptoms. The agent must connect the ConfigMap change time to the CPU and
+  latency onset, and identify the rule rather than "edge is overloaded".
+category: configuration
+ground_truth:
+  components: [edge-waf-rules, waf, edge]
+  categories: [configuration, resource_exhaustion, code_defect]
+  keywords: [regex, waf, rule, backtrack, edge-waf-rules]
+  must_not_blame: [checkout, postgres, inventory, pricing]
+multi_source: true   # ConfigMap diff (k8s) + CPU/latency onset (metrics) + config reload log
+incident: "The edge service latency and error rate spiked; customers report timeouts."
+alert: ShopEdgeLatencyHigh / ShopEdgeHigh5xxRate
+wait_seconds: 240

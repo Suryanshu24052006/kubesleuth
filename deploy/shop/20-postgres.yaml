@@ -1,0 +1,54 @@
+# Postgres as a StatefulSet with a PersistentVolumeClaim (kind's default
+# StorageClass "standard" = local-path provisioner). max_connections is small on
+# purpose so connection saturation is reachable.
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: shop
+  labels: {app: postgres}
+spec:
+  selector: {app: postgres}
+  ports:
+    - {name: postgres, port: 5432, targetPort: 5432}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  namespace: shop
+spec:
+  serviceName: postgres
+  replicas: 1
+  selector:
+    matchLabels: {app: postgres}
+  template:
+    metadata:
+      labels: {app: postgres, tier: data}
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16-alpine
+          args: ["-c", "max_connections=40", "-c", "log_connections=off"]
+          envFrom:
+            - secretRef: {name: postgres-auth}
+          env:
+            - {name: PGDATA, value: /var/lib/postgresql/data/pgdata}
+          ports:
+            - {name: postgres, containerPort: 5432}
+          readinessProbe:
+            exec: {command: ["pg_isready", "-U", "shop", "-d", "shop"]}
+            periodSeconds: 5
+          resources:
+            requests: {cpu: 100m, memory: 128Mi}
+            limits: {cpu: "1", memory: 512Mi}
+          volumeMounts:
+            - {name: data, mountPath: /var/lib/postgresql/data}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi

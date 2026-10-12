@@ -1,0 +1,68 @@
+# pricing: reads feature flags per request from a mounted ConfigMap.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pricing
+  namespace: shop
+  labels: {app: pricing, track: stable}
+spec:
+  replicas: 2
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels: {app: pricing}
+  template:
+    metadata:
+      labels: {app: pricing, track: stable}
+    spec:
+      containers:
+        - name: pricing
+          image: shop:1.4.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: ROLE
+              value: pricing
+            - name: POD_NAME
+              valueFrom: {fieldRef: {fieldPath: metadata.name}}
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: http://jaeger.observability.svc:4318
+            - name: FLAGS_FILE
+              value: /etc/flags/flags.json
+          ports:
+            - {name: http, containerPort: 8080}
+          livenessProbe:
+            httpGet: {path: /healthz, port: http}
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          readinessProbe:
+            httpGet: {path: /healthz, port: http}
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 2
+          resources:
+            requests: {cpu: 50m, memory: 96Mi}
+            limits: {cpu: "300m", memory: 192Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          volumeMounts:
+            - {name: tmp, mountPath: /tmp}
+            - {name: flags, mountPath: /etc/flags, readOnly: true}
+      volumes:
+        - name: tmp
+          emptyDir: {}
+        - name: flags
+          configMap: {name: feature-flags}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pricing
+  namespace: shop
+  labels: {app: pricing, monitoring: shop}
+spec:
+  selector: {app: pricing}
+  ports:
+    - {name: http, port: 8080, targetPort: http}

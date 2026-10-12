@@ -1,0 +1,30 @@
+id: chef-2014-healthcheck-timeouts
+title: Aggressive deep liveness probe turns a mild dependency slowdown into a restart storm
+postmortem:
+  company: Chef (Supermarket); Stack Exchange 2016 shows the same health-check amplification
+  date: 2014-07-10
+  url: https://www.chef.io/blog/2014/07/10/supermarket-intermittent-unresponsiveness-postmortem/
+  summary: >
+    Very low health-check timeouts were a main cause of the outage: slow-but-healthy instances
+    were marked dead and recycled, removing capacity exactly when it was needed.
+reproduction: >
+  Someone "hardens" checkout's liveness probe: path /healthz?deep=1 (checks Postgres and
+  inventory), timeoutSeconds 1, periodSeconds 5, failureThreshold 1. A minute later Chaos Mesh
+  adds ~850 ms (+-200 ms) network latency to Postgres, a degradation checkout itself tolerates
+  (2 s timeouts). The deep probe now exceeds 1 s regularly, the kubelet kills healthy
+  containers, in-flight requests fail and the edge returns 5xx.
+why_hard: >
+  Two real changes, only one is the root cause. The DB latency is genuine and visible in traces,
+  so a naive agent blames Postgres. Restarts are not OOMKilled; events say "Liveness probe
+  failed ... will be restarted". The agent must weigh the probe diff (change journal) against the
+  latency, and recognise the probe as the amplifier that converts latency into outage.
+category: probe_misconfiguration
+ground_truth:
+  components: [checkout]
+  categories: [probe_misconfiguration, configuration]
+  keywords: [liveness, probe, timeoutSeconds, health check, healthz]
+  must_not_blame: [edge, inventory, pricing]
+multi_source: true   # probe diff (journal) + Unhealthy/Killing events + restarts (metrics) + DB span latency (traces)
+incident: "Checkout pods keep restarting and the storefront is throwing errors."
+alert: ShopEdgeHigh5xxRate / KubePodCrashLooping
+wait_seconds: 240
