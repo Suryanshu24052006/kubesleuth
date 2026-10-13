@@ -1,0 +1,300 @@
+INFO:     10.244.1.1:40846 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:56614 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:51912 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:48392 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:54150 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:41322 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:53302 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:42562 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:44094 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:50436 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:53682 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:39798 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:50934 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:44984 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:46938 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:43438 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:41506 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:38090 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:41056 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:57156 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:39508 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:43854 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:45134 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:40088 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:55234 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:47098 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:48942 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:42462 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:49182 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:38774 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:45620 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:47126 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:36458 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:46736 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:57878 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:55020 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:38254 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:40622 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:59248 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:44514 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:38700 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:50222 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:39850 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:42830 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:39880 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:56772 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:58706 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:43408 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:46320 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:46420 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:41536 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:35012 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:54152 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:52170 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.6:52480 - "POST /alerts HTTP/1.1" 200 OK
+triage assessment failed: 'str' object has no attribute 'get'
+investigation failed
+Traceback (most recent call last):
+  File "/app/kubesleuth_agent/server.py", line 50, in _investigate
+    report = await run_investigation(incident, namespace, BROKER_URL, reasoner,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/kubesleuth_agent/cli.py", line 60, in run_investigation
+    return await inv.run()
+           ^^^^^^^^^^^^^^^
+  File "/app/kubesleuth_agent/investigation.py", line 274, in run
+    await self.graph().ainvoke({"round": 0}, {"recursion_limit": 8 * (self.budget.max_rounds + 2)})
+  File "/usr/local/lib/python3.12/site-packages/langgraph/pregel/main.py", line 4155, in ainvoke
+    async for chunk in self.astream(
+  File "/usr/local/lib/python3.12/site-packages/langgraph/pregel/main.py", line 3505, in astream
+    async for _ in runner.atick(
+  File "/usr/local/lib/python3.12/site-packages/langgraph/pregel/_runner.py", line 397, in atick
+    await arun_with_retry(
+  File "/usr/local/lib/python3.12/site-packages/langgraph/pregel/_retry.py", line 744, in arun_with_retry
+    return await task.proc.ainvoke(task.input, config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/langgraph/_internal/_runnable.py", line 756, in ainvoke
+    input = await asyncio.create_task(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/langgraph/_internal/_runnable.py", line 522, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/kubesleuth_agent/investigation.py", line 251, in write_report
+    self.report = build_report(self, draft, label, p, top)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/kubesleuth_agent/report.py", line 37, in build_report
+    timeline = [asdict(e) for e in tl.build(inv.store)]
+                                   ^^^^^^^^^^^^^^^^^^^
+  File "/app/kubesleuth_agent/timeline.py", line 40, in build
+    fields = "; ".join(f"{f['field']} {_fmt(f.get('old'), 30)} → {_fmt(f.get('new'), 30)}" for f in c.get("fields", [])[:3])
+                                                                                                    ^^^^^
+AttributeError: 'str' object has no attribute 'get'
+During task with name 'report' and id 'e40cd8f3-1ed9-05ee-3b77-53c1831da32c'
+INFO:     10.244.1.1:41196 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:46060 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:43368 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:38684 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:53604 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:50780 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:34996 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.6:54866 - "POST /alerts HTTP/1.1" 200 OK
+triage assessment failed: 'str' object has no attribute 'get'
+investigation failed
+Traceback (most recent call last):
+  File "/app/kubesleuth_agent/server.py", line 50, in _investigate
+    report = await run_investigation(incident, namespace, BROKER_URL, reasoner,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/kubesleuth_agent/cli.py", line 60, in run_investigation
+    return await inv.run()
+           ^^^^^^^^^^^^^^^
+  File "/app/kubesleuth_agent/investigation.py", line 274, in run
+    await self.graph().ainvoke({"round": 0}, {"recursion_limit": 8 * (self.budget.max_rounds + 2)})
+  File "/usr/local/lib/python3.12/site-packages/langgraph/pregel/main.py", line 4155, in ainvoke
+    async for chunk in self.astream(
+  File "/usr/local/lib/python3.12/site-packages/langgraph/pregel/main.py", line 3505, in astream
+    async for _ in runner.atick(
+  File "/usr/local/lib/python3.12/site-packages/langgraph/pregel/_runner.py", line 397, in atick
+    await arun_with_retry(
+  File "/usr/local/lib/python3.12/site-packages/langgraph/pregel/_retry.py", line 744, in arun_with_retry
+    return await task.proc.ainvoke(task.input, config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/langgraph/_internal/_runnable.py", line 756, in ainvoke
+    input = await asyncio.create_task(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/langgraph/_internal/_runnable.py", line 522, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/kubesleuth_agent/investigation.py", line 251, in write_report
+    self.report = build_report(self, draft, label, p, top)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/kubesleuth_agent/report.py", line 37, in build_report
+    timeline = [asdict(e) for e in tl.build(inv.store)]
+                                   ^^^^^^^^^^^^^^^^^^^
+  File "/app/kubesleuth_agent/timeline.py", line 40, in build
+    fields = "; ".join(f"{f['field']} {_fmt(f.get('old'), 30)} → {_fmt(f.get('new'), 30)}" for f in c.get("fields", [])[:3])
+                                                                                                    ^^^^^
+AttributeError: 'str' object has no attribute 'get'
+During task with name 'report' and id 'e87a341f-1972-3701-da5e-686904a4ff68'
+INFO:     10.244.1.1:53564 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:54874 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:36002 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:33306 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:52424 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:37580 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:55036 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:54802 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:57832 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:34710 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:34124 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:60268 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:42356 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:45796 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:50106 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:50510 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:48054 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:52566 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:52920 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:37626 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:45940 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:33462 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:48858 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:56820 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:57722 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:38384 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:42474 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:54188 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:42778 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:42678 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:52518 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:40958 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:53560 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:51046 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:35560 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:46592 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:40670 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:51806 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:40102 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:59190 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:58630 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.6:53488 - "POST /alerts HTTP/1.1" 200 OK
+INFO:     10.244.1.1:56276 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:38100 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:40616 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:50120 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:34124 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:44628 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:59344 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:52152 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:39492 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:51992 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:38460 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:48994 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:41816 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:58046 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:45316 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:33656 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:45924 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:33708 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:38218 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:46672 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:44332 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:41752 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:59450 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:58036 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:55884 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:47716 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:35516 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:43840 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:59376 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:38606 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:35184 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:33062 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:47882 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:50168 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:45716 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:60522 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:43730 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:52678 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:44360 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:39836 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:59256 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:34074 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:35026 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:58536 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:60274 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:53804 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:40522 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:51670 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:56008 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:59062 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:36112 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:47342 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:46644 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:44126 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:38948 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:47964 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:38580 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:42218 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:45712 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:55102 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:43650 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:45248 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:44676 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:36070 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:60988 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:48952 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:40380 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:41018 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:56624 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.6:39920 - "POST /alerts HTTP/1.1" 200 OK
+triage assessment failed: 'str' object has no attribute 'get'
+investigation failed
+Traceback (most recent call last):
+  File "/app/kubesleuth_agent/server.py", line 50, in _investigate
+    report = await run_investigation(incident, namespace, BROKER_URL, reasoner,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/kubesleuth_agent/cli.py", line 60, in run_investigation
+    return await inv.run()
+           ^^^^^^^^^^^^^^^
+  File "/app/kubesleuth_agent/investigation.py", line 274, in run
+    await self.graph().ainvoke({"round": 0}, {"recursion_limit": 8 * (self.budget.max_rounds + 2)})
+  File "/usr/local/lib/python3.12/site-packages/langgraph/pregel/main.py", line 4155, in ainvoke
+    async for chunk in self.astream(
+  File "/usr/local/lib/python3.12/site-packages/langgraph/pregel/main.py", line 3505, in astream
+    async for _ in runner.atick(
+  File "/usr/local/lib/python3.12/site-packages/langgraph/pregel/_runner.py", line 397, in atick
+    await arun_with_retry(
+  File "/usr/local/lib/python3.12/site-packages/langgraph/pregel/_retry.py", line 744, in arun_with_retry
+    return await task.proc.ainvoke(task.input, config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/langgraph/_internal/_runnable.py", line 756, in ainvoke
+    input = await asyncio.create_task(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/langgraph/_internal/_runnable.py", line 522, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/kubesleuth_agent/investigation.py", line 251, in write_report
+    self.report = build_report(self, draft, label, p, top)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/kubesleuth_agent/report.py", line 37, in build_report
+    timeline = [asdict(e) for e in tl.build(inv.store)]
+                                   ^^^^^^^^^^^^^^^^^^^
+  File "/app/kubesleuth_agent/timeline.py", line 40, in build
+    fields = "; ".join(f"{f['field']} {_fmt(f.get('old'), 30)} → {_fmt(f.get('new'), 30)}" for f in c.get("fields", [])[:3])
+                                                                                                    ^^^^^
+AttributeError: 'str' object has no attribute 'get'
+During task with name 'report' and id '3841ddcb-6762-0e2f-0f94-c4d8b0dfaff3'
+INFO:     10.244.1.1:53732 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:60168 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:59704 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:34808 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:56456 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:54178 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:51710 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:48844 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:39988 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:34654 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:49126 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     10.244.1.1:59850 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34330 - "GET /investigations HTTP/1.1" 200 OK
+INFO:     10.244.1.1:34086 - "GET /healthz HTTP/1.1" 200 OK

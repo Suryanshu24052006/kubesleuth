@@ -1,0 +1,128 @@
+
+=== aws-ebs-2012-latent-leak: Unreachable telemetry collector triggers a latent memory leak and OOM crash loop
+  $ scenarios/run.sh reset
+[1;33m[scenario][0m restoring baseline
+[1;33m[scenario][0m baseline restored; give metrics ~3 minutes to settle before the next scenario
+  settling 180s
+  $ scenarios/run.sh aws-ebs-2012-latent-leak inject
+[1;33m[scenario][0m injecting aws-ebs-2012-latent-leak
+migrating the telemetry collector to a new Service name (clients are not updated)
+service/telemetry-collector-v2 created
+service "telemetry-collector" deleted
+recommendations now buffers telemetry in memory; expect OOMKilled in ~3-6 minutes
+  alert: none fired (investigating anyway)
+  !! rules investigation failed: ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  !! llm investigation failed: ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+
+=== aws-s3-2017-capacity-removal: A mistyped capacity-removal command scales a critical tier down
+  $ scenarios/run.sh reset
+[1;33m[scenario][0m restoring baseline
+service "telemetry-collector-v2" deleted
+[1;33m[scenario][0m baseline restored; give metrics ~3 minutes to settle before the next scenario
+  settling 180s
+  $ scenarios/run.sh aws-s3-2017-capacity-removal inject
+[1;33m[scenario][0m injecting aws-s3-2017-capacity-removal
+intended: kubectl -n shop scale deploy -l app=catalog-indexer --replicas=1
+executed: kubectl -n shop scale deploy -l tier=backend --replicas=1   (typo'd selector)
+deployment.apps/catalog-indexer scaled
+deployment.apps/inventory scaled
+  alert: none fired (investigating anyway)
+  !! rules investigation failed: ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  !! llm investigation failed: ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+
+=== chef-2014-healthcheck-timeouts: Aggressive deep liveness probe turns a mild dependency slowdown into a restart storm
+  $ scenarios/run.sh reset
+[1;33m[scenario][0m restoring baseline
+[1;33m[scenario][0m baseline restored; give metrics ~3 minutes to settle before the next scenario
+  settling 180s
+  $ scenarios/run.sh chef-2014-healthcheck-timeouts inject
+[1;33m[scenario][0m injecting chef-2014-healthcheck-timeouts
+1/2 'hardening' the checkout liveness probe
+deployment.apps/checkout patched
+Waiting for deployment "checkout" rollout to finish: 0 out of 3 new replicas have been updated...
+Waiting for deployment "checkout" rollout to finish: 0 out of 3 new replicas have been updated...
+Waiting for deployment "checkout" rollout to finish: 1 out of 3 new replicas have been updated...
+Waiting for deployment "checkout" rollout to finish: 2 out of 3 new replicas have been updated...
+Waiting for deployment "checkout" rollout to finish: 2 out of 3 new replicas have been updated...
+Waiting for deployment "checkout" rollout to finish: 2 out of 3 new replicas have been updated...
+Waiting for deployment "checkout" rollout to finish: 2 out of 3 new replicas have been updated...
+Waiting for deployment "checkout" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "checkout" rollout to finish: 2 of 3 updated replicas are available...
+deployment "checkout" successfully rolled out
+2/2 Chaos Mesh: Postgres gets ~850ms of network latency (a tolerable degradation on its own)
+networkchaos.chaos-mesh.org/postgres-latency created
+  alert: none fired (investigating anyway)
+  !! rules investigation failed: ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  !! llm investigation failed: ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+
+=== cloudflare-2019-waf-regex: WAF rule with catastrophic regex backtracking exhausts CPU at the edge
+  $ scenarios/run.sh reset
+[1;33m[scenario][0m restoring baseline
+[1;33m[scenario][0m baseline restored; give metrics ~3 minutes to settle before the next scenario
+  settling 180s
+  $ scenarios/run.sh cloudflare-2019-waf-regex inject
+[1;33m[scenario][0m injecting cloudflare-2019-waf-regex
+configmap/edge-waf-rules configured
+WAF rule pushed (kubelet syncs mounted ConfigMaps within ~60-90 s; edge reloads without restarting)
+  alert: none fired (investigating anyway)
+  !! rules investigation failed: ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  !! llm investigation failed: ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+
+=== github-conn-saturation: Config rollout raises a connection pool size and exhausts Postgres connection slots
+  $ scenarios/run.sh reset
+[1;33m[scenario][0m restoring baseline
+[1;33m[scenario][0m baseline restored; give metrics ~3 minutes to settle before the next scenario
+  settling 180s
+  $ scenarios/run.sh github-conn-saturation inject
+[1;33m[scenario][0m injecting github-conn-saturation
+a 'performance tuning' change: bigger DB pool for checkout
+configmap/checkout-config patched
+deployment.apps/checkout restarted
+  alert: none fired (investigating anyway)
+  !! rules investigation failed: ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  !! llm investigation failed: ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+
+=== knight-2012-stale-version-flag: Repurposed feature flag re-activates dead code on a forgotten old-version deployment
+  $ scenarios/run.sh reset
+[1;33m[scenario][0m restoring baseline
+[1;33m[scenario][0m baseline restored; give metrics ~3 minutes to settle before the next scenario
+  settling 180s
+  $ scenarios/run.sh knight-2012-stale-version-flag inject
+[1;33m[scenario][0m injecting knight-2012-stale-version-flag
+1/2 the forgotten legacy deployment is (already) running behind the pricing Service
+deployment.apps/pricing-legacy created
+Waiting for deployment "pricing-legacy" rollout to finish: 0 of 1 updated replicas are available...
+deployment "pricing-legacy" successfully rolled out
+2/2 product turns on the repurposed flag
+configmap/feature-flags configured
+  alert: none fired (investigating anyway)
+  !! rules investigation failed: ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  !! llm investigation failed: ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  $ scenarios/run.sh reset
+[1;33m[scenario][0m restoring baseline
+deployment.apps "pricing-legacy" deleted
+[1;33m[scenario][0m baseline restored; give metrics ~3 minutes to settle before the next scenario
+
+# kubesleuth evaluation, 20261013-074959
+
+Run on a GitHub-hosted runner (ubuntu-latest), kind v0.29.0, commit aaa73940bc4ae429f18958e9f3b775b7bcc7912e, workflow run https://github.com/Suryanshu24052006/kubesleuth/actions/runs/38363803114
+
+**rules**: correct 0/6, partial 0, inconclusive 0, wrong 0, errors 6  
+**llm**: correct 0/6, partial 0, inconclusive 0, wrong 0, errors 6  
+
+| Scenario | Reasoner | Alert fired | Verdict | Confidence | Evidence sources | Rounds | Tool calls | Rejected claims | Time (s) | Tokens | Root cause given by the agent |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| aws-ebs-2012-latent-leak | rules | no | **error** | None (None) |  | None | None | None | None | 0 | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception) |
+| aws-ebs-2012-latent-leak | llm | no | **error** | None (None) |  | None | None | None | None | 0 | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception) |
+| aws-s3-2017-capacity-removal | rules | no | **error** | None (None) |  | None | None | None | None | 0 | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception) |
+| aws-s3-2017-capacity-removal | llm | no | **error** | None (None) |  | None | None | None | None | 0 | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception) |
+| chef-2014-healthcheck-timeouts | rules | no | **error** | None (None) |  | None | None | None | None | 0 | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception) |
+| chef-2014-healthcheck-timeouts | llm | no | **error** | None (None) |  | None | None | None | None | 0 | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception) |
+| cloudflare-2019-waf-regex | rules | no | **error** | None (None) |  | None | None | None | None | 0 | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception) |
+| cloudflare-2019-waf-regex | llm | no | **error** | None (None) |  | None | None | None | None | 0 | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception) |
+| github-conn-saturation | rules | no | **error** | None (None) |  | None | None | None | None | 0 | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception) |
+| github-conn-saturation | llm | no | **error** | None (None) |  | None | None | None | None | 0 | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception) |
+| knight-2012-stale-version-flag | rules | no | **error** | None (None) |  | None | None | None | None | 0 | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception) |
+| knight-2012-stale-version-flag | llm | no | **error** | None (None) |  | None | None | None | None | 0 | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception) |
+
+results: out/eval

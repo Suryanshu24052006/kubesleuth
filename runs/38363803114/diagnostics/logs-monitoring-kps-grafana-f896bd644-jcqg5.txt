@@ -1,0 +1,345 @@
+logger=migrator t=2026-10-13T07:40:31.946842986Z level=info msg="Migration successfully executed" id="create index UQE_cloud_migration_snapshot_uid - v2" duration=1.189775ms
+logger=migrator t=2026-10-13T07:40:31.948006091Z level=info msg="Executing migration" id="copy cloud_migration_snapshot v1 to v2"
+logger=migrator t=2026-10-13T07:40:31.948639386Z level=info msg="Migration successfully executed" id="copy cloud_migration_snapshot v1 to v2" duration=630.118µs
+logger=migrator t=2026-10-13T07:40:31.949817646Z level=info msg="Executing migration" id="drop cloud_migration_snapshot_tmp_qwerty"
+logger=migrator t=2026-10-13T07:40:31.950817156Z level=info msg="Migration successfully executed" id="drop cloud_migration_snapshot_tmp_qwerty" duration=999.218µs
+logger=migrator t=2026-10-13T07:40:31.952300349Z level=info msg="Executing migration" id="add snapshot upload_url column"
+logger=migrator t=2026-10-13T07:40:31.961471608Z level=info msg="Migration successfully executed" id="add snapshot upload_url column" duration=9.16167ms
+logger=migrator t=2026-10-13T07:40:31.963139006Z level=info msg="Executing migration" id="add snapshot status column"
+logger=migrator t=2026-10-13T07:40:31.973396408Z level=info msg="Migration successfully executed" id="add snapshot status column" duration=10.25155ms
+logger=migrator t=2026-10-13T07:40:31.975199324Z level=info msg="Executing migration" id="add snapshot local_directory column"
+logger=migrator t=2026-10-13T07:40:31.987257235Z level=info msg="Migration successfully executed" id="add snapshot local_directory column" duration=12.054415ms
+logger=migrator t=2026-10-13T07:40:31.988763382Z level=info msg="Executing migration" id="add snapshot gms_snapshot_uid column"
+logger=migrator t=2026-10-13T07:40:31.999280569Z level=info msg="Migration successfully executed" id="add snapshot gms_snapshot_uid column" duration=10.514583ms
+logger=migrator t=2026-10-13T07:40:32.001657629Z level=info msg="Executing migration" id="add snapshot encryption_key column"
+logger=migrator t=2026-10-13T07:40:32.01156664Z level=info msg="Migration successfully executed" id="add snapshot encryption_key column" duration=9.901576ms
+logger=migrator t=2026-10-13T07:40:32.01346004Z level=info msg="Executing migration" id="add snapshot error_string column"
+logger=migrator t=2026-10-13T07:40:32.023377286Z level=info msg="Migration successfully executed" id="add snapshot error_string column" duration=9.912427ms
+logger=migrator t=2026-10-13T07:40:32.026107933Z level=info msg="Executing migration" id="create cloud_migration_resource table v1"
+logger=migrator t=2026-10-13T07:40:32.027310712Z level=info msg="Migration successfully executed" id="create cloud_migration_resource table v1" duration=1.205134ms
+logger=migrator t=2026-10-13T07:40:32.029251451Z level=info msg="Executing migration" id="delete cloud_migration_snapshot.result column"
+logger=migrator t=2026-10-13T07:40:32.070675285Z level=info msg="Migration successfully executed" id="delete cloud_migration_snapshot.result column" duration=41.420779ms
+logger=migrator t=2026-10-13T07:40:32.072455614Z level=info msg="Executing migration" id="add cloud_migration_resource.name column"
+logger=migrator t=2026-10-13T07:40:32.082063732Z level=info msg="Migration successfully executed" id="add cloud_migration_resource.name column" duration=9.601966ms
+logger=migrator t=2026-10-13T07:40:32.086745986Z level=info msg="Executing migration" id="add cloud_migration_resource.parent_name column"
+logger=migrator t=2026-10-13T07:40:32.097277731Z level=info msg="Migration successfully executed" id="add cloud_migration_resource.parent_name column" duration=10.559517ms
+logger=migrator t=2026-10-13T07:40:32.098820957Z level=info msg="Executing migration" id="add cloud_migration_session.org_id column"
+logger=migrator t=2026-10-13T07:40:32.108271762Z level=info msg="Migration successfully executed" id="add cloud_migration_session.org_id column" duration=9.444212ms
+logger=migrator t=2026-10-13T07:40:32.109595706Z level=info msg="Executing migration" id="add cloud_migration_resource.error_code column"
+logger=migrator t=2026-10-13T07:40:32.118867714Z level=info msg="Migration successfully executed" id="add cloud_migration_resource.error_code column" duration=9.268792ms
+logger=migrator t=2026-10-13T07:40:32.120538941Z level=info msg="Executing migration" id="increase resource_uid column length"
+logger=migrator t=2026-10-13T07:40:32.120558748Z level=info msg="Migration successfully executed" id="increase resource_uid column length" duration=20.137µs
+logger=migrator t=2026-10-13T07:40:32.122206662Z level=info msg="Executing migration" id="alter kv_store.value to longtext"
+logger=migrator t=2026-10-13T07:40:32.122225488Z level=info msg="Migration successfully executed" id="alter kv_store.value to longtext" duration=19.146µs
+logger=migrator t=2026-10-13T07:40:32.123712378Z level=info msg="Executing migration" id="add notification_settings column to alert_rule table"
+logger=migrator t=2026-10-13T07:40:32.135236087Z level=info msg="Migration successfully executed" id="add notification_settings column to alert_rule table" duration=11.51918ms
+logger=migrator t=2026-10-13T07:40:32.137160398Z level=info msg="Executing migration" id="add notification_settings column to alert_rule_version table"
+logger=migrator t=2026-10-13T07:40:32.147010037Z level=info msg="Migration successfully executed" id="add notification_settings column to alert_rule_version table" duration=9.844419ms
+logger=migrator t=2026-10-13T07:40:32.148470007Z level=info msg="Executing migration" id="removing scope from alert.instances:read action migration"
+logger=migrator t=2026-10-13T07:40:32.148887057Z level=info msg="Migration successfully executed" id="removing scope from alert.instances:read action migration" duration=417.261µs
+logger=migrator t=2026-10-13T07:40:32.150486448Z level=info msg="Executing migration" id="managed folder permissions alerting silences actions migration"
+logger=migrator t=2026-10-13T07:40:32.150763996Z level=info msg="Migration successfully executed" id="managed folder permissions alerting silences actions migration" duration=279.592µs
+logger=migrator t=2026-10-13T07:40:32.151936399Z level=info msg="Executing migration" id="add record column to alert_rule table"
+logger=migrator t=2026-10-13T07:40:32.159571466Z level=info msg="Migration successfully executed" id="add record column to alert_rule table" duration=7.633244ms
+logger=migrator t=2026-10-13T07:40:32.161231649Z level=info msg="Executing migration" id="add record column to alert_rule_version table"
+logger=migrator t=2026-10-13T07:40:32.170074866Z level=info msg="Migration successfully executed" id="add record column to alert_rule_version table" duration=8.809544ms
+logger=migrator t=2026-10-13T07:40:32.172046845Z level=info msg="Executing migration" id="add resolved_at column to alert_instance table"
+logger=migrator t=2026-10-13T07:40:32.181769276Z level=info msg="Migration successfully executed" id="add resolved_at column to alert_instance table" duration=9.720137ms
+logger=migrator t=2026-10-13T07:40:32.183469005Z level=info msg="Executing migration" id="add last_sent_at column to alert_instance table"
+logger=migrator t=2026-10-13T07:40:32.193639744Z level=info msg="Migration successfully executed" id="add last_sent_at column to alert_instance table" duration=10.22989ms
+logger=migrator t=2026-10-13T07:40:32.195395452Z level=info msg="Executing migration" id="Add scope to alert.notifications.receivers:read and alert.notifications.receivers.secrets:read"
+logger=migrator t=2026-10-13T07:40:32.195964266Z level=info msg="Migration successfully executed" id="Add scope to alert.notifications.receivers:read and alert.notifications.receivers.secrets:read" duration=569.274µs
+logger=migrator t=2026-10-13T07:40:32.197466089Z level=info msg="Executing migration" id="add metadata column to alert_rule table"
+logger=migrator t=2026-10-13T07:40:32.207645873Z level=info msg="Migration successfully executed" id="add metadata column to alert_rule table" duration=10.170877ms
+logger=migrator t=2026-10-13T07:40:32.210158291Z level=info msg="Executing migration" id="add metadata column to alert_rule_version table"
+logger=migrator t=2026-10-13T07:40:32.220658837Z level=info msg="Migration successfully executed" id="add metadata column to alert_rule_version table" duration=10.496549ms
+logger=migrator t=2026-10-13T07:40:32.222292742Z level=info msg="Executing migration" id="delete orphaned service account permissions"
+logger=migrator t=2026-10-13T07:40:32.222535206Z level=info msg="Migration successfully executed" id="delete orphaned service account permissions" duration=242.413µs
+logger=migrator t=2026-10-13T07:40:32.223824613Z level=info msg="Executing migration" id="adding action set permissions"
+logger=migrator t=2026-10-13T07:40:32.224522618Z level=info msg="Migration successfully executed" id="adding action set permissions" duration=697.224µs
+logger=migrator t=2026-10-13T07:40:32.22582893Z level=info msg="Executing migration" id="create user_external_session table"
+logger=migrator t=2026-10-13T07:40:32.226957982Z level=info msg="Migration successfully executed" id="create user_external_session table" duration=1.129472ms
+logger=migrator t=2026-10-13T07:40:32.228667884Z level=info msg="Executing migration" id="increase name_id column length to 1024"
+logger=migrator t=2026-10-13T07:40:32.228684946Z level=info msg="Migration successfully executed" id="increase name_id column length to 1024" duration=19.447µs
+logger=migrator t=2026-10-13T07:40:32.231491454Z level=info msg="Executing migration" id="increase session_id column length to 1024"
+logger=migrator t=2026-10-13T07:40:32.231509568Z level=info msg="Migration successfully executed" id="increase session_id column length to 1024" duration=18.644µs
+logger=migrator t=2026-10-13T07:40:32.233168149Z level=info msg="Executing migration" id="remove scope from alert.notifications.receivers:create"
+logger=migrator t=2026-10-13T07:40:32.2336607Z level=info msg="Migration successfully executed" id="remove scope from alert.notifications.receivers:create" duration=491.64µs
+logger=migrator t=2026-10-13T07:40:32.234955852Z level=info msg="Executing migration" id="add created_by column to alert_rule_version table"
+logger=migrator t=2026-10-13T07:40:32.244456038Z level=info msg="Migration successfully executed" id="add created_by column to alert_rule_version table" duration=9.496318ms
+logger=migrator t=2026-10-13T07:40:32.246314884Z level=info msg="Executing migration" id="add updated_by column to alert_rule table"
+logger=migrator t=2026-10-13T07:40:32.255647235Z level=info msg="Migration successfully executed" id="add updated_by column to alert_rule table" duration=9.327953ms
+logger=migrator t=2026-10-13T07:40:32.257554812Z level=info msg="Executing migration" id="add alert_rule_state table"
+logger=migrator t=2026-10-13T07:40:32.258723758Z level=info msg="Migration successfully executed" id="add alert_rule_state table" duration=1.17107ms
+logger=migrator t=2026-10-13T07:40:32.26010443Z level=info msg="Executing migration" id="add index to alert_rule_state on org_id and rule_uid columns"
+logger=migrator t=2026-10-13T07:40:32.261351682Z level=info msg="Migration successfully executed" id="add index to alert_rule_state on org_id and rule_uid columns" duration=1.247553ms
+logger=migrator t=2026-10-13T07:40:32.262656252Z level=info msg="Executing migration" id="add guid column to alert_rule table"
+logger=migrator t=2026-10-13T07:40:32.273153572Z level=info msg="Migration successfully executed" id="add guid column to alert_rule table" duration=10.488854ms
+logger=migrator t=2026-10-13T07:40:32.274701256Z level=info msg="Executing migration" id="add rule_guid column to alert_rule_version table"
+logger=migrator t=2026-10-13T07:40:32.284278946Z level=info msg="Migration successfully executed" id="add rule_guid column to alert_rule_version table" duration=9.574524ms
+logger=migrator t=2026-10-13T07:40:32.285858189Z level=info msg="Executing migration" id="cleanup alert_rule_version table"
+logger=migrator t=2026-10-13T07:40:32.285891722Z level=info msg="Rule version record limit is not set, fallback to 100" limit=0
+logger=migrator t=2026-10-13T07:40:32.2861744Z level=info msg="Cleaning up table `alert_rule_version`" batchSize=50 batches=0 keepVersions=100
+logger=migrator t=2026-10-13T07:40:32.286267705Z level=info msg="Migration successfully executed" id="cleanup alert_rule_version table" duration=407.983µs
+logger=migrator t=2026-10-13T07:40:32.287633239Z level=info msg="Executing migration" id="populate rule guid in alert rule table"
+logger=migrator t=2026-10-13T07:40:32.288235114Z level=info msg="Migration successfully executed" id="populate rule guid in alert rule table" duration=601.034µs
+logger=migrator t=2026-10-13T07:40:32.289428245Z level=info msg="Executing migration" id="drop index in alert_rule_version table on rule_org_id, rule_uid and version columns"
+logger=migrator t=2026-10-13T07:40:32.290480222Z level=info msg="Migration successfully executed" id="drop index in alert_rule_version table on rule_org_id, rule_uid and version columns" duration=1.052579ms
+logger=migrator t=2026-10-13T07:40:32.29154843Z level=info msg="Executing migration" id="add index in alert_rule_version table on rule_org_id, rule_uid, rule_guid and version columns"
+logger=migrator t=2026-10-13T07:40:32.292788569Z level=info msg="Migration successfully executed" id="add index in alert_rule_version table on rule_org_id, rule_uid, rule_guid and version columns" duration=1.241161ms
+logger=migrator t=2026-10-13T07:40:32.29407781Z level=info msg="Executing migration" id="add index in alert_rule_version table on rule_guid and version columns"
+logger=migrator t=2026-10-13T07:40:32.295251405Z level=info msg="Migration successfully executed" id="add index in alert_rule_version table on rule_guid and version columns" duration=1.173816ms
+logger=migrator t=2026-10-13T07:40:32.29655943Z level=info msg="Executing migration" id="add index in alert_rule table on guid columns"
+logger=migrator t=2026-10-13T07:40:32.297642756Z level=info msg="Migration successfully executed" id="add index in alert_rule table on guid columns" duration=1.083816ms
+logger=migrator t=2026-10-13T07:40:32.298956866Z level=info msg="Executing migration" id="add keep_firing_for column to alert_rule"
+logger=migrator t=2026-10-13T07:40:32.307485404Z level=info msg="Migration successfully executed" id="add keep_firing_for column to alert_rule" duration=8.526684ms
+logger=migrator t=2026-10-13T07:40:32.310021071Z level=info msg="Executing migration" id="add keep_firing_for column to alert_rule_version"
+logger=migrator t=2026-10-13T07:40:32.318867584Z level=info msg="Migration successfully executed" id="add keep_firing_for column to alert_rule_version" duration=8.842596ms
+logger=migrator t=2026-10-13T07:40:32.32026661Z level=info msg="Executing migration" id="add missing_series_evals_to_resolve column to alert_rule"
+logger=migrator t=2026-10-13T07:40:32.33065191Z level=info msg="Migration successfully executed" id="add missing_series_evals_to_resolve column to alert_rule" duration=10.382285ms
+logger=migrator t=2026-10-13T07:40:32.332152569Z level=info msg="Executing migration" id="add missing_series_evals_to_resolve column to alert_rule_version"
+logger=migrator t=2026-10-13T07:40:32.340878096Z level=info msg="Migration successfully executed" id="add missing_series_evals_to_resolve column to alert_rule_version" duration=8.72205ms
+logger=migrator t=2026-10-13T07:40:32.342670177Z level=info msg="Executing migration" id="remove the datasources:drilldown action"
+logger=migrator t=2026-10-13T07:40:32.342895448Z level=info msg="Removed 0 datasources:drilldown permissions"
+logger=migrator t=2026-10-13T07:40:32.342953287Z level=info msg="Migration successfully executed" id="remove the datasources:drilldown action" duration=283.29µs
+logger=migrator t=2026-10-13T07:40:32.344669391Z level=info msg="Executing migration" id="remove title in folder unique index"
+logger=migrator t=2026-10-13T07:40:32.34597377Z level=info msg="Migration successfully executed" id="remove title in folder unique index" duration=1.303838ms
+logger=migrator t=2026-10-13T07:40:32.347475939Z level=info msg="Executing migration" id="add fired_at column to alert_instance table"
+logger=migrator t=2026-10-13T07:40:32.358264454Z level=info msg="Migration successfully executed" id="add fired_at column to alert_instance table" duration=10.783936ms
+logger=migrator t=2026-10-13T07:40:32.359942108Z level=info msg="migrations completed" performed=665 skipped=0 duration=4.575334663s
+logger=migrator t=2026-10-13T07:40:32.360718209Z level=info msg="Unlocking database"
+logger=sqlstore t=2026-10-13T07:40:32.377391646Z level=info msg="Created default admin" user=admin
+logger=sqlstore t=2026-10-13T07:40:32.377726863Z level=info msg="Created default organization"
+logger=secrets t=2026-10-13T07:40:32.380716754Z level=info msg="Envelope encryption state" enabled=true currentprovider=secretKey.v1
+logger=plugin.angulardetectorsprovider.dynamic t=2026-10-13T07:40:32.460589665Z level=info msg="Restored cache from database" duration=467.805µs
+logger=entity-db t=2026-10-13T07:40:32.462293441Z level=info msg="Using database section" db_type=sqlite3
+logger=entity-db t=2026-10-13T07:40:32.462460413Z level=info msg="Initializing Resource DB" db_type=sqlite3 open_conn=0 in_use_conn=0 idle_conn=0 max_open_conn=0
+logger=resource-migrator t=2026-10-13T07:40:32.47215773Z level=info msg="Locking database"
+logger=resource-migrator t=2026-10-13T07:40:32.472222841Z level=info msg="Starting DB migrations"
+logger=resource-migrator t=2026-10-13T07:40:32.484727094Z level=info msg="Executing migration" id="create resource_migration_log table"
+logger=resource-migrator t=2026-10-13T07:40:32.485944491Z level=info msg="Migration successfully executed" id="create resource_migration_log table" duration=1.218489ms
+logger=resource-migrator t=2026-10-13T07:40:32.490233516Z level=info msg="Executing migration" id="Initialize resource tables"
+logger=resource-migrator t=2026-10-13T07:40:32.490458858Z level=info msg="Migration successfully executed" id="Initialize resource tables" duration=204.683µs
+logger=resource-migrator t=2026-10-13T07:40:32.49314576Z level=info msg="Executing migration" id="drop table resource"
+logger=resource-migrator t=2026-10-13T07:40:32.493339933Z level=info msg="Migration successfully executed" id="drop table resource" duration=196.999µs
+logger=resource-migrator t=2026-10-13T07:40:32.494941128Z level=info msg="Executing migration" id="create table resource"
+logger=resource-migrator t=2026-10-13T07:40:32.496693194Z level=info msg="Migration successfully executed" id="create table resource" duration=1.748239ms
+logger=resource-migrator t=2026-10-13T07:40:32.49804952Z level=info msg="Executing migration" id="create table resource, index: 0"
+logger=resource-migrator t=2026-10-13T07:40:32.499742176Z level=info msg="Migration successfully executed" id="create table resource, index: 0" duration=1.687496ms
+logger=resource-migrator t=2026-10-13T07:40:32.501521693Z level=info msg="Executing migration" id="drop table resource_history"
+logger=resource-migrator t=2026-10-13T07:40:32.501779736Z level=info msg="Migration successfully executed" id="drop table resource_history" duration=258.694µs
+logger=resource-migrator t=2026-10-13T07:40:32.503456561Z level=info msg="Executing migration" id="create table resource_history"
+logger=resource-migrator t=2026-10-13T07:40:32.505405666Z level=info msg="Migration successfully executed" id="create table resource_history" duration=1.948434ms
+logger=resource-migrator t=2026-10-13T07:40:32.510955707Z level=info msg="Executing migration" id="create table resource_history, index: 0"
+logger=resource-migrator t=2026-10-13T07:40:32.513588067Z level=info msg="Migration successfully executed" id="create table resource_history, index: 0" duration=2.632702ms
+logger=resource-migrator t=2026-10-13T07:40:32.517638656Z level=info msg="Executing migration" id="create table resource_history, index: 1"
+logger=resource-migrator t=2026-10-13T07:40:32.519137389Z level=info msg="Migration successfully executed" id="create table resource_history, index: 1" duration=1.498132ms
+logger=resource-migrator t=2026-10-13T07:40:32.52211525Z level=info msg="Executing migration" id="drop table resource_version"
+logger=resource-migrator t=2026-10-13T07:40:32.522547949Z level=info msg="Migration successfully executed" id="drop table resource_version" duration=388.616µs
+logger=resource-migrator t=2026-10-13T07:40:32.524139533Z level=info msg="Executing migration" id="create table resource_version"
+logger=resource-migrator t=2026-10-13T07:40:32.525172064Z level=info msg="Migration successfully executed" id="create table resource_version" duration=1.032421ms
+logger=resource-migrator t=2026-10-13T07:40:32.527058762Z level=info msg="Executing migration" id="create table resource_version, index: 0"
+logger=resource-migrator t=2026-10-13T07:40:32.528521828Z level=info msg="Migration successfully executed" id="create table resource_version, index: 0" duration=1.463075ms
+logger=resource-migrator t=2026-10-13T07:40:32.529918049Z level=info msg="Executing migration" id="drop table resource_blob"
+logger=resource-migrator t=2026-10-13T07:40:32.530091513Z level=info msg="Migration successfully executed" id="drop table resource_blob" duration=173.464µs
+logger=resource-migrator t=2026-10-13T07:40:32.532778906Z level=info msg="Executing migration" id="create table resource_blob"
+logger=resource-migrator t=2026-10-13T07:40:32.535096207Z level=info msg="Migration successfully executed" id="create table resource_blob" duration=2.314396ms
+logger=resource-migrator t=2026-10-13T07:40:32.537039842Z level=info msg="Executing migration" id="create table resource_blob, index: 0"
+logger=resource-migrator t=2026-10-13T07:40:32.538468664Z level=info msg="Migration successfully executed" id="create table resource_blob, index: 0" duration=1.428652ms
+logger=resource-migrator t=2026-10-13T07:40:32.540077975Z level=info msg="Executing migration" id="create table resource_blob, index: 1"
+logger=resource-migrator t=2026-10-13T07:40:32.543203673Z level=info msg="Migration successfully executed" id="create table resource_blob, index: 1" duration=3.122863ms
+logger=resource-migrator t=2026-10-13T07:40:32.545029347Z level=info msg="Executing migration" id="Add column previous_resource_version in resource_history"
+logger=resource-migrator t=2026-10-13T07:40:32.5544967Z level=info msg="Migration successfully executed" id="Add column previous_resource_version in resource_history" duration=9.463106ms
+logger=resource-migrator t=2026-10-13T07:40:32.556350798Z level=info msg="Executing migration" id="Add column previous_resource_version in resource"
+logger=resource-migrator t=2026-10-13T07:40:32.564312045Z level=info msg="Migration successfully executed" id="Add column previous_resource_version in resource" duration=7.952732ms
+logger=resource-migrator t=2026-10-13T07:40:32.565981467Z level=info msg="Executing migration" id="Add index to resource_history for polling"
+logger=resource-migrator t=2026-10-13T07:40:32.567151755Z level=info msg="Migration successfully executed" id="Add index to resource_history for polling" duration=1.170899ms
+logger=resource-migrator t=2026-10-13T07:40:32.568633396Z level=info msg="Executing migration" id="Add index to resource for loading"
+logger=resource-migrator t=2026-10-13T07:40:32.569686375Z level=info msg="Migration successfully executed" id="Add index to resource for loading" duration=1.052729ms
+logger=resource-migrator t=2026-10-13T07:40:32.570911566Z level=info msg="Executing migration" id="Add column folder in resource_history"
+logger=resource-migrator t=2026-10-13T07:40:32.579638826Z level=info msg="Migration successfully executed" id="Add column folder in resource_history" duration=8.721008ms
+logger=resource-migrator t=2026-10-13T07:40:32.580940771Z level=info msg="Executing migration" id="Add column folder in resource"
+logger=resource-migrator t=2026-10-13T07:40:32.589456285Z level=info msg="Migration successfully executed" id="Add column folder in resource" duration=8.512198ms
+logger=resource-migrator t=2026-10-13T07:40:32.591296907Z level=info msg="Executing migration" id="Migrate DeletionMarkers to real Resource objects"
+logger=deletion-marker-migrator t=2026-10-13T07:40:32.591330519Z level=info msg="finding any deletion markers"
+logger=resource-migrator t=2026-10-13T07:40:32.591763289Z level=info msg="Migration successfully executed" id="Migrate DeletionMarkers to real Resource objects" duration=466.933µs
+logger=resource-migrator t=2026-10-13T07:40:32.593828172Z level=info msg="Executing migration" id="Add index to resource_history for get trash"
+logger=resource-migrator t=2026-10-13T07:40:32.595007999Z level=info msg="Migration successfully executed" id="Add index to resource_history for get trash" duration=1.178915ms
+logger=resource-migrator t=2026-10-13T07:40:32.596699732Z level=info msg="Executing migration" id="Add generation to resource history"
+logger=resource-migrator t=2026-10-13T07:40:32.605349527Z level=info msg="Migration successfully executed" id="Add generation to resource history" duration=8.64706ms
+logger=resource-migrator t=2026-10-13T07:40:32.606755827Z level=info msg="Executing migration" id="Add generation index to resource history"
+logger=resource-migrator t=2026-10-13T07:40:32.607883796Z level=info msg="Migration successfully executed" id="Add generation index to resource history" duration=1.127478ms
+logger=resource-migrator t=2026-10-13T07:40:32.609472597Z level=info msg="migrations completed" performed=26 skipped=0 duration=124.798973ms
+logger=resource-migrator t=2026-10-13T07:40:32.609986208Z level=info msg="Unlocking database"
+t=2026-10-13T07:40:32.610218852Z level=info caller=logger.go:214 time=2026-10-13T07:40:32.610166695Z msg="Using channel notifier" logger=sql-resource-server
+logger=plugin.store t=2026-10-13T07:40:32.620027372Z level=info msg="Loading plugins..."
+logger=plugins.registration t=2026-10-13T07:40:32.680842521Z level=error msg="Could not register plugin" pluginId=table error="plugin table is already registered"
+logger=plugins.initialization t=2026-10-13T07:40:32.680887085Z level=error msg="Could not initialize plugin" pluginId=table error="plugin table is already registered"
+logger=plugin.store t=2026-10-13T07:40:32.680986831Z level=info msg="Plugins loaded" count=53 duration=60.96005ms
+logger=query_data t=2026-10-13T07:40:32.686118748Z level=info msg="Query Service initialization"
+logger=live.push_http t=2026-10-13T07:40:32.689892084Z level=info msg="Live Push Gateway initialization"
+logger=ngalert.notifier component=alertmanager orgID=1 t=2026-10-13T07:40:32.700411125Z level=info msg="Applying new configuration to Alertmanager" configHash=d2c56faca6af2a5772ff4253222f7386
+logger=ngalert.writer t=2026-10-13T07:40:32.704983126Z level=info msg="Setting up remote write using data sources" timeout=10s default_datasource_uid=
+logger=ngalert t=2026-10-13T07:40:32.705056914Z level=info msg="Using simple database alert instance store"
+logger=ngalert.state.manager.persist t=2026-10-13T07:40:32.705074978Z level=info msg="Using sync state persister"
+logger=infra.usagestats.collector t=2026-10-13T07:40:32.708201745Z level=info msg="registering usage stat providers" usageStatsProvidersLen=2
+logger=grafanaStorageLogger t=2026-10-13T07:40:32.708520569Z level=info msg="Storage starting"
+logger=plugin.backgroundinstaller t=2026-10-13T07:40:32.708601016Z level=info msg="Installing plugin" pluginId=grafana-lokiexplore-app version=
+logger=http.server t=2026-10-13T07:40:32.710998252Z level=info msg="HTTP Server Listen" address=[::]:3000 protocol=http subUrl= socket=
+logger=ngalert.state.manager t=2026-10-13T07:40:32.711093681Z level=info msg="Warming state cache for startup"
+logger=ngalert.multiorg.alertmanager t=2026-10-13T07:40:32.721644781Z level=info msg="Starting MultiOrg Alertmanager"
+logger=provisioning.datasources t=2026-10-13T07:40:32.723561015Z level=info msg="inserting datasource from configuration" name=Prometheus uid=prometheus
+logger=sqlstore.transactions t=2026-10-13T07:40:32.728340582Z level=info msg="Database locked, sleeping then retrying" error="database is locked" retry=0
+logger=ngalert.state.manager t=2026-10-13T07:40:32.735063569Z level=info msg="State cache has been initialized" states=0 duration=23.968576ms
+logger=ngalert.scheduler t=2026-10-13T07:40:32.735105537Z level=info msg="Starting scheduler" tickInterval=10s maxAttempts=3
+logger=ticker t=2026-10-13T07:40:32.735246731Z level=info msg=starting first_tick=2026-10-13T07:40:40Z
+logger=sqlstore.transactions t=2026-10-13T07:40:32.739145201Z level=info msg="Database locked, sleeping then retrying" error="database is locked" retry=1
+logger=provisioning.datasources t=2026-10-13T07:40:32.741126719Z level=info msg="inserting datasource from configuration" name=Alertmanager uid=alertmanager
+logger=provisioning.datasources t=2026-10-13T07:40:32.752536295Z level=info msg="inserting datasource from configuration" name=Loki uid=P8E80F9AEF21F6940
+logger=sqlstore.transactions t=2026-10-13T07:40:32.752931177Z level=info msg="Database locked, sleeping then retrying" error="database is locked" retry=2
+logger=sqlstore.transactions t=2026-10-13T07:40:32.763849418Z level=info msg="Database locked, sleeping then retrying" error="database is locked" retry=0
+logger=provisioning.datasources t=2026-10-13T07:40:32.775411872Z level=info msg="inserting datasource from configuration" name=Jaeger uid=PC9A941E8F2E49454
+logger=provisioning.alerting t=2026-10-13T07:40:32.790503096Z level=info msg="starting to provision alerting"
+logger=provisioning.alerting t=2026-10-13T07:40:32.790530998Z level=info msg="finished to provision alerting"
+logger=provisioning.dashboard t=2026-10-13T07:40:32.791594998Z level=info msg="starting to provision dashboards"
+logger=plugins.update.checker t=2026-10-13T07:40:32.849953988Z level=info msg="Update check succeeded" duration=128.786019ms
+logger=plugin.angulardetectorsprovider.dynamic t=2026-10-13T07:40:32.854568437Z level=info msg="Patterns update finished" duration=133.704446ms
+logger=grafana.update.checker t=2026-10-13T07:40:32.857997429Z level=info msg="Update check succeeded" duration=142.506195ms
+logger=plugin.installer t=2026-10-13T07:40:33.288248809Z level=info msg="Installing plugin" pluginId=grafana-lokiexplore-app version=
+logger=grafana-apiserver t=2026-10-13T07:40:33.311927956Z level=info msg="Adding GroupVersion playlist.grafana.app v0alpha1 to ResourceManager"
+logger=grafana-apiserver t=2026-10-13T07:40:33.31489239Z level=info msg="Adding GroupVersion dashboard.grafana.app v1beta1 to ResourceManager"
+logger=grafana-apiserver t=2026-10-13T07:40:33.315446426Z level=info msg="Adding GroupVersion dashboard.grafana.app v0alpha1 to ResourceManager"
+logger=grafana-apiserver t=2026-10-13T07:40:33.315957682Z level=info msg="Adding GroupVersion dashboard.grafana.app v2alpha1 to ResourceManager"
+logger=grafana-apiserver t=2026-10-13T07:40:33.317691545Z level=info msg="Adding GroupVersion iam.grafana.app v0alpha1 to ResourceManager"
+logger=grafana-apiserver t=2026-10-13T07:40:33.318409076Z level=info msg="Adding GroupVersion userstorage.grafana.app v0alpha1 to ResourceManager"
+logger=grafana-apiserver t=2026-10-13T07:40:33.320381725Z level=info msg="Adding GroupVersion notifications.alerting.grafana.app v0alpha1 to ResourceManager"
+logger=grafana-apiserver t=2026-10-13T07:40:33.3213684Z level=info msg="Adding GroupVersion folder.grafana.app v1beta1 to ResourceManager"
+logger=grafana-apiserver t=2026-10-13T07:40:33.321657651Z level=info msg="Adding GroupVersion features.grafana.app v0alpha1 to ResourceManager"
+logger=app-registry t=2026-10-13T07:40:33.397995472Z level=info msg="app registry initialized"
+logger=provisioning.dashboard t=2026-10-13T07:40:33.430406599Z level=info msg="finished to provision dashboards"
+logger=installer.fs t=2026-10-13T07:40:33.526564375Z level=info msg="Downloaded and extracted grafana-lokiexplore-app v1.0.41 zip successfully to /var/lib/grafana/plugins/grafana-lokiexplore-app"
+logger=plugins.registration t=2026-10-13T07:40:33.568371814Z level=info msg="Plugin registered" pluginId=grafana-lokiexplore-app
+logger=plugin.backgroundinstaller t=2026-10-13T07:40:33.568404094Z level=info msg="Plugin successfully installed" pluginId=grafana-lokiexplore-app version= duration=859.789042ms
+logger=plugin.backgroundinstaller t=2026-10-13T07:40:33.568429342Z level=info msg="Installing plugin" pluginId=grafana-pyroscope-app version=
+logger=plugin.installer t=2026-10-13T07:40:33.686130504Z level=info msg="Installing plugin" pluginId=grafana-pyroscope-app version=
+logger=installer.fs t=2026-10-13T07:40:33.780170691Z level=info msg="Downloaded and extracted grafana-pyroscope-app v1.17.0 zip successfully to /var/lib/grafana/plugins/grafana-pyroscope-app"
+logger=plugins.registration t=2026-10-13T07:40:33.803500968Z level=info msg="Plugin registered" pluginId=grafana-pyroscope-app
+logger=plugin.backgroundinstaller t=2026-10-13T07:40:33.80353967Z level=info msg="Plugin successfully installed" pluginId=grafana-pyroscope-app version= duration=235.102424ms
+logger=plugin.backgroundinstaller t=2026-10-13T07:40:33.8035663Z level=info msg="Installing plugin" pluginId=grafana-exploretraces-app version=
+logger=plugin.installer t=2026-10-13T07:40:33.922835412Z level=info msg="Installing plugin" pluginId=grafana-exploretraces-app version=
+logger=installer.fs t=2026-10-13T07:40:34.040526974Z level=info msg="Downloaded and extracted grafana-exploretraces-app v1.3.3 zip successfully to /var/lib/grafana/plugins/grafana-exploretraces-app"
+logger=plugins.registration t=2026-10-13T07:40:34.069218106Z level=info msg="Plugin registered" pluginId=grafana-exploretraces-app
+logger=plugin.backgroundinstaller t=2026-10-13T07:40:34.069251449Z level=info msg="Plugin successfully installed" pluginId=grafana-exploretraces-app version= duration=265.651546ms
+logger=plugin.backgroundinstaller t=2026-10-13T07:40:34.069273129Z level=info msg="Installing plugin" pluginId=grafana-metricsdrilldown-app version=
+logger=plugin.installer t=2026-10-13T07:40:34.342043272Z level=info msg="Installing plugin" pluginId=grafana-metricsdrilldown-app version=
+logger=installer.fs t=2026-10-13T07:40:34.472710296Z level=info msg="Downloaded and extracted grafana-metricsdrilldown-app v1.0.34 zip successfully to /var/lib/grafana/plugins/grafana-metricsdrilldown-app"
+logger=plugins.registration t=2026-10-13T07:40:34.508172951Z level=info msg="Plugin registered" pluginId=grafana-metricsdrilldown-app
+logger=plugin.backgroundinstaller t=2026-10-13T07:40:34.508330625Z level=info msg="Plugin successfully installed" pluginId=grafana-metricsdrilldown-app version= duration=439.049281ms
+logger=provisioning.dashboard t=2026-10-13T07:40:40.240807349Z level=info msg="starting to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:40.242061924Z level=info msg="finished to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:40.255959693Z level=info msg="starting to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:40.277519019Z level=info msg="finished to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:40.290222599Z level=info msg="starting to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:40.313508302Z level=info msg="finished to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:40.325133453Z level=info msg="starting to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:40.346405582Z level=info msg="finished to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:40.358144175Z level=info msg="starting to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:40.388853755Z level=info msg="finished to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:40.401294764Z level=info msg="starting to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:40.433417115Z level=info msg="finished to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:40.453727405Z level=info msg="starting to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:40.483847611Z level=info msg="finished to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:40.501535865Z level=info msg="starting to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:40.547297006Z level=info msg="finished to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:40.560769764Z level=info msg="starting to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:40.600969393Z level=info msg="finished to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:40.627742996Z level=info msg="starting to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:40.662206947Z level=info msg="finished to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:40.674745019Z level=info msg="starting to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:40.731066862Z level=info msg="finished to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:40.746842645Z level=info msg="starting to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:41.119868584Z level=info msg="finished to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:41.132342602Z level=info msg="starting to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:41.5805053Z level=info msg="finished to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:41.593088024Z level=info msg="starting to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:41.625658265Z level=info msg="finished to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:41.639109763Z level=info msg="starting to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:41.67943899Z level=info msg="finished to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:41.691266165Z level=info msg="starting to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:41.723600848Z level=info msg="finished to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:41.734900366Z level=info msg="starting to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:41.765756212Z level=info msg="finished to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:41.777279019Z level=info msg="starting to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:41.822568125Z level=info msg="finished to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:41.834684131Z level=info msg="starting to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:41.86809312Z level=info msg="finished to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:41.879589351Z level=info msg="starting to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:41.913974615Z level=info msg="finished to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:41.925610706Z level=info msg="starting to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:41.967590028Z level=info msg="finished to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:41.979012322Z level=info msg="starting to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:42.013281287Z level=info msg="finished to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:42.024795212Z level=info msg="starting to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:42.059860538Z level=info msg="finished to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:42.071389268Z level=info msg="starting to provision dashboards"
+logger=provisioning.dashboard t=2026-10-13T07:40:42.11480918Z level=info msg="finished to provision dashboards"
+logger=infra.usagestats t=2026-10-13T07:42:23.726321865Z level=info msg="Usage stats are ready to report"
+logger=cleanup t=2026-10-13T07:50:32.756281985Z level=info msg="Completed cleanup jobs" duration=40.104055ms
+logger=plugins.update.checker t=2026-10-13T07:50:32.959419209Z level=info msg="Update check succeeded" duration=109.219681ms
+logger=cleanup t=2026-10-13T08:00:32.724971594Z level=info msg="Completed cleanup jobs" duration=8.532275ms
+logger=plugins.update.checker t=2026-10-13T08:00:32.963274987Z level=info msg="Update check succeeded" duration=109.623769ms
+logger=cleanup t=2026-10-13T08:10:32.750528736Z level=info msg="Completed cleanup jobs" duration=34.389114ms
+logger=plugins.update.checker t=2026-10-13T08:10:32.931590475Z level=info msg="Update check succeeded" duration=80.879586ms
+logger=infra.usagestats t=2026-10-13T08:12:23.739587814Z level=info msg="Usage stats are ready to report"
+logger=cleanup t=2026-10-13T08:20:32.719957126Z level=info msg="Completed cleanup jobs" duration=3.556149ms
+logger=plugins.update.checker t=2026-10-13T08:20:32.937644172Z level=info msg="Update check succeeded" duration=86.819354ms
+logger=cleanup t=2026-10-13T08:30:32.721296108Z level=info msg="Completed cleanup jobs" duration=4.598179ms
+logger=plugins.update.checker t=2026-10-13T08:30:32.923064241Z level=info msg="Update check succeeded" duration=72.291813ms
+logger=cleanup t=2026-10-13T08:40:32.722520691Z level=info msg="Completed cleanup jobs" duration=6.326316ms
+logger=plugins.update.checker t=2026-10-13T08:40:32.920390166Z level=info msg="Update check succeeded" duration=70.005576ms
+logger=infra.usagestats t=2026-10-13T08:42:23.73872914Z level=info msg="Usage stats are ready to report"
+{"time": "2026-10-13T07:40:24.795289+00:00", "level": "INFO", "msg": "Starting collector"}
+{"time": "2026-10-13T07:40:24.795601+00:00", "level": "WARNING", "msg": "No folder annotation was provided, defaulting to k8s-sidecar-target-directory"}
+{"time": "2026-10-13T07:40:24.795800+00:00", "level": "INFO", "msg": "Loading incluster config ..."}
+{"time": "2026-10-13T07:40:24.796715+00:00", "level": "INFO", "msg": "Config for cluster api at 'https://10.96.0.1:443' loaded..."}
+{"time": "2026-10-13T07:40:24.796834+00:00", "level": "INFO", "msg": "Unique filenames will not be enforced."}
+{"time": "2026-10-13T07:40:24.796948+00:00", "level": "INFO", "msg": "5xx response content will not be enabled."}
+{"time": "2026-10-13T07:40:24.824485+00:00", "level": "INFO", "msg": "Writing /tmp/dashboards/alertmanager-overview.json (ascii)"}
+{"time": "2026-10-13T07:40:24.827955+00:00", "level": "WARNING", "msg": "Retrying (Retry(total=4, connect=9, read=5, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f70a843a3c0>: Failed to establish a new connection: [Errno 111] Connection refused')': /api/admin/provisioning/dashboards/reload"}
+{"time": "2026-10-13T07:40:27.028864+00:00", "level": "WARNING", "msg": "Retrying (Retry(total=3, connect=8, read=5, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f70a8444690>: Failed to establish a new connection: [Errno 111] Connection refused')': /api/admin/provisioning/dashboards/reload"}
+{"time": "2026-10-13T07:40:31.430107+00:00", "level": "WARNING", "msg": "Retrying (Retry(total=2, connect=7, read=5, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f70a84442d0>: Failed to establish a new connection: [Errno 111] Connection refused')': /api/admin/provisioning/dashboards/reload"}
+{"time": "2026-10-13T07:40:40.231498+00:00", "level": "WARNING", "msg": "Retrying (Retry(total=1, connect=6, read=5, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f70a8421cd0>: Failed to establish a new connection: [Errno 111] Connection refused')': /api/admin/provisioning/dashboards/reload"}
+{"time": "2026-10-13T07:40:40.246053+00:00", "level": "INFO", "msg": "Writing /tmp/dashboards/apiserver.json (ascii)"}
+{"time": "2026-10-13T07:40:40.280891+00:00", "level": "INFO", "msg": "Writing /tmp/dashboards/cluster-total.json (ascii)"}
+{"time": "2026-10-13T07:40:40.316362+00:00", "level": "INFO", "msg": "Writing /tmp/dashboards/grafana-overview.json (ascii)"}
+{"time": "2026-10-13T07:40:40.349473+00:00", "level": "INFO", "msg": "Writing /tmp/dashboards/k8s-coredns.json (ascii)"}
+{"time": "2026-10-13T07:40:40.392484+00:00", "level": "INFO", "msg": "Writing /tmp/dashboards/k8s-resources-cluster.json (ascii)"}
+{"time": "2026-10-13T07:40:40.440732+00:00", "level": "INFO", "msg": "Writing /tmp/dashboards/k8s-resources-multicluster.json (ascii)"}
+{"time": "2026-10-13T07:40:40.488167+00:00", "level": "INFO", "msg": "Writing /tmp/dashboards/k8s-resources-namespace.json (ascii)"}
+{"time": "2026-10-13T07:40:40.550499+00:00", "level": "INFO", "msg": "Writing /tmp/dashboards/k8s-resources-node.json (ascii)"}
+{"time": "2026-10-13T07:40:40.616795+00:00", "level": "INFO", "msg": "Writing /tmp/dashboards/k8s-resources-pod.json (ascii)"}
+{"time": "2026-10-13T07:40:40.665652+00:00", "level": "INFO", "msg": "Writing /tmp/dashboards/k8s-resources-workload.json (ascii)"}
+{"time": "2026-10-13T07:40:40.734822+00:00", "level": "INFO", "msg": "Writing /tmp/dashboards/k8s-resources-workloads-namespace.json (ascii)"}
+{"time": "2026-10-13T07:40:41.122900+00:00", "level": "INFO", "msg": "Writing /tmp/dashboards/kubelet.json (ascii)"}
+{"time": "2026-10-13T07:40:41.583481+00:00", "level": "INFO", "msg": "Writing /tmp/dashboards/namespace-by-pod.json (ascii)"}
+{"time": "2026-10-13T07:40:41.628680+00:00", "level": "INFO", "msg": "Writing /tmp/dashboards/namespace-by-workload.json (ascii)"}
+{"time": "2026-10-13T07:40:41.681947+00:00", "level": "INFO", "msg": "Writing /tmp/dashboards/node-cluster-rsrc-use.json (ascii)"}
+{"time": "2026-10-13T07:40:41.726330+00:00", "level": "INFO", "msg": "Writing /tmp/dashboards/node-rsrc-use.json (ascii)"}
+{"time": "2026-10-13T07:40:41.768404+00:00", "level": "INFO", "msg": "Writing /tmp/dashboards/nodes.json (ascii)"}
+{"time": "2026-10-13T07:40:41.825524+00:00", "level": "INFO", "msg": "Writing /tmp/dashboards/nodes-aix.json (ascii)"}
+{"time": "2026-10-13T07:40:41.870875+00:00", "level": "INFO", "msg": "Writing /tmp/dashboards/nodes-darwin.json (ascii)"}
+{"time": "2026-10-13T07:40:41.916669+00:00", "level": "INFO", "msg": "Writing /tmp/dashboards/persistentvolumesusage.json (ascii)"}
+{"time": "2026-10-13T07:40:41.970338+00:00", "level": "INFO", "msg": "Writing /tmp/dashboards/pod-total.json (ascii)"}
+{"time": "2026-10-13T07:40:42.016240+00:00", "level": "INFO", "msg": "Writing /tmp/dashboards/prometheus.json (ascii)"}
+{"time": "2026-10-13T07:40:42.062526+00:00", "level": "INFO", "msg": "Writing /tmp/dashboards/workload-total.json (ascii)"}
+{"time": "2026-10-13T07:40:24.606357+00:00", "level": "INFO", "msg": "Starting collector"}
+{"time": "2026-10-13T07:40:24.606815+00:00", "level": "WARNING", "msg": "No folder annotation was provided, defaulting to k8s-sidecar-target-directory"}
+{"time": "2026-10-13T07:40:24.607296+00:00", "level": "INFO", "msg": "Loading incluster config ..."}
+{"time": "2026-10-13T07:40:24.608508+00:00", "level": "INFO", "msg": "Config for cluster api at 'https://10.96.0.1:443' loaded..."}
+{"time": "2026-10-13T07:40:24.608745+00:00", "level": "INFO", "msg": "Unique filenames will not be enforced."}
+{"time": "2026-10-13T07:40:24.608989+00:00", "level": "INFO", "msg": "5xx response content will not be enabled."}
+{"time": "2026-10-13T07:40:24.642135+00:00", "level": "INFO", "msg": "Writing /etc/grafana/provisioning/datasources/datasource.yaml (ascii)"}
+{"time": "2026-10-13T07:40:24.647644+00:00", "level": "WARNING", "msg": "Retrying (Retry(total=4, connect=9, read=5, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7ff9d9cbe3c0>: Failed to establish a new connection: [Errno 111] Connection refused')': /api/admin/provisioning/datasources/reload"}
+{"time": "2026-10-13T07:40:26.848855+00:00", "level": "WARNING", "msg": "Retrying (Retry(total=3, connect=8, read=5, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7ff9d9cb0690>: Failed to establish a new connection: [Errno 111] Connection refused')': /api/admin/provisioning/datasources/reload"}
+{"time": "2026-10-13T07:40:31.250329+00:00", "level": "WARNING", "msg": "Retrying (Retry(total=2, connect=7, read=5, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7ff9d9cb02d0>: Failed to establish a new connection: [Errno 111] Connection refused')': /api/admin/provisioning/datasources/reload"}
+{"time": "2026-10-13T07:40:40.051751+00:00", "level": "WARNING", "msg": "Retrying (Retry(total=1, connect=6, read=5, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7ff9d9cd5cd0>: Failed to establish a new connection: [Errno 111] Connection refused')': /api/admin/provisioning/datasources/reload"}
