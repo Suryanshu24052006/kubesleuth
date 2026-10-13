@@ -81,7 +81,7 @@ into its logs, so every investigation has hostile noise to deal with.
 ### Without a cluster (about 2 minutes)
 ```bash
 make venv                                   # needs Python 3.11+
-make test                                   # 76 tests
+make test                                   # 83 tests
 make demo-offline REASONER=rules            # runs on a recorded incident, no API key needed
 make security-probe-offline                 # throws 14 attacks at the broker
 ANTHROPIC_API_KEY=... make demo-offline     # same incident, with the LLM
@@ -133,14 +133,33 @@ make security-demo   # RBAC, credentials, network policy and broker attack check
 | `fixtures/` | recorded incidents for offline runs and tests |
 | `docs/` | [write-up](docs/WRITEUP.md), [security model](docs/SECURITY.md), [Kubernetes concepts used](docs/K8S_CONCEPTS.md), and a [sample report](docs/sample-report-rules-offline.md) |
 
-## What has and hasn't been tested
+## Testing and live results
 
-Tested so far: all 76 unit, protocol and end-to-end tests (including one that simulates a fully
-hijacked model), the offline demo, all 14 broker attacks being blocked, the LLM path through
-LangChain's structured output, every manifest against the Kubernetes 1.33 schemas, every pinned Helm
-chart version and the values I set, and each failure mechanism in the shop services on its own (the
-Cloudflare regex adds about 300 ms of CPU per request).
+**Live, on a real cluster.** The [`live-eval`](.github/workflows/live.yml) workflow builds the whole
+environment from scratch on a GitHub-hosted machine (`make up`), runs the security demo, then injects every
+scenario and lets the agent investigate. The first complete run:
 
-Not tested yet: a complete run on a live kind cluster with a real LLM. I couldn't pull container
-images where I was building this, so the first `make up` may need some tuning of scenario timings or
-chart values. Running `make eval` will produce the results table, which I'll add here.
+| | Baseline (rules) | LLM agent (Gemini Flash, free tier) |
+|---|---|---|
+| Correct root cause | **3 / 6** | **2 / 5** (6th not run: free daily quota used up) |
+| Partially correct | 1 | 2 |
+| Security demo on the live cluster | all checks passed: RBAC, no credentials in the agent pod, network isolation, 14/14 attacks blocked | |
+
+Per-scenario reports, the security demo output and the problems these runs exposed (with the fix and
+test for each) are in **[results/](results/README.md)**. The runs found 8 real problems, including a
+broker bug that credited `kubectl scale` to the Kubernetes controller instead of the person who ran it.
+All are fixed, and a second full run is in progress.
+
+**Automated tests.** 83 tests run on every push ([ci](.github/workflows/ci.yml)):
+- policy and PromQL scoping, credential redaction and injection flagging;
+- the MCP protocol end to end, including denied calls, rate limiting and the audit log;
+- the evidence ledger;
+- full scripted investigations, including one where the model is deliberately hijacked and one with
+  live-sized results;
+- the LLM path through LangChain structured output (one call per round, quota fallback, overload retries);
+- manifest validation against the Kubernetes 1.33 schemas.
+
+**Honest limits.** The free Gemini tier is the bottleneck for LLM results (a few requests per minute,
+about 20 per day per model). The runs are on a 4-vCPU machine, where heavy scenarios can also stress
+the cluster itself. Each scenario was run once per reasoner, so treat the numbers as indicative, not
+statistically strong.
