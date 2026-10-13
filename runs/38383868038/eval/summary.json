@@ -1,0 +1,332 @@
+[
+  {
+    "scenario": "aws-ebs-2012-latent-leak",
+    "reasoner": "rules",
+    "reasoner_detail": "rules",
+    "alert": "ShopEdgeLatencyHigh",
+    "verdict": "correct",
+    "component_hit": true,
+    "category_hit": true,
+    "keyword_hits": [
+      "telemetry",
+      "collector"
+    ],
+    "blamed_symptom": false,
+    "confidence": "low",
+    "posterior": 0.378,
+    "evidence_sources": [
+      "kubernetes"
+    ],
+    "multi_source": false,
+    "rounds": 3,
+    "tool_calls": 7,
+    "evidence_rejected": 0,
+    "security_events": 0,
+    "duration_s": 0.5,
+    "tokens": 0,
+    "root_cause": "Service telemetry-collector was deleted () so callers cannot reach it",
+    "report": "aws-ebs-2012-latent-leak.rules.md"
+  },
+  {
+    "scenario": "aws-ebs-2012-latent-leak",
+    "reasoner": "llm:google_genai:gemini-3.5-flash",
+    "reasoner_detail": "llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview)",
+    "alert": "ShopEdgeLatencyHigh",
+    "verdict": "inconclusive",
+    "component_hit": true,
+    "category_hit": false,
+    "keyword_hits": [
+      "telemetry",
+      "buffer",
+      "collector",
+      "memory"
+    ],
+    "blamed_symptom": false,
+    "confidence": "inconclusive",
+    "posterior": 0.0,
+    "evidence_sources": [],
+    "multi_source": false,
+    "rounds": 2,
+    "tool_calls": 12,
+    "evidence_rejected": 0,
+    "security_events": 0,
+    "duration_s": 215.6,
+    "tokens": 36951,
+    "root_cause": "The 'telemetry-collector' service was renamed to 'telemetry-collector-v2' without updating application configurations, causing DNS resolution failures and resource exhaustion due to telemetry event buffering.",
+    "report": "aws-ebs-2012-latent-leak.llm-google_genai-gemini-3.5-flash.md"
+  },
+  {
+    "scenario": "aws-s3-2017-capacity-removal",
+    "reasoner": "rules",
+    "reasoner_detail": "rules",
+    "alert": "InfoInhibitor, ShopEdgeHigh5xxRate",
+    "verdict": "correct",
+    "component_hit": true,
+    "category_hit": true,
+    "keyword_hits": [
+      "replica",
+      "capacity",
+      "throttl"
+    ],
+    "blamed_symptom": false,
+    "confidence": "low",
+    "posterior": 0.411,
+    "evidence_sources": [
+      "kubernetes",
+      "prometheus"
+    ],
+    "multi_source": true,
+    "rounds": 4,
+    "tool_calls": 10,
+    "evidence_rejected": 0,
+    "security_events": 0,
+    "duration_s": 0.6,
+    "tokens": 0,
+    "root_cause": "Capacity of inventory was reduced (spec.replicas 4->1)",
+    "report": "aws-s3-2017-capacity-removal.rules.md"
+  },
+  {
+    "scenario": "aws-s3-2017-capacity-removal",
+    "reasoner": "llm:google_genai:gemini-3.5-flash",
+    "reasoner_detail": "llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview)",
+    "alert": "InfoInhibitor, ShopEdgeHigh5xxRate",
+    "verdict": "partial",
+    "component_hit": false,
+    "category_hit": true,
+    "keyword_hits": [
+      "replica",
+      "scale",
+      "scaled",
+      "throttl",
+      "4 to 1"
+    ],
+    "blamed_symptom": false,
+    "confidence": "low",
+    "posterior": 0.586,
+    "evidence_sources": [
+      "kubernetes"
+    ],
+    "multi_source": false,
+    "rounds": 2,
+    "tool_calls": 8,
+    "evidence_rejected": 2,
+    "security_events": 0,
+    "duration_s": 121.3,
+    "tokens": 71507,
+    "root_cause": "The container runtime (containerd) on node 'kubesleuth-worker' became unresponsive or crashed, preventing the Kubelet from performing health probes and managing container lifecycles.",
+    "report": "aws-s3-2017-capacity-removal.llm-google_genai-gemini-3.5-flash.md"
+  },
+  {
+    "scenario": "chef-2014-healthcheck-timeouts",
+    "reasoner": "rules",
+    "reasoner_detail": "rules",
+    "alert": "ShopEdgeHigh5xxRate",
+    "verdict": "partial",
+    "component_hit": false,
+    "category_hit": false,
+    "keyword_hits": [
+      "timeoutseconds"
+    ],
+    "blamed_symptom": true,
+    "confidence": "medium",
+    "posterior": 0.633,
+    "evidence_sources": [
+      "kubernetes",
+      "prometheus"
+    ],
+    "multi_source": true,
+    "rounds": 3,
+    "tool_calls": 11,
+    "evidence_rejected": 0,
+    "security_events": 0,
+    "duration_s": 0.7,
+    "tokens": 0,
+    "root_cause": "Capacity of inventory was reduced (spec.replicas 4->1)",
+    "report": "chef-2014-healthcheck-timeouts.rules.md"
+  },
+  {
+    "scenario": "chef-2014-healthcheck-timeouts",
+    "reasoner": "llm:google_genai:gemini-3.5-flash",
+    "reasoner_detail": "llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview)",
+    "alert": "ShopEdgeHigh5xxRate",
+    "verdict": "correct",
+    "component_hit": true,
+    "category_hit": true,
+    "keyword_hits": [
+      "liveness",
+      "probe",
+      "health check",
+      "healthz"
+    ],
+    "blamed_symptom": false,
+    "confidence": "low",
+    "posterior": 0.586,
+    "evidence_sources": [
+      "kubernetes"
+    ],
+    "multi_source": false,
+    "rounds": 2,
+    "tool_calls": 8,
+    "evidence_rejected": 1,
+    "security_events": 0,
+    "duration_s": 92.7,
+    "tokens": 51627,
+    "root_cause": "The checkout deployment's liveness probe was reconfigured with an overly aggressive failureThreshold of 1 and a 'deep' health check path that exceeds the 1-second timeout.",
+    "report": "chef-2014-healthcheck-timeouts.llm-google_genai-gemini-3.5-flash.md"
+  },
+  {
+    "scenario": "cloudflare-2019-waf-regex",
+    "reasoner": "rules",
+    "reasoner_detail": "rules",
+    "alert": "InfoInhibitor",
+    "verdict": "wrong",
+    "component_hit": false,
+    "category_hit": false,
+    "keyword_hits": [],
+    "blamed_symptom": true,
+    "confidence": "medium",
+    "posterior": 0.56,
+    "evidence_sources": [
+      "kubernetes",
+      "prometheus"
+    ],
+    "multi_source": true,
+    "rounds": 2,
+    "tool_calls": 8,
+    "evidence_rejected": 0,
+    "security_events": 0,
+    "duration_s": 1.7,
+    "tokens": 0,
+    "root_cause": "Capacity of inventory was reduced (spec.replicas 4->1)",
+    "report": "cloudflare-2019-waf-regex.rules.md"
+  },
+  {
+    "scenario": "cloudflare-2019-waf-regex",
+    "reasoner": "llm:google_genai:gemini-3.5-flash",
+    "reasoner_detail": "llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview, gemini-3.7-flash)",
+    "alert": "InfoInhibitor",
+    "verdict": "correct",
+    "component_hit": true,
+    "category_hit": true,
+    "keyword_hits": [
+      "regex",
+      "waf",
+      "rule",
+      "backtrack",
+      "edge-waf-rules"
+    ],
+    "blamed_symptom": false,
+    "confidence": "medium",
+    "posterior": 0.91,
+    "evidence_sources": [
+      "kubernetes"
+    ],
+    "multi_source": false,
+    "rounds": 2,
+    "tool_calls": 8,
+    "evidence_rejected": 0,
+    "security_events": 0,
+    "duration_s": 298.8,
+    "tokens": 50525,
+    "root_cause": "The addition of a computationally complex, backtracking-prone WAF regular expression rule ('xss-inline-js-2019-07') in ConfigMap 'edge-waf-rules' caused catastrophic backtracking (ReDoS) and CPU exhaustion across edge pods.",
+    "report": "cloudflare-2019-waf-regex.llm-google_genai-gemini-3.5-flash.md"
+  },
+  {
+    "scenario": "github-conn-saturation",
+    "reasoner": "rules",
+    "reasoner_detail": "rules",
+    "alert": "InfoInhibitor, ShopEdgeHigh5xxRate",
+    "verdict": "inconclusive",
+    "component_hit": false,
+    "category_hit": false,
+    "keyword_hits": [],
+    "blamed_symptom": true,
+    "confidence": "inconclusive",
+    "posterior": 0.349,
+    "evidence_sources": [
+      "kubernetes",
+      "prometheus"
+    ],
+    "multi_source": true,
+    "rounds": 3,
+    "tool_calls": 8,
+    "evidence_rejected": 0,
+    "security_events": 0,
+    "duration_s": 1.0,
+    "tokens": 0,
+    "root_cause": "Capacity of edge was reduced (spec.replicas 4->2)",
+    "report": "github-conn-saturation.rules.md"
+  },
+  {
+    "scenario": "github-conn-saturation",
+    "reasoner": "llm:google_genai:gemini-3.5-flash",
+    "reasoner_detail": "llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview, gemini-3.7-flash)",
+    "alert": "InfoInhibitor, ShopEdgeHigh5xxRate",
+    "verdict": "partial",
+    "component_hit": true,
+    "category_hit": false,
+    "keyword_hits": [
+      "connection"
+    ],
+    "blamed_symptom": true,
+    "confidence": "medium",
+    "posterior": 0.564,
+    "evidence_sources": [
+      "kubernetes",
+      "loki"
+    ],
+    "multi_source": true,
+    "rounds": 3,
+    "tool_calls": 11,
+    "evidence_rejected": 1,
+    "security_events": 0,
+    "duration_s": 1683.2,
+    "tokens": 88212,
+    "root_cause": "The inventory service is failing to connect to its database (OperationalError during stock lookup), returning HTTP 500 'stock lookup failed' to the checkout service which propagates up as edge 5xx responses.",
+    "report": "github-conn-saturation.llm-google_genai-gemini-3.5-flash.md"
+  },
+  {
+    "scenario": "knight-2012-stale-version-flag",
+    "reasoner": "rules",
+    "reasoner_detail": "rules",
+    "alert": "InfoInhibitor",
+    "verdict": "correct",
+    "component_hit": true,
+    "category_hit": true,
+    "keyword_hits": [
+      "legacy",
+      "0.9.7"
+    ],
+    "blamed_symptom": false,
+    "confidence": "low",
+    "posterior": 0.455,
+    "evidence_sources": [
+      "kubernetes",
+      "prometheus"
+    ],
+    "multi_source": true,
+    "rounds": 4,
+    "tool_calls": 9,
+    "evidence_rejected": 12,
+    "security_events": 0,
+    "duration_s": 1.0,
+    "tokens": 0,
+    "root_cause": "Newly created workload pricing-legacy serves traffic with different code",
+    "report": "knight-2012-stale-version-flag.rules.md"
+  },
+  {
+    "scenario": "knight-2012-stale-version-flag",
+    "reasoner": "llm",
+    "alert": "InfoInhibitor",
+    "verdict": "error",
+    "confidence": null,
+    "posterior": null,
+    "evidence_sources": [],
+    "rounds": null,
+    "tool_calls": null,
+    "evidence_rejected": null,
+    "duration_s": null,
+    "tokens": 0,
+    "root_cause": "LLMUnavailable: llm:google_genai:gemini-3.5-flash: daily quota exhausted for all configured models"
+  }
+]

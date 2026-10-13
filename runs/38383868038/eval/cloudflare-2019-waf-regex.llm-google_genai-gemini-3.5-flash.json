@@ -1,0 +1,898 @@
+{
+  "id": "20261013-111526-8bafeb",
+  "incident": "The edge service latency and error rate spiked; customers report timeouts.",
+  "namespace": "shop",
+  "reasoner": "llm:google_genai:gemini-3.5-flash",
+  "started_at": "2026-10-13T11:15:26Z",
+  "finished_at": "2026-10-13T11:20:25Z",
+  "duration_s": 298.8,
+  "stop_reason": "no new evidence for two rounds",
+  "title": "Edge Service CPU Exhaustion and Timeout Incident Due to Vulnerable WAF Regex Rule",
+  "root_cause": {
+    "hypothesis": "H1",
+    "statement": "The addition of a computationally complex, backtracking-prone WAF regular expression rule ('xss-inline-js-2019-07') in ConfigMap 'edge-waf-rules' caused catastrophic backtracking (ReDoS) and CPU exhaustion across edge pods.",
+    "component": "configmap/edge-waf-rules",
+    "category": "configuration"
+  },
+  "confidence": {
+    "label": "medium",
+    "posterior": 0.91,
+    "explanation": "Medium: well supported, but some evidence is single-source or an alternative is not fully excluded."
+  },
+  "causal_chain": [
+    {
+      "step": "ConfigMap 'edge-waf-rules' was updated via kubectl-client-side-apply with a complex regex pattern containing nested quantifiers ('xss-inline-js-2019-07').",
+      "observation_ids": [
+        "O3"
+      ]
+    },
+    {
+      "step": "Edge service pods evaluated incoming requests against the new regex rule, leading to catastrophic backtracking and pinning CPU utilization at over 500%.",
+      "observation_ids": [
+        "O2",
+        "O6"
+      ]
+    },
+    {
+      "step": "Due to CPU starvation, the edge pods became unresponsive, causing liveness and readiness probe timeouts ('context deadline exceeded') and triggering pod restarts.",
+      "observation_ids": [
+        "O2",
+        "O4"
+      ]
+    },
+    {
+      "step": "Unhealthy pods dropped out of service endpoints while HPA hit max replicas (4), resulting in request processing delays, 502/5xx responses, and customer-facing timeouts.",
+      "observation_ids": [
+        "O2",
+        "O7",
+        "O8"
+      ]
+    }
+  ],
+  "facts": [
+    {
+      "observation_id": "O2",
+      "quote": "current_metrics\": [{\"resource\": \"cpu\", \"utilization_pct\": 501}]",
+      "statement": "The edge service is experiencing extreme CPU utilization at 501%, far exceeding its target.",
+      "time": "2026-10-13T11:15:27Z",
+      "source": "kubernetes"
+    },
+    {
+      "observation_id": "O3",
+      "quote": "\"id\": \"xss-inline-js-2019-07\", \"pattern\": \"(?:(?:\\\\\\\"|'|\\\\]|\\\\}|\\\\\\\\|\\\\d|(?:nan|infinity|true|false|null|undefined|symbol|math)|\\\\`|\\\\-|\\\\+)+[)]*;?((?:\\\\s|-|~|!|{}|\\\\|\\\\||\\\\+)*.*(?:.*=.*)))\"",
+      "statement": "A complex and potentially expensive WAF regex rule was added to the edge-waf-rules ConfigMap.",
+      "time": "2026-10-13T11:13:23Z",
+      "source": "kubernetes"
+    },
+    {
+      "observation_id": "O4",
+      "quote": "Readiness probe failed: Get \"http://10.244.1.98:8080/healthz\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+      "statement": "Edge pods are failing readiness and liveness probes due to timeouts (context deadline exceeded).",
+      "time": "2026-10-13T11:14:26Z",
+      "source": "kubernetes"
+    },
+    {
+      "observation_id": "O2",
+      "quote": "pod edge-f647cd7c4-jpqfk has restarted 2 times",
+      "statement": "Edge pods are restarting, likely due to liveness probe failures caused by the CPU saturation.",
+      "time": "2026-10-13T11:15:27Z",
+      "source": "kubernetes"
+    },
+    {
+      "observation_id": "O4",
+      "quote": "dial unix /run/containerd/containerd.sock: connect: connection refused",
+      "statement": "Earlier in the incident (10:44), there were cluster-wide issues connecting to the container runtime (containerd).",
+      "time": "2026-10-13T10:44:24Z",
+      "source": "kubernetes"
+    },
+    {
+      "observation_id": "O2",
+      "quote": "HPA edge is at maxReplicas (4)",
+      "statement": "The edge service has scaled to its maximum allowed replicas but remains unhealthy.",
+      "time": "2026-10-13T11:15:27Z",
+      "source": "kubernetes"
+    },
+    {
+      "observation_id": "O8",
+      "quote": "\"error_ratio_5xx\": [{\"labels\": {}, \"points\": 120, \"from\": \"2026-10-13T10:46:07Z\", \"to\": \"2026-10-13T11:16:07Z\", \"first\": 0.0, \"last\": 0.4208",
+      "statement": "The edge service error rate began to spike at 10:57:07Z, reaching a 42% error",
+      "time": null,
+      "source": "prometheus"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "H1",
+      "statement": "The new WAF regex rule is causing CPU exhaustion (ReDoS) in the edge service.",
+      "mechanism": "The complex regex 'xss-inline-js-2019-07' added at 11:13:23 is likely computationally expensive or vulnerable to ReDoS. This pins the CPU, causing the application to become unresponsive to both traffic and health probes, leading to timeouts and restarts.",
+      "component": "configmap/edge-waf-rules",
+      "category": "configuration",
+      "layer": "cause",
+      "status": "active",
+      "retired_reason": "",
+      "posterior": 0.91,
+      "supporting": 3,
+      "contradicting": 0,
+      "sources": [
+        "kubernetes"
+      ],
+      "strong_contradictions": 0
+    },
+    {
+      "id": "H2",
+      "statement": "The worker node is experiencing resource starvation affecting the CRI.",
+      "mechanism": "The earlier 'containerd.sock' connection refused errors suggest the node's control plane or resources (CPU/IO) are so saturated that the container runtime cannot respond, causing widespread probe failures and preventing new pods from starting correctly.",
+      "component": "node/kubesleuth-worker",
+      "category": "resource_exhaustion",
+      "layer": "cause",
+      "status": "active",
+      "retired_reason": "",
+      "posterior": 0.049,
+      "supporting": 1,
+      "contradicting": 0,
+      "sources": [
+        "kubernetes"
+      ],
+      "strong_contradictions": 0
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "hypothesis": "H1",
+      "observation": "O3",
+      "source": "kubernetes",
+      "stance": "supports",
+      "strength": "strong",
+      "weight": 2.3,
+      "quote": "\"id\": \"xss-inline-js-2019-07\", \"pattern\": \"(?:(?:\\\\\\\"|'|\\\\]|\\\\}|\\\\\\\\|\\\\d|(?:nan|infinity|true|false|null|undefined|symbol|math)|\\\\`|\\\\-|\\\\+)+[)]*;?((?:\\\\s|-|~|!|{}|\\\\|\\\\||\\\\+)*.*(?:.*=.*)))\"",
+      "rationale": "The timing of this complex regex update (11:13:23) immediately precedes the edge service's CPU spike and probe failures (11:14:24)."
+    },
+    {
+      "id": "E2",
+      "hypothesis": "H1",
+      "observation": "O2",
+      "source": "kubernetes",
+      "stance": "supports",
+      "strength": "strong",
+      "weight": 1.38,
+      "quote": "current_metrics\": [{\"resource\": \"cpu\", \"utilization_pct\": 501}]",
+      "rationale": "501% CPU utilization is a classic symptom of an inefficient or catastrophic regex (ReDoS) pinning the processor."
+    },
+    {
+      "id": "E3",
+      "hypothesis": "H1",
+      "observation": "O4",
+      "source": "kubernetes",
+      "stance": "supports",
+      "strength": "moderate",
+      "weight": 0.432,
+      "quote": "Readiness probe failed: Get \"http://10.244.1.98:8080/healthz\": context deadline exceeded",
+      "rationale": "CPU saturation prevents the application from responding to health checks within the required timeout."
+    },
+    {
+      "id": "E4",
+      "hypothesis": "H2",
+      "observation": "O4",
+      "source": "kubernetes",
+      "stance": "supports",
+      "strength": "moderate",
+      "weight": 1.2,
+      "quote": "dial unix /run/containerd/containerd.sock: connect: connection refused",
+      "rationale": "CRI connection failures are a strong indicator of node-level distress, though these events occurred ~30 minutes before the current edge spike."
+    }
+  ],
+  "rejected_evidence": [],
+  "alternatives": [
+    {
+      "hypothesis_id": "H2",
+      "why_less_likely": "Worker node CRI distress (containerd.sock connection refused) occurred roughly 30 minutes prior to the edge failure and affected multiple workloads earlier, whereas the current latency spike, pod restarts, and 500%+ CPU saturation directly align in time with the 11:13:23 WAF ConfigMap modification."
+    }
+  ],
+  "uncertainty": [
+    "Specific request payloads triggering the ReDoS were not captured in the limited pod logs, though the regex structure itself exhibits clear polynomial/exponential backtracking characteristics."
+  ],
+  "remediation": [
+    "Revert or sanitize the 'xss-inline-js-2019-07' pattern in ConfigMap 'edge-waf-rules' to remove nested greedy repetitions.",
+    "Restart deployment/edge pods to clear hung worker processes.",
+    "Introduce a regex engine with linear-time guarantees (such as RE2) or enforce execution timeouts for individual WAF rule evaluations.",
+    "Establish automated linting/static analysis for ReDoS vulnerabilities in WAF rule CI/CD pipelines before applying configuration updates."
+  ],
+  "timeline": [
+    {
+      "time": "2026-10-13T10:34:40.513Z",
+      "event": "alert Watchdog fired (none)",
+      "kind": "alert",
+      "observation_id": "O1",
+      "source": "alertmanager"
+    },
+    {
+      "time": "2026-10-13T10:38:56Z",
+      "event": "event Unhealthy x33 on Pod/edge-555d7c4d58-d59d9,edge-555d7c4d58-g7bqs: Readiness probe failed: Get \"http://10.244.1.50:8080/healthz\": dial tcp 10.244.1.50:8080: \u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:38:56Z",
+      "event": "event Unhealthy x71 on Pod/inventory-6f6c46876d-2ccsv,inventory-6f6c46876d-6xqxs: Readiness probe failed: Get \"http://10.244.1.48:8080/healthz\": dial tcp 10.244.1.48:8080: \u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:38:57Z",
+      "event": "event Unhealthy x24 on Pod/recommendations-55b5fd5477-6lbkr,recommendations-55b5fd5477-cdtzd: Readiness probe failed: Get \"http://10.244.1.88:8080/healthz\": dial tcp 10.244.1.88:8080: \u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:38:57Z",
+      "event": "event Unhealthy x97 on Pod/checkout-69cf4467b9-9p4zs,checkout-69cf4467b9-f5wmb: Readiness probe failed: Get \"http://10.244.1.25:8080/readyz\": dial tcp 10.244.1.25:8080: c\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:38:57Z",
+      "event": "event Unhealthy x22 on Pod/catalog-indexer-6f6b545fdb-4kfvf,catalog-indexer-6f6b545fdb-7qmw8: Readiness probe failed: Get \"http://10.244.1.19:8080/healthz\": dial tcp 10.244.1.19:8080: \u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:38:57Z",
+      "event": "event Unhealthy x5 on Pod/pricing-95c99775f-5sx5n,pricing-95c99775f-8drxw: Readiness probe failed: Get \"http://10.244.1.26:8080/healthz\": dial tcp 10.244.1.26:8080: \u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:38:58Z",
+      "event": "event Unhealthy x3 on Pod/edge-6675f7688f-5jhhr,edge-6675f7688f-xnt2d: Liveness probe failed: Get \"http://10.244.1.20:8080/healthz\": dial tcp 10.244.1.20:8080: c\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:38:58Z",
+      "event": "event Unhealthy x3 on Pod/telemetry-collector-865ccb84c6-ckttb: Readiness probe failed: Get \"http://10.244.1.36:8080/healthz\": dial tcp 10.244.1.36:8080: \u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:39:03Z",
+      "event": "event Unhealthy x5 on Pod/catalog-indexer-6f6b545fdb-4kfvf,catalog-indexer-6f6b545fdb-7qmw8: Liveness probe failed: Get \"http://10.244.1.19:8080/healthz\": dial tcp 10.244.1.19:8080: c\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:39:03Z",
+      "event": "event Unhealthy x3 on Pod/checkout-69cf4467b9-9p4zs,checkout-69cf4467b9-f5wmb: Liveness probe failed: Get \"http://10.244.1.25:8080/healthz\": dial tcp 10.244.1.25:8080: c\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:39:04Z",
+      "event": "event Unhealthy x1 on Pod/telemetry-collector-865ccb84c6-ckttb: Liveness probe failed: Get \"http://10.244.1.36:8080/healthz\": dial tcp 10.244.1.36:8080: c\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:39:08Z",
+      "event": "event FailedGetResourceMetric x1 on HorizontalPodAutoscaler/edge: failed to get cpu utilization: unable to get metrics for resource cpu: no metrics returned\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:39:08Z",
+      "event": "event FailedComputeMetricsReplicas x1 on HorizontalPodAutoscaler/edge: invalid metrics (1 invalid out of 1), first error is: failed to get cpu resource metric va\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:39:13Z",
+      "event": "event Unhealthy x1 on Pod/postgres-0: Readiness probe failed: /var/run/postgresql:5432 - no response\n",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:44:24Z",
+      "event": "event FailedCreatePodSandBox x2 on Pod/inventory-6f6c46876d-6xqxs,inventory-6f6c46876d-9v8h6: Failed to create pod sandbox: rpc error: code = Unavailable desc = error reading from serv\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:44:24Z",
+      "event": "event FailedKillPod x2 on Pod/inventory-6ffc77fd45-6f8pt,inventory-6ffc77fd45-wc82r: error killing pod: [failed to \"KillContainer\" for \"inventory\" with KillContainerError: \"rp\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:44:24Z",
+      "event": "event Unhealthy x1 on Pod/postgres-0: Readiness probe errored and resulted in unknown state: rpc error: code = Unavailable desc \u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:44:24Z",
+      "event": "event FailedCreatePodSandBox x1 on Pod/recommendations-67c55868cc-2mk82: Failed to create pod sandbox: rpc error: code = Unavailable desc = error reading from serv\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:44:24Z",
+      "event": "event FailedKillPod x1 on Pod/recommendations-7bd4dd95d6-ckzbg: error killing pod: [failed to \"KillContainer\" for \"recommendations\" with KillContainerErro\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:44:25Z",
+      "event": "event FailedKillPod x1 on Pod/edge-6675f7688f-xnt2d: error killing pod: [failed to \"KillContainer\" for \"edge\" with KillContainerError: \"rpc err\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:44:30Z",
+      "event": "event Unhealthy x1 on Pod/inventory-6f6c46876d-9v8h6: Liveness probe failed: Get \"http://10.244.1.53:8080/healthz\": dial tcp 10.244.1.53:8080: c\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:44:30Z",
+      "event": "event Unhealthy x1 on Pod/recommendations-67c55868cc-2mk82: Liveness probe failed: Get \"http://10.244.1.52:8080/healthz\": dial tcp 10.244.1.52:8080: c\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:52:22Z",
+      "event": "edge errors_by_pod_rps on 3/3 series increase: 0.0 \u2192 0.022222",
+      "kind": "onset",
+      "observation_id": "O8",
+      "source": "prometheus"
+    },
+    {
+      "time": "2026-10-13T10:55:07Z",
+      "event": "edge dependency_failures_rps on 3/3 series increase: 0.0 \u2192 0.032541",
+      "kind": "onset",
+      "observation_id": "O8",
+      "source": "prometheus"
+    },
+    {
+      "time": "2026-10-13T10:55:18+00:00",
+      "event": "deployment/inventory modified: spec.replicas 4 \u2192 1 (by kube-controller-manager)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:55:24Z",
+      "event": "event FailedGetResourceMetric x4 on HorizontalPodAutoscaler/edge: failed to get cpu utilization: did not receive metrics for targeted pods (pods might be un\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:55:24Z",
+      "event": "event FailedComputeMetricsReplicas x4 on HorizontalPodAutoscaler/edge: invalid metrics (1 invalid out of 1), first error is: failed to get cpu resource metric va\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:57:07Z",
+      "event": "edge error_ratio_5xx increase: 0.0 \u2192 0.002169",
+      "kind": "onset",
+      "observation_id": "O8",
+      "source": "prometheus"
+    },
+    {
+      "time": "2026-10-13T10:58:23Z",
+      "event": "event Unhealthy x13 on Pod/inventory-8585795f99-wc2db: Readiness probe failed: Get \"http://10.244.1.58:8080/healthz\": context deadline exceeded (\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:58:32Z",
+      "event": "event Unhealthy x4 on Pod/inventory-8585795f99-wc2db: Liveness probe failed: Get \"http://10.244.1.58:8080/healthz\": context deadline exceeded (C\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T10:58:37Z",
+      "event": "edge latency_p95_seconds increase: 1.646825 \u2192 3.874011",
+      "kind": "onset",
+      "observation_id": "O8",
+      "source": "prometheus"
+    },
+    {
+      "time": "2026-10-13T11:01:53+00:00",
+      "event": "deployment/catalog-indexer modified: spec.replicas 1 \u2192 3 (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:01:53+00:00",
+      "event": "deployment/inventory modified: spec.replicas 1 \u2192 4 (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:01:54+00:00",
+      "event": "deployment/checkout modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (by kubectl-rollout)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:01:54+00:00",
+      "event": "deployment/edge modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (by kubectl-rollout)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:01:54+00:00",
+      "event": "deployment/recommendations modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (by kubectl-rollout)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:01:54+00:00",
+      "event": "deployment/inventory modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (by kubectl-rollout)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:01:54+00:00",
+      "event": "rollout/checkout new-revision: containers[checkout].livenessProbe {\"failureThreshold\": 1, \"httpG\u2026 \u2192 {\"failureThreshold\": 3, \"httpG\u2026",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:01:54+00:00",
+      "event": "rollout/edge new-revision: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:01:54+00:00",
+      "event": "rollout/inventory new-revision: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:01:54+00:00",
+      "event": "rollout/recommendations new-revision: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:05:15+00:00",
+      "event": "deployment/checkout modified: containers[checkout].livenessProbe {\"failureThreshold\": 3, \"httpG\u2026 \u2192 {\"failureThreshold\": 1, \"httpG\u2026 (by kubectl-patch)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:05:15+00:00",
+      "event": "rollout/checkout new-revision: containers[checkout].livenessProbe {\"failureThreshold\": 3, \"httpG\u2026 \u2192 {\"failureThreshold\": 1, \"httpG\u2026; template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:06:31Z",
+      "event": "event Unhealthy x3 on Pod/checkout-69d8947794-29kkk,checkout-69d8947794-5qm4v: Liveness probe failed: Get \"http://10.244.1.83:8080/healthz?deep=1\": context deadline exce\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:06:35Z",
+      "event": "event Unhealthy x11 on Pod/checkout-69d8947794-29kkk,checkout-69d8947794-5qm4v: Liveness probe failed: Get \"http://10.244.1.83:8080/healthz?deep=1\": dial tcp 10.244.1.83:\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:07:09Z",
+      "event": "event BackOff x3 on Pod/checkout-69d8947794-29kkk: Back-off restarting failed container checkout in pod checkout-69d8947794-29kkk_shop(1c3330\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:07:09Z",
+      "event": "event BackOff x3 on Pod/checkout-69d8947794-5qm4v: Back-off restarting failed container checkout in pod checkout-69d8947794-5qm4v_shop(8bb9a3\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:07:11Z",
+      "event": "event BackOff x3 on Pod/checkout-69d8947794-j8gmg: Back-off restarting failed container checkout in pod checkout-69d8947794-j8gmg_shop(615460\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:10:06+00:00",
+      "event": "deployment/checkout modified: containers[checkout].livenessProbe {\"failureThreshold\": 1, \"httpG\u2026 \u2192 {\"failureThreshold\": 3, \"httpG\u2026 (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:10:06+00:00",
+      "event": "deployment/checkout modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (by kube-controller-manager)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:10:06+00:00",
+      "event": "deployment/edge modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (by kubectl-rollout)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:10:06+00:00",
+      "event": "deployment/recommendations modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (by kubectl-rollout)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:10:06+00:00",
+      "event": "deployment/inventory modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (by kubectl-rollout)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:10:06+00:00",
+      "event": "rollout/checkout new-revision: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:10:06+00:00",
+      "event": "rollout/edge new-revision: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:10:06+00:00",
+      "event": "rollout/inventory new-revision: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:10:06+00:00",
+      "event": "rollout/recommendations new-revision: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:12:07Z",
+      "event": "sum(node_cpu_seconds_total{mode!=\"idle\"}) by (node) increase",
+      "kind": "onset",
+      "observation_id": "O6",
+      "source": "prometheus"
+    },
+    {
+      "time": "2026-10-13T11:13:23+00:00",
+      "event": "configmap/edge-waf-rules modified: data.rules.json {\"rules\": [\n  {\"id\": \"sqli-uni\u2026 \u2192 {\"rules\": [\n  {\"id\": \"sqli-uni\u2026 (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:14:24Z",
+      "event": "event Unhealthy x14 on Pod/edge-f647cd7c4-fj7vm,edge-f647cd7c4-jpqfk: Liveness probe failed: Get \"http://10.244.1.98:8080/healthz\": context deadline exceeded (C\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:14:26Z",
+      "event": "event Unhealthy x23 on Pod/edge-f647cd7c4-fj7vm,edge-f647cd7c4-jpqfk: Readiness probe failed: Get \"http://10.244.1.98:8080/healthz\": context deadline exceeded (\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:15:05+00:00",
+      "event": "deployment/edge modified: spec.replicas 2 \u2192 4 (by kube-controller-manager)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T11:15:25+00:00",
+      "event": "hpa/edge last-write (by kube-controller-manager)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    }
+  ],
+  "security": {
+    "events": [],
+    "model_notes": []
+  },
+  "observations": [
+    {
+      "id": "O1",
+      "round": 0,
+      "tool": "active_alerts",
+      "args": {},
+      "purpose": "what is alerting and since when",
+      "ok": true,
+      "source": "alertmanager",
+      "flagged": 0
+    },
+    {
+      "id": "O2",
+      "round": 0,
+      "tool": "cluster_overview",
+      "args": {
+        "namespace": "shop"
+      },
+      "purpose": "resource-level health snapshot",
+      "ok": true,
+      "source": "kubernetes",
+      "flagged": 0
+    },
+    {
+      "id": "O3",
+      "round": 0,
+      "tool": "recent_changes",
+      "args": {
+        "namespace": "shop",
+        "minutes": 120
+      },
+      "purpose": "what changed recently",
+      "ok": true,
+      "source": "kubernetes",
+      "flagged": 0
+    },
+    {
+      "id": "O4",
+      "round": 0,
+      "tool": "get_events",
+      "args": {
+        "namespace": "shop",
+        "minutes": 60,
+        "warnings_only": true
+      },
+      "purpose": "recent warning events",
+      "ok": true,
+      "source": "kubernetes",
+      "flagged": 0
+    },
+    {
+      "id": "O5",
+      "round": 1,
+      "tool": "pod_logs",
+      "args": {
+        "namespace": "shop",
+        "pod": "edge-f647cd7c4-jpqfk"
+      },
+      "purpose": "To check for WAF processing logs or errors that confirm the regex is the bottleneck.",
+      "ok": true,
+      "source": "kubernetes-logs",
+      "flagged": 0
+    },
+    {
+      "id": "O6",
+      "round": 1,
+      "tool": "query_metrics",
+      "args": {
+        "promql": "sum(node_cpu_seconds_total{mode!=\"idle\"}) by (node)"
+      },
+      "purpose": "To determine if the entire node is saturated or if the CPU usage is isolated to the edge pods.",
+      "ok": true,
+      "source": "prometheus",
+      "flagged": 0
+    },
+    {
+      "id": "O7",
+      "round": 1,
+      "tool": "find_traces",
+      "args": {
+        "service": "edge",
+        "errors_only": false
+      },
+      "purpose": "To see if latency is originating within the edge service (WAF) or if it's waiting on downstream dependencies.",
+      "ok": true,
+      "source": "jaeger",
+      "flagged": 0
+    },
+    {
+      "id": "O8",
+      "round": 1,
+      "tool": "workload_metrics",
+      "args": {
+        "namespace": "shop",
+        "workload": "edge"
+      },
+      "purpose": "To correlate the exact onset of the CPU spike with the ConfigMap change at 11:13:23.",
+      "ok": true,
+      "source": "prometheus",
+      "flagged": 0
+    }
+  ],
+  "rounds": [
+    {
+      "round": 0,
+      "hypotheses_added": [
+        "H1",
+        "H2"
+      ],
+      "hypotheses_retired": [],
+      "calls": [
+        {
+          "observation": "O1",
+          "tool": "active_alerts",
+          "args": {},
+          "purpose": "what is alerting and since when",
+          "ok": true
+        },
+        {
+          "observation": "O2",
+          "tool": "cluster_overview",
+          "args": {
+            "namespace": "shop"
+          },
+          "purpose": "resource-level health snapshot",
+          "ok": true
+        },
+        {
+          "observation": "O3",
+          "tool": "recent_changes",
+          "args": {
+            "namespace": "shop",
+            "minutes": 120
+          },
+          "purpose": "what changed recently",
+          "ok": true
+        },
+        {
+          "observation": "O4",
+          "tool": "get_events",
+          "args": {
+            "namespace": "shop",
+            "minutes": 60,
+            "warnings_only": true
+          },
+          "purpose": "recent warning events",
+          "ok": true
+        }
+      ],
+      "evidence_accepted": 4,
+      "evidence_rejected": 0,
+      "posteriors": {},
+      "decision": "",
+      "notes": ""
+    },
+    {
+      "round": 1,
+      "hypotheses_added": [],
+      "hypotheses_retired": [],
+      "calls": [
+        {
+          "observation": "O5",
+          "tool": "pod_logs",
+          "args": {
+            "namespace": "shop",
+            "pod": "edge-f647cd7c4-jpqfk"
+          },
+          "purpose": "To check for WAF processing logs or errors that confirm the regex is the bottleneck.",
+          "ok": true
+        },
+        {
+          "observation": "O6",
+          "tool": "query_metrics",
+          "args": {
+            "promql": "sum(node_cpu_seconds_total{mode!=\"idle\"}) by (node)"
+          },
+          "purpose": "To determine if the entire node is saturated or if the CPU usage is isolated to the edge pods.",
+          "ok": true
+        },
+        {
+          "observation": "O7",
+          "tool": "find_traces",
+          "args": {
+            "service": "edge",
+            "errors_only": false
+          },
+          "purpose": "To see if latency is originating within the edge service (WAF) or if it's waiting on downstream dependencies.",
+          "ok": true
+        },
+        {
+          "observation": "O8",
+          "tool": "workload_metrics",
+          "args": {
+            "namespace": "shop",
+            "workload": "edge"
+          },
+          "purpose": "To correlate the exact onset of the CPU spike with the ConfigMap change at 11:13:23.",
+          "ok": true
+        }
+      ],
+      "evidence_accepted": 0,
+      "evidence_rejected": 0,
+      "posteriors": {
+        "H1": 0.91,
+        "H2": 0.049,
+        "unexplained": 0.041
+      },
+      "decision": "continue",
+      "notes": ""
+    },
+    {
+      "round": 2,
+      "hypotheses_added": [],
+      "hypotheses_retired": [],
+      "calls": [],
+      "evidence_accepted": 0,
+      "evidence_rejected": 0,
+      "posteriors": {
+        "H1": 0.91,
+        "H2": 0.049,
+        "unexplained": 0.041
+      },
+      "decision": "no new evidence for two rounds",
+      "notes": ""
+    }
+  ],
+  "stats": {
+    "rounds": 2,
+    "tool_calls": 8,
+    "evidence_accepted": 4,
+    "evidence_rejected": 0,
+    "llm_usage": {
+      "calls": 3,
+      "input_tokens": 41938,
+      "output_tokens": 8587,
+      "models": [
+        "google_genai:gemini-3.5-flash",
+        "google_genai:gemini-3.6-flash",
+        "google_genai:gemini-3-flash-preview",
+        "google_genai:gemini-3.7-flash"
+      ]
+    }
+  }
+}

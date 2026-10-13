@@ -1,0 +1,545 @@
+
+=== aws-ebs-2012-latent-leak: Unreachable telemetry collector triggers a latent memory leak and OOM crash loop
+  $ scenarios/run.sh reset
+[1;33m[scenario][0m restoring baseline
+[1;33m[scenario][0m baseline restored; give metrics ~3 minutes to settle before the next scenario
+  settling 180s
+  $ scenarios/run.sh aws-ebs-2012-latent-leak inject
+[1;33m[scenario][0m injecting aws-ebs-2012-latent-leak
+migrating the telemetry collector to a new Service name (clients are not updated)
+service/telemetry-collector-v2 created
+service "telemetry-collector" deleted
+recommendations now buffers telemetry in memory; expect OOMKilled in ~3-6 minutes
+  alert: ShopEdgeLatencyHigh
+  ✓ O1 active_alerts()  — what is alerting and since when
+  ✓ O2 get_events(minutes=60, warnings_only=True)  — recent warning events
+  ✓ O3 recent_changes(minutes=120)  — what changed recently
+  ✓ O4 cluster_overview()  — resource-level health snapshot
+  + H1 [cause] Service telemetry-collector was deleted () so callers cannot reach it
+  ✓ O5 find_traces(service=edge, minutes=15)  — where do errors originate?
+  ✓ O6 workload_metrics(workload=telemetry-collector, minutes=30)  — test H1
+  ✓ O7 workload_metrics(workload=edge, minutes=30)  — symptom onset
+── round 1 → continue
+   posteriors unexplained:0.62  H1:0.38
+── round 2 → continue
+   posteriors unexplained:0.62  H1:0.38
+── round 3 → no new evidence for two rounds
+   posteriors unexplained:0.62  H1:0.38
+  -> [rules] CORRECT (low): Service telemetry-collector was deleted () so callers cannot reach it
+  ✓ O1 active_alerts()  — what is alerting and since when
+  ✓ O2 recent_changes(minutes=120)  — what changed recently
+  ✓ O3 get_events(minutes=60, warnings_only=True)  — recent warning events
+  ✓ O4 cluster_overview()  — resource-level health snapshot
+structured output attempt 1 failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+structured output attempt 2 failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+triage assessment failed: model failed to produce Step: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+structured output attempt 1 failed: Error calling model 'gemini-3.5-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 5, model: gemini-3.6-flash\nPlease retry in 8.899553658s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.6-flash'}, 'quotaValue': '5'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '8s'}]}}
+structured output attempt 2 failed: Error calling model 'gemini-3.5-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 5, model: gemini-3.6-flash\nPlease retry in 1.563116539s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-3.6-flash', 'location': 'global'}, 'quotaValue': '5'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '1s'}]}}
+structured output attempt 1 failed: Error calling model 'gemini-3.5-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 5, model: gemini-3.6-flash\nPlease retry in 49.782241215s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.6-flash'}, 'quotaValue': '5'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '49s'}]}}
+  ✓ O5 search_logs(app=recommendations, minutes=30)  — Search recent logs across recommendations pods to identify errors or p
+  ✓ O6 pod_logs(pod=recommendations-67c55868cc-2mk82, previous=True)  — Inspect previous container logs for recommendations pod recommendation
+  ✓ O7 find_traces(service=checkout, minutes=30, errors_only=True)  — Trace 502 errors originating from checkout requests down through its u
+  ✓ O8 workload_metrics(workload=recommendations, minutes=30)  — Check golden signals, CPU/Memory metrics, throttling, and onset time f
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/pydantic/json_schema.py:2978: RuntimeWarning: coroutine 'ClientResponse.json' was never awaited
+  return tuple(sorted((k, _make_json_hashable(v)) for k, v in value.items()))
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+structured output attempt 1 failed: Error calling model 'gemini-3.5-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 5, model: gemini-3.6-flash\nPlease retry in 36.45360999s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.6-flash'}, 'quotaValue': '5'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '36s'}]}}
+structured output attempt 2 failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+── round 1 → continue
+   posteriors unexplained:1.00
+structured output attempt 1 failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+structured output attempt 2 failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+structured output attempt 1 failed: Error calling model 'gemini-3.5-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 5, model: gemini-3.6-flash\nPlease retry in 54.231293229s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.6-flash'}, 'quotaValue': '5'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '54s'}]}}
+  ✓ O9 describe(kind=deployment, name=recommendations)  — Inspect recommendations deployment environment variables and telemetry
+  ✓ O10 query_metrics(promql=telemetry_buffered_events{namespace="shop"}, minutes=30)  — Measure telemetry buffered event growth across services following the 
+  ✓ O11 workload_metrics(workload=checkout)  — Check golden signals, 5xx ratios, and dependency failure metrics for t
+  ✓ O12 search_logs(app=checkout, minutes=30)  — Find error logs in checkout to see which downstream dependencies (e.g.
+structured output attempt 1 failed: Error calling model 'gemini-3.5-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 5, model: gemini-3.6-flash\nPlease retry in 38.161891233s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.6-flash'}, 'quotaValue': '5'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '38s'}]}}
+structured output attempt 2 failed: Failed to parse Step from completion {"facts": [{"observation_id": "O9", "quote": "\"TELEMETRY_URL\", \"value\": \"http://telemetry-collector:8080/ingest\"", "statement": "Deployment recommendations is configured to send telemetry to http://telemetry-collector:8080/ingest.", "time": "2026-10-13T10:38:52Z"}, {"observation_id": "O10", "quote": "\"pod\": \"recommendations-67c55868cc-2mk82\", \"service\": \"recommendations\", \"svc\": \"recommendations\"}, \"points\": 18, \"from\": \"2026-10-13T10:44:47Z\", \"to\": \"2026-10-13T10:53:17Z\", \"first\": 6.0, \"last\": 64.0", "statement": "Telemetry buffered events for recommendations pod 2mk82 increased steadily up to 64 after 10:48:47Z.", "time": "2026-10-13T10:48:47Z"}, {"observation_id": "O11", "quote": "\"latency_p95_seconds\": [{\"labels\": {}, \"points\": 54, \"from\": \"2026-10-13T10:40:02Z\", \"to\": \"2026-10-13T10:53:17Z\", \"first\": 0.4776, \"last\": 1.668", "statement": "Checkout p95 latency surged from 0.48s to 1.67s starting around 10:45:02Z.", "time": "2026-10-13T10:45:02Z"}, {"observation_id": "O12", "quote": "\"pattern\": \"upstream returned error upstream=inventory status=<n> body={\\\"error\\\":\\\"stock lookup failed\\\"}\"", "statement": "Checkout service encountered 33 HTTP 500 errors from inventory during stock lookups.", "time": "2026-10-13T10:39:15Z"}, {"observation_id": "O12", "quote": "\"pattern\": \"upstream timeout error=timeout\"", "statement": "Checkout service encountered 52 upstream timeout errors.", "time": "2026-10-13T10:39:17Z"}], "new_hypotheses": [{"statement": "The deletion of service/telemetry-collector and replacement with service/telemetry-collector-v2 broke DNS resolution for recommendations, causing event buffer build-up and probe failures.", "mechanism": "recommendations service attempts to flush telemetry to http://telemetry-collector:8080/ingest. When service/telemetry-collector was deleted at 10:47:45, DNS lookups failed, leading to buffered events accumulation and synchronous blocking or resource pressure that triggered readiness and liveness probe failures.", "component": "service/telemetry-collector", "category": "configuration", "layer": "cause", "predictions": ["search_logs for app=recommendations will show DNS resolution errors for telemetry-collector", "describe deployment/recommendations shows TELEMETRY_URL referencing telemetry-collector rather than telemetry-collector-v2"]}, {"statement": "Checkout service requests are failing or timing out due to upstream failures and latency in the inventory service.", "mechanism": "Checkout calls inventory for stock lookups. Inventory service generates HTTP 500 errors ('stock lookup failed') or timeouts, causing checkout p95 latency to increase and edge proxy to fail requests with 502s.", "component": "inventory", "category": "dependency", "layer": "cause", "predictions": ["search_logs for app=inventory will show database connection errors or internal stock lookup exceptions", "workload_metrics for inventory will show error rates or high latency matching checkout onset"]}, {"statement": "Edge proxy is returning 502s due to transient backend connection timeouts and readiness probe failures.", "mechanism": "Edge proxy fails readiness probes when upstream checkout/recommendations are slow or failing health checks, returning 502 Bad Gateway to clients.", "component": "edge", "category": "networking", "layer": "symptom", "predictions": ["search_logs for app=edge will reveal upstream connection refused or timeout errors when talking to checkout"]}], "retire": [], "evidence": [{"hypothesis_id": "N1", "observation_id": "O9", "quote": "\"TELEMETRY_URL\", \"value\": \"http://telemetry-collector:8080/ingest\"", "stance": "supports", "strength": "strong", "rationale": "Directly demonstrates recommendations deployment is configured with the old telemetry service name http://telemetry-collector:8080/ingest."}, {"hypothesis_id": "N1", "observation_id": "O10", "quote": "\"pod\": \"recommendations-67c55868cc-2mk82\", \"service\": \"recommendations\", \"svc\": \"recommendations\"}, \"points\": 18, \"from\": \"2026-10-13T10:44:47Z\", \"to\": \"2026-10-13T10:53:17Z\", \"first\": 6.0, \"last\": 64.0", "stance": "supports", "strength": "strong", "rationale": "Shows buffered events accumulating in recommendations right after telemetry-collector service was deleted at 10:47:45Z."}, {"hypothesis_id": "N2", "observation_id": "O11", "quote": "\"latency_p95_seconds\": [{\"labels\": {}, \"points\": 5"}]}. Got: 1 validation error for Step
+evidence.2.stance
+  Field required [type=missing, input_value={'hypothesis_id': 'N2', '...bels": {}, "points": 5'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.14/v/missing
+For troubleshooting, visit: https://docs.langchain.com/oss/python/langchain/errors/OUTPUT_PARSING_FAILURE 
+── round 2 → no new evidence for two rounds
+   posteriors unexplained:1.00
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_core/runnables/config.py:276: RuntimeWarning: coroutine 'ClientResponse.json' was never awaited
+  k: v.copy() if k in COPIABLE_KEYS else v  # type: ignore[attr-defined]
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+daily quota exhausted; continuing with google_genai:gemini-3.6-flash
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.6-flash' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+daily quota exhausted; continuing with google_genai:gemini-3-flash-preview
+structured output attempt 1 failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+  -> [llm:google_genai:gemini-3.5-flash] INCONCLUSIVE (inconclusive): The 'telemetry-collector' service was renamed to 'telemetry-collector-v2' without updating application configurations, causing DNS resolution failures and resource exhaustion due to telemetry event buffering.
+
+=== aws-s3-2017-capacity-removal: A mistyped capacity-removal command scales a critical tier down
+  $ scenarios/run.sh reset
+[1;33m[scenario][0m restoring baseline
+service "telemetry-collector-v2" deleted
+[1;33m[scenario][0m baseline restored; give metrics ~3 minutes to settle before the next scenario
+  settling 180s
+  $ scenarios/run.sh aws-s3-2017-capacity-removal inject
+[1;33m[scenario][0m injecting aws-s3-2017-capacity-removal
+intended: kubectl -n shop scale deploy -l app=catalog-indexer --replicas=1
+executed: kubectl -n shop scale deploy -l tier=backend --replicas=1   (typo'd selector)
+deployment.apps/catalog-indexer scaled
+deployment.apps/inventory scaled
+  alert: InfoInhibitor, ShopEdgeHigh5xxRate
+  ✓ O1 active_alerts()  — what is alerting and since when
+  ✓ O2 get_events(minutes=60, warnings_only=True)  — recent warning events
+  ✓ O3 recent_changes(minutes=120)  — what changed recently
+  ✓ O4 cluster_overview()  — resource-level health snapshot
+  + H1 [cause] Capacity of inventory was reduced (spec.replicas 4->1)
+  + H2 [cause] Service telemetry-collector-v2 was deleted () so callers cannot reach it
+  + H3 [cause] Service telemetry-collector was deleted () so callers cannot reach it
+  + H4 [cause] Capacity of catalog-indexer was reduced (spec.replicas 3->1)
+  + H5 [cause] Service inventory has no healthy backends
+  ✓ O5 workload_metrics(workload=telemetry-collector-v2, minutes=30)  — test H2
+  ✓ O6 find_traces(service=edge, minutes=15)  — where do errors originate?
+  ✓ O7 workload_metrics(workload=inventory, minutes=30)  — test H1
+  ✓ O8 workload_metrics(workload=edge, minutes=30)  — symptom onset
+── round 1 → continue
+   posteriors H1:0.39  H4:0.20  H5:0.15  unexplained:0.12  H2:0.07
+  ✓ O9 workload_metrics(workload=telemetry-collector, minutes=30)  — test H3
+  ✓ O10 workload_metrics(workload=catalog-indexer, minutes=30)  — test H4
+── round 2 → continue
+   posteriors H1:0.41  H4:0.22  H5:0.13  unexplained:0.11  H2:0.06
+── round 3 → continue
+   posteriors H1:0.41  H4:0.22  H5:0.13  unexplained:0.11  H2:0.06
+── round 4 → no new evidence for two rounds
+   posteriors H1:0.41  H4:0.22  H5:0.13  unexplained:0.11  H2:0.06
+  -> [rules] CORRECT (low): Capacity of inventory was reduced (spec.replicas 4->1)
+  ✓ O1 active_alerts()  — what is alerting and since when
+  ✓ O2 get_events(minutes=60, warnings_only=True)  — recent warning events
+  ✓ O3 cluster_overview()  — resource-level health snapshot
+  ✓ O4 recent_changes(minutes=120)  — what changed recently
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/pydantic/json_schema.py:2978: RuntimeWarning: coroutine 'ClientResponse.json' was never awaited
+  return tuple(sorted((k, _make_json_hashable(v)) for k, v in value.items()))
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+daily quota exhausted; continuing with google_genai:gemini-3.6-flash
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.6-flash' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+daily quota exhausted; continuing with google_genai:gemini-3-flash-preview
+structured output attempt 1 failed: Failed to parse Step from completion {"facts": [{"observation_id": "O4", "quote": "deployment/inventory modified: spec.replicas 4 -> 1", "statement": "The inventory deployment was scaled down from 4 replicas to 1 at 10:55:18.", "time": "2026-10-13T10:55:18Z"}, {"observation_id": "O3", "quote": "pod inventory-8585795f99-wc2db is Running but NOT Ready (ContainersNotReady)", "statement": "The single remaining inventory pod is not ready.", "time": "2026-10-13T10:59:50Z"}, {"observation_id": "O2", "quote": "Readiness probe failed: Get \"http://10.244.1.58:8080/healthz\": context deadline exceeded", "statement": "Inventory probes are timing out (context deadline exceeded) rather than being refused.", "time": "2026-10-13T10:58:23Z"}, {"observation_id": "O3", "quote": "exit_code: 137, finished_at: \"2026-10-13T10:59:42+00:00\"", "statement": "The inventory pod restarted with exit code 137 (SIGKILL/OOM) shortly before the 5xx alert.", "time": "2026-10-13T10:59:42Z"}, {"observation_id": "O1", "quote": "73.06% of edge requests fail with 5xx.", "statement": "The edge service is experiencing a critical failure rate.", "time": "2026-10-13T10:59:44Z"}, {"observation_id": "O2", "quote": "dial unix /run/containerd/containerd.sock: connect: connection refused", "statement": "There were node-level CRI errors (containerd connection refused) around 10:44.", "time": "2026-10-13T10:44:24Z"}, {"observation_id": "O4", "quote": "deployment/checkout modified: template.annotations {\"kubectl.kubernetes.io/restartedAt\": \"2026-10-13T10:44:11Z\"} -> {\"kubectl.kubernetes.io/restartedAt\": \"2026-10-13T10:54:59Z\"}", "statement": "Multiple core services (checkout, edge, inventory, recommendations) were restarted simultaneously at 10:54:59.", "time": "2026-10-13T10:54:59Z"}], "new_hypotheses": [{"statement": "Inventory service is overwhelmed due to insufficient replicas.", "mechanism": "Scaling inventory from 4 to 1 replicas at 10:55 caused the single pod to be saturated by traffic, leading to probe timeouts (context deadline exceeded) and OOM/SIGKILL (exit code 137). Checkout then times out waiting for inventory.", "component": "deployment/inventory", "category": "capacity", "layer": "cause", "predictions": ["workload_metrics(inventory) will show 100% CPU utilization or high memory usage starting at 10:55.", "find_traces(checkout) will show spans waiting on inventory that eventually time out."]}, {"statement": "Node-level resource exhaustion or CRI failure.", "mechanism": "The containerd errors and widespread probe failures across multiple services suggest the underlying node (kubesleuth-worker) is unstable, possibly due to the simultaneous restart of 4 deployments.", "component": "node/kubesleuth-worker", "category": "resource_exhaustion", "layer": "cause", "predictions": ["describe(node) will show Pressure conditions (Disk, Memory, or PID).", "get_events will show more 'FailedKillPod' or 'FailedCreatePodSandBox' errors."]}, {"statement": "Checkout requests are failing because the inventory dependency is unavailable.", "mechanism": "Checkout depends on inventory; since inventory is unready and restarting, checkout requests time out, causing the edge to return 5xx.", "component": "checkout", "category": "dependency", "layer": "symptom", "predictions": ["workload_metrics(checkout) will show high p95 latency and 5xx originating from dependency calls to inventory."]}], "retire": [], "evidence": [{"hypothesis_id": "N1", "observation_id": "O4", "quote": "deployment/inventory modified: spec.replicas 4 -> 1", "stance": "supports", "strength": "strong", "rationale": "The scale-down directly preceded the onset of probe timeouts and the 5xx alert."}, {"hypothesis_id": "N1", "observation_id": "O2", "quote": "Readiness probe failed: Get \"http://10.244.1.58:8080/healthz\": context deadline exceeded", "stance": "supports", "strength": "moderate", "rationale": "Context deadline exceeded on probes is a classic sign of a process being too busy to respond."}, {"hypothesis_id": "N2", "observation_id": "O2", "quote": "dial unix /run/containerd/containerd.sock: connect: connection refused", "stance": "supports", "strength": "moderate", "rationale": "Direct evidence of CRI communication failure, though it occurred ~15 minutes before the critical alert."}, {"hypothesis_id": "N3", "observation_id": "O1", "quote": "73.06% of edge requests fail with 5xx.", "stance": "supports", "strength": "weak", "rationale": "Consistent with a dependency failure, but doesn't identify which one."}], "next_calls": [{"tool": "workload_metrics", "args_json": "{\"namespace\": \"shop\", \"workload\": \"inventory\"}", "purpose": "Check if the single inventory pod is hitting CPU/Memory limits after the scale-down.", "tests": ["N1"]}, {"tool": "find_traces", "args_json": "{\"service\": \"checkout\", \"errors_only\": true}", "purpose": "Confirm that checkout errors are caused by timeouts when calling the inventory service.", "tests": ["N3"]}, {}]}. Got: 1 validation error for Step
+next_calls.2.tool
+  Field required [type=missing, input_value={}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.14/v/missing
+For troubleshooting, visit: https://docs.langchain.com/oss/python/langchain/errors/OUTPUT_PARSING_FAILURE 
+  + H1 [cause] Node-level resource exhaustion or CRI failure on kubesleuth-worker.
+  + H2 [cause] Inventory service bottleneck due to scale-down and resource limits.
+  + H3 [cause] Telemetry collector dependency failure after service renaming.
+  ✓ O5 describe(kind=node, name=kubesleuth-worker)  — To check for node-level pressures or runtime status that would explain
+  ✓ O6 pod_logs(pod=inventory-8585795f99-wc2db, previous=True)  — To see the logs of the inventory pod before it was killed (exit code 1
+  ✓ O7 workload_metrics(workload=inventory)  — To check if the inventory service was saturated (CPU/Memory) after the
+  ✓ O8 find_traces(service=checkout, minutes=15)  — To determine if checkout timeouts are caused by a specific downstream 
+structured output attempt 1 failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+── round 1 → continue
+   posteriors H1:0.59  H2:0.20  unexplained:0.16  H3:0.06
+── round 2 → no new evidence for two rounds
+   posteriors H1:0.59  H2:0.20  unexplained:0.16  H3:0.06
+  -> [llm:google_genai:gemini-3.5-flash] PARTIAL (low): The container runtime (containerd) on node 'kubesleuth-worker' became unresponsive or crashed, preventing the Kubelet from performing health probes and managing container lifecycles.
+
+=== chef-2014-healthcheck-timeouts: Aggressive deep liveness probe turns a mild dependency slowdown into a restart storm
+  $ scenarios/run.sh reset
+[1;33m[scenario][0m restoring baseline
+[1;33m[scenario][0m baseline restored; give metrics ~3 minutes to settle before the next scenario
+  settling 180s
+  $ scenarios/run.sh chef-2014-healthcheck-timeouts inject
+[1;33m[scenario][0m injecting chef-2014-healthcheck-timeouts
+1/2 'hardening' the checkout liveness probe
+deployment.apps/checkout patched
+Waiting for deployment "checkout" rollout to finish: 2 out of 3 new replicas have been updated...
+Waiting for deployment "checkout" rollout to finish: 2 out of 3 new replicas have been updated...
+Waiting for deployment "checkout" rollout to finish: 2 out of 3 new replicas have been updated...
+Waiting for deployment "checkout" rollout to finish: 2 out of 3 new replicas have been updated...
+Waiting for deployment "checkout" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "checkout" rollout to finish: 2 of 3 updated replicas are available...
+deployment "checkout" successfully rolled out
+2/2 Chaos Mesh: Postgres gets ~850ms of network latency (a tolerable degradation on its own)
+networkchaos.chaos-mesh.org/postgres-latency created
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/contextlib.py:132: RuntimeWarning: coroutine 'ClientResponse.json' was never awaited
+  def __enter__(self):
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+  alert: ShopEdgeHigh5xxRate
+  ✓ O1 active_alerts()  — what is alerting and since when
+  ✓ O2 cluster_overview()  — resource-level health snapshot
+  ✓ O3 recent_changes(minutes=120)  — what changed recently
+  ✓ O4 get_events(minutes=60, warnings_only=True)  — recent warning events
+  + H1 [cause] Service checkout has no healthy backends
+  + H2 [cause] Probe change on checkout (containers[checkout].livenessProbe {"failureThreshold": 3, "httpGet": {"path": "/hea
+  + H3 [cause] Capacity of inventory was reduced (spec.replicas 4->1)
+  + H4 [cause] Service telemetry-collector-v2 was deleted () so callers cannot reach it
+  + H5 [cause] Service telemetry-collector was deleted () so callers cannot reach it
+  ✓ O5 find_traces(service=edge, minutes=15)  — where do errors originate?
+  ✓ O6 workload_metrics(workload=edge, minutes=30)  — symptom onset
+  ✓ O7 workload_metrics(workload=checkout, minutes=30)  — test H2
+  ✓ O8 workload_metrics(workload=checkout, minutes=30)  — test H1
+── round 1 → continue
+   posteriors H3:0.58  H1:0.11  H2:0.11  unexplained:0.09  H4:0.05
+  ✓ O9 workload_metrics(workload=telemetry-collector-v2, minutes=30)  — test H4
+  ✓ O10 workload_metrics(workload=telemetry-collector, minutes=30)  — test H5
+  ✓ O11 workload_metrics(workload=inventory, minutes=30)  — test H3
+── round 2 → continue
+   posteriors H3:0.63  H1:0.10  H2:0.10  unexplained:0.08  H4:0.05
+── round 3 → model judged evidence sufficient; H3 p=0.63 (medium)
+   posteriors H3:0.63  H1:0.10  H2:0.10  unexplained:0.08  H4:0.05
+  -> [rules] PARTIAL (medium): Capacity of inventory was reduced (spec.replicas 4->1)
+  ✓ O1 active_alerts()  — what is alerting and since when
+  ✓ O2 cluster_overview()  — resource-level health snapshot
+  ✓ O3 recent_changes(minutes=120)  — what changed recently
+  ✓ O4 get_events(minutes=60, warnings_only=True)  — recent warning events
+daily quota exhausted; continuing with google_genai:gemini-3.6-flash
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.6-flash' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+daily quota exhausted; continuing with google_genai:gemini-3-flash-preview
+  + H1 [cause] The new 'deep' liveness probe is too aggressive and causes a restart loop.
+  + H2 [cause] A downstream dependency failure is causing the 'deep' health check to fail.
+  + H3 [cause] Node-level resource exhaustion or runtime failure is preventing pod health.
+  ✓ O5 describe(kind=node, name=kubesleuth-worker)  — Check node health and conditions to see if the containerd errors were 
+  ✓ O6 pod_logs(pod=checkout-69d8947794-29kkk, previous=True)  — Check if the application logs show why the /healthz?deep=1 path is fai
+  ✓ O7 workload_metrics(workload=checkout)  — Verify if checkout is seeing dependency errors that would cause a 'dee
+  ✓ O8 find_traces(service=checkout, errors_only=True)  — Identify if the health check requests are reaching the service and whe
+── round 1 → continue
+   posteriors H1:0.59  H3:0.20  unexplained:0.16  H2:0.06
+── round 2 → no new evidence for two rounds
+   posteriors H1:0.59  H3:0.20  unexplained:0.16  H2:0.06
+  -> [llm:google_genai:gemini-3.5-flash] CORRECT (low): The checkout deployment's liveness probe was reconfigured with an overly aggressive failureThreshold of 1 and a 'deep' health check path that exceeds the 1-second timeout.
+
+=== cloudflare-2019-waf-regex: WAF rule with catastrophic regex backtracking exhausts CPU at the edge
+  $ scenarios/run.sh reset
+[1;33m[scenario][0m restoring baseline
+[1;33m[scenario][0m baseline restored; give metrics ~3 minutes to settle before the next scenario
+  settling 180s
+  $ scenarios/run.sh cloudflare-2019-waf-regex inject
+[1;33m[scenario][0m injecting cloudflare-2019-waf-regex
+configmap/edge-waf-rules configured
+WAF rule pushed (kubelet syncs mounted ConfigMaps within ~60-90 s; edge reloads without restarting)
+  alert: InfoInhibitor
+  ✓ O1 active_alerts()  — what is alerting and since when
+  ✓ O2 cluster_overview()  — resource-level health snapshot
+  ✓ O3 recent_changes(minutes=120)  — what changed recently
+  ✓ O4 get_events(minutes=60, warnings_only=True)  — recent warning events
+  + H1 [cause] ConfigMap edge-waf-rules change (data.rules.json {"rules": [
+  {"id": "sqli-union-select", "pattern": "(?i)uni
+  + H2 [cause] Probe change on checkout (containers[checkout].livenessProbe {"failureThreshold": 1, "httpGet": {"path": "/hea
+  + H3 [cause] Capacity of inventory was reduced (spec.replicas 4->1)
+  ✓ O5 workload_metrics(workload=checkout, minutes=30)  — test H2
+  ✓ O6 workload_metrics(workload=inventory, minutes=30)  — test H3
+  ✓ O7 workload_metrics(workload=edge, minutes=30)  — symptom onset
+  ✓ O8 find_traces(service=edge, minutes=15)  — where do errors originate?
+── round 1 → continue
+   posteriors H3:0.56  H1:0.17  unexplained:0.17  H2:0.10
+── round 2 → model judged evidence sufficient; H3 p=0.56 (medium)
+   posteriors H3:0.56  H1:0.17  unexplained:0.17  H2:0.10
+  -> [rules] WRONG (medium): Capacity of inventory was reduced (spec.replicas 4->1)
+  ✓ O1 active_alerts()  — what is alerting and since when
+  ✓ O2 cluster_overview()  — resource-level health snapshot
+  ✓ O3 recent_changes(minutes=120)  — what changed recently
+  ✓ O4 get_events(minutes=60, warnings_only=True)  — recent warning events
+daily quota exhausted; continuing with google_genai:gemini-3.6-flash
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.6-flash' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+daily quota exhausted; continuing with google_genai:gemini-3-flash-preview
+  + H1 [cause] The new WAF regex rule is causing CPU exhaustion (ReDoS) in the edge service.
+  + H2 [cause] The worker node is experiencing resource starvation affecting the CRI.
+  ✓ O5 pod_logs(pod=edge-f647cd7c4-jpqfk)  — To check for WAF processing logs or errors that confirm the regex is t
+  ✓ O6 query_metrics(promql=sum(node_cpu_seconds_total{mode!="idle"}) by (node))  — To determine if the entire node is saturated or if the CPU usage is is
+  ✓ O7 find_traces(service=edge, errors_only=False)  — To see if latency is originating within the edge service (WAF) or if i
+  ✓ O8 workload_metrics(workload=edge)  — To correlate the exact onset of the CPU spike with the ConfigMap chang
+── round 1 → continue
+   posteriors H1:0.91  H2:0.05  unexplained:0.04
+── round 2 → no new evidence for two rounds
+   posteriors H1:0.91  H2:0.05  unexplained:0.04
+daily quota exhausted; continuing with google_genai:gemini-3.7-flash
+structured output attempt 1 failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+  -> [llm:google_genai:gemini-3.5-flash] CORRECT (medium): The addition of a computationally complex, backtracking-prone WAF regular expression rule ('xss-inline-js-2019-07') in ConfigMap 'edge-waf-rules' caused catastrophic backtracking (ReDoS) and CPU exhaustion across edge pods.
+
+=== github-conn-saturation: Config rollout raises a connection pool size and exhausts Postgres connection slots
+  $ scenarios/run.sh reset
+[1;33m[scenario][0m restoring baseline
+[1;33m[scenario][0m baseline restored; give metrics ~3 minutes to settle before the next scenario
+  settling 180s
+  $ scenarios/run.sh github-conn-saturation inject
+[1;33m[scenario][0m injecting github-conn-saturation
+a 'performance tuning' change: bigger DB pool for checkout
+configmap/checkout-config patched
+deployment.apps/checkout restarted
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/contextlib.py:108: RuntimeWarning: coroutine 'ClientResponse.json' was never awaited
+  doc = getattr(func, "__doc__", None)
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+  alert: InfoInhibitor, ShopEdgeHigh5xxRate
+  ✓ O1 active_alerts()  — what is alerting and since when
+  ✓ O2 cluster_overview()  — resource-level health snapshot
+  ✓ O3 recent_changes(minutes=120)  — what changed recently
+  ✓ O4 get_events(minutes=60, warnings_only=True)  — recent warning events
+  + H1 [cause] ConfigMap checkout-config change (data.DB_POOL_SIZE 4->30) broke a dependent service
+  + H2 [cause] Capacity of edge was reduced (spec.replicas 4->2)
+  + H3 [cause] ConfigMap edge-waf-rules change (data.rules.json {"rules": [
+  {"id": "sqli-union-select", "pattern": "(?i)uni
+  + H4 [cause] Probe change on checkout (containers[checkout].livenessProbe {"failureThreshold": 1, "httpGet": {"path": "/hea
+  ✓ O5 find_traces(service=edge, minutes=15)  — where do errors originate?
+  ✓ O6 workload_metrics(workload=edge, minutes=30)  — symptom onset
+  ✓ O7 workload_metrics(workload=checkout, minutes=30)  — test H4
+  ✓ O8 workload_metrics(workload=edge, minutes=30)  — test H2
+── round 1 → continue
+   posteriors H2:0.35  H1:0.26  unexplained:0.16  H3:0.13  H4:0.10
+── round 2 → continue
+   posteriors H2:0.35  H1:0.26  unexplained:0.16  H3:0.13  H4:0.10
+── round 3 → no new evidence for two rounds
+   posteriors H2:0.35  H1:0.26  unexplained:0.16  H3:0.13  H4:0.10
+  -> [rules] INCONCLUSIVE (inconclusive): Capacity of edge was reduced (spec.replicas 4->2)
+  ✓ O1 active_alerts()  — what is alerting and since when
+  ✓ O2 cluster_overview()  — resource-level health snapshot
+  ✓ O3 recent_changes(minutes=120)  — what changed recently
+  ✓ O4 get_events(minutes=60, warnings_only=True)  — recent warning events
+daily quota exhausted; continuing with google_genai:gemini-3.6-flash
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.6-flash' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+daily quota exhausted; continuing with google_genai:gemini-3-flash-preview
+daily quota exhausted; continuing with google_genai:gemini-3.7-flash
+  + H1 [cause] Increasing checkout DB_POOL_SIZE from 4 to 30 caused database connection exhaustion or connection errors in ch
+  + H2 [cause] Downstream dependency failure (such as inventory or pricing) is causing checkout to return 5xx errors.
+  + H3 [cause] Edge routing or WAF configuration is rejecting or failing requests to checkout.
+  ✓ O5 pod_logs(pod=checkout-85d65646b7-c9kgd, tail=100)  — Inspect recent logs of an active checkout pod to check connection pool
+  ✓ O6 find_traces(service=checkout, errors_only=True, minutes=15, limit=10)  — Determine the origin of checkout errors: database query errors, intern
+  ✓ O7 search_logs(app=checkout, level=error, minutes=15)  — Check error messages logged by checkout since the rollout at 11:23:49.
+  ✓ O8 workload_metrics(workload=checkout, minutes=30)  — Check onset time of 5xx errors, DB errors, and dependency failures in 
+  + H4 [cause] Inventory service internal failure or database error is causing it to return HTTP 500 'stock lookup failed' to
+── round 1 → continue
+   posteriors H2:0.54  H4:0.33  unexplained:0.09  H3:0.03  H1:0.01
+  ✓ O9 describe(kind=deployment, name=inventory)  — Inspect inventory configuration, env vars, mounted secrets/configmaps,
+  ✓ O10 search_logs(app=inventory, level=error, minutes=15)  — Find what internal error is causing inventory to return 'stock lookup 
+  ✓ O11 workload_metrics(workload=inventory, minutes=30)  — Check inventory golden signals, latency, DB errors, and dependency fai
+structured output attempt 1 failed: Failed to parse Step from completion {"facts": [{"observation_id": "O10", "quote": "\"connection failed: connection to server at \\\"10.96.89.45\\\", port 5432 failed: FATAL:  sorry, too many clients already\"", "statement": "Inventory service fails all stock lookups due to PostgreSQL rejecting connections with 'FATAL: sorry, too many clients already'.", "time": "2026-10-13T11:39:53.008Z"}, {"observation_id": "O11"}]}. Got: 1 validation error for Step
+facts.1.quote
+  Field required [type=missing, input_value={'observation_id': 'O11'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.14/v/missing
+For troubleshooting, visit: https://docs.langchain.com/oss/python/langchain/errors/OUTPUT_PARSING_FAILURE 
+── round 2 → continue
+   posteriors H2:0.56  H4:0.34  unexplained:0.09
+── round 3 → no new evidence for two rounds
+   posteriors H2:0.56  H4:0.34  unexplained:0.09
+  -> [llm:google_genai:gemini-3.5-flash] PARTIAL (medium): The inventory service is failing to connect to its database (OperationalError during stock lookup), returning HTTP 500 'stock lookup failed' to the checkout service which propagates up as edge 5xx responses.
+
+=== knight-2012-stale-version-flag: Repurposed feature flag re-activates dead code on a forgotten old-version deployment
+  $ scenarios/run.sh reset
+[1;33m[scenario][0m restoring baseline
+[1;33m[scenario][0m baseline restored; give metrics ~3 minutes to settle before the next scenario
+  settling 180s
+  $ scenarios/run.sh knight-2012-stale-version-flag inject
+[1;33m[scenario][0m injecting knight-2012-stale-version-flag
+1/2 the forgotten legacy deployment is (already) running behind the pricing Service
+deployment.apps/pricing-legacy created
+Waiting for deployment "pricing-legacy" rollout to finish: 0 of 1 updated replicas are available...
+deployment "pricing-legacy" successfully rolled out
+2/2 product turns on the repurposed flag
+configmap/feature-flags configured
+  alert: InfoInhibitor
+  ✓ O1 active_alerts()  — what is alerting and since when
+  ✓ O2 recent_changes(minutes=120)  — what changed recently
+  ✓ O3 cluster_overview()  — resource-level health snapshot
+  ✓ O4 get_events(minutes=60, warnings_only=True)  — recent warning events
+  + H1 [cause] ConfigMap feature-flags change (data.flags.json {"smart_routing": false, "new_checkout_ui": true}
+->{"smart_ro
+  + H2 [cause] Newly created workload pricing-legacy serves traffic with different code
+  + H3 [cause] ConfigMap checkout-config change (data.DB_POOL_SIZE 30->4) broke a dependent service
+  + H4 [cause] Capacity of edge was reduced (spec.replicas 4->2)
+  ✓ O5 find_traces(service=edge, minutes=15)  — where do errors originate?
+  ✓ O6 workload_metrics(workload=pricing-legacy, minutes=30)  — test H2
+  ✓ O7 workload_metrics(workload=edge, minutes=30)  — symptom onset
+  ✓ O8 workload_metrics(workload=edge, minutes=30)  — test H4
+── round 1 → continue
+   posteriors H2:0.72  H3:0.09  H4:0.09  unexplained:0.06  H1:0.05
+  + H5 [cause] Service pricing mixes versions of its backend
+  ✓ O9 workload_metrics(workload=pricing, minutes=30)  — test H5
+── round 2 → continue
+   posteriors H2:0.46  H5:0.46  H4:0.03  H3:0.03  unexplained:0.02
+── round 3 → continue
+   posteriors H2:0.46  H5:0.46  H4:0.03  H3:0.03  unexplained:0.02
+── round 4 → no new evidence for two rounds
+   posteriors H2:0.46  H5:0.46  H4:0.03  H3:0.03  unexplained:0.02
+  -> [rules] CORRECT (low): Newly created workload pricing-legacy serves traffic with different code
+  ✓ O1 active_alerts()  — what is alerting and since when
+  ✓ O2 cluster_overview()  — resource-level health snapshot
+  ✓ O3 recent_changes(minutes=120)  — what changed recently
+  ✓ O4 get_events(minutes=60, warnings_only=True)  — recent warning events
+daily quota exhausted; continuing with google_genai:gemini-3.6-flash
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.6-flash' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+daily quota exhausted; continuing with google_genai:gemini-3-flash-preview
+── round 1 → continue
+   posteriors unexplained:1.00
+daily quota exhausted; continuing with google_genai:gemini-3.7-flash
+  + H1 [cause] Service pricing routes traffic to incompatible or failing pricing-legacy pods, causing ~1/3 of pricing queries
+  + H2 [cause] Database connection pool reduction in checkout-config caused database connection exhaustion under load.
+  + H3 [cause] Enabling smart_routing in feature-flags triggered a broken routing path for checkout traffic.
+  + H4 [symptom] Checkout pods are intermittently unready or failing readiness probes, dropping traffic.
+  ✓ O5 describe(kind=service, name=pricing)  — Examine service pricing selector, target ports, and endpoints to see i
+  ✓ O6 describe(kind=deployment, name=pricing-legacy)  — Inspect pod template labels and configuration of pricing-legacy to con
+  ✓ O7 find_traces(service=checkout, errors_only=True)  — Identify where errors in checkout originate (deepest failing span: pri
+  ✓ O8 workload_metrics(workload=checkout)  — Check checkout 5xx error rate, failing dependency metrics, and exact o
+daily quota exhausted; continuing with google_genai:gemini-flash-latest
+daily quota exhausted; continuing with google_genai:gemini-3.8-flash
+── round 2 → continue
+   posteriors unexplained:0.41  H1:0.15  H2:0.15  H3:0.15  H4:0.15
+── round 3 → continue
+   posteriors unexplained:0.41  H1:0.15  H2:0.15  H3:0.15  H4:0.15
+Traceback (most recent call last):
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py", line 4226, in _agenerate
+    await self.async_client.models.generate_content(
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/google/genai/models.py", line 8643, in generate_content
+    response = await self._generate_content_with_continuation(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/google/genai/models.py", line 8394, in _generate_content_with_continuation
+    response = await self._generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/google/genai/models.py", line 6992, in _generate_content
+    response = await self._api_client.async_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/google/genai/_api_client.py", line 1870, in async_request
+    result = await self._async_request(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/google/genai/_api_client.py", line 1802, in _async_request
+    return await retry(self._async_request_once, http_request, stream)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 112, in __call__
+    do = await self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 157, in iter
+    result = await action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/tenacity/_utils.py", line 111, in inner
+    return call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 116, in __call__
+    result = await fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/google/genai/_api_client.py", line 1731, in _async_request_once
+    await errors.APIError.raise_for_async_response(response)
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/google/genai/errors.py", line 265, in raise_for_async_response
+    await cls.raise_error_async(status_code, response_json, response)
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/google/genai/errors.py", line 287, in raise_error_async
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.8-flash\nPlease retry in 11h52m13.819117736s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.8-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '42733s'}]}}
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/work/kubesleuth/kubesleuth/agent/kubesleuth_agent/reasoners.py", line 146, in _structured
+    res = await runnable.ainvoke([("system", prompts.SYSTEM), ("human", prompt)])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_core/runnables/base.py", line 3500, in ainvoke
+    input_ = await coro_with_context(part(), context, create_task=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_core/runnables/base.py", line 4236, in ainvoke
+    results = await asyncio.gather(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_core/runnables/base.py", line 4228, in _ainvoke_step
+    return await coro_with_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_core/runnables/base.py", line 6031, in ainvoke
+    return await self.bound.ainvoke(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py", line 511, in ainvoke
+    llm_result = await self.agenerate_prompt(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py", line 1888, in agenerate_prompt
+    return await self.agenerate(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py", line 1846, in agenerate
+    raise exceptions[0]
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py", line 2179, in _agenerate_with_cache
+    result = await self._agenerate(
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py", line 4231, in _agenerate
+    _handle_client_error(e, request)
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py", line 326, in _handle_client_error
+    raise error_type(msg) from e
+langchain_google_genai.chat_models.GoogleRateLimitError: Error calling model 'gemini-3.8-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.8-flash\nPlease retry in 11h52m13.819117736s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.8-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '42733s'}]}}
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/work/kubesleuth/kubesleuth/eval/run_eval.py", line 124, in run_one
+    report = asyncio.run(run_investigation(sc["incident"], "shop", f"{broker.ensure()}/mcp", reasoner,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/runner/work/kubesleuth/kubesleuth/agent/kubesleuth_agent/cli.py", line 60, in run_investigation
+    return await inv.run()
+           ^^^^^^^^^^^^^^^
+  File "/home/runner/work/kubesleuth/kubesleuth/agent/kubesleuth_agent/investigation.py", line 293, in run
+    await self.graph().ainvoke({"round": 0}, {"recursion_limit": 8 * (self.budget.max_rounds + 2)})
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langgraph/pregel/main.py", line 4155, in ainvoke
+    async for chunk in self.astream(
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langgraph/pregel/main.py", line 3505, in astream
+    async for _ in runner.atick(
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langgraph/pregel/_runner.py", line 397, in atick
+    await arun_with_retry(
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langgraph/pregel/_retry.py", line 744, in arun_with_retry
+    return await task.proc.ainvoke(task.input, config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langgraph/_internal/_runnable.py", line 756, in ainvoke
+    input = await asyncio.create_task(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langgraph/_internal/_runnable.py", line 522, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/kubesleuth/kubesleuth/agent/kubesleuth_agent/investigation.py", line 145, in hypothesize
+    upd = await self.reasoner.hypothesize(self.ctx(r, stalled=state.get("stalls", 0) > 0))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/kubesleuth/kubesleuth/agent/kubesleuth_agent/reasoners.py", line 173, in hypothesize
+    return await self._structured(HypothesisUpdate, prompts.HYPOTHESIZE.format(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/kubesleuth/kubesleuth/agent/kubesleuth_agent/reasoners.py", line 160, in _structured
+    raise LLMUnavailable(f"{self.name}: daily quota exhausted for all configured models") from exc
+kubesleuth_agent.reasoners.LLMUnavailable: llm:google_genai:gemini-3.5-flash: daily quota exhausted for all configured models
+During task with name 'hypothesize' and id '3a964893-8fb8-c4af-39e1-db30fb06c012'
+  !! llm investigation failed: LLMUnavailable: llm:google_genai:gemini-3.5-flash: daily quota exhausted for all configured models
+  $ scenarios/run.sh reset
+[1;33m[scenario][0m restoring baseline
+deployment.apps "pricing-legacy" deleted
+[1;33m[scenario][0m baseline restored; give metrics ~3 minutes to settle before the next scenario
+
+# kubesleuth evaluation, 20261013-104404
+
+Run on a GitHub-hosted runner (ubuntu-latest), kind v0.29.0, commit cb62b10b49d96a9acf6e64b11fb9585346d1b2bf, workflow run https://github.com/Suryanshu24052006/kubesleuth/actions/runs/38383868038
+
+**rules**: correct 3/6, partial 1, inconclusive 1, wrong 1  
+**llm:google_genai:gemini-3.5-flash**: correct 2/5, partial 2, inconclusive 1, wrong 0  
+**llm**: correct 0/1, partial 0, inconclusive 0, wrong 0, errors 1  
+
+| Scenario | Reasoner | Alert fired | Verdict | Confidence | Evidence sources | Rounds | Tool calls | Rejected claims | Time (s) | Tokens | Root cause given by the agent |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| [aws-ebs-2012-latent-leak](aws-ebs-2012-latent-leak.rules.md) | rules | ShopEdgeLatencyHigh | **correct** | low (0.378) | kubernetes | 3 | 7 | 0 | 0.5 | 0 | Service telemetry-collector was deleted () so callers cannot reach it |
+| [aws-ebs-2012-latent-leak](aws-ebs-2012-latent-leak.llm-google_genai-gemini-3.5-flash.md) | llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview) | ShopEdgeLatencyHigh | **inconclusive** | inconclusive (0.0) |  | 2 | 12 | 0 | 215.6 | 36951 | The 'telemetry-collector' service was renamed to 'telemetry-collector-v2' without updating application configurations, causing DNS resolution failures and resou |
+| [aws-s3-2017-capacity-removal](aws-s3-2017-capacity-removal.rules.md) | rules | InfoInhibitor, ShopEdgeHigh5xxRate | **correct** | low (0.411) | kubernetes, prometheus | 4 | 10 | 0 | 0.6 | 0 | Capacity of inventory was reduced (spec.replicas 4->1) |
+| [aws-s3-2017-capacity-removal](aws-s3-2017-capacity-removal.llm-google_genai-gemini-3.5-flash.md) | llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview) | InfoInhibitor, ShopEdgeHigh5xxRate | **partial** | low (0.586) | kubernetes | 2 | 8 | 2 | 121.3 | 71507 | The container runtime (containerd) on node 'kubesleuth-worker' became unresponsive or crashed, preventing the Kubelet from performing health probes and managing |
+| [chef-2014-healthcheck-timeouts](chef-2014-healthcheck-timeouts.rules.md) | rules | ShopEdgeHigh5xxRate | **partial** | medium (0.633) | kubernetes, prometheus | 3 | 11 | 0 | 0.7 | 0 | Capacity of inventory was reduced (spec.replicas 4->1) |
+| [chef-2014-healthcheck-timeouts](chef-2014-healthcheck-timeouts.llm-google_genai-gemini-3.5-flash.md) | llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview) | ShopEdgeHigh5xxRate | **correct** | low (0.586) | kubernetes | 2 | 8 | 1 | 92.7 | 51627 | The checkout deployment's liveness probe was reconfigured with an overly aggressive failureThreshold of 1 and a 'deep' health check path that exceeds the 1-seco |
+| [cloudflare-2019-waf-regex](cloudflare-2019-waf-regex.rules.md) | rules | InfoInhibitor | **wrong** | medium (0.56) | kubernetes, prometheus | 2 | 8 | 0 | 1.7 | 0 | Capacity of inventory was reduced (spec.replicas 4->1) |
+| [cloudflare-2019-waf-regex](cloudflare-2019-waf-regex.llm-google_genai-gemini-3.5-flash.md) | llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview, gemini-3.7-flash) | InfoInhibitor | **correct** | medium (0.91) | kubernetes | 2 | 8 | 0 | 298.8 | 50525 | The addition of a computationally complex, backtracking-prone WAF regular expression rule ('xss-inline-js-2019-07') in ConfigMap 'edge-waf-rules' caused catastr |
+| [github-conn-saturation](github-conn-saturation.rules.md) | rules | InfoInhibitor, ShopEdgeHigh5xxRate | **inconclusive** | inconclusive (0.349) | kubernetes, prometheus | 3 | 8 | 0 | 1.0 | 0 | Capacity of edge was reduced (spec.replicas 4->2) |
+| [github-conn-saturation](github-conn-saturation.llm-google_genai-gemini-3.5-flash.md) | llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview, gemini-3.7-flash) | InfoInhibitor, ShopEdgeHigh5xxRate | **partial** | medium (0.564) | kubernetes, loki | 3 | 11 | 1 | 1683.2 | 88212 | The inventory service is failing to connect to its database (OperationalError during stock lookup), returning HTTP 500 'stock lookup failed' to the checkout ser |
+| [knight-2012-stale-version-flag](knight-2012-stale-version-flag.rules.md) | rules | InfoInhibitor | **correct** | low (0.455) | kubernetes, prometheus | 4 | 9 | 12 | 1.0 | 0 | Newly created workload pricing-legacy serves traffic with different code |
+| knight-2012-stale-version-flag | llm | InfoInhibitor | **error** | None (None) |  | None | None | None | None | 0 | LLMUnavailable: llm:google_genai:gemini-3.5-flash: daily quota exhausted for all configured models |
+
+results: out/eval

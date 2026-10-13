@@ -1,0 +1,26 @@
+WARNING: proto: file "dns.proto" is already registered
+See https://developers.google.com/protocol-buffers/docs/reference/go/faq#namespace-conflict
+
+2026/10/13 10:37:04 [INFO] plugin/k8s_dns_chaos: init k8s plugin
+[INFO] plugin/k8s_dns_chaos: InitKubeCache
+[INFO] plugin/k8s_dns_chaos: CreateGRPCServer on port 9288
+[INFO] plugin/k8s_dns_chaos: CreateGRPCServer end
+W1013 10:37:04.564071       1 warnings.go:70] v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+W1013 10:37:04.567145       1 warnings.go:70] v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+.:5353
+[INFO] plugin/reload: Running configuration MD5 = 54b2a8ae33f400fb5cd7009edd4ac363
+CoreDNS-1.7.0
+linux/amd64, go1.19.7, 7d5f5b87-dirty
+[INFO] plugin/k8s_dns_chaos: k8s services, source IP: 127.0.0.1 
+W1013 10:43:48.567421       1 warnings.go:70] v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+W1013 10:51:58.569321       1 warnings.go:70] v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+W1013 11:00:07.571028       1 warnings.go:70] v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+W1013 11:05:29.572941       1 warnings.go:70] v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+W1013 11:11:06.575002       1 warnings.go:70] v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+W1013 11:18:35.576339       1 warnings.go:70] v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+W1013 11:25:33.579685       1 warnings.go:70] v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+W1013 11:35:15.581747       1 warnings.go:70] v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+W1013 11:43:41.583550       1 warnings.go:70] v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+W1013 11:52:24.584685       1 warnings.go:70] v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+W1013 11:58:10.586308       1 warnings.go:70] v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+W1013 12:06:59.588624       1 warnings.go:70] v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice

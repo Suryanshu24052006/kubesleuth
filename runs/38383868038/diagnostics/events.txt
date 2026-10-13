@@ -1,0 +1,539 @@
+NAMESPACE       LAST SEEN   TYPE      REASON                         OBJECT                                  MESSAGE
+shop            60m         Warning   Unhealthy                      pod/checkout-69d8947794-5qm4v           Liveness probe failed: Get "http://10.244.1.82:8080/healthz?deep=1": dial tcp 10.244.1.82:8080: connect: connection refused
+shop            60m         Warning   Unhealthy                      pod/checkout-69d8947794-5qm4v           Readiness probe failed: Get "http://10.244.1.82:8080/readyz": dial tcp 10.244.1.82:8080: connect: connection refused
+shop            60m         Warning   Unhealthy                      pod/checkout-69d8947794-j8gmg           Readiness probe failed: Get "http://10.244.1.84:8080/readyz": dial tcp 10.244.1.84:8080: connect: connection refused
+shop            60m         Warning   Unhealthy                      pod/checkout-69d8947794-29kkk           Liveness probe failed: Get "http://10.244.1.83:8080/healthz?deep=1": dial tcp 10.244.1.83:8080: connect: connection refused
+shop            60m         Warning   Unhealthy                      pod/checkout-69d8947794-29kkk           Readiness probe failed: Get "http://10.244.1.83:8080/readyz": dial tcp 10.244.1.83:8080: connect: connection refused
+shop            60m         Normal    Created                        pod/checkout-69d8947794-29kkk           Created container: checkout
+shop            60m         Normal    Started                        pod/checkout-69d8947794-29kkk           Started container checkout
+shop            60m         Normal    Killing                        pod/checkout-69d8947794-29kkk           Container checkout failed liveness probe, will be restarted
+shop            59m         Normal    Started                        pod/checkout-69d8947794-5qm4v           Started container checkout
+shop            59m         Normal    Created                        pod/checkout-69d8947794-5qm4v           Created container: checkout
+shop            59m         Normal    Killing                        pod/checkout-69d8947794-5qm4v           Container checkout failed liveness probe, will be restarted
+shop            59m         Normal    Created                        pod/checkout-69d8947794-j8gmg           Created container: checkout
+shop            59m         Normal    Started                        pod/checkout-69d8947794-j8gmg           Started container checkout
+shop            59m         Normal    Killing                        pod/checkout-69d8947794-j8gmg           Container checkout failed liveness probe, will be restarted
+shop            58m         Normal    Pulled                         pod/checkout-69d8947794-29kkk           Container image "shop:1.4.0" already present on machine
+shop            58m         Normal    Updated                        networkchaos/postgres-latency           Successfully update records of resource
+shop            58m         Normal    Updated                        networkchaos/postgres-latency           Successfully update records of resource
+shop            58m         Normal    Updated                        podnetworkchaos/postgres-0              Successfully update ObservedGeneration and FailedMessage of resource
+shop            58m         Normal    Deleted                        networkchaos/postgres-latency           Experiment has been deleted
+shop            58m         Normal    Updated                        networkchaos/postgres-latency           Successfully update finalizer of resource
+shop            58m         Normal    FinalizerInited                networkchaos/postgres-latency           Finalizer has been removed
+shop            58m         Normal    Updated                        networkchaos/postgres-latency           Successfully update desiredPhase of resource
+shop            58m         Normal    Recovered                      networkchaos/postgres-latency           Successfully recover chaos for shop/postgres-0
+shop            58m         Normal    ScalingReplicaSet              deployment/edge                         Scaled up replica set edge-f647cd7c4 from 0 to 1
+shop            58m         Normal    Scheduled                      pod/checkout-c865b86b5-jpv97            Successfully assigned shop/checkout-c865b86b5-jpv97 to kubesleuth-worker
+shop            58m         Normal    ScalingReplicaSet              deployment/checkout                     Scaled up replica set checkout-c865b86b5 from 1 to 2
+shop            58m         Normal    SuccessfulCreate               replicaset/edge-f647cd7c4               Created pod: edge-f647cd7c4-jpqfk
+shop            58m         Normal    Scheduled                      pod/checkout-c865b86b5-d2jlh            Successfully assigned shop/checkout-c865b86b5-d2jlh to kubesleuth-worker
+shop            58m         Normal    ScalingReplicaSet              deployment/recommendations              Scaled up replica set recommendations-55b5fd5477 from 0 to 1
+shop            58m         Normal    Pulled                         pod/checkout-c865b86b5-d2jlh            Container image "shop:1.4.0" already present on machine
+shop            58m         Normal    Created                        pod/checkout-c865b86b5-d2jlh            Created container: checkout
+shop            58m         Normal    Started                        pod/checkout-c865b86b5-d2jlh            Started container checkout
+shop            58m         Normal    ScalingReplicaSet              deployment/checkout                     Scaled up replica set checkout-c865b86b5 from 0 to 1
+shop            58m         Normal    Pulled                         pod/checkout-c865b86b5-jpv97            Container image "shop:1.4.0" already present on machine
+shop            58m         Normal    Created                        pod/checkout-c865b86b5-jpv97            Created container: checkout
+shop            58m         Normal    Started                        pod/checkout-c865b86b5-jpv97            Started container checkout
+shop            58m         Normal    SuccessfulCreate               replicaset/checkout-c865b86b5           Created pod: checkout-c865b86b5-d2jlh
+shop            58m         Normal    SuccessfulCreate               replicaset/checkout-c865b86b5           Created pod: checkout-c865b86b5-jpv97
+shop            58m         Normal    SuccessfulDelete               replicaset/checkout-c865b86b5           Deleted pod: checkout-c865b86b5-jpv97
+shop            58m         Normal    SuccessfulDelete               replicaset/checkout-69d8947794          Deleted pod: checkout-69d8947794-29kkk
+shop            58m         Normal    SuccessfulCreate               replicaset/inventory-84986bb8d4         Created pod: inventory-84986bb8d4-mw7qw
+shop            58m         Normal    Scheduled                      pod/checkout-d8bf8df6b-rcp66            Successfully assigned shop/checkout-d8bf8df6b-rcp66 to kubesleuth-worker
+shop            58m         Normal    Scheduled                      pod/recommendations-55b5fd5477-6lbkr    Successfully assigned shop/recommendations-55b5fd5477-6lbkr to kubesleuth-worker
+shop            58m         Normal    Scheduled                      pod/edge-f647cd7c4-jpqfk                Successfully assigned shop/edge-f647cd7c4-jpqfk to kubesleuth-worker
+shop            58m         Normal    SuccessfulCreate               replicaset/checkout-d8bf8df6b           Created pod: checkout-d8bf8df6b-rcp66
+shop            58m         Normal    Killing                        pod/inventory-7d88956b69-l7sfm          Stopping container inventory
+shop            58m         Normal    SuccessfulDelete               replicaset/inventory-7d88956b69         Deleted pod: inventory-7d88956b69-l7sfm
+shop            58m         Normal    SuccessfulCreate               replicaset/recommendations-55b5fd5477   Created pod: recommendations-55b5fd5477-6lbkr
+shop            58m         Normal    Killing                        pod/checkout-c865b86b5-jpv97            Stopping container checkout
+shop            58m         Normal    Scheduled                      pod/checkout-d8bf8df6b-b9sqn            Successfully assigned shop/checkout-d8bf8df6b-b9sqn to kubesleuth-worker
+shop            58m         Warning   Unhealthy                      pod/checkout-c865b86b5-jpv97            Readiness probe failed: Get "http://10.244.1.86:8080/readyz": dial tcp 10.244.1.86:8080: connect: connection refused
+shop            58m         Normal    SuccessfulCreate               replicaset/inventory-84986bb8d4         Created pod: inventory-84986bb8d4-lbfpw
+shop            58m         Normal    SuccessfulCreate               replicaset/checkout-d8bf8df6b           Created pod: checkout-d8bf8df6b-b9sqn
+shop            58m         Normal    SuccessfulDelete               replicaset/checkout-c865b86b5           Deleted pod: checkout-c865b86b5-d2jlh
+shop            58m         Normal    Scheduled                      pod/inventory-84986bb8d4-lbfpw          Successfully assigned shop/inventory-84986bb8d4-lbfpw to kubesleuth-worker
+shop            58m         Normal    Scheduled                      pod/inventory-84986bb8d4-mw7qw          Successfully assigned shop/inventory-84986bb8d4-mw7qw to kubesleuth-worker
+shop            58m         Normal    Created                        pod/recommendations-55b5fd5477-6lbkr    Created container: recommendations
+shop            58m         Normal    Created                        pod/checkout-d8bf8df6b-b9sqn            Created container: checkout
+shop            58m         Normal    Pulled                         pod/inventory-84986bb8d4-lbfpw          Container image "shop:1.4.0" already present on machine
+shop            58m         Normal    Pulled                         pod/checkout-d8bf8df6b-b9sqn            Container image "shop:1.4.0" already present on machine
+shop            58m         Normal    Created                        pod/inventory-84986bb8d4-mw7qw          Created container: inventory
+shop            58m         Normal    Created                        pod/checkout-d8bf8df6b-rcp66            Created container: checkout
+shop            58m         Normal    Started                        pod/inventory-84986bb8d4-mw7qw          Started container inventory
+shop            58m         Normal    Pulled                         pod/recommendations-55b5fd5477-6lbkr    Container image "shop:1.4.0" already present on machine
+shop            58m         Normal    Created                        pod/inventory-84986bb8d4-lbfpw          Created container: inventory
+shop            58m         Normal    Started                        pod/inventory-84986bb8d4-lbfpw          Started container inventory
+shop            58m         Normal    Pulled                         pod/inventory-84986bb8d4-mw7qw          Container image "shop:1.4.0" already present on machine
+shop            58m         Normal    Pulled                         pod/checkout-d8bf8df6b-rcp66            Container image "shop:1.4.0" already present on machine
+shop            58m         Normal    Started                        pod/checkout-d8bf8df6b-rcp66            Started container checkout
+shop            58m         Normal    Started                        pod/recommendations-55b5fd5477-6lbkr    Started container recommendations
+shop            58m         Normal    Killing                        pod/checkout-c865b86b5-d2jlh            Stopping container checkout
+shop            58m         Warning   Unhealthy                      pod/checkout-c865b86b5-d2jlh            Readiness probe failed: Get "http://10.244.1.85:8080/readyz": dial tcp 10.244.1.85:8080: connect: connection refused
+shop            58m         Normal    Started                        pod/checkout-d8bf8df6b-b9sqn            Started container checkout
+shop            58m         Warning   Unhealthy                      pod/recommendations-55b5fd5477-6lbkr    Readiness probe failed: Get "http://10.244.1.88:8080/healthz": dial tcp 10.244.1.88:8080: connect: connection refused
+shop            58m         Warning   Unhealthy                      pod/checkout-d8bf8df6b-rcp66            Readiness probe failed: Get "http://10.244.1.91:8080/readyz": dial tcp 10.244.1.91:8080: connect: connection refused
+shop            58m         Normal    SuccessfulCreate               replicaset/checkout-d8bf8df6b           Created pod: checkout-d8bf8df6b-pzsxz
+shop            58m         Normal    Scheduled                      pod/checkout-d8bf8df6b-pzsxz            Successfully assigned shop/checkout-d8bf8df6b-pzsxz to kubesleuth-worker
+shop            58m         Normal    SuccessfulDelete               replicaset/checkout-69d8947794          Deleted pod: checkout-69d8947794-5qm4v
+shop            58m         Normal    Pulled                         pod/checkout-69d8947794-5qm4v           Container image "shop:1.4.0" already present on machine
+shop            58m         Normal    ScalingReplicaSet              deployment/checkout                     (combined from similar events): Scaled down replica set checkout-69d8947794 from 2 to 1
+shop            57m         Normal    Pulled                         pod/checkout-d8bf8df6b-pzsxz            Container image "shop:1.4.0" already present on machine
+shop            57m         Normal    Created                        pod/checkout-d8bf8df6b-pzsxz            Created container: checkout
+shop            57m         Normal    Started                        pod/checkout-d8bf8df6b-pzsxz            Started container checkout
+shop            57m         Warning   Unhealthy                      pod/checkout-d8bf8df6b-pzsxz            Readiness probe failed: Get "http://10.244.1.93:8080/readyz": dial tcp 10.244.1.93:8080: connect: connection refused
+shop            57m         Normal    SuccessfulDelete               replicaset/inventory-7d88956b69         Deleted pod: inventory-7d88956b69-2kr77
+shop            57m         Normal    Pulled                         pod/checkout-69d8947794-j8gmg           Container image "shop:1.4.0" already present on machine
+shop            57m         Normal    Killing                        pod/edge-7999f79dc7-rl6dx               Stopping container edge
+shop            57m         Normal    SuccessfulCreate               replicaset/edge-f647cd7c4               Created pod: edge-f647cd7c4-lvhkh
+shop            57m         Normal    ScalingReplicaSet              deployment/inventory                    (combined from similar events): Scaled down replica set inventory-7d88956b69 from 3 to 2
+shop            57m         Normal    SuccessfulDelete               replicaset/edge-7999f79dc7              Deleted pod: edge-7999f79dc7-rl6dx
+shop            57m         Normal    Scheduled                      pod/edge-f647cd7c4-lvhkh                Successfully assigned shop/edge-f647cd7c4-lvhkh to kubesleuth-worker
+shop            57m         Normal    SuccessfulDelete               replicaset/checkout-69d8947794          Deleted pod: checkout-69d8947794-j8gmg
+shop            57m         Normal    Created                        pod/recommendations-55b5fd5477-cdtzd    Created container: recommendations
+shop            57m         Normal    Scheduled                      pod/recommendations-55b5fd5477-cdtzd    Successfully assigned shop/recommendations-55b5fd5477-cdtzd to kubesleuth-worker
+shop            57m         Normal    Pulled                         pod/recommendations-55b5fd5477-cdtzd    Container image "shop:1.4.0" already present on machine
+shop            57m         Normal    SuccessfulCreate               replicaset/recommendations-55b5fd5477   Created pod: recommendations-55b5fd5477-cdtzd
+shop            57m         Normal    SuccessfulCreate               replicaset/inventory-84986bb8d4         Created pod: inventory-84986bb8d4-fbppj
+shop            57m         Normal    Created                        pod/inventory-84986bb8d4-fbppj          Created container: inventory
+shop            57m         Normal    Pulled                         pod/inventory-84986bb8d4-fbppj          Container image "shop:1.4.0" already present on machine
+shop            57m         Normal    Scheduled                      pod/inventory-84986bb8d4-fbppj          Successfully assigned shop/inventory-84986bb8d4-fbppj to kubesleuth-worker
+shop            57m         Normal    Killing                        pod/inventory-7d88956b69-2kr77          Stopping container inventory
+shop            57m         Normal    Killing                        pod/recommendations-669dd5d8c4-rq57g    Stopping container recommendations
+shop            57m         Normal    SuccessfulDelete               replicaset/recommendations-669dd5d8c4   Deleted pod: recommendations-669dd5d8c4-rq57g
+shop            57m         Normal    Killing                        pod/inventory-7d88956b69-952bz          Stopping container inventory
+shop            57m         Normal    SuccessfulDelete               replicaset/inventory-7d88956b69         Deleted pod: inventory-7d88956b69-952bz
+shop            57m         Normal    Started                        pod/recommendations-55b5fd5477-cdtzd    Started container recommendations
+shop            57m         Normal    SuccessfulCreate               replicaset/inventory-84986bb8d4         Created pod: inventory-84986bb8d4-bk5cs
+shop            57m         Normal    Started                        pod/inventory-84986bb8d4-fbppj          Started container inventory
+shop            57m         Normal    Scheduled                      pod/inventory-84986bb8d4-bk5cs          Successfully assigned shop/inventory-84986bb8d4-bk5cs to kubesleuth-worker
+shop            57m         Normal    Started                        pod/inventory-84986bb8d4-bk5cs          Started container inventory
+shop            57m         Normal    Created                        pod/inventory-84986bb8d4-bk5cs          Created container: inventory
+shop            57m         Normal    Pulled                         pod/inventory-84986bb8d4-bk5cs          Container image "shop:1.4.0" already present on machine
+shop            57m         Warning   Unhealthy                      pod/inventory-84986bb8d4-fbppj          Readiness probe failed: Get "http://10.244.1.95:8080/healthz": dial tcp 10.244.1.95:8080: connect: connection refused
+shop            57m         Warning   Unhealthy                      pod/recommendations-55b5fd5477-cdtzd    Readiness probe failed: Get "http://10.244.1.96:8080/healthz": dial tcp 10.244.1.96:8080: connect: connection refused
+shop            57m         Normal    Killing                        pod/edge-7999f79dc7-km984               Stopping container edge
+shop            57m         Normal    SuccessfulDelete               replicaset/edge-7999f79dc7              Deleted pod: edge-7999f79dc7-km984
+shop            57m         Normal    Killing                        pod/recommendations-669dd5d8c4-4m4gp    Stopping container recommendations
+shop            57m         Normal    Killing                        pod/inventory-7d88956b69-cmtqw          Stopping container inventory
+shop            57m         Normal    SuccessfulDelete               replicaset/inventory-7d88956b69         Deleted pod: inventory-7d88956b69-cmtqw
+shop            57m         Normal    SuccessfulDelete               replicaset/recommendations-669dd5d8c4   Deleted pod: recommendations-669dd5d8c4-4m4gp
+shop            57m         Normal    ScalingReplicaSet              deployment/recommendations              (combined from similar events): Scaled down replica set recommendations-669dd5d8c4 from 1 to 0
+shop            53m         Warning   Unhealthy                      pod/edge-f647cd7c4-jpqfk                Liveness probe failed: Get "http://10.244.1.87:8080/healthz": dial tcp 10.244.1.87:8080: connect: connection refused
+shop            53m         Normal    SuccessfulCreate               replicaset/edge-f647cd7c4               Created pod: edge-f647cd7c4-fj7vm
+shop            53m         Normal    Scheduled                      pod/edge-f647cd7c4-fj7vm                Successfully assigned shop/edge-f647cd7c4-fj7vm to kubesleuth-worker
+shop            53m         Normal    Scheduled                      pod/edge-f647cd7c4-mklgr                Successfully assigned shop/edge-f647cd7c4-mklgr to kubesleuth-worker
+shop            53m         Normal    SuccessfulCreate               replicaset/edge-f647cd7c4               Created pod: edge-f647cd7c4-mklgr
+shop            52m         Warning   Unhealthy                      pod/edge-f647cd7c4-jpqfk                Readiness probe failed: Get "http://10.244.1.87:8080/healthz": dial tcp 10.244.1.87:8080: connect: connection refused
+shop            52m         Warning   Unhealthy                      pod/edge-f647cd7c4-lvhkh                Readiness probe failed: Get "http://10.244.1.94:8080/healthz": dial tcp 10.244.1.94:8080: connect: connection refused
+shop            52m         Warning   Unhealthy                      pod/edge-f647cd7c4-jpqfk                Readiness probe failed: Get "http://10.244.1.87:8080/healthz": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+shop            52m         Warning   Unhealthy                      pod/edge-f647cd7c4-mklgr                Liveness probe failed: Get "http://10.244.1.99:8080/healthz": dial tcp 10.244.1.99:8080: connect: connection refused
+shop            52m         Warning   Unhealthy                      pod/edge-f647cd7c4-mklgr                Readiness probe failed: Get "http://10.244.1.99:8080/healthz": dial tcp 10.244.1.99:8080: connect: connection refused
+shop            52m         Warning   Unhealthy                      pod/edge-f647cd7c4-lvhkh                Readiness probe failed: Get "http://10.244.1.94:8080/healthz": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+shop            51m         Warning   Unhealthy                      pod/edge-f647cd7c4-mklgr                Readiness probe failed: Get "http://10.244.1.99:8080/healthz": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+shop            51m         Warning   Unhealthy                      pod/edge-f647cd7c4-fj7vm                Readiness probe failed: Get "http://10.244.1.98:8080/healthz": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+shop            51m         Warning   Unhealthy                      pod/edge-f647cd7c4-fj7vm                Readiness probe failed: Get "http://10.244.1.98:8080/healthz": dial tcp 10.244.1.98:8080: connect: connection refused
+shop            50m         Normal    Started                        pod/edge-f647cd7c4-jpqfk                Started container edge
+shop            50m         Normal    Killing                        pod/edge-f647cd7c4-jpqfk                Container edge failed liveness probe, will be restarted
+shop            49m         Warning   Unhealthy                      pod/inventory-84986bb8d4-bk5cs          Readiness probe failed: Get "http://10.244.1.97:8080/healthz": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+shop            49m         Normal    Killing                        pod/edge-f647cd7c4-lvhkh                Container edge failed liveness probe, will be restarted
+shop            48m         Normal    Started                        pod/edge-f647cd7c4-lvhkh                Started container edge
+shop            48m         Normal    Created                        pod/edge-f647cd7c4-lvhkh                Created container: edge
+shop            48m         Normal    Pulled                         pod/edge-f647cd7c4-lvhkh                Container image "shop:1.4.0" already present on machine
+shop            48m         Normal    Created                        pod/edge-f647cd7c4-jpqfk                Created container: edge
+shop            48m         Normal    Pulled                         pod/edge-f647cd7c4-jpqfk                Container image "shop:1.4.0" already present on machine
+shop            48m         Normal    Killing                        pod/edge-f647cd7c4-mklgr                Container edge failed liveness probe, will be restarted
+shop            48m         Normal    Created                        pod/edge-f647cd7c4-mklgr                Created container: edge
+shop            48m         Normal    Started                        pod/edge-f647cd7c4-mklgr                Started container edge
+shop            48m         Normal    Pulled                         pod/edge-f647cd7c4-mklgr                Container image "shop:1.4.0" already present on machine
+shop            48m         Normal    Killing                        pod/edge-f647cd7c4-fj7vm                Container edge failed liveness probe, will be restarted
+shop            48m         Normal    Created                        pod/edge-f647cd7c4-fj7vm                Created container: edge
+shop            48m         Normal    Started                        pod/edge-f647cd7c4-fj7vm                Started container edge
+shop            48m         Normal    Pulled                         pod/edge-f647cd7c4-fj7vm                Container image "shop:1.4.0" already present on machine
+shop            47m         Warning   Unhealthy                      pod/edge-f647cd7c4-lvhkh                Liveness probe failed: Get "http://10.244.1.94:8080/healthz": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+shop            47m         Warning   Unhealthy                      pod/edge-f647cd7c4-mklgr                Liveness probe failed: Get "http://10.244.1.99:8080/healthz": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+shop            47m         Warning   Unhealthy                      pod/edge-f647cd7c4-jpqfk                Liveness probe failed: Get "http://10.244.1.87:8080/healthz": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+shop            47m         Normal    Killing                        pod/edge-f647cd7c4-fj7vm                Stopping container edge
+shop            47m         Normal    Killing                        pod/edge-f647cd7c4-jpqfk                Stopping container edge
+shop            47m         Normal    SuccessfulDelete               replicaset/edge-f647cd7c4               Deleted pod: edge-f647cd7c4-fj7vm
+shop            47m         Warning   Unhealthy                      pod/edge-f647cd7c4-fj7vm                Liveness probe failed: Get "http://10.244.1.98:8080/healthz": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+shop            47m         Normal    SuccessfulDelete               replicaset/edge-f647cd7c4               Deleted pod: edge-f647cd7c4-jpqfk
+shop            47m         Normal    Scheduled                      pod/checkout-7b86c8574d-mq2tl           Successfully assigned shop/checkout-7b86c8574d-mq2tl to kubesleuth-worker
+shop            47m         Normal    Scheduled                      pod/edge-849765c8b4-2fqj6               Successfully assigned shop/edge-849765c8b4-2fqj6 to kubesleuth-worker
+shop            47m         Normal    SuccessfulCreate               replicaset/inventory-5f7599564b         Created pod: inventory-5f7599564b-9z447
+shop            47m         Normal    ScalingReplicaSet              deployment/checkout                     Scaled down replica set checkout-d8bf8df6b from 3 to 2
+shop            47m         Normal    ScalingReplicaSet              deployment/checkout                     Scaled up replica set checkout-7b86c8574d from 0 to 1
+shop            47m         Normal    Scheduled                      pod/checkout-7b86c8574d-5jth8           Successfully assigned shop/checkout-7b86c8574d-5jth8 to kubesleuth-worker
+shop            47m         Normal    Scheduled                      pod/recommendations-78bc998f8c-txfz5    Successfully assigned shop/recommendations-78bc998f8c-txfz5 to kubesleuth-worker
+shop            47m         Normal    ScalingReplicaSet              deployment/inventory                    Scaled up replica set inventory-5f7599564b from 0 to 1
+shop            47m         Normal    ScalingReplicaSet              deployment/recommendations              Scaled up replica set recommendations-78bc998f8c from 0 to 1
+shop            47m         Normal    SuccessfulCreate               replicaset/edge-849765c8b4              Created pod: edge-849765c8b4-2fqj6
+shop            47m         Normal    SuccessfulDelete               replicaset/checkout-d8bf8df6b           Deleted pod: checkout-d8bf8df6b-pzsxz
+shop            47m         Normal    SuccessfulCreate               replicaset/checkout-7b86c8574d          Created pod: checkout-7b86c8574d-5jth8
+shop            47m         Normal    SuccessfulCreate               replicaset/recommendations-78bc998f8c   Created pod: recommendations-78bc998f8c-txfz5
+shop            47m         Normal    Scheduled                      pod/inventory-5f7599564b-9z447          Successfully assigned shop/inventory-5f7599564b-9z447 to kubesleuth-worker
+shop            47m         Normal    SuccessfulCreate               replicaset/checkout-7b86c8574d          Created pod: checkout-7b86c8574d-mq2tl
+shop            47m         Normal    Killing                        pod/checkout-d8bf8df6b-pzsxz            Stopping container checkout
+shop            47m         Normal    Scheduled                      pod/inventory-5f7599564b-7mm8z          Successfully assigned shop/inventory-5f7599564b-7mm8z to kubesleuth-worker
+shop            47m         Normal    Pulled                         pod/recommendations-78bc998f8c-txfz5    Container image "shop:1.4.0" already present on machine
+shop            47m         Normal    Created                        pod/recommendations-78bc998f8c-txfz5    Created container: recommendations
+shop            47m         Normal    Pulled                         pod/checkout-7b86c8574d-mq2tl           Container image "shop:1.4.0" already present on machine
+shop            47m         Normal    Created                        pod/inventory-5f7599564b-9z447          Created container: inventory
+shop            47m         Normal    SuccessfulDelete               replicaset/inventory-84986bb8d4         Deleted pod: inventory-84986bb8d4-bk5cs
+shop            47m         Normal    Killing                        pod/inventory-84986bb8d4-bk5cs          Stopping container inventory
+shop            47m         Normal    Pulled                         pod/inventory-5f7599564b-9z447          Container image "shop:1.4.0" already present on machine
+shop            47m         Normal    Pulled                         pod/edge-849765c8b4-2fqj6               Container image "shop:1.4.0" already present on machine
+shop            47m         Normal    Created                        pod/edge-849765c8b4-2fqj6               Created container: edge
+shop            47m         Normal    SuccessfulCreate               replicaset/inventory-5f7599564b         Created pod: inventory-5f7599564b-7mm8z
+shop            47m         Normal    Started                        pod/checkout-7b86c8574d-mq2tl           Started container checkout
+shop            47m         Normal    Created                        pod/checkout-7b86c8574d-mq2tl           Created container: checkout
+shop            47m         Normal    ScalingReplicaSet              deployment/inventory                    Scaled down replica set inventory-84986bb8d4 from 4 to 3
+shop            47m         Normal    Created                        pod/checkout-7b86c8574d-5jth8           Created container: checkout
+shop            47m         Normal    Started                        pod/checkout-7b86c8574d-5jth8           Started container checkout
+shop            47m         Normal    Started                        pod/recommendations-78bc998f8c-txfz5    Started container recommendations
+shop            47m         Normal    Pulled                         pod/checkout-7b86c8574d-5jth8           Container image "shop:1.4.0" already present on machine
+shop            47m         Normal    Created                        pod/inventory-5f7599564b-7mm8z          Created container: inventory
+shop            47m         Normal    Started                        pod/edge-849765c8b4-2fqj6               Started container edge
+shop            47m         Normal    Started                        pod/inventory-5f7599564b-7mm8z          Started container inventory
+shop            47m         Warning   Unhealthy                      pod/checkout-7b86c8574d-mq2tl           Readiness probe failed: Get "http://10.244.1.100:8080/readyz": dial tcp 10.244.1.100:8080: connect: connection refused
+shop            47m         Normal    Started                        pod/inventory-5f7599564b-9z447          Started container inventory
+shop            47m         Normal    Pulled                         pod/inventory-5f7599564b-7mm8z          Container image "shop:1.4.0" already present on machine
+shop            47m         Warning   Unhealthy                      pod/inventory-5f7599564b-7mm8z          Readiness probe failed: Get "http://10.244.1.105:8080/healthz": dial tcp 10.244.1.105:8080: connect: connection refused
+shop            47m         Warning   Unhealthy                      pod/checkout-7b86c8574d-5jth8           Readiness probe failed: Get "http://10.244.1.103:8080/readyz": dial tcp 10.244.1.103:8080: connect: connection refused
+shop            47m         Warning   Unhealthy                      pod/inventory-5f7599564b-9z447          Readiness probe failed: Get "http://10.244.1.102:8080/healthz": dial tcp 10.244.1.102:8080: connect: connection refused
+shop            47m         Warning   Unhealthy                      pod/edge-849765c8b4-2fqj6               Readiness probe failed: Get "http://10.244.1.104:8080/healthz": dial tcp 10.244.1.104:8080: connect: connection refused
+shop            47m         Warning   Unhealthy                      pod/recommendations-78bc998f8c-txfz5    Readiness probe failed: Get "http://10.244.1.101:8080/healthz": dial tcp 10.244.1.101:8080: connect: connection refused
+shop            47m         Normal    SuccessfulDelete               replicaset/checkout-d8bf8df6b           Deleted pod: checkout-d8bf8df6b-b9sqn
+shop            47m         Normal    Scheduled                      pod/checkout-7b86c8574d-85wtp           Successfully assigned shop/checkout-7b86c8574d-85wtp to kubesleuth-worker
+shop            47m         Normal    Killing                        pod/checkout-d8bf8df6b-b9sqn            Stopping container checkout
+shop            47m         Normal    SuccessfulCreate               replicaset/checkout-7b86c8574d          Created pod: checkout-7b86c8574d-85wtp
+shop            47m         Normal    Started                        pod/checkout-7b86c8574d-85wtp           Started container checkout
+shop            47m         Normal    SuccessfulDelete               replicaset/edge-f647cd7c4               Deleted pod: edge-f647cd7c4-mklgr
+shop            47m         Normal    SuccessfulCreate               replicaset/edge-849765c8b4              Created pod: edge-849765c8b4-mgkcq
+shop            47m         Normal    Killing                        pod/edge-f647cd7c4-mklgr                Stopping container edge
+shop            47m         Normal    Created                        pod/checkout-7b86c8574d-85wtp           Created container: checkout
+shop            47m         Normal    Pulled                         pod/checkout-7b86c8574d-85wtp           Container image "shop:1.4.0" already present on machine
+shop            47m         Warning   Unhealthy                      pod/inventory-84986bb8d4-fbppj          Readiness probe failed: Get "http://10.244.1.95:8080/healthz": read tcp 10.244.1.1:47986->10.244.1.95:8080: read: connection reset by peer
+shop            47m         Normal    SuccessfulDelete               replicaset/recommendations-55b5fd5477   Deleted pod: recommendations-55b5fd5477-cdtzd
+shop            47m         Normal    SuccessfulDelete               replicaset/checkout-d8bf8df6b           Deleted pod: checkout-d8bf8df6b-rcp66
+shop            47m         Warning   Unhealthy                      pod/checkout-7b86c8574d-85wtp           Readiness probe failed: Get "http://10.244.1.106:8080/readyz": dial tcp 10.244.1.106:8080: connect: connection refused
+shop            47m         Normal    ScalingReplicaSet              deployment/recommendations              Scaled down replica set recommendations-55b5fd5477 from 2 to 1
+shop            47m         Normal    Killing                        pod/inventory-84986bb8d4-fbppj          Stopping container inventory
+shop            47m         Normal    Scheduled                      pod/inventory-5f7599564b-svtzs          Successfully assigned shop/inventory-5f7599564b-svtzs to kubesleuth-worker
+shop            47m         Normal    Killing                        pod/inventory-84986bb8d4-lbfpw          Stopping container inventory
+shop            47m         Normal    SuccessfulDelete               replicaset/inventory-84986bb8d4         Deleted pod: inventory-84986bb8d4-lbfpw
+shop            47m         Normal    SuccessfulDelete               replicaset/inventory-84986bb8d4         Deleted pod: inventory-84986bb8d4-fbppj
+shop            47m         Normal    Scheduled                      pod/inventory-5f7599564b-9g5g6          Successfully assigned shop/inventory-5f7599564b-9g5g6 to kubesleuth-worker
+shop            47m         Normal    Killing                        pod/checkout-d8bf8df6b-rcp66            Stopping container checkout
+shop            47m         Normal    SuccessfulCreate               replicaset/inventory-5f7599564b         Created pod: inventory-5f7599564b-svtzs
+shop            47m         Normal    SuccessfulCreate               replicaset/inventory-5f7599564b         Created pod: inventory-5f7599564b-9g5g6
+shop            47m         Normal    Scheduled                      pod/edge-849765c8b4-mgkcq               Successfully assigned shop/edge-849765c8b4-mgkcq to kubesleuth-worker
+shop            47m         Normal    Pulled                         pod/edge-849765c8b4-mgkcq               Container image "shop:1.4.0" already present on machine
+shop            47m         Normal    Created                        pod/edge-849765c8b4-mgkcq               Created container: edge
+shop            47m         Normal    Scheduled                      pod/recommendations-78bc998f8c-x5lnj    Successfully assigned shop/recommendations-78bc998f8c-x5lnj to kubesleuth-worker
+shop            47m         Normal    Killing                        pod/recommendations-55b5fd5477-cdtzd    Stopping container recommendations
+shop            47m         Warning   Unhealthy                      pod/checkout-d8bf8df6b-b9sqn            Readiness probe failed: Get "http://10.244.1.90:8080/readyz": dial tcp 10.244.1.90:8080: connect: connection refused
+shop            47m         Normal    Pulled                         pod/inventory-5f7599564b-svtzs          Container image "shop:1.4.0" already present on machine
+shop            47m         Normal    Started                        pod/edge-849765c8b4-mgkcq               Started container edge
+shop            47m         Normal    Created                        pod/inventory-5f7599564b-svtzs          Created container: inventory
+shop            47m         Normal    ScalingReplicaSet              deployment/recommendations              Scaled up replica set recommendations-78bc998f8c from 1 to 2
+shop            47m         Normal    Started                        pod/inventory-5f7599564b-9g5g6          Started container inventory
+shop            47m         Normal    SuccessfulCreate               replicaset/recommendations-78bc998f8c   Created pod: recommendations-78bc998f8c-x5lnj
+shop            47m         Warning   Unhealthy                      pod/inventory-84986bb8d4-lbfpw          Readiness probe failed: Get "http://10.244.1.89:8080/healthz": dial tcp 10.244.1.89:8080: connect: connection refused
+shop            47m         Normal    Pulled                         pod/inventory-5f7599564b-9g5g6          Container image "shop:1.4.0" already present on machine
+shop            47m         Normal    Created                        pod/inventory-5f7599564b-9g5g6          Created container: inventory
+shop            47m         Normal    Started                        pod/inventory-5f7599564b-svtzs          Started container inventory
+shop            47m         Normal    Started                        pod/recommendations-78bc998f8c-x5lnj    Started container recommendations
+shop            47m         Normal    Created                        pod/recommendations-78bc998f8c-x5lnj    Created container: recommendations
+shop            47m         Normal    Pulled                         pod/recommendations-78bc998f8c-x5lnj    Container image "shop:1.4.0" already present on machine
+shop            47m         Normal    Created                        pod/edge-849765c8b4-kmhzn               Created container: edge
+shop            47m         Normal    Scheduled                      pod/edge-849765c8b4-kmhzn               Successfully assigned shop/edge-849765c8b4-kmhzn to kubesleuth-worker
+shop            47m         Normal    Pulled                         pod/edge-849765c8b4-kmhzn               Container image "shop:1.4.0" already present on machine
+shop            47m         Normal    SuccessfulCreate               replicaset/edge-849765c8b4              Created pod: edge-849765c8b4-kmhzn
+shop            47m         Normal    SuccessfulRescale              horizontalpodautoscaler/edge            New size: 4; reason: cpu resource utilization (percentage of request) above target
+shop            47m         Warning   Unhealthy                      pod/inventory-5f7599564b-svtzs          Readiness probe failed: Get "http://10.244.1.108:8080/healthz": dial tcp 10.244.1.108:8080: connect: connection refused
+shop            47m         Warning   Unhealthy                      pod/edge-849765c8b4-mgkcq               Readiness probe failed: Get "http://10.244.1.107:8080/healthz": dial tcp 10.244.1.107:8080: connect: connection refused
+shop            47m         Normal    SuccessfulCreate               replicaset/edge-f647cd7c4               Created pod: edge-f647cd7c4-7mj4z
+shop            47m         Normal    Scheduled                      pod/edge-f647cd7c4-7mj4z                Successfully assigned shop/edge-f647cd7c4-7mj4z to kubesleuth-worker
+shop            47m         Normal    Started                        pod/edge-849765c8b4-s8gqz               Started container edge
+shop            47m         Normal    Started                        pod/edge-849765c8b4-kmhzn               Started container edge
+shop            47m         Normal    SuccessfulCreate               replicaset/edge-849765c8b4              Created pod: edge-849765c8b4-s8gqz
+shop            47m         Normal    SuccessfulDelete               replicaset/edge-f647cd7c4               Deleted pod: edge-f647cd7c4-7mj4z
+shop            47m         Normal    Created                        pod/edge-849765c8b4-s8gqz               Created container: edge
+shop            47m         Normal    Pulled                         pod/edge-849765c8b4-s8gqz               Container image "shop:1.4.0" already present on machine
+shop            47m         Normal    Scheduled                      pod/edge-849765c8b4-s8gqz               Successfully assigned shop/edge-849765c8b4-s8gqz to kubesleuth-worker
+shop            47m         Normal    Pulled                         pod/edge-f647cd7c4-7mj4z                Container image "shop:1.4.0" already present on machine
+shop            47m         Warning   Unhealthy                      pod/recommendations-78bc998f8c-x5lnj    Readiness probe failed: Get "http://10.244.1.110:8080/healthz": dial tcp 10.244.1.110:8080: connect: connection refused
+shop            47m         Normal    Started                        pod/edge-f647cd7c4-7mj4z                Started container edge
+shop            47m         Warning   Unhealthy                      pod/inventory-5f7599564b-9g5g6          Readiness probe failed: Get "http://10.244.1.109:8080/healthz": dial tcp 10.244.1.109:8080: connect: connection refused
+shop            47m         Normal    ScalingReplicaSet              deployment/edge                         Scaled down replica set edge-f647cd7c4 from 2 to 1
+shop            47m         Normal    Created                        pod/edge-f647cd7c4-7mj4z                Created container: edge
+shop            47m         Warning   Unhealthy                      pod/edge-849765c8b4-kmhzn               Readiness probe failed: Get "http://10.244.1.111:8080/healthz": dial tcp 10.244.1.111:8080: connect: connection refused
+shop            47m         Normal    Killing                        pod/edge-f647cd7c4-7mj4z                Stopping container edge
+shop            47m         Warning   Unhealthy                      pod/edge-849765c8b4-s8gqz               Readiness probe failed: Get "http://10.244.1.113:8080/healthz": dial tcp 10.244.1.113:8080: connect: connection refused
+shop            47m         Warning   Unhealthy                      pod/edge-f647cd7c4-7mj4z                Readiness probe failed: Get "http://10.244.1.112:8080/healthz": dial tcp 10.244.1.112:8080: connect: connection refused
+shop            47m         Normal    SuccessfulDelete               replicaset/inventory-84986bb8d4         Deleted pod: inventory-84986bb8d4-mw7qw
+shop            47m         Warning   Unhealthy                      pod/inventory-84986bb8d4-mw7qw          Readiness probe failed: Get "http://10.244.1.92:8080/healthz": dial tcp 10.244.1.92:8080: connect: connection refused
+shop            47m         Normal    Killing                        pod/inventory-84986bb8d4-mw7qw          Stopping container inventory
+shop            47m         Normal    Killing                        pod/recommendations-55b5fd5477-6lbkr    Stopping container recommendations
+shop            47m         Normal    SuccessfulDelete               replicaset/recommendations-55b5fd5477   Deleted pod: recommendations-55b5fd5477-6lbkr
+shop            47m         Normal    ScalingReplicaSet              deployment/recommendations              Scaled down replica set recommendations-55b5fd5477 from 1 to 0
+shop            47m         Normal    Killing                        pod/edge-f647cd7c4-lvhkh                Stopping container edge
+shop            47m         Normal    SuccessfulDelete               replicaset/edge-f647cd7c4               Deleted pod: edge-f647cd7c4-lvhkh
+shop            47m         Warning   Unhealthy                      pod/inventory-5f7599564b-svtzs          Readiness probe failed: Get "http://10.244.1.108:8080/healthz": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+shop            47m         Warning   Unhealthy                      pod/inventory-5f7599564b-7mm8z          Liveness probe failed: Get "http://10.244.1.105:8080/healthz": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+shop            47m         Warning   Unhealthy                      pod/inventory-5f7599564b-7mm8z          Readiness probe failed: Get "http://10.244.1.105:8080/healthz": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+shop            44m         Normal    Killing                        pod/checkout-7b86c8574d-5jth8           Stopping container checkout
+shop            44m         Normal    SuccessfulCreate               replicaset/checkout-85d65646b7          Created pod: checkout-85d65646b7-rs48b
+shop            44m         Normal    SuccessfulCreate               replicaset/checkout-85d65646b7          Created pod: checkout-85d65646b7-c9kgd
+shop            44m         Normal    SuccessfulDelete               replicaset/checkout-7b86c8574d          Deleted pod: checkout-7b86c8574d-5jth8
+shop            44m         Normal    Scheduled                      pod/checkout-85d65646b7-rs48b           Successfully assigned shop/checkout-85d65646b7-rs48b to kubesleuth-worker
+shop            44m         Normal    Scheduled                      pod/checkout-85d65646b7-c9kgd           Successfully assigned shop/checkout-85d65646b7-c9kgd to kubesleuth-worker
+shop            44m         Normal    Started                        pod/checkout-85d65646b7-c9kgd           Started container checkout
+shop            44m         Normal    Created                        pod/checkout-85d65646b7-c9kgd           Created container: checkout
+shop            44m         Normal    Created                        pod/checkout-85d65646b7-rs48b           Created container: checkout
+shop            44m         Normal    Pulled                         pod/checkout-85d65646b7-rs48b           Container image "shop:1.4.0" already present on machine
+shop            44m         Normal    Started                        pod/checkout-85d65646b7-rs48b           Started container checkout
+shop            44m         Normal    Pulled                         pod/checkout-85d65646b7-c9kgd           Container image "shop:1.4.0" already present on machine
+shop            44m         Warning   Unhealthy                      pod/checkout-85d65646b7-c9kgd           Readiness probe failed: Get "http://10.244.1.115:8080/readyz": dial tcp 10.244.1.115:8080: connect: connection refused
+shop            44m         Warning   Unhealthy                      pod/checkout-85d65646b7-rs48b           Readiness probe failed: Get "http://10.244.1.114:8080/readyz": dial tcp 10.244.1.114:8080: connect: connection refused
+shop            44m         Normal    Killing                        pod/checkout-7b86c8574d-mq2tl           Stopping container checkout
+shop            44m         Normal    SuccessfulDelete               replicaset/checkout-7b86c8574d          Deleted pod: checkout-7b86c8574d-85wtp
+shop            44m         Normal    SuccessfulCreate               replicaset/checkout-85d65646b7          Created pod: checkout-85d65646b7-f9t5r
+shop            44m         Normal    SuccessfulDelete               replicaset/checkout-7b86c8574d          Deleted pod: checkout-7b86c8574d-mq2tl
+shop            44m         Normal    Killing                        pod/checkout-7b86c8574d-85wtp           Stopping container checkout
+shop            44m         Normal    Scheduled                      pod/checkout-85d65646b7-f9t5r           Successfully assigned shop/checkout-85d65646b7-f9t5r to kubesleuth-worker
+shop            44m         Normal    Started                        pod/checkout-85d65646b7-f9t5r           Started container checkout
+shop            44m         Normal    Created                        pod/checkout-85d65646b7-f9t5r           Created container: checkout
+shop            44m         Normal    Pulled                         pod/checkout-85d65646b7-f9t5r           Container image "shop:1.4.0" already present on machine
+shop            44m         Warning   Unhealthy                      pod/checkout-85d65646b7-f9t5r           Readiness probe failed: Get "http://10.244.1.116:8080/readyz": dial tcp 10.244.1.116:8080: connect: connection refused
+shop            42m         Normal    SuccessfulDelete               replicaset/edge-849765c8b4              Deleted pod: edge-849765c8b4-mgkcq
+shop            42m         Normal    SuccessfulDelete               replicaset/edge-849765c8b4              Deleted pod: edge-849765c8b4-2fqj6
+shop            42m         Normal    ScalingReplicaSet              deployment/edge                         (combined from similar events): Scaled down replica set edge-849765c8b4 from 4 to 2
+shop            42m         Normal    SuccessfulRescale              horizontalpodautoscaler/edge            New size: 2; reason: All metrics below target
+shop            42m         Normal    Killing                        pod/edge-849765c8b4-2fqj6               Stopping container edge
+shop            42m         Normal    Killing                        pod/edge-849765c8b4-mgkcq               Stopping container edge
+shop            14m         Normal    ScalingReplicaSet              deployment/inventory                    Scaled up replica set inventory-786ff4f6cf from 0 to 1
+shop            14m         Normal    SuccessfulCreate               replicaset/recommendations-5c48d9584    Created pod: recommendations-5c48d9584-kzh7c
+shop            14m         Normal    Scheduled                      pod/edge-96d7fdc99-2g9mc                Successfully assigned shop/edge-96d7fdc99-2g9mc to kubesleuth-worker
+shop            14m         Normal    Scheduled                      pod/inventory-786ff4f6cf-9x5l2          Successfully assigned shop/inventory-786ff4f6cf-9x5l2 to kubesleuth-worker
+shop            14m         Normal    Scheduled                      pod/checkout-5b5779f467-8xhd7           Successfully assigned shop/checkout-5b5779f467-8xhd7 to kubesleuth-worker
+shop            14m         Normal    SuccessfulCreate               replicaset/inventory-786ff4f6cf         Created pod: inventory-786ff4f6cf-9x5l2
+shop            14m         Normal    ScalingReplicaSet              deployment/edge                         Scaled up replica set edge-96d7fdc99 from 0 to 1
+shop            14m         Normal    Killing                        pod/inventory-5f7599564b-7mm8z          Stopping container inventory
+shop            14m         Normal    Scheduled                      pod/inventory-786ff4f6cf-p7hdt          Successfully assigned shop/inventory-786ff4f6cf-p7hdt to kubesleuth-worker
+shop            14m         Normal    SuccessfulCreate               replicaset/inventory-786ff4f6cf         Created pod: inventory-786ff4f6cf-p7hdt
+shop            14m         Normal    SuccessfulCreate               replicaset/edge-96d7fdc99               Created pod: edge-96d7fdc99-2g9mc
+shop            14m         Normal    ScalingReplicaSet              deployment/checkout                     Scaled up replica set checkout-5b5779f467 from 0 to 1
+shop            14m         Normal    Killing                        pod/checkout-85d65646b7-c9kgd           Stopping container checkout
+shop            14m         Normal    SuccessfulCreate               replicaset/checkout-5b5779f467          Created pod: checkout-5b5779f467-8xhd7
+shop            14m         Normal    SuccessfulDelete               replicaset/checkout-85d65646b7          Deleted pod: checkout-85d65646b7-c9kgd
+shop            14m         Normal    Scheduled                      pod/recommendations-5c48d9584-kzh7c     Successfully assigned shop/recommendations-5c48d9584-kzh7c to kubesleuth-worker
+shop            14m         Normal    SuccessfulDelete               replicaset/inventory-5f7599564b         Deleted pod: inventory-5f7599564b-7mm8z
+shop            14m         Normal    ScalingReplicaSet              deployment/recommendations              Scaled up replica set recommendations-5c48d9584 from 0 to 1
+shop            14m         Normal    ScalingReplicaSet              deployment/inventory                    Scaled down replica set inventory-5f7599564b from 4 to 3
+shop            14m         Normal    ScalingReplicaSet              deployment/inventory                    Scaled up replica set inventory-786ff4f6cf from 1 to 2
+shop            14m         Normal    Pulled                         pod/checkout-5b5779f467-ctspx           Container image "shop:1.4.0" already present on machine
+shop            14m         Normal    ScalingReplicaSet              deployment/checkout                     Scaled up replica set checkout-5b5779f467 from 1 to 2
+shop            14m         Normal    Scheduled                      pod/checkout-5b5779f467-ctspx           Successfully assigned shop/checkout-5b5779f467-ctspx to kubesleuth-worker
+shop            14m         Normal    Created                        pod/checkout-5b5779f467-ctspx           Created container: checkout
+shop            14m         Normal    ScalingReplicaSet              deployment/checkout                     Scaled down replica set checkout-85d65646b7 from 3 to 2
+shop            14m         Normal    SuccessfulCreate               replicaset/checkout-5b5779f467          Created pod: checkout-5b5779f467-ctspx
+shop            14m         Normal    Pulled                         pod/checkout-5b5779f467-8xhd7           Container image "shop:1.4.0" already present on machine
+shop            14m         Normal    Started                        pod/inventory-786ff4f6cf-p7hdt          Started container inventory
+shop            14m         Normal    Pulled                         pod/edge-96d7fdc99-2g9mc                Container image "shop:1.4.0" already present on machine
+shop            14m         Normal    Created                        pod/inventory-786ff4f6cf-p7hdt          Created container: inventory
+shop            14m         Normal    Started                        pod/checkout-5b5779f467-8xhd7           Started container checkout
+shop            14m         Normal    Created                        pod/checkout-5b5779f467-8xhd7           Created container: checkout
+shop            14m         Normal    Started                        pod/edge-96d7fdc99-2g9mc                Started container edge
+shop            14m         Normal    Pulled                         pod/recommendations-5c48d9584-kzh7c     Container image "shop:1.4.0" already present on machine
+shop            14m         Normal    Started                        pod/inventory-786ff4f6cf-9x5l2          Started container inventory
+shop            14m         Normal    Started                        pod/recommendations-5c48d9584-kzh7c     Started container recommendations
+shop            14m         Normal    Created                        pod/inventory-786ff4f6cf-9x5l2          Created container: inventory
+shop            14m         Normal    Pulled                         pod/inventory-786ff4f6cf-9x5l2          Container image "shop:1.4.0" already present on machine
+shop            14m         Normal    Pulled                         pod/inventory-786ff4f6cf-p7hdt          Container image "shop:1.4.0" already present on machine
+shop            14m         Normal    Started                        pod/checkout-5b5779f467-ctspx           Started container checkout
+shop            14m         Normal    Created                        pod/edge-96d7fdc99-2g9mc                Created container: edge
+shop            14m         Normal    Created                        pod/recommendations-5c48d9584-kzh7c     Created container: recommendations
+shop            14m         Warning   Unhealthy                      pod/edge-96d7fdc99-2g9mc                Readiness probe failed: Get "http://10.244.1.122:8080/healthz": dial tcp 10.244.1.122:8080: connect: connection refused
+shop            14m         Warning   Unhealthy                      pod/checkout-5b5779f467-8xhd7           Readiness probe failed: Get "http://10.244.1.120:8080/readyz": dial tcp 10.244.1.120:8080: connect: connection refused
+shop            14m         Warning   Unhealthy                      pod/recommendations-5c48d9584-kzh7c     Readiness probe failed: Get "http://10.244.1.118:8080/healthz": dial tcp 10.244.1.118:8080: connect: connection refused
+shop            14m         Warning   Unhealthy                      pod/inventory-786ff4f6cf-9x5l2          Readiness probe failed: Get "http://10.244.1.119:8080/healthz": dial tcp 10.244.1.119:8080: connect: connection refused
+shop            14m         Warning   Unhealthy                      pod/inventory-786ff4f6cf-p7hdt          Readiness probe failed: Get "http://10.244.1.121:8080/healthz": dial tcp 10.244.1.121:8080: connect: connection refused
+shop            14m         Normal    SuccessfulDelete               replicaset/checkout-85d65646b7          Deleted pod: checkout-85d65646b7-rs48b
+shop            14m         Normal    ScalingReplicaSet              deployment/checkout                     Scaled up replica set checkout-5b5779f467 from 2 to 3
+shop            14m         Normal    ScalingReplicaSet              deployment/checkout                     Scaled down replica set checkout-85d65646b7 from 2 to 1
+shop            14m         Normal    Scheduled                      pod/checkout-5b5779f467-5lksr           Successfully assigned shop/checkout-5b5779f467-5lksr to kubesleuth-worker
+shop            14m         Normal    SuccessfulCreate               replicaset/checkout-5b5779f467          Created pod: checkout-5b5779f467-5lksr
+shop            14m         Normal    Killing                        pod/checkout-85d65646b7-rs48b           Stopping container checkout
+shop            14m         Normal    Created                        pod/checkout-5b5779f467-5lksr           Created container: checkout
+shop            14m         Normal    Started                        pod/checkout-5b5779f467-5lksr           Started container checkout
+shop            14m         Normal    Pulled                         pod/checkout-5b5779f467-5lksr           Container image "shop:1.4.0" already present on machine
+observability   14m         Normal    Created                        pod/jaeger-7c4bb6bcb8-m6bbj             Created container: jaeger
+observability   14m         Normal    Started                        pod/jaeger-7c4bb6bcb8-m6bbj             Started container jaeger
+shop            14m         Warning   Unhealthy                      pod/checkout-5b5779f467-5lksr           Readiness probe failed: Get "http://10.244.1.123:8080/readyz": dial tcp 10.244.1.123:8080: connect: connection refused
+observability   14m         Normal    Pulled                         pod/jaeger-7c4bb6bcb8-m6bbj             Container image "jaegertracing/jaeger:2.8.0" already present on machine
+shop            14m         Normal    ScalingReplicaSet              deployment/checkout                     Scaled down replica set checkout-85d65646b7 from 1 to 0
+shop            14m         Normal    SuccessfulCreate               replicaset/edge-96d7fdc99               Created pod: edge-96d7fdc99-n7qtl
+shop            14m         Normal    ScalingReplicaSet              deployment/edge                         Scaled up replica set edge-96d7fdc99 from 1 to 2
+shop            14m         Normal    Killing                        pod/checkout-85d65646b7-f9t5r           Stopping container checkout
+shop            14m         Normal    SuccessfulDelete               replicaset/edge-849765c8b4              Deleted pod: edge-849765c8b4-kmhzn
+shop            14m         Normal    ScalingReplicaSet              deployment/edge                         Scaled down replica set edge-849765c8b4 from 2 to 1
+shop            14m         Normal    Killing                        pod/edge-849765c8b4-kmhzn               Stopping container edge
+shop            14m         Normal    SuccessfulDelete               replicaset/checkout-85d65646b7          Deleted pod: checkout-85d65646b7-f9t5r
+shop            14m         Normal    Scheduled                      pod/edge-96d7fdc99-n7qtl                Successfully assigned shop/edge-96d7fdc99-n7qtl to kubesleuth-worker
+shop            14m         Normal    ScalingReplicaSet              deployment/inventory                    Scaled down replica set inventory-5f7599564b from 2 to 1
+shop            14m         Normal    SuccessfulCreate               replicaset/inventory-786ff4f6cf         Created pod: inventory-786ff4f6cf-grd2q
+shop            14m         Normal    SuccessfulCreate               replicaset/inventory-786ff4f6cf         Created pod: inventory-786ff4f6cf-74g52
+shop            14m         Normal    Created                        pod/edge-96d7fdc99-n7qtl                Created container: edge
+shop            14m         Normal    Started                        pod/edge-96d7fdc99-n7qtl                Started container edge
+shop            14m         Normal    ScalingReplicaSet              deployment/inventory                    Scaled down replica set inventory-5f7599564b from 3 to 2
+shop            14m         Normal    ScalingReplicaSet              deployment/inventory                    Scaled up replica set inventory-786ff4f6cf from 2 to 3
+shop            14m         Normal    ScalingReplicaSet              deployment/recommendations              Scaled up replica set recommendations-5c48d9584 from 1 to 2
+shop            14m         Normal    SuccessfulCreate               replicaset/recommendations-5c48d9584    Created pod: recommendations-5c48d9584-mnrcg
+shop            14m         Normal    Pulled                         pod/edge-96d7fdc99-n7qtl                Container image "shop:1.4.0" already present on machine
+shop            14m         Normal    Killing                        pod/recommendations-78bc998f8c-x5lnj    Stopping container recommendations
+shop            14m         Normal    SuccessfulDelete               replicaset/recommendations-78bc998f8c   Deleted pod: recommendations-78bc998f8c-x5lnj
+shop            14m         Normal    SuccessfulDelete               replicaset/inventory-5f7599564b         Deleted pod: inventory-5f7599564b-9z447
+shop            14m         Normal    Scheduled                      pod/inventory-786ff4f6cf-grd2q          Successfully assigned shop/inventory-786ff4f6cf-grd2q to kubesleuth-worker
+shop            14m         Normal    ScalingReplicaSet              deployment/recommendations              Scaled down replica set recommendations-78bc998f8c from 2 to 1
+shop            14m         Normal    SuccessfulDelete               replicaset/inventory-5f7599564b         Deleted pod: inventory-5f7599564b-svtzs
+shop            14m         Normal    Killing                        pod/inventory-5f7599564b-svtzs          Stopping container inventory
+shop            14m         Normal    Killing                        pod/inventory-5f7599564b-9z447          Stopping container inventory
+shop            14m         Normal    Scheduled                      pod/recommendations-5c48d9584-mnrcg     Successfully assigned shop/recommendations-5c48d9584-mnrcg to kubesleuth-worker
+shop            14m         Normal    Scheduled                      pod/inventory-786ff4f6cf-74g52          Successfully assigned shop/inventory-786ff4f6cf-74g52 to kubesleuth-worker
+shop            14m         Warning   Unhealthy                      pod/edge-96d7fdc99-n7qtl                Readiness probe failed: Get "http://10.244.1.124:8080/healthz": dial tcp 10.244.1.124:8080: connect: connection refused
+shop            14m         Normal    Started                        pod/inventory-786ff4f6cf-grd2q          Started container inventory
+shop            14m         Normal    Created                        pod/recommendations-5c48d9584-mnrcg     Created container: recommendations
+shop            14m         Normal    Pulled                         pod/recommendations-5c48d9584-mnrcg     Container image "shop:1.4.0" already present on machine
+shop            14m         Normal    Created                        pod/inventory-786ff4f6cf-74g52          Created container: inventory
+shop            14m         Normal    Pulled                         pod/inventory-786ff4f6cf-grd2q          Container image "shop:1.4.0" already present on machine
+shop            14m         Normal    Started                        pod/recommendations-5c48d9584-mnrcg     Started container recommendations
+shop            14m         Normal    Pulled                         pod/inventory-786ff4f6cf-74g52          Container image "shop:1.4.0" already present on machine
+shop            14m         Normal    Created                        pod/inventory-786ff4f6cf-grd2q          Created container: inventory
+shop            14m         Normal    Started                        pod/inventory-786ff4f6cf-74g52          Started container inventory
+shop            14m         Warning   Unhealthy                      pod/recommendations-5c48d9584-mnrcg     Readiness probe failed: Get "http://10.244.1.125:8080/healthz": dial tcp 10.244.1.125:8080: connect: connection refused
+shop            14m         Warning   Unhealthy                      pod/inventory-786ff4f6cf-74g52          Readiness probe failed: Get "http://10.244.1.127:8080/healthz": dial tcp 10.244.1.127:8080: connect: connection refused
+shop            14m         Normal    Killing                        pod/edge-849765c8b4-s8gqz               Stopping container edge
+shop            14m         Normal    ScalingReplicaSet              deployment/edge                         Scaled down replica set edge-849765c8b4 from 1 to 0
+shop            14m         Normal    SuccessfulDelete               replicaset/edge-849765c8b4              Deleted pod: edge-849765c8b4-s8gqz
+shop            14m         Normal    Killing                        pod/inventory-5f7599564b-9g5g6          Stopping container inventory
+shop            14m         Normal    Killing                        pod/recommendations-78bc998f8c-txfz5    Stopping container recommendations
+shop            14m         Normal    SuccessfulDelete               replicaset/inventory-5f7599564b         Deleted pod: inventory-5f7599564b-9g5g6
+shop            14m         Normal    ScalingReplicaSet              deployment/recommendations              Scaled down replica set recommendations-78bc998f8c from 1 to 0
+shop            14m         Normal    SuccessfulDelete               replicaset/recommendations-78bc998f8c   Deleted pod: recommendations-78bc998f8c-txfz5
+shop            14m         Warning   FailedComputeMetricsReplicas   horizontalpodautoscaler/edge            invalid metrics (1 invalid out of 1), first error is: failed to get cpu resource metric value: failed to get cpu utilization: did not receive metrics for targeted pods (pods might be unready)
+shop            14m         Warning   FailedGetResourceMetric        horizontalpodautoscaler/edge            failed to get cpu utilization: did not receive metrics for targeted pods (pods might be unready)
+shop            11m         Normal    Created                        pod/pricing-legacy-79659db7cf-jl4c4     Created container: pricing
+shop            11m         Normal    Pulled                         pod/pricing-legacy-79659db7cf-jl4c4     Container image "shop:0.9.7" already present on machine
+shop            11m         Normal    Scheduled                      pod/pricing-legacy-79659db7cf-jl4c4     Successfully assigned shop/pricing-legacy-79659db7cf-jl4c4 to kubesleuth-worker
+shop            11m         Normal    SuccessfulCreate               replicaset/pricing-legacy-79659db7cf    Created pod: pricing-legacy-79659db7cf-jl4c4
+shop            11m         Normal    ScalingReplicaSet              deployment/pricing-legacy               Scaled up replica set pricing-legacy-79659db7cf from 0 to 1
+shop            11m         Normal    Started                        pod/pricing-legacy-79659db7cf-jl4c4     Started container pricing
+shop            11m         Warning   Unhealthy                      pod/pricing-legacy-79659db7cf-jl4c4     Readiness probe failed: Get "http://10.244.1.128:8080/healthz": dial tcp 10.244.1.128:8080: connect: connection refused
+shop            25s         Normal    Killing                        pod/pricing-legacy-79659db7cf-jl4c4     Stopping container pricing
+shop            22s         Normal    ScalingReplicaSet              deployment/inventory                    Scaled up replica set inventory-6d8d6b47b from 0 to 1
+shop            22s         Normal    SuccessfulDelete               replicaset/inventory-786ff4f6cf         Deleted pod: inventory-786ff4f6cf-grd2q
+shop            22s         Normal    Scheduled                      pod/inventory-6d8d6b47b-95glz           Successfully assigned shop/inventory-6d8d6b47b-95glz to kubesleuth-worker
+shop            22s         Normal    ScalingReplicaSet              deployment/edge                         Scaled up replica set edge-5fcb7fcd74 from 0 to 1
+shop            22s         Normal    Scheduled                      pod/checkout-6cf5d55794-q4tb9           Successfully assigned shop/checkout-6cf5d55794-q4tb9 to kubesleuth-worker
+shop            22s         Normal    SuccessfulCreate               replicaset/inventory-6d8d6b47b          Created pod: inventory-6d8d6b47b-hmkkv
+shop            22s         Normal    Scheduled                      pod/edge-5fcb7fcd74-stfw6               Successfully assigned shop/edge-5fcb7fcd74-stfw6 to kubesleuth-worker
+shop            22s         Normal    Scheduled                      pod/recommendations-6c9866fc7c-x4ddt    Successfully assigned shop/recommendations-6c9866fc7c-x4ddt to kubesleuth-worker
+shop            22s         Normal    ScalingReplicaSet              deployment/inventory                    Scaled down replica set inventory-786ff4f6cf from 4 to 3
+shop            22s         Normal    ScalingReplicaSet              deployment/inventory                    Scaled up replica set inventory-6d8d6b47b from 1 to 2
+shop            22s         Normal    SuccessfulCreate               replicaset/inventory-6d8d6b47b          Created pod: inventory-6d8d6b47b-95glz
+shop            22s         Normal    Killing                        pod/inventory-786ff4f6cf-grd2q          Stopping container inventory
+shop            22s         Normal    SuccessfulDelete               replicaset/checkout-5b5779f467          Deleted pod: checkout-5b5779f467-ctspx
+shop            22s         Normal    ScalingReplicaSet              deployment/checkout                     Scaled up replica set checkout-6cf5d55794 from 0 to 1
+shop            22s         Normal    Scheduled                      pod/checkout-6cf5d55794-7h54f           Successfully assigned shop/checkout-6cf5d55794-7h54f to kubesleuth-worker
+shop            22s         Normal    SuccessfulCreate               replicaset/edge-5fcb7fcd74              Created pod: edge-5fcb7fcd74-stfw6
+shop            22s         Normal    Killing                        pod/checkout-5b5779f467-ctspx           Stopping container checkout
+shop            22s         Normal    ScalingReplicaSet              deployment/recommendations              Scaled up replica set recommendations-6c9866fc7c from 0 to 1
+shop            22s         Normal    Scheduled                      pod/inventory-6d8d6b47b-hmkkv           Successfully assigned shop/inventory-6d8d6b47b-hmkkv to kubesleuth-worker
+shop            22s         Normal    SuccessfulCreate               replicaset/checkout-6cf5d55794          Created pod: checkout-6cf5d55794-7h54f
+shop            22s         Normal    SuccessfulCreate               replicaset/checkout-6cf5d55794          Created pod: checkout-6cf5d55794-q4tb9
+shop            22s         Normal    SuccessfulCreate               replicaset/recommendations-6c9866fc7c   Created pod: recommendations-6c9866fc7c-x4ddt
+shop            22s         Normal    ScalingReplicaSet              deployment/checkout                     Scaled up replica set checkout-6cf5d55794 from 1 to 2
+shop            22s         Normal    ScalingReplicaSet              deployment/checkout                     Scaled down replica set checkout-5b5779f467 from 3 to 2
+shop            21s         Normal    Created                        pod/recommendations-6c9866fc7c-x4ddt    Created container: recommendations
+shop            21s         Normal    Created                        pod/inventory-6d8d6b47b-hmkkv           Created container: inventory
+shop            21s         Normal    Pulled                         pod/inventory-6d8d6b47b-hmkkv           Container image "shop:1.4.0" already present on machine
+shop            21s         Normal    Started                        pod/edge-5fcb7fcd74-stfw6               Started container edge
+shop            21s         Normal    Created                        pod/edge-5fcb7fcd74-stfw6               Created container: edge
+shop            21s         Normal    Pulled                         pod/checkout-6cf5d55794-7h54f           Container image "shop:1.4.0" already present on machine
+shop            21s         Normal    Pulled                         pod/inventory-6d8d6b47b-95glz           Container image "shop:1.4.0" already present on machine
+shop            21s         Normal    Pulled                         pod/edge-5fcb7fcd74-stfw6               Container image "shop:1.4.0" already present on machine
+shop            21s         Normal    Created                        pod/checkout-6cf5d55794-7h54f           Created container: checkout
+shop            21s         Normal    Started                        pod/checkout-6cf5d55794-7h54f           Started container checkout
+shop            21s         Normal    Pulled                         pod/checkout-6cf5d55794-q4tb9           Container image "shop:1.4.0" already present on machine
+shop            21s         Normal    Pulled                         pod/recommendations-6c9866fc7c-x4ddt    Container image "shop:1.4.0" already present on machine
+shop            21s         Normal    Created                        pod/checkout-6cf5d55794-q4tb9           Created container: checkout
+shop            21s         Normal    Started                        pod/inventory-6d8d6b47b-95glz           Started container inventory
+shop            21s         Normal    Created                        pod/inventory-6d8d6b47b-95glz           Created container: inventory
+shop            20s         Normal    Started                        pod/checkout-6cf5d55794-q4tb9           Started container checkout
+shop            20s         Warning   Unhealthy                      pod/checkout-5b5779f467-ctspx           Readiness probe failed: Get "http://10.244.1.117:8080/readyz": dial tcp 10.244.1.117:8080: connect: connection refused
+shop            20s         Normal    Started                        pod/recommendations-6c9866fc7c-x4ddt    Started container recommendations
+shop            20s         Normal    Started                        pod/inventory-6d8d6b47b-hmkkv           Started container inventory
+shop            20s         Warning   Unhealthy                      pod/inventory-786ff4f6cf-grd2q          Readiness probe failed: Get "http://10.244.1.126:8080/healthz": dial tcp 10.244.1.126:8080: connect: connection refused
+shop            19s         Warning   Unhealthy                      pod/inventory-6d8d6b47b-95glz           Readiness probe failed: Get "http://10.244.1.130:8080/healthz": dial tcp 10.244.1.130:8080: connect: connection refused
+shop            19s         Warning   Unhealthy                      pod/checkout-6cf5d55794-7h54f           Readiness probe failed: Get "http://10.244.1.132:8080/readyz": dial tcp 10.244.1.132:8080: connect: connection refused
+shop            19s         Warning   Unhealthy                      pod/edge-5fcb7fcd74-stfw6               Readiness probe failed: Get "http://10.244.1.129:8080/healthz": dial tcp 10.244.1.129:8080: connect: connection refused
+shop            18s         Warning   Unhealthy                      pod/inventory-6d8d6b47b-hmkkv           Readiness probe failed: Get "http://10.244.1.134:8080/healthz": dial tcp 10.244.1.134:8080: connect: connection refused
+shop            18s         Warning   Unhealthy                      pod/checkout-6cf5d55794-q4tb9           Readiness probe failed: Get "http://10.244.1.133:8080/readyz": dial tcp 10.244.1.133:8080: connect: connection refused
+shop            17s         Warning   Unhealthy                      pod/recommendations-6c9866fc7c-x4ddt    Readiness probe failed: Get "http://10.244.1.131:8080/healthz": dial tcp 10.244.1.131:8080: connect: connection refused
+shop            14s         Normal    SuccessfulCreate               replicaset/edge-5fcb7fcd74              Created pod: edge-5fcb7fcd74-7rmqt
+shop            14s         Normal    Scheduled                      pod/inventory-6d8d6b47b-5s2fk           Successfully assigned shop/inventory-6d8d6b47b-5s2fk to kubesleuth-worker
+shop            14s         Normal    Killing                        pod/inventory-786ff4f6cf-74g52          Stopping container inventory
+shop            14s         Normal    Killing                        pod/edge-96d7fdc99-2g9mc                Stopping container edge
+shop            14s         Normal    SuccessfulDelete               replicaset/edge-96d7fdc99               Deleted pod: edge-96d7fdc99-2g9mc
+shop            14s         Normal    ScalingReplicaSet              deployment/edge                         Scaled up replica set edge-5fcb7fcd74 from 1 to 2
+shop            14s         Normal    Scheduled                      pod/edge-5fcb7fcd74-7rmqt               Successfully assigned shop/edge-5fcb7fcd74-7rmqt to kubesleuth-worker
+shop            14s         Normal    SuccessfulCreate               replicaset/checkout-6cf5d55794          Created pod: checkout-6cf5d55794-6dmtb
+shop            14s         Normal    SuccessfulCreate               replicaset/inventory-6d8d6b47b          Created pod: inventory-6d8d6b47b-5s2fk
+shop            14s         Normal    Killing                        pod/checkout-5b5779f467-5lksr           Stopping container checkout
+shop            14s         Normal    SuccessfulDelete               replicaset/inventory-786ff4f6cf         Deleted pod: inventory-786ff4f6cf-74g52
+shop            14s         Normal    SuccessfulDelete               replicaset/checkout-5b5779f467          Deleted pod: checkout-5b5779f467-5lksr
+shop            14s         Normal    ScalingReplicaSet              deployment/edge                         Scaled down replica set edge-96d7fdc99 from 2 to 1
+shop            14s         Normal    Scheduled                      pod/checkout-6cf5d55794-6dmtb           Successfully assigned shop/checkout-6cf5d55794-6dmtb to kubesleuth-worker
+shop            13s         Normal    Created                        pod/inventory-6d8d6b47b-5s2fk           Created container: inventory
+shop            13s         Normal    Pulled                         pod/inventory-6d8d6b47b-5s2fk           Container image "shop:1.4.0" already present on machine
+shop            13s         Normal    SuccessfulDelete               replicaset/inventory-786ff4f6cf         Deleted pod: inventory-786ff4f6cf-9x5l2
+shop            13s         Normal    Killing                        pod/inventory-786ff4f6cf-9x5l2          Stopping container inventory
+shop            13s         Normal    SuccessfulCreate               replicaset/inventory-6d8d6b47b          Created pod: inventory-6d8d6b47b-7fqkn
+shop            13s         Normal    Started                        pod/checkout-6cf5d55794-6dmtb           Started container checkout
+shop            13s         Normal    Created                        pod/checkout-6cf5d55794-6dmtb           Created container: checkout
+shop            13s         Normal    Pulled                         pod/edge-5fcb7fcd74-7rmqt               Container image "shop:1.4.0" already present on machine
+shop            13s         Normal    Created                        pod/edge-5fcb7fcd74-7rmqt               Created container: edge
+shop            13s         Normal    Started                        pod/edge-5fcb7fcd74-7rmqt               Started container edge
+shop            13s         Normal    Pulled                         pod/checkout-6cf5d55794-6dmtb           Container image "shop:1.4.0" already present on machine
+shop            13s         Normal    SuccessfulDelete               replicaset/checkout-5b5779f467          Deleted pod: checkout-5b5779f467-8xhd7
+shop            13s         Normal    Scheduled                      pod/inventory-6d8d6b47b-7fqkn           Successfully assigned shop/inventory-6d8d6b47b-7fqkn to kubesleuth-worker
+shop            13s         Normal    Started                        pod/inventory-6d8d6b47b-5s2fk           Started container inventory
+shop            13s         Normal    Killing                        pod/checkout-5b5779f467-8xhd7           Stopping container checkout
+shop            12s         Normal    Pulled                         pod/inventory-6d8d6b47b-7fqkn           Container image "shop:1.4.0" already present on machine
+shop            12s         Normal    ScalingReplicaSet              deployment/recommendations              Scaled down replica set recommendations-5c48d9584 from 2 to 1
+shop            12s         Normal    Scheduled                      pod/recommendations-6c9866fc7c-dr4gc    Successfully assigned shop/recommendations-6c9866fc7c-dr4gc to kubesleuth-worker
+shop            12s         Normal    SuccessfulDelete               replicaset/recommendations-5c48d9584    Deleted pod: recommendations-5c48d9584-kzh7c
+shop            12s         Normal    SuccessfulCreate               replicaset/recommendations-6c9866fc7c   Created pod: recommendations-6c9866fc7c-dr4gc
+shop            12s         Normal    Created                        pod/inventory-6d8d6b47b-7fqkn           Created container: inventory
+shop            12s         Normal    Killing                        pod/recommendations-5c48d9584-kzh7c     Stopping container recommendations
+shop            12s         Normal    Started                        pod/inventory-6d8d6b47b-7fqkn           Started container inventory
+shop            12s         Normal    ScalingReplicaSet              deployment/recommendations              Scaled up replica set recommendations-6c9866fc7c from 1 to 2
+shop            11s         Warning   Unhealthy                      pod/edge-5fcb7fcd74-7rmqt               Readiness probe failed: Get "http://10.244.1.135:8080/healthz": dial tcp 10.244.1.135:8080: connect: connection refused
+shop            11s         Normal    Started                        pod/recommendations-6c9866fc7c-dr4gc    Started container recommendations
+shop            11s         Warning   Unhealthy                      pod/checkout-6cf5d55794-6dmtb           Readiness probe failed: Get "http://10.244.1.137:8080/readyz": dial tcp 10.244.1.137:8080: connect: connection refused
+shop            11s         Normal    Pulled                         pod/recommendations-6c9866fc7c-dr4gc    Container image "shop:1.4.0" already present on machine
+shop            11s         Normal    Created                        pod/recommendations-6c9866fc7c-dr4gc    Created container: recommendations
+shop            10s         Warning   Unhealthy                      pod/inventory-6d8d6b47b-7fqkn           Readiness probe failed: Get "http://10.244.1.138:8080/healthz": dial tcp 10.244.1.138:8080: connect: connection refused
+shop            10s         Warning   Unhealthy                      pod/inventory-6d8d6b47b-5s2fk           Readiness probe failed: Get "http://10.244.1.136:8080/healthz": dial tcp 10.244.1.136:8080: connect: connection refused
+shop            9s          Warning   Unhealthy                      pod/recommendations-6c9866fc7c-dr4gc    Readiness probe failed: Get "http://10.244.1.139:8080/healthz": dial tcp 10.244.1.139:8080: connect: connection refused
+shop            6s          Normal    SuccessfulDelete               replicaset/edge-96d7fdc99               Deleted pod: edge-96d7fdc99-n7qtl
+shop            6s          Normal    Killing                        pod/edge-96d7fdc99-n7qtl                Stopping container edge
+shop            6s          Normal    ScalingReplicaSet              deployment/edge                         Scaled down replica set edge-96d7fdc99 from 1 to 0
+shop            5s          Normal    Killing                        pod/inventory-786ff4f6cf-p7hdt          Stopping container inventory
+shop            5s          Normal    SuccessfulDelete               replicaset/inventory-786ff4f6cf         Deleted pod: inventory-786ff4f6cf-p7hdt
+shop            4s          Normal    SuccessfulDelete               replicaset/recommendations-5c48d9584    Deleted pod: recommendations-5c48d9584-mnrcg
+shop            4s          Normal    Killing                        pod/recommendations-5c48d9584-mnrcg     Stopping container recommendations
+shop            4s          Normal    ScalingReplicaSet              deployment/recommendations              Scaled down replica set recommendations-5c48d9584 from 1 to 0

@@ -1,0 +1,109 @@
+ts=2026-10-13T10:34:13.921745232Z level=info caller=/workspace/cmd/prometheus-config-reloader/main.go:148 msg="Starting prometheus-config-reloader" version="(version=0.83.0, branch=, revision=5cf2f5d)" build_context="(go=go1.24.3, platform=linux/amd64, user=, date=20250530-07:46:40, tags=unknown)"
+ts=2026-10-13T10:34:13.925155504Z level=info caller=/workspace/internal/goruntime/cpu.go:27 msg="Leaving GOMAXPROCS=4: CPU quota undefined"
+level=info ts=2026-10-13T10:34:13.925915967Z caller=reloader.go:282 msg="reloading via HTTP"
+time=2026-10-13T10:34:25.449Z level=INFO source=main.go:1544 msg="updated GOGC" old=100 new=75
+time=2026-10-13T10:34:25.450Z level=INFO source=main.go:676 msg="Leaving GOMAXPROCS=4: CPU quota undefined" component=automaxprocs
+time=2026-10-13T10:34:25.450Z level=INFO source=memlimit.go:198 msg="GOMEMLIMIT is updated" component=automemlimit package=github.com/KimMachineGun/automemlimit/memlimit GOMEMLIMIT=15088840704 previous=9223372036854775807
+time=2026-10-13T10:34:25.450Z level=INFO source=main.go:769 msg="Starting Prometheus Server" mode=server version="(version=3.5.0, branch=HEAD, revision=8be3a9560fbdd18a94dedec4b747c35178177202)"
+time=2026-10-13T10:34:25.450Z level=INFO source=main.go:774 msg="operational information" build_context="(go=go1.24.5, platform=linux/amd64, user=root@4451b64cb451, date=20250714-16:15:23, tags=netgo,builtinassets)" host_details="(Linux 6.17.0-1022-azure #22-Ubuntu SMP Mon Jul 27 17:24:03 UTC 2026 x86_64 prometheus-kps-prometheus-0 (none))" fd_limits="(soft=1048576, hard=1048576)" vm_limits="(soft=unlimited, hard=unlimited)"
+time=2026-10-13T10:34:25.452Z level=INFO source=web.go:656 msg="Start listening for connections" component=web address=0.0.0.0:9090
+time=2026-10-13T10:34:25.453Z level=INFO source=main.go:1288 msg="Starting TSDB ..."
+time=2026-10-13T10:34:25.458Z level=INFO source=tls_config.go:347 msg="Listening on" component=web address=[::]:9090
+time=2026-10-13T10:34:25.459Z level=INFO source=tls_config.go:386 msg="TLS is disabled." component=web http2=false address=[::]:9090
+time=2026-10-13T10:34:25.461Z level=INFO source=head.go:657 msg="Replaying on-disk memory mappable chunks if any" component=tsdb
+time=2026-10-13T10:34:25.461Z level=INFO source=head.go:744 msg="On-disk memory mappable chunks replay completed" component=tsdb duration=1.467µs
+time=2026-10-13T10:34:25.461Z level=INFO source=head.go:752 msg="Replaying WAL, this may take a while" component=tsdb
+time=2026-10-13T10:34:25.461Z level=INFO source=head.go:825 msg="WAL segment loaded" component=tsdb segment=0 maxSegment=0 duration=229.693µs
+time=2026-10-13T10:34:25.461Z level=INFO source=head.go:862 msg="WAL replay completed" component=tsdb checkpoint_replay_duration=37.334µs wal_replay_duration=310.914µs wbl_replay_duration=199ns chunk_snapshot_load_duration=0s mmap_chunk_replay_duration=1.467µs total_replay_duration=513.515µs
+time=2026-10-13T10:34:25.463Z level=INFO source=main.go:1309 msg="filesystem information" fs_type=EXT4_SUPER_MAGIC
+time=2026-10-13T10:34:25.463Z level=INFO source=main.go:1312 msg="TSDB started"
+time=2026-10-13T10:34:25.464Z level=INFO source=main.go:1497 msg="Loading configuration file" filename=/etc/prometheus/config_out/prometheus.env.yaml
+time=2026-10-13T10:34:25.468Z level=INFO source=kubernetes.go:312 msg="Using pod service account via in-cluster config" component="discovery manager scrape" discovery=kubernetes config=serviceMonitor/monitoring/kps-apiserver/0
+time=2026-10-13T10:34:25.469Z level=INFO source=kubernetes.go:312 msg="Using pod service account via in-cluster config" component="discovery manager scrape" discovery=kubernetes config=serviceMonitor/monitoring/kps-coredns/0
+time=2026-10-13T10:34:25.469Z level=INFO source=kubernetes.go:312 msg="Using pod service account via in-cluster config" component="discovery manager scrape" discovery=kubernetes config=serviceMonitor/monitoring/kps-operator/0
+time=2026-10-13T10:34:25.474Z level=INFO source=kubernetes.go:312 msg="Using pod service account via in-cluster config" component="discovery manager notify" discovery=kubernetes config=config-0
+time=2026-10-13T10:34:25.494Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T10:34:25.494Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T10:34:25.494Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T10:34:25.497Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T10:34:25.503Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T10:34:25.503Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T10:34:25.504Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T10:34:25.515Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T10:34:25.556Z level=INFO source=main.go:1537 msg="Completed loading of configuration file" db_storage=1.496µs remote_storage=2.179µs web_handler=552ns query_engine=1.079µs scrape=216.987µs scrape_sd=4.495258ms notify=276.114µs notify_sd=1.671439ms rules=81.319552ms tracing=7.946µs filename=/etc/prometheus/config_out/prometheus.env.yaml totalDuration=92.253474ms
+time=2026-10-13T10:34:25.556Z level=INFO source=main.go:1273 msg="Server is ready to receive web requests."
+time=2026-10-13T10:34:25.556Z level=INFO source=manager.go:176 msg="Starting rule manager..." component="rule manager"
+time=2026-10-13T10:34:25.556Z level=INFO source=main.go:1497 msg="Loading configuration file" filename=/etc/prometheus/config_out/prometheus.env.yaml
+time=2026-10-13T10:34:25.647Z level=INFO source=main.go:1537 msg="Completed loading of configuration file" db_storage=1.885µs remote_storage=2.46µs web_handler=735ns query_engine=1.239µs scrape=83.884µs scrape_sd=62.32µs notify=302.88µs notify_sd=5.751µs rules=77.810813ms tracing=5.438µs filename=/etc/prometheus/config_out/prometheus.env.yaml totalDuration=91.15193ms
+time=2026-10-13T10:39:34.521Z level=INFO source=main.go:1497 msg="Loading configuration file" filename=/etc/prometheus/config_out/prometheus.env.yaml
+time=2026-10-13T10:39:34.527Z level=INFO source=kubernetes.go:312 msg="Using pod service account via in-cluster config" component="discovery manager scrape" discovery=kubernetes config=serviceMonitor/shop/shop/0
+time=2026-10-13T10:39:34.529Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T10:39:34.533Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T10:39:34.582Z level=INFO source=main.go:1537 msg="Completed loading of configuration file" db_storage=1.792µs remote_storage=2.24µs web_handler=875ns query_engine=1.282µs scrape=1.721012ms scrape_sd=379.307µs notify=714.061µs notify_sd=12.058µs rules=53.649485ms tracing=5.209µs filename=/etc/prometheus/config_out/prometheus.env.yaml totalDuration=61.088562ms
+time=2026-10-13T10:40:10.503Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T10:40:34.505Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T10:40:38.504Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T10:43:31.502Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T10:45:26.660Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T10:45:43.507Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T10:47:04.505Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T10:49:29.505Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T10:53:10.504Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T10:55:06.507Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T10:55:21.662Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T10:55:39.510Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T10:57:52.507Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:00:05.506Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:01:33.508Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:02:23.515Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:05:12.665Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:06:25.509Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:07:29.510Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:09:38.507Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:10:28.514Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:11:51.666Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:13:52.511Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:16:16.512Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:19:25.509Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:19:29.517Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:20:55.668Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:21:27.513Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:24:50.513Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:27:04.519Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:27:31.511Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:27:57.515Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:29:01.670Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:33:18.514Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:34:42.514Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:35:18.518Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:35:57.521Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:36:45.672Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:39:23.515Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:40:47.520Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:41:52.673Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:43:07.516Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:45:46.523Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:45:47.522Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:45:53.517Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:49:10.675Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:50:44.518Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:53:32.535Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:54:09.520Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:55:29.525Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:57:12.677Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T11:58:56.520Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T12:00:05.531Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T12:01:00.524Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T12:03:35.526Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T12:04:52.521Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T12:05:28.679Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+time=2026-10-13T12:05:37.533Z level=INFO source=warnings.go:70 msg="v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice" component=k8s_client_runtime
+ts=2026-10-13T10:34:25.524043346Z level=info caller=/workspace/cmd/prometheus-config-reloader/main.go:148 msg="Starting prometheus-config-reloader" version="(version=0.83.0, branch=, revision=5cf2f5d)" build_context="(go=go1.24.3, platform=linux/amd64, user=, date=20250530-07:46:40, tags=unknown)"
+ts=2026-10-13T10:34:25.524614873Z level=info caller=/workspace/internal/goruntime/cpu.go:27 msg="Leaving GOMAXPROCS=4: CPU quota undefined"
+level=info ts=2026-10-13T10:34:25.525976941Z caller=reloader.go:282 msg="reloading via HTTP"
+ts=2026-10-13T10:34:25.525977555Z level=info caller=/workspace/cmd/prometheus-config-reloader/main.go:202 msg="Starting web server for metrics" listen=:8080
+ts=2026-10-13T10:34:25.526439812Z level=info caller=/go/pkg/mod/github.com/prometheus/exporter-toolkit@v0.14.0/web/tls_config.go:347 msg="Listening on" address=[::]:8080
+ts=2026-10-13T10:34:25.526569849Z level=info caller=/go/pkg/mod/github.com/prometheus/exporter-toolkit@v0.14.0/web/tls_config.go:350 msg="TLS is disabled." http2=false address=[::]:8080
+level=info ts=2026-10-13T10:34:25.649079305Z caller=reloader.go:548 msg="Reload triggered" cfg_in=/etc/prometheus/config/prometheus.yaml.gz cfg_out=/etc/prometheus/config_out/prometheus.env.yaml cfg_dirs= watched_dirs=/etc/prometheus/rules/prometheus-kps-prometheus-rulefiles-0
+level=info ts=2026-10-13T10:34:25.649229974Z caller=reloader.go:330 msg="started watching config file and directories for changes" cfg=/etc/prometheus/config/prometheus.yaml.gz cfgDirs= out=/etc/prometheus/config_out/prometheus.env.yaml dirs=/etc/prometheus/rules/prometheus-kps-prometheus-rulefiles-0
+level=info ts=2026-10-13T10:39:34.582505023Z caller=reloader.go:548 msg="Reload triggered" cfg_in=/etc/prometheus/config/prometheus.yaml.gz cfg_out=/etc/prometheus/config_out/prometheus.env.yaml cfg_dirs= watched_dirs=/etc/prometheus/rules/prometheus-kps-prometheus-rulefiles-0

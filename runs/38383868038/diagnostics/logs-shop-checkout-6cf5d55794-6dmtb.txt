@@ -1,0 +1,6 @@
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+{"ts": "2026-10-13T12:08:01.416Z", "level": "info", "svc": "checkout", "version": "1.4.0", "msg": "opening database pool", "min_size": 4, "max_size": 4}
+{"ts": "2026-10-13T12:08:01.507Z", "level": "info", "svc": "checkout", "version": "1.4.0", "msg": "service started", "role": "checkout", "pod": "checkout-6cf5d55794-6dmtb"}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)

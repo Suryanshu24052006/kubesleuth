@@ -1,0 +1,5 @@
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+{"ts": "2026-10-13T10:39:04.759Z", "level": "info", "svc": "telemetry-collector", "version": "1.4.0", "msg": "service started", "role": "telemetry-collector", "pod": "telemetry-collector-865ccb84c6-ckttb"}
+INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
