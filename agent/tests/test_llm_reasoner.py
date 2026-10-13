@@ -98,3 +98,18 @@ def test_unusable_model_fails_fast_instead_of_inconclusive(broker):
     while isinstance(exc, BaseExceptionGroup):
         exc = exc.exceptions[0]
     assert isinstance(exc, LLMUnavailable) and "NOT_FOUND" in str(exc)
+
+
+def test_daily_quota_falls_back_to_next_model():
+    from kubesleuth_agent.schemas import Plan
+
+    class Exhausted(FakeToolModel):
+        def _generate(self, messages, stop=None, run_manager=None, **kwargs):
+            raise RuntimeError("429 RESOURCE_EXHAUSTED quotaId: GenerateRequestsPerDayPerProjectPerModel-FreeTier")
+
+    reasoner = LLMReasoner.with_model(Exhausted(), "llm:google_genai:first")
+    reasoner._fallbacks = ["google_genai:second"]
+    reasoner._build = lambda spec: FakeToolModel(answers={"Plan": [{"enough_evidence": True}]})
+    out = asyncio.run(reasoner._structured(Plan, "plan please"))
+    assert out.enough_evidence is True
+    assert reasoner.usage["models"] == ["llm:google_genai:first", "google_genai:second"]

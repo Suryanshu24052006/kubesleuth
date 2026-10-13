@@ -90,7 +90,7 @@ ANTHROPIC_API_KEY=... make demo-offline     # same incident, with the LLM
 ### The full environment
 You'll need Docker, [kind](https://kind.sigs.k8s.io/) 0.24 or newer, kubectl, Helm 3, Python 3.11+,
 about 8 GB of RAM for Docker, and one LLM key: `ANTHROPIC_API_KEY`, or `GOOGLE_API_KEY` with
-`KUBESLEUTH_MODEL=google_genai:gemini-3.8-flash`, or `OPENAI_API_KEY` with `KUBESLEUTH_MODEL=openai:gpt-4.1`.
+`KUBESLEUTH_MODEL=google_genai:gemini-3.5-flash`, or `OPENAI_API_KEY` with `KUBESLEUTH_MODEL=openai:gpt-4.1`.
 On Windows, run everything inside WSL2.
 
 ```bash

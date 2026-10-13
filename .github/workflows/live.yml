@@ -62,8 +62,10 @@ jobs:
           if [ -n "$ANTHROPIC_API_KEY" ]; then
             llm="anthropic:claude-sonnet-5-5"
           elif [ -n "$GOOGLE_API_KEY" ]; then
-            llm="google_genai:${{ vars.GEMINI_MODEL || 'gemini-3.8-flash' }}"
+            llm="google_genai:${{ vars.GEMINI_MODEL || 'gemini-3.5-flash' }}"
             echo "KUBESLEUTH_LLM_RPM=${{ vars.LLM_RPM || '8' }}" >> "$GITHUB_ENV"
+            # each Gemini model has its own free daily quota; continue on the next one when a quota runs out
+            echo "KUBESLEUTH_MODEL_FALLBACKS=${{ vars.GEMINI_FALLBACKS || 'google_genai:gemini-3.6-flash,google_genai:gemini-3-flash-preview,google_genai:gemini-3.7-flash,google_genai:gemini-flash-latest,google_genai:gemini-3.8-flash' }}" >> "$GITHUB_ENV"
           elif [ -n "$OPENAI_API_KEY" ]; then
             llm="openai:gpt-4.1"
           fi

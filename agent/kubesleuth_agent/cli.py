@@ -70,7 +70,7 @@ def main(argv=None):
     inv.add_argument("--fixture", help="offline snapshot instead of a live broker")
     inv.add_argument("--reasoner", choices=["llm", "rules"], default=os.environ.get("KUBESLEUTH_REASONER", "llm"))
     inv.add_argument("--model", default=os.environ.get("KUBESLEUTH_MODEL", "anthropic:claude-sonnet-5-5"),
-                     help="LangChain model id, e.g. anthropic:claude-sonnet-5-5, google_genai:gemini-3.8-flash, openai:gpt-4.1")
+                     help="LangChain model id, e.g. anthropic:claude-sonnet-5-5, google_genai:gemini-3.5-flash, openai:gpt-4.1")
     inv.add_argument("--max-rounds", type=int, default=6)
     inv.add_argument("--out", default="reports")
     inv.add_argument("--quiet", action="store_true")

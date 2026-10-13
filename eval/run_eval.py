@@ -136,7 +136,11 @@ def run_one(sc: dict, args, broker: PortForward, am: PortForward, outdir: Path) 
         name = reasoner.name.replace(":", "-").replace("/", "-")
         (outdir / f"{sc['id']}.{name}.json").write_text(json.dumps(report, indent=2, default=str))
         (outdir / f"{sc['id']}.{name}.md").write_text(to_markdown(report))
-        row = {"scenario": sc["id"], "reasoner": reasoner.name, "alert": fired, **score(report, sc["ground_truth"]),
+        models = ((report.get("stats") or {}).get("llm_usage") or {}).get("models") or []
+        label = reasoner.name if not models or models == [reasoner.name.removeprefix("llm:")] \
+            else f"{reasoner.name} (models used: {', '.join(m.split(':')[-1] for m in models)})"
+        row = {"scenario": sc["id"], "reasoner": reasoner.name, "reasoner_detail": label, "alert": fired,
+               **score(report, sc["ground_truth"]),
                "root_cause": report["root_cause"]["statement"], "report": f"{sc['id']}.{name}.md"}
         print(f"  -> [{reasoner.name}] {row['verdict'].upper()} ({row['confidence']}): {row['root_cause']}", flush=True)
         rows.append(row)
@@ -160,7 +164,7 @@ def summary_md(results: list[dict], meta: dict) -> str:
     for r in results:
         rc = str(r["root_cause"]).replace("|", "/").replace("\n", " ")[:160]
         link = f"[{r['scenario']}]({r['report']})" if r.get("report") else r["scenario"]
-        lines.append(f"| {link} | {r['reasoner']} | {r.get('alert') or 'no'} | **{r['verdict']}** | {r['confidence']} "
+        lines.append(f"| {link} | {r.get('reasoner_detail') or r['reasoner']} | {r.get('alert') or 'no'} | **{r['verdict']}** | {r['confidence']} "
                      f"({r['posterior']}) | {', '.join(r['evidence_sources'])} | {r['rounds']} | {r['tool_calls']} | "
                      f"{r['evidence_rejected']} | {r['duration_s']} | {r['tokens']} | {rc} |")
     return "\n".join(lines) + "\n"

@@ -87,9 +87,8 @@ def evidence_text(ledger: Ledger) -> str:
 class LLMReasoner:
     def __init__(self, model_spec: str, temperature: float = 0.0, max_tokens: int = 4096):
         import os
-        from langchain.chat_models import init_chat_model
         self.name = f"llm:{model_spec}"
-        kwargs = {"temperature": temperature, "max_tokens": max_tokens, "max_retries": 6}
+        kwargs = {"temperature": temperature, "max_tokens": max_tokens, "max_retries": 3}
         rpm = float(os.environ.get("KUBESLEUTH_LLM_RPM", "0") or 0)
         if rpm > 0:  # free-tier APIs (e.g. Gemini) cap requests per minute
             from langchain_core.rate_limiters import InMemoryRateLimiter
@@ -101,27 +100,48 @@ class LLMReasoner:
             key_env = os.environ.get("KUBESLEUTH_LLM_API_KEY_ENV")
             if key_env:
                 kwargs["api_key"] = os.environ.get(key_env, "")
-        self.model = init_chat_model(model_spec, **kwargs)
-        self.usage = {"calls": 0, "input_tokens": 0, "output_tokens": 0}
+        self._kwargs = kwargs
+        # Free tiers cap requests per model per day. When the current model's DAILY quota is
+        # exhausted, continue with the next model in KUBESLEUTH_MODEL_FALLBACKS (comma-separated).
+        self._fallbacks = [m.strip() for m in os.environ.get("KUBESLEUTH_MODEL_FALLBACKS", "").split(",") if m.strip()]
+        self.model_spec = model_spec
+        self.model = self._build(model_spec)
+        self.usage = {"calls": 0, "input_tokens": 0, "output_tokens": 0, "models": [model_spec]}
         self.obs_chars = int(os.environ.get("KUBESLEUTH_OBS_CHARS", "12000"))
         # One model call per round: assess() also returns the hypothesis update and next plan,
         # which hypothesize() and plan() then hand out without another call.
         self._pending_update: HypothesisUpdate | None = None
         self._pending_plan: Plan | None = None
 
+    def _build(self, spec: str):
+        from langchain.chat_models import init_chat_model
+        return init_chat_model(spec, **self._kwargs)
+
+    def _next_model(self) -> bool:
+        if not self._fallbacks:
+            return False
+        self.model_spec = self._fallbacks.pop(0)
+        self.model = self._build(self.model_spec)
+        self.usage["models"].append(self.model_spec)
+        log.warning("daily quota exhausted; continuing with %s", self.model_spec)
+        return True
+
     @classmethod
     def with_model(cls, model, name: str = "llm:injected", obs_chars: int = 12000) -> "LLMReasoner":
         """Use an already-built LangChain chat model (tests, custom providers)."""
         self = cls.__new__(cls)
         self.name, self.model, self.obs_chars = name, model, obs_chars
-        self.usage = {"calls": 0, "input_tokens": 0, "output_tokens": 0}
+        self.model_spec, self._fallbacks = name, []
+        self.usage = {"calls": 0, "input_tokens": 0, "output_tokens": 0, "models": [name]}
         self._pending_update = self._pending_plan = None
         return self
 
     async def _structured(self, schema, prompt: str):
-        runnable = self.model.with_structured_output(schema, include_raw=True)
         last: Exception | None = None
-        for attempt in range(2):
+        attempt = 0
+        while attempt < 2:
+            attempt += 1
+            runnable = self.model.with_structured_output(schema, include_raw=True)
             try:
                 res = await runnable.ainvoke([("system", prompts.SYSTEM), ("human", prompt)])
                 self.usage["calls"] += 1
@@ -132,10 +152,16 @@ class LLMReasoner:
                     return res["parsed"]
                 last = res.get("parsing_error") or ValueError("no structured output")
             except Exception as exc:  # provider hiccup or malformed output: retry once
-                if any(m in str(exc) for m in _FATAL_MARKERS):
-                    raise LLMUnavailable(f"{self.name}: {str(exc)[:300]}") from exc
+                text = str(exc)
+                if "RESOURCE_EXHAUSTED" in text and "PerDay" in text:
+                    if self._next_model():
+                        attempt = 0
+                        continue
+                    raise LLMUnavailable(f"{self.name}: daily quota exhausted for all configured models") from exc
+                if any(m in text for m in _FATAL_MARKERS):
+                    raise LLMUnavailable(f"{self.model_spec}: {text[:300]}") from exc
                 last = exc
-            log.warning("structured output attempt %d failed: %s", attempt + 1, last)
+            log.warning("structured output attempt %d failed: %s", attempt, last)
         raise RuntimeError(f"model failed to produce {schema.__name__}: {last}")
 
     async def hypothesize(self, ctx: Context) -> HypothesisUpdate:
