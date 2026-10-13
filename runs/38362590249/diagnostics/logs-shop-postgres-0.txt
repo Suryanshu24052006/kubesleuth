@@ -1,0 +1,59 @@
+The files belonging to this database system will be owned by user "postgres".
+This user must also own the server process.
+
+The database cluster will be initialized with locale "en_US.utf8".
+The default database encoding has accordingly been set to "UTF8".
+The default text search configuration will be set to "english".
+
+Data page checksums are disabled.
+
+fixing permissions on existing directory /var/lib/postgresql/data/pgdata ... ok
+creating subdirectories ... ok
+selecting dynamic shared memory implementation ... posix
+selecting default max_connections ... 100
+selecting default shared_buffers ... 128MB
+selecting default time zone ... UTC
+creating configuration files ... ok
+running bootstrap script ... ok
+sh: locale: not found
+2026-10-13 07:33:22.308 UTC [45] WARNING:  no usable system locales were found
+performing post-bootstrap initialization ... ok
+initdb: warning: enabling "trust" authentication for local connections
+initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+syncing data to disk ... ok
+
+
+Success. You can now start the database server using:
+
+    pg_ctl -D /var/lib/postgresql/data/pgdata -l logfile start
+
+waiting for server to start....2026-10-13 07:33:23.402 UTC [57] LOG:  starting PostgreSQL 16.15 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+2026-10-13 07:33:23.403 UTC [57] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2026-10-13 07:33:23.406 UTC [60] LOG:  database system was shut down at 2026-10-13 07:33:23 UTC
+2026-10-13 07:33:23.410 UTC [57] LOG:  database system is ready to accept connections
+2026-10-13 07:33:23.451 UTC [70] FATAL:  database "shop" does not exist
+ done
+server started
+CREATE DATABASE
+
+
+/usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/*
+
+waiting for server to shut down....2026-10-13 07:33:23.586 UTC [57] LOG:  received fast shutdown request
+2026-10-13 07:33:23.587 UTC [57] LOG:  aborting any active transactions
+2026-10-13 07:33:23.592 UTC [57] LOG:  background worker "logical replication launcher" (PID 63) exited with exit code 1
+2026-10-13 07:33:23.593 UTC [58] LOG:  shutting down
+2026-10-13 07:33:23.594 UTC [58] LOG:  checkpoint starting: shutdown immediate
+2026-10-13 07:33:23.616 UTC [58] LOG:  checkpoint complete: wrote 926 buffers (5.7%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.017 s, sync=0.004 s, total=0.023 s; sync files=301, longest=0.003 s, average=0.001 s; distance=4283 kB, estimate=4283 kB; lsn=0/1925D90, redo lsn=0/1925D90
+2026-10-13 07:33:23.627 UTC [57] LOG:  database system is shut down
+ done
+server stopped
+
+PostgreSQL init process complete; ready for start up.
+
+2026-10-13 07:33:23.707 UTC [1] LOG:  starting PostgreSQL 16.15 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+2026-10-13 07:33:23.707 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2026-10-13 07:33:23.707 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+2026-10-13 07:33:23.708 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2026-10-13 07:33:23.711 UTC [80] LOG:  database system was shut down at 2026-10-13 07:33:23 UTC
+2026-10-13 07:33:23.716 UTC [1] LOG:  database system is ready to accept connections

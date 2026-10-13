@@ -1,0 +1,13 @@
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+{"ts": "2026-10-13T07:33:17.408Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "service started", "role": "loadgen", "pod": "loadgen-786bccd86d-bcp4g"}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+{"ts": "2026-10-13T07:33:47.510Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 392, "err": 199}
+{"ts": "2026-10-13T07:34:17.566Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 632, "err": 0}
+{"ts": "2026-10-13T07:34:47.701Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 577, "err": 0}
+{"ts": "2026-10-13T07:35:17.736Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 644, "err": 0}
+{"ts": "2026-10-13T07:35:47.795Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 606, "err": 0}
+{"ts": "2026-10-13T07:36:17.960Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 584, "err": 0}
+{"ts": "2026-10-13T07:36:48.032Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 569, "err": 0}
+{"ts": "2026-10-13T07:37:18.313Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 568, "err": 0}

@@ -1,0 +1,44 @@
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+{"ts": "2026-10-13T07:33:15.035Z", "level": "info", "svc": "checkout", "version": "1.4.0", "msg": "opening database pool", "min_size": 4, "max_size": 4}
+error connecting in 'pool-1': connection failed: connection to server at "10.96.20.16", port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+error connecting in 'pool-1': connection failed: connection to server at "10.96.20.16", port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+error connecting in 'pool-1': connection failed: connection to server at "10.96.20.16", port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+error connecting in 'pool-1': connection failed: connection to server at "10.96.20.16", port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+error connecting in 'pool-1': connection failed: connection to server at "10.96.20.16", port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+error connecting in 'pool-1': connection failed: connection to server at "10.96.20.16", port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+error connecting in 'pool-1': connection failed: connection to server at "10.96.20.16", port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+error connecting in 'pool-1': connection failed: connection to server at "10.96.20.16", port 5432 failed: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+error connecting in 'pool-1': connection failed: connection to server at "10.96.20.16", port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+error connecting in 'pool-1': connection failed: connection to server at "10.96.20.16", port 5432 failed: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+error connecting in 'pool-1': connection failed: connection to server at "10.96.20.16", port 5432 failed: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+error connecting in 'pool-1': connection timeout expired
+error connecting in 'pool-1': connection failed: connection to server at "10.96.20.16", port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+error connecting in 'pool-1': connection failed: connection to server at "10.96.20.16", port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+{"ts": "2026-10-13T07:33:24.498Z", "level": "info", "svc": "checkout", "version": "1.4.0", "msg": "service started", "role": "checkout", "pod": "checkout-69cf4467b9-qx87h"}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+{"ts": "2026-10-13T07:33:29.457Z", "level": "error", "svc": "checkout", "version": "1.4.0", "msg": "upstream timeout", "error": "timeout", "user": "u2002"}
+{"ts": "2026-10-13T07:33:29.458Z", "level": "error", "svc": "checkout", "version": "1.4.0", "msg": "upstream timeout", "error": "timeout", "user": "u3150"}
+{"ts": "2026-10-13T07:33:29.515Z", "level": "error", "svc": "checkout", "version": "1.4.0", "msg": "upstream timeout", "error": "timeout", "user": "u2692"}
+{"ts": "2026-10-13T07:33:29.515Z", "level": "error", "svc": "checkout", "version": "1.4.0", "msg": "upstream timeout", "error": "timeout", "user": "u4622"}
+{"ts": "2026-10-13T07:33:29.517Z", "level": "error", "svc": "checkout", "version": "1.4.0", "msg": "upstream timeout", "error": "timeout", "user": "u4279"}
+{"ts": "2026-10-13T07:33:29.666Z", "level": "error", "svc": "checkout", "version": "1.4.0", "msg": "upstream timeout", "error": "timeout", "user": "u532"}
+{"ts": "2026-10-13T07:33:29.806Z", "level": "error", "svc": "checkout", "version": "1.4.0", "msg": "upstream timeout", "error": "timeout", "user": "u3300"}
+{"ts": "2026-10-13T07:33:29.874Z", "level": "error", "svc": "checkout", "version": "1.4.0", "msg": "upstream timeout", "error": "timeout", "user": "u1915"}

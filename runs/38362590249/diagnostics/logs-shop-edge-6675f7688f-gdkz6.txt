@@ -1,0 +1,82 @@
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+{"ts": "2026-10-13T07:33:15.332Z", "level": "info", "svc": "edge", "version": "1.4.0", "msg": "service started", "role": "edge", "pod": "edge-6675f7688f-gdkz6"}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+{"ts": "2026-10-13T07:33:19.614Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectError", "detail": "All connection attempts failed"}
+{"ts": "2026-10-13T07:33:19.658Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectError", "detail": "All connection attempts failed"}
+{"ts": "2026-10-13T07:33:19.724Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectError", "detail": "All connection attempts failed"}
+{"ts": "2026-10-13T07:33:19.774Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectError", "detail": "All connection attempts failed"}
+{"ts": "2026-10-13T07:33:19.946Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectError", "detail": "All connection attempts failed"}
+{"ts": "2026-10-13T07:33:20.057Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectError", "detail": "All connection attempts failed"}
+{"ts": "2026-10-13T07:33:20.689Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectError", "detail": "All connection attempts failed"}
+{"ts": "2026-10-13T07:33:21.720Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectError", "detail": "All connection attempts failed"}
+{"ts": "2026-10-13T07:33:22.102Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:22.320Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:22.406Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:22.518Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:22.633Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectError", "detail": "All connection attempts failed"}
+{"ts": "2026-10-13T07:33:22.791Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:22.823Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:22.927Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:22.946Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:23.084Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:23.263Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:23.396Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:23.605Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectError", "detail": "All connection attempts failed"}
+{"ts": "2026-10-13T07:33:23.764Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:23.954Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:24.002Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:24.120Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:24.235Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:24.310Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:24.341Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:24.486Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:24.624Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectError", "detail": "All connection attempts failed"}
+{"ts": "2026-10-13T07:33:24.661Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:24.800Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:24.945Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:24.971Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:25.067Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:25.201Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:25.209Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:25.305Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:25.379Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:25.554Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:25.678Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:25.682Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectError", "detail": "All connection attempts failed"}
+{"ts": "2026-10-13T07:33:25.795Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:25.900Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:26.001Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:26.136Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:26.224Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:26.310Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:26.403Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:26.434Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:26.543Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:26.661Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:26.720Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:26.748Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:26.768Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectError", "detail": "All connection attempts failed"}
+{"ts": "2026-10-13T07:33:26.878Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:26.944Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:26.995Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:27.092Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:27.115Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:27.164Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:27.221Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:27.296Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:27.373Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:27.522Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:27.776Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:27.851Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:28.045Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:28.128Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:29.332Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ReadTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:29.371Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ReadTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:29.385Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ReadTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:29.400Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ReadTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:29.450Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ReadTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:29.575Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ReadTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:29.734Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ReadTimeout", "detail": ""}
+{"ts": "2026-10-13T07:33:29.897Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ReadTimeout", "detail": ""}
