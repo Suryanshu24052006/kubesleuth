@@ -192,17 +192,26 @@ class Investigation:
         return {}
 
     def _apply_assessment(self, a, r: int) -> None:
+        # New hypotheses first, so evidence in the same answer can refer to them as N1, N2, ...
+        provisional: dict[str, str] = {}
+        for i, d in enumerate(a.new_hypotheses, start=1):
+            before = len(self.ledger.hypotheses)
+            h = self.ledger.add_hypothesis(d.statement, d.mechanism, d.component, d.category, d.layer,
+                                           d.predictions, r)
+            provisional[f"N{i}"] = h.id
+            if len(self.ledger.hypotheses) > before:
+                self._round(r).hypotheses_added.append(h.id)
+                self._emit("hypothesis", {"id": h.id, "statement": h.statement, "layer": h.layer})
         for f in a.facts:
             self.ledger.add_fact(f.observation_id, f.quote, f.statement, f.time)
         rl = self._round(r)
         for e in a.evidence:
-            ev = self.ledger.add_evidence(e.hypothesis_id, e.observation_id, e.quote, e.stance, e.strength,
-                                          e.rationale, r)
+            hid = provisional.get(e.hypothesis_id.strip().upper(), e.hypothesis_id)
+            ev = self.ledger.add_evidence(hid, e.observation_id, e.quote, e.stance, e.strength, e.rationale, r)
             if ev.accepted:
                 rl.evidence_accepted += 1
             else:
                 rl.evidence_rejected += 1
-        self._apply_hypotheses(a.new_hypotheses, r)
         self.security_notes += [n for n in a.security_notes if n not in self.security_notes]
 
     async def assess(self, state: GraphState) -> GraphState:

@@ -17,7 +17,7 @@ from . import prompts
 from .ledger import Ledger
 from .observations import Observation, ObservationStore
 from .schemas import (Assessment, ChainStep, EvidenceDraft, FactDraft, HypothesisDraft, HypothesisUpdate, Plan,
-                      ReportDraft, ToolCallPlan)
+                      ReportDraft, Step, ToolCallPlan)
 
 log = logging.getLogger("kubesleuth.reasoner")
 
@@ -95,8 +95,28 @@ class LLMReasoner:
             from langchain_core.rate_limiters import InMemoryRateLimiter
             kwargs["rate_limiter"] = InMemoryRateLimiter(requests_per_second=rpm / 60, check_every_n_seconds=0.2,
                                                          max_bucket_size=1)
+        base_url = os.environ.get("KUBESLEUTH_LLM_BASE_URL")  # any OpenAI-compatible endpoint
+        if base_url:
+            kwargs["base_url"] = base_url
+            key_env = os.environ.get("KUBESLEUTH_LLM_API_KEY_ENV")
+            if key_env:
+                kwargs["api_key"] = os.environ.get(key_env, "")
         self.model = init_chat_model(model_spec, **kwargs)
         self.usage = {"calls": 0, "input_tokens": 0, "output_tokens": 0}
+        self.obs_chars = int(os.environ.get("KUBESLEUTH_OBS_CHARS", "12000"))
+        # One model call per round: assess() also returns the hypothesis update and next plan,
+        # which hypothesize() and plan() then hand out without another call.
+        self._pending_update: HypothesisUpdate | None = None
+        self._pending_plan: Plan | None = None
+
+    @classmethod
+    def with_model(cls, model, name: str = "llm:injected", obs_chars: int = 12000) -> "LLMReasoner":
+        """Use an already-built LangChain chat model (tests, custom providers)."""
+        self = cls.__new__(cls)
+        self.name, self.model, self.obs_chars = name, model, obs_chars
+        self.usage = {"calls": 0, "input_tokens": 0, "output_tokens": 0}
+        self._pending_update = self._pending_plan = None
+        return self
 
     async def _structured(self, schema, prompt: str):
         runnable = self.model.with_structured_output(schema, include_raw=True)
@@ -119,6 +139,9 @@ class LLMReasoner:
         raise RuntimeError(f"model failed to produce {schema.__name__}: {last}")
 
     async def hypothesize(self, ctx: Context) -> HypothesisUpdate:
+        if self._pending_update is not None:
+            update, self._pending_update = self._pending_update, None
+            return update
         note = ("\nNOTE: the last rounds produced no new verified evidence. Broaden: consider mechanisms you have "
                 "not yet considered, or other components.\n") if ctx.stalled else ""
         return await self._structured(HypothesisUpdate, prompts.HYPOTHESIZE.format(
@@ -127,19 +150,29 @@ class LLMReasoner:
             stall_note=note))
 
     async def plan(self, ctx: Context) -> Plan:
+        if self._pending_plan is not None:
+            plan, self._pending_plan = self._pending_plan, None
+            return plan
         return await self._structured(Plan, prompts.PLAN.format(
             incident=ctx.incident, namespace=ctx.namespace, round=ctx.round, max_rounds=ctx.max_rounds,
             max_calls=ctx.max_calls, ledger=ctx.ledger.render(), digest=ctx.store.digest() or "(none)",
             tools=tools_for_prompt(ctx.tools)))
 
     async def assess(self, ctx: Context) -> Assessment:
-        rendered = "\n\n".join(ctx.store.render(o) for o in ctx.new_observations) or "(none)"
+        rendered = "\n\n".join(ctx.store.render(o, max_chars=self.obs_chars) for o in ctx.new_observations) or "(none)"
         if ctx.revisit_observations:
             rendered += ("\n\nEarlier observations, re-shown (truncated) because new hypotheses were added; "
                          "assess them against the NEW hypotheses:\n\n"
-                         + "\n\n".join(ctx.store.render(o, max_chars=3500) for o in ctx.revisit_observations))
-        return await self._structured(Assessment, prompts.ASSESS.format(
-            incident=ctx.incident, ledger=ctx.ledger.render(), observations=rendered))
+                         + "\n\n".join(ctx.store.render(o, max_chars=min(3500, self.obs_chars))
+                                        for o in ctx.revisit_observations))
+        step = await self._structured(Step, prompts.STEP.format(
+            incident=ctx.incident, namespace=ctx.namespace, round=ctx.round, max_rounds=ctx.max_rounds,
+            ledger=ctx.ledger.render(), digest=ctx.store.digest() or "(none)", timeline=ctx.timeline or "(none)",
+            observations=rendered, tools=tools_for_prompt(ctx.tools), max_calls=ctx.max_calls))
+        self._pending_update = HypothesisUpdate(retire=step.retire)
+        self._pending_plan = Plan(calls=step.next_calls, enough_evidence=step.enough_evidence)
+        return Assessment.model_construct(facts=step.facts, evidence=step.evidence,
+                                          new_hypotheses=step.new_hypotheses, security_notes=step.security_notes)
 
     async def report(self, ctx: Context, confidence: str, posterior: float, top_id: str | None) -> ReportDraft:
         top = ctx.ledger.hypotheses.get(top_id) if top_id else None

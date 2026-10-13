@@ -38,27 +38,26 @@ class FakeToolModel(BaseChatModel):
         return ChatResult(generations=[ChatGeneration(message=msg)])
 
 
-def test_llm_reasoner_full_loop(broker):
-    def assess(prompt: str):
-        # behave like a model that read the fenced observations: quote the diff verbatim
-        if '"field": "data.DB_POOL_SIZE"' in prompt:
+def test_llm_reasoner_one_call_per_round(broker):
+    def step(prompt: str):
+        # behave like a model that read the fenced observations: propose a hypothesis (N1) and
+        # cite the config diff verbatim for it in the same answer
+        if '"field": "data.DB_POOL_SIZE"' in prompt and "H1 p=" not in prompt:
             oid = prompt.split('tool="recent_changes"')[0].rsplit('<observation id="', 1)[1].split('"')[0]
-            return {"evidence": [{"hypothesis_id": "H1", "observation_id": oid,
+            return {"new_hypotheses": [{"statement": "pool size change exhausted postgres", "mechanism": "m",
+                                        "component": "configmap/checkout-config", "category": "Config",
+                                        "layer": "cause"}],
+                    "evidence": [{"hypothesis_id": "N1", "observation_id": oid,
                                   "quote": '"field": "data.DB_POOL_SIZE", "old": "4", "new": "30"',
-                                  "stance": "supports", "strength": "strong", "rationale": "the change"}]}
-        return {}
+                                  "stance": "supporting", "strength": "strong", "rationale": "the change"}],
+                    "next_calls": [{"tool": "find_traces", "args_json": {"service": "edge"}, "purpose": "origin"}]}
+        return {"enough_evidence": True}
 
     fake = FakeToolModel(answers={
-        "HypothesisUpdate": [{"new_hypotheses": [{"statement": "pool size change exhausted postgres", "mechanism": "m",
-                                                  "component": "configmap/checkout-config", "category": "configuration",
-                                                  "layer": "cause", "predictions": ["too many clients in logs"]}]}, {}],
-        "Plan": [{"calls": [{"tool": "find_traces", "args_json": json.dumps({"service": "edge"}), "purpose": "origin"}],
-                  "enough_evidence": False}, {"calls": [], "enough_evidence": True}],
-        "Assessment": [assess],
-        "ReportDraft": [{"title": "t", "root_cause": "rc", "causal_chain": [{"step": "s", "observation_ids": ["O3"]}]}],
+        "Step": [step],
+        "ReportDraft": [{"root_cause": "rc", "causal_chain": [{"step": "s", "observation_ids": ["O3"]}]}],
     })
-    reasoner = LLMReasoner.__new__(LLMReasoner)
-    reasoner.name, reasoner.model, reasoner.usage = "llm:fake", fake, {"calls": 0, "input_tokens": 0, "output_tokens": 0}
+    reasoner = LLMReasoner.with_model(fake, "llm:fake")
 
     async def go():
         async with BrokerClient(broker) as client:
@@ -67,14 +66,17 @@ def test_llm_reasoner_full_loop(broker):
     report = asyncio.run(go())
 
     kinds = [k for k, _ in fake.prompts]
-    assert {"HypothesisUpdate", "Plan", "Assessment", "ReportDraft"} <= set(kinds)
-    assess_prompts = [p for k, p in fake.prompts if k == "Assessment"]
-    # observations reach the model fenced and labelled untrusted, and the injection is called out
-    assert any('trust="untrusted-data"' in p for p in assess_prompts)
-    plan_prompt = next(p for k, p in fake.prompts if k == "Plan")
-    assert "workload_metrics(" in plan_prompt and "delete" not in plan_prompt.lower().split("tools")[1][:50]
-    assert report["evidence"] and report["evidence"][0]["quote"].startswith('"field"')
-    assert report["stats"]["llm_usage"]["calls"] >= 5 and report["stats"]["llm_usage"]["input_tokens"] > 0
+    # one Step call per round (triage + rounds) and one report call; no separate hypothesize/plan calls
+    assert set(kinds) == {"Step", "ReportDraft"} and kinds.count("ReportDraft") == 1
+    assert 1 <= kinds.count("Step") <= report["stats"]["rounds"] + 1
+    step_prompts = [p for k, p in fake.prompts if k == "Step"]
+    assert all('trust="untrusted-data"' in p for p in step_prompts)
+    assert "workload_metrics(" in step_prompts[0]
+    # N1 was mapped to the real hypothesis id and the lenient enums were normalised
+    ev = report["evidence"][0]
+    assert ev["hypothesis"] == "H1" and ev["stance"] == "supports" and ev["quote"].startswith('"field"')
+    assert report["hypotheses"][0]["category"] == "configuration"
+    assert report["stats"]["llm_usage"]["calls"] == len(kinds) and report["stats"]["llm_usage"]["input_tokens"] > 0
 
 
 def test_unusable_model_fails_fast_instead_of_inconclusive(broker):
@@ -85,8 +87,7 @@ def test_unusable_model_fails_fast_instead_of_inconclusive(broker):
         def _generate(self, messages, stop=None, run_manager=None, **kwargs):
             raise RuntimeError("Error calling model 'x' (NOT_FOUND): 404 NOT_FOUND. model no longer available")
 
-    reasoner = LLMReasoner.__new__(LLMReasoner)
-    reasoner.name, reasoner.model, reasoner.usage = "llm:broken", Broken(), {"calls": 0, "input_tokens": 0, "output_tokens": 0}
+    reasoner = LLMReasoner.with_model(Broken(), "llm:broken")
 
     async def go():
         async with BrokerClient(broker) as client:

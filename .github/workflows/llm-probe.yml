@@ -1,0 +1,74 @@
+# One cheap call per candidate model: which LLM backends work from Actions, and does
+# structured output parse? Output goes to the ci-output branch.
+name: llm-probe
+
+on:
+  workflow_dispatch:
+    inputs:
+      models:
+        description: "Space-separated LangChain model ids to try against GitHub Models"
+        default: "openai:openai/gpt-4.1 openai:openai/gpt-4.1-mini openai:openai/gpt-4o"
+
+permissions:
+  contents: write
+  models: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: make venv
+      - name: Probe
+        run: |
+          mkdir -p out
+          {
+            echo "## GitHub Models catalog"
+            curl -s -H "Authorization: Bearer $GITHUB_TOKEN" https://models.github.ai/catalog/models \
+              | python3 -c "import json,sys; d=json.load(sys.stdin); [print(m.get('id'), m.get('rate_limit_tier'), m.get('limits')) for m in d]" 2>&1 | head -60
+            echo
+            echo "## Gemini models visible to the key"
+            if [ -n "$GOOGLE_API_KEY" ]; then
+              curl -s "https://generativelanguage.googleapis.com/v1beta/models?key=$GOOGLE_API_KEY&pageSize=100" \
+                | python3 -c "import json,sys; d=json.load(sys.stdin); [print(m['name']) for m in d.get('models',[]) if 'generateContent' in m.get('supportedGenerationMethods',[])]" 2>&1 | head -60
+            fi
+            echo
+            echo "## Structured-output calls through GitHub Models"
+            for m in ${{ inputs.models }}; do
+              KUBESLEUTH_LLM_BASE_URL=https://models.github.ai/inference KUBESLEUTH_LLM_API_KEY_ENV=GITHUB_TOKEN \
+              PYTHONPATH=agent .venv/bin/python - "$m" <<'EOF' 2>&1 | tail -4
+          import asyncio, sys, time
+          from kubesleuth_agent.reasoners import LLMReasoner
+          from kubesleuth_agent.schemas import Step
+          r = LLMReasoner(sys.argv[1])
+          t = time.time()
+          try:
+              out = asyncio.run(r._structured(Step, "Incident: checkout 5xx. New observation O1 says: "
+                  "'data.DB_POOL_SIZE changed 4 -> 30'. Propose one hypothesis N1, cite O1 as evidence, plan no calls."))
+              print(sys.argv[1], "OK", round(time.time() - t, 1), "s", out.model_dump_json()[:300], r.usage)
+          except Exception as exc:
+              print(sys.argv[1], "FAILED", type(exc).__name__, str(exc)[:400])
+          EOF
+            done
+          } | tee out/llm-probe.txt
+      - name: Save output to the ci-output branch
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          src="$GITHUB_WORKSPACE/out"
+          rm -rf /tmp/cio && mkdir /tmp/cio && cd /tmp/cio
+          git init -q
+          git config user.name "kubesleuth-ci"
+          git config user.email "kubesleuth-ci@users.noreply.github.com"
+          git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          if git fetch -q --depth 1 origin ci-output; then git checkout -q -b ci-output FETCH_HEAD; else git checkout -q --orphan ci-output; fi
+          mkdir -p "probes/${{ github.run_id }}" && cp -r "$src/." "probes/${{ github.run_id }}/"
+          git add probes && git commit -qm "llm-probe ${{ github.run_id }}" && git push -q origin ci-output
