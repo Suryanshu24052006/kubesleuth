@@ -12,7 +12,7 @@ scenario where that concept is the failure point.
 | **Service / ClusterIP** | one per workload; selector `app: <name>` | `kubectl -n shop get endpointslices -l kubernetes.io/service-name=pricing` | Knight (Service selects old + new pods), EBS (Service renamed, clients keep old DNS name) |
 | **Ingress** | `deploy/shop/40-ingress.yaml`, Traefik controller | `curl 'http://shop.localhost:8080/?q=tent'` | loadgen enters through it, so edge 5xx is what users see |
 | **Gateway API** (bonus) | `HTTPRoute` in the same file, Traefik's default Gateway | `curl -H 'Host: gw.shop.localhost' localhost:8080/` | — |
-| **HorizontalPodAutoscaler** | `edge` HPA (CPU 70%, 2→4), needs metrics-server | `kubectl -n shop get hpa -w` during the Cloudflare scenario | Cloudflare (HPA maxes out: a symptom, not the fix) |
+| **HorizontalPodAutoscaler** | `edge` HPA (CPU 70%, 2→3), needs metrics-server | `kubectl -n shop get hpa -w` during the Cloudflare scenario | Cloudflare (HPA maxes out: a symptom, not the fix) |
 | **Probes** | liveness/readiness on every Deployment | `kubectl -n shop get events --field-selector reason=Unhealthy` | Chef (aggressive deep liveness probe) |
 | **Resource requests/limits** | every container | `kubectl top pods -n shop` | S3 (CPU throttling at 250m), EBS (memory limit 192Mi) |
 | **ConfigMap (env vs mounted)** | `checkout-config` (env, needs restart) vs `edge-waf-rules`/`feature-flags` (volume, hot-reloaded) | edit one and watch the pod log `configuration reloaded` | Cloudflare, Knight, GitHub |

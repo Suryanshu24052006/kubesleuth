@@ -36,9 +36,9 @@ triage → hypothesize → plan → act → assess → decide ─┬─► hypot
 of the namespace, recent changes and warning events. That gives the model a broad starting picture
 cheaply.
 
-**Hypothesize** asks the model for a few competing explanations. Each one is marked as a cause or a
-symptom, gets a category (configuration, capacity, dependency and so on), a mechanism, and predictions:
-what we'd expect to see, and where, if it were true.
+**Hypothesize** keeps a set of competing explanations. Each one is marked as a cause or a symptom, gets
+a category (configuration, capacity, dependency and so on), a mechanism, and predictions: what we'd
+expect to see, and where, if it were true.
 
 **Plan** picks up to four tool calls for the round. The prompt asks specifically for calls that would
 come back *differently* depending on which hypothesis is right, because those are the ones that actually
@@ -49,8 +49,14 @@ with a number (O1, O2, …) so it can be cited later. Repeated identical calls a
 
 **Assess** shows the model the new results, clearly marked as untrusted data, and asks for facts and
 evidence: which hypothesis a result supports or contradicts, how strongly, and a quote copied from the
-result. If new hypotheses appeared this round, it also re-shows the earlier results so those hypotheses
-get tested against everything, not just the latest data.
+result.
+
+**One model call per round.** With the LLM reasoner, assess, hypothesize and plan happen in a *single*
+structured call: the model reads the new results, records evidence, proposes or retires hypotheses, and
+chooses the next tool calls in one answer. New hypotheses are labelled N1, N2, … so evidence in the
+same answer can cite them, and the code maps those labels to real ids. An investigation therefore costs
+about 5–7 model calls instead of about 20, which mattered on the free Gemini tier (section 8). If that
+combined call fails, the graph falls back to separate hypothesize and plan calls.
 
 **Decide** is pure code. It recomputes the probabilities and stops when confidence is high, when the
 model and the numbers both say there's enough evidence, when two rounds pass with nothing new, or when
@@ -75,7 +81,7 @@ The broker exposes eleven tools, all marked read-only:
 |---|---|---|
 | `active_alerts` | Alertmanager | what's firing and since when |
 | `cluster_overview` | Kubernetes | a list of problems it spotted (OOMKilled, crash loops, pods not ready, Services with no endpoints or selecting nothing, Services sending traffic to two different versions, autoscalers at their limit, unbound volumes) plus workloads, pods, Services, autoscalers and volumes |
-| `recent_changes` | Kubernetes | what changed, field by field, and who changed it |
+| `recent_changes` | Kubernetes | what changed, field by field, who changed it (a person with kubectl, Helm, or a controller), and whether each change is **still in effect** or was later reverted |
 | `get_events` | Kubernetes | events grouped by reason and object, with first and last seen times |
 | `describe` | Kubernetes | a trimmed view of one object and its write history (Secrets are impossible to read) |
 | `pod_logs` | Kubernetes | a pod's logs grouped into patterns, including the previous crashed container |
@@ -149,8 +155,11 @@ hijacked-model test check it without one.
 
 ## 7. Known limitations
 
-- **I haven't done a full live run yet.** I couldn't pull container images where I built this, so the
-  first `make up` may need some tuning.
+- **The LLM results come from the free Gemini tier**, which allows a few requests per minute and about 20 per
+  day per model, with frequent "overloaded" errors. The agent copes (retries, model fallback), but the
+  numbers would likely improve with a paid or self-hosted model.
+- **Each scenario has been run once per reasoner** on a 4-vCPU GitHub runner, so the results are indicative,
+  not statistically strong, and a heavy scenario can stress the cluster itself.
 - The PromQL checks use careful pattern matching rather than a real parser. If they're unsure, they
   refuse, and Prometheus is read-only anyway.
 - The change journal only sees changes made while the broker is running; older ones show up without the
@@ -238,7 +247,15 @@ The most useful bugs came from the first runs on a real cluster (GitHub Actions,
    once.
 7. Route the agent's internet access through an egress proxy that only allows the LLM provider's domain.
 
-## 11. Continuous live evaluation
+## 11. Results and continuous live evaluation
+
+The first complete live run: the rule-based baseline found the correct root cause in **3 of 6** scenarios
+and the LLM agent in **2 of 5** (the sixth could not run because the free daily quota was used up). The
+security demo passed every check on the live cluster. The LLM found the two causes that need reasoning
+across sources (the exact Cloudflare WAF rule; the Chef-style aggressive liveness probe). The baseline won
+where one recent change explains everything. Per-scenario reports and the problems the run exposed are in
+[results/](../results/README.md).
+
 
 Two GitHub Actions workflows keep the project honest:
 

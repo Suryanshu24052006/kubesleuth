@@ -54,6 +54,11 @@ in a log, the worst it could do is make more read-only queries.
 - **The data is shaped for reasoning.** Thousands of log lines get grouped into a handful of
   patterns, and each metric comes back with the time it started going wrong, so the agent can check
   whether a change happened *before* the problem.
+- **It's frugal with the model.** One LLM call per investigation round (about 6 per incident), retries on
+  rate limits and overloads, and automatic fallback to another model when a free daily quota runs out.
+- **It's tested on a real cluster, not just in theory.** A GitHub Actions workflow builds the whole
+  environment from scratch, breaks it six ways and scores the agent. Those runs found 8 real problems,
+  all fixed (see [results/](results/README.md)).
 - **It asks useful questions.** When choosing what to query next, the agent is asked for queries whose
   answer would be different depending on which explanation is true, not ones that just confirm its
   current favourite.
@@ -77,6 +82,12 @@ There's also a `review-bot` pod that keeps writing prompt-injection messages and
 into its logs, so every investigation has hostile noise to deal with.
 
 ## Running it
+
+### On GitHub, with no setup at all
+Fork the repo, add a `GOOGLE_API_KEY` repository secret (optional, for LLM results), then go to
+**Actions → live-eval → Run workflow**. A fresh GitHub machine builds the cluster, runs the security demo,
+injects every scenario and lets the agent investigate. The results are saved to the
+[`ci-output`](https://github.com/Suryanshu24052006/kubesleuth/tree/ci-output) branch and as a workflow artifact.
 
 ### Without a cluster (about 2 minutes)
 ```bash
@@ -131,6 +142,8 @@ make security-demo   # RBAC, credentials, network policy and broker attack check
 | `scenarios/` | the six post-mortem reproductions and their ground truth |
 | `eval/` | the evaluation harness and scorer |
 | `fixtures/` | recorded incidents for offline runs and tests |
+| `results/` | live evaluation results: per-scenario RCA reports, security demo output, problems found |
+| `.github/workflows/` | `ci` (tests on every push), `live-eval` (full live evaluation), `llm-probe` (checks which models work) |
 | `docs/` | [write-up](docs/WRITEUP.md), [security model](docs/SECURITY.md), [Kubernetes concepts used](docs/K8S_CONCEPTS.md), and a [sample report](docs/sample-report-rules-offline.md) |
 
 ## Testing and live results

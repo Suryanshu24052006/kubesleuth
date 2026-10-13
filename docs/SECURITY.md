@@ -48,6 +48,9 @@
 
 ## Demonstrations
 
+All of these passed on a live kind cluster built from scratch by the `live-eval` GitHub Actions workflow
+([output](../results/live/2026-10-13-run1/security-demo.txt)).
+
 | Check | How | Expected |
 |---|---|---|
 | RBAC matrix (15 checks) | `make security-demo` (`kubectl auth can-i --as system:serviceaccount:kubesleuth:kubesleuth-broker`) | reads in `shop` yes; secrets/exec/port-forward/writes/other namespaces no |
