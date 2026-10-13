@@ -43,7 +43,9 @@ def build(store: ObservationStore) -> list[TimelineEntry]:
             d = o.envelope.get("data") or {}
             if o.tool == "recent_changes":
                 for c in _dicts(d.get("changes")):
-                    fields = "; ".join(f"{f['field']} {_fmt(f.get('old'), 30)} → {_fmt(f.get('new'), 30)}" for f in _dicts(c.get("fields"))[:3])
+                    fields = "; ".join(f"{f['field']} {_fmt(f.get('old'), 30)} → {_fmt(f.get('new'), 30)}"
+                                       + (" (since reverted)" if f.get("in_effect") is False else "")
+                                       for f in _dicts(c.get("fields"))[:3])
                     actor = (c.get("actor") or {}).get("manager")
                     out.append(TimelineEntry(c["time"], f"{c['kind']}/{c['name']} {c['change']}"
                                              + (f": {fields}" if fields else "") + (f" (by {actor})" if actor else ""),

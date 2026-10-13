@@ -85,7 +85,7 @@ def evidence_text(ledger: Ledger) -> str:
 
 # ============================================================================ LLM
 class LLMReasoner:
-    def __init__(self, model_spec: str, temperature: float = 0.0, max_tokens: int = 4096):
+    def __init__(self, model_spec: str, temperature: float = 0.0, max_tokens: int = 8192):
         import os
         self.name = f"llm:{model_spec}"
         kwargs = {"temperature": temperature, "max_tokens": max_tokens, "max_retries": 3}
@@ -137,8 +137,9 @@ class LLMReasoner:
         return self
 
     async def _structured(self, schema, prompt: str):
+        import asyncio
         last: Exception | None = None
-        attempt = 0
+        attempt, transient = 0, 0
         while attempt < 2:
             attempt += 1
             runnable = self.model.with_structured_output(schema, include_raw=True)
@@ -160,6 +161,18 @@ class LLMReasoner:
                     raise LLMUnavailable(f"{self.name}: daily quota exhausted for all configured models") from exc
                 if any(m in text for m in _FATAL_MARKERS):
                     raise LLMUnavailable(f"{self.model_spec}: {text[:300]}") from exc
+                if any(m in text for m in ("503", "UNAVAILABLE", "overloaded", "RESOURCE_EXHAUSTED", "429")):
+                    # per-minute limit or provider overload: wait and retry without spending an attempt;
+                    # after repeated overloads move to the next model
+                    transient += 1
+                    if transient <= 4:
+                        await asyncio.sleep(min(60, 8 * transient))
+                        attempt -= 1
+                        last = exc
+                        continue
+                    if self._next_model():
+                        transient, attempt = 0, 0
+                        continue
                 last = exc
             log.warning("structured output attempt %d failed: %s", attempt, last)
         raise RuntimeError(f"model failed to produce {schema.__name__}: {last}")
@@ -231,6 +244,14 @@ class RuleReasoner:
             d = o.envelope.get("data") or {}
             if o.tool == "recent_changes":
                 for c in _dicts(d.get("changes")):
+                    # runbook rules: an ongoing incident is caused by a change that is still in effect,
+                    # made recently, by a person or tool rather than by a controller reacting to load
+                    if c.get("still_in_effect") is False:
+                        continue
+                    if (c.get("actor") or {}).get("manager") in ("kube-controller-manager", "horizontal-pod-autoscaler"):
+                        continue
+                    if _age_minutes(c.get("time")) > 30:
+                        continue
                     fields = ", ".join(f"{f['field']} {f.get('old')}->{f.get('new')}" for f in _dicts(c.get("fields"))[:3])
                     kind, name = c["kind"], c["name"]
                     fl = fields.lower()
@@ -332,6 +353,15 @@ class RuleReasoner:
             causal_chain=[ChainStep(step=e.rationale + f": {e.quote[:80]}", observation_ids=[e.observation_id]) for e in sup[:5]],
             uncertainty=["Baseline rule reasoner: causal links are keyword-based, verify manually."],
             remediation=["Review and revert the implicated change if confirmed."] if top else [])
+
+
+def _age_minutes(ts: str | None) -> float:
+    from datetime import datetime, timezone
+    try:
+        t = datetime.fromisoformat(str(ts).replace("Z", "+00:00"))
+    except ValueError:
+        return 0.0
+    return (datetime.now(timezone.utc) - t).total_seconds() / 60
 
 
 def _decreased(change: dict) -> bool:

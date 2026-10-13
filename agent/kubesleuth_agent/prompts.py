@@ -12,6 +12,8 @@ Ground rules
    stop the incident. Walk UPSTREAM along dependencies (trace error origins, dependency failures) and BACK IN
    TIME (what changed shortly before the onset).
 3. A cause precedes its effects. Compare change timestamps with metric onset times and first-seen log times.
+   A change marked in_effect=false / "reverted" was undone later and is usually not the cause of an ongoing
+   problem. Replica changes made by kube-controller-manager or an HPA are reactions, not root causes.
 4. Prefer agreement between independent sources: Kubernetes state/events, change history, metrics, logs, traces.
    When sources disagree, say so rather than picking the convenient one.
 5. Known background noise (long-standing warnings that predate the incident) is not evidence for a new incident.
@@ -129,8 +131,8 @@ Do all of the following in ONE answer:
 3. retire: ledger hypotheses the evidence has clearly ruled out.
 4. evidence: for every hypothesis (H1... from the ledger, or N1... from step 2) that the NEW observations bear
    on, say whether they support or contradict it.
-   - quote: copy an exact substring (12-200 chars) of a NEW observation; it is machine-verified, paraphrases
-     are rejected.
+   - quote: copy a SHORT exact substring (12-120 chars) of a NEW observation, e.g. one error message or one
+     field diff; it is machine-verified, paraphrases are rejected. Keep the whole answer compact.
    - strength: strong = directly demonstrates or rules out the mechanism (the exact error, a field diff, an
      OOMKilled reason, a selector matching no pods); moderate = specific and consistent; weak = merely compatible.
    - A component failing because something upstream failed is a VICTIM: that supports the upstream hypothesis.

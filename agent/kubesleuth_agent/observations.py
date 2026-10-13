@@ -119,7 +119,8 @@ def digest_for(o: Observation) -> str:
         if t == "recent_changes":
             parts = []
             for c in _dicts(d.get("changes"))[:8]:
-                f = "; ".join(f"{x['field']}: {_short(x.get('old'), 40)} -> {_short(x.get('new'), 40)}" for x in _dicts(c.get("fields"))[:2])
+                f = "; ".join(f"{x['field']}: {_short(x.get('old'), 40)} -> {_short(x.get('new'), 40)}"
+                              + (" [reverted]" if x.get("in_effect") is False else "") for x in _dicts(c.get("fields"))[:2])
                 parts.append(f"{c['time']} {c['kind']}/{c['name']} {c['change']} {f}".strip())
             return " | ".join(parts) or "no changes"
         if t == "get_events":

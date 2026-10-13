@@ -113,3 +113,31 @@ def test_daily_quota_falls_back_to_next_model():
     out = asyncio.run(reasoner._structured(Plan, "plan please"))
     assert out.enough_evidence is True
     assert reasoner.usage["models"] == ["llm:google_genai:first", "google_genai:second"]
+
+
+def test_overloaded_provider_is_retried_then_switched(monkeypatch):
+    from kubesleuth_agent.schemas import Plan
+
+    async def no_sleep(_):
+        return None
+    monkeypatch.setattr(asyncio, "sleep", no_sleep)
+
+    class Flaky(FakeToolModel):
+        fails: int = 2
+
+        def _generate(self, messages, stop=None, run_manager=None, **kwargs):
+            if self.fails:
+                self.fails -= 1
+                raise RuntimeError("503 UNAVAILABLE. This model is currently experiencing high demand.")
+            return super()._generate(messages, stop, run_manager, **kwargs)
+
+    flaky = Flaky(answers={"Plan": [{"enough_evidence": True}]})
+    r = LLMReasoner.with_model(flaky, "llm:flaky")
+    assert asyncio.run(r._structured(Plan, "x")).enough_evidence is True     # two 503s, then success
+
+    always = Flaky(fails=99)
+    r2 = LLMReasoner.with_model(always, "llm:down")
+    r2._fallbacks = ["next"]
+    r2._build = lambda spec: FakeToolModel(answers={"Plan": [{"enough_evidence": True}]})
+    assert asyncio.run(r2._structured(Plan, "x")).enough_evidence is True    # persistent overload -> next model
+    assert r2.usage["models"][-1] == "next"

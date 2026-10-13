@@ -167,6 +167,25 @@ hijacked-model test check it without one.
 
 ## 8. Things that went wrong along the way
 
+The most useful bugs came from the first runs on a real cluster (GitHub Actions, see section 11):
+
+- **Live data broke the timeline.** Real tool results are much bigger than my recorded test incident,
+  so the broker trimmed long lists and appended a "…N more omitted" string to them. The agent's timeline
+  code then called `.get()` on that string and crashed. Lists are now trimmed without markers, recent
+  changes come newest-first so trimming keeps the latest ones, and a regression test inflates the fixture
+  until every result gets trimmed.
+- **The eval never reached the broker.** Its `kubectl port-forward` tunnels died silently. They now
+  health-check before each use, restart when needed and log to the run output.
+- **The LLM model I configured had been retired.** `gemini-2.5-flash` returned 404 for new API keys. The
+  agent carried on and reported "inconclusive", which hid a configuration error behind a plausible verdict.
+  Unusable models (404, bad key) now stop the run with a clear error.
+- **The free tier allowed 20 requests per day per model**, and the agent used three model calls per round.
+  I merged assessment, hypothesis updates and planning into one call per round (about 6 calls per
+  investigation instead of about 20), and the agent now moves to the next Gemini model when one model's
+  daily quota runs out. The models used are listed in every report.
+- **Models return near-miss JSON** ("supporting" instead of "supports", missing optional fields). Each
+  rejected answer wasted a whole call, so parsing now normalises near-misses. Evidence still has to pass
+  the quote check, so this leniency never affects what counts as proof.
 - **The Cloudflare regex didn't break anything at first.** I was running it against the whole query
   string, which contains an `=` early on, so it matched instantly. Real WAFs check each parameter
   separately. Once I did that, the original pattern slowed down dramatically on long digit strings: about
@@ -218,3 +237,16 @@ hijacked-model test check it without one.
 6. Add more chaos experiments (DNS failures, pod kills, CPU stress) and scenarios with several faults at
    once.
 7. Route the agent's internet access through an egress proxy that only allows the LLM provider's domain.
+
+## 11. Continuous live evaluation
+
+Two GitHub Actions workflows keep the project honest:
+
+- **ci** (every push): all tests, the offline investigation, the 14-attack broker probe, shell-script
+  checks and manifest validation against the Kubernetes 1.33 schemas.
+- **live-eval** (on demand): a fresh GitHub-hosted machine creates the kind cluster with `make up`,
+  runs the security demo against the live cluster, then for every scenario resets the shop, injects the
+  failure, waits for Alertmanager, and lets both the rule-based baseline and the LLM agent investigate the
+  same incident. Each RCA is scored against the scenario's ground truth. Results, reports, logs and
+  diagnostics are kept in the repository (`results/` and the `ci-output` branch), so every number in the
+  README can be traced back to a run.

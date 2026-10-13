@@ -143,3 +143,32 @@ def test_onset_ignores_noise():
 def test_series_summary_has_sparkline():
     s = summarize_series({"pod": "a"}, [[i, str(i)] for i in range(10)], "req/s")
     assert s["max"] == 9 and len(s["sparkline"]) == 10 and s["unit"] == "req/s"
+
+
+# ------------------------------------------------------------------ change journal (found on the live cluster)
+def _deploy(replicas):
+    return {"metadata": {"name": "inventory", "namespace": "shop", "managedFields": [
+        {"manager": "kubectl", "operation": "Update", "time": "2026-01-01T00:00:00Z", "subresource": "scale"},
+        {"manager": "kube-controller-manager", "operation": "Update", "time": "2026-01-01T00:00:05Z",
+         "subresource": "status"}]},
+        "spec": {"replicas": replicas, "template": {"spec": {"containers": [{"name": "inventory", "image": "shop:1.4.0"}]}}}}
+
+
+def test_journal_credits_the_human_not_the_status_writer():
+    from kubesleuth_broker.journal import ChangeJournal
+    j = ChangeJournal()
+    j.observe("deployment", "ADDED", _deploy(4), baseline=True)
+    j.observe("deployment", "MODIFIED", _deploy(1))
+    (rec,) = j.records("shop", "2000")
+    assert rec["actor"]["manager"] == "kubectl"
+
+
+def test_journal_marks_reverted_changes():
+    from kubesleuth_broker.journal import ChangeJournal
+    j = ChangeJournal()
+    j.observe("deployment", "ADDED", _deploy(4), baseline=True)
+    j.observe("deployment", "MODIFIED", _deploy(1))
+    j.observe("deployment", "MODIFIED", _deploy(4))
+    scale_down, restore = j.records("shop", "2000")
+    assert scale_down["fields"][0]["in_effect"] is False and scale_down["still_in_effect"] is False
+    assert restore["fields"][0]["in_effect"] is True

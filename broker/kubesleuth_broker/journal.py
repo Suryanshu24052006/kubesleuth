@@ -83,8 +83,10 @@ def diff(old: dict, new: dict) -> list[dict]:
 
 
 def last_manager(obj: dict) -> dict:
+    """Who last changed the object's spec/data. Status writes are ignored: controllers update
+    status constantly, which would otherwise hide the human (kubectl) or tool that made the change."""
     entries = (obj.get("metadata") or {}).get("managedFields") or []
-    entries = [e for e in entries if e.get("time")]
+    entries = [e for e in entries if e.get("time") and e.get("subresource") != "status"]
     if not entries:
         return {}
     e = max(entries, key=lambda e: e["time"])
@@ -137,8 +139,23 @@ class ChangeJournal:
 
     # ---------------------------------------------------------------- reading
     def records(self, namespace: str, since_iso: str) -> list[dict]:
+        """Matching records, each field annotated with whether that value is STILL in effect.
+        A change that was later reverted (by a reset, a rollback or a controller) is usually not
+        the cause of an ongoing incident."""
         with self._lock:
-            return [r for r in self._records if r["namespace"] == namespace and r["time"] >= since_iso]
+            out = []
+            for r in self._records:
+                if r["namespace"] != namespace or r["time"] < since_iso:
+                    continue
+                current = self._state.get(f"{r['kind']}/{r['namespace']}/{r['name']}")
+                rec = dict(r)
+                if current is not None and r.get("fields"):
+                    rec["fields"] = [{**f, "in_effect": current.get(f["field"]) == f.get("new")} for f in r["fields"]]
+                    rec["still_in_effect"] = any(f["in_effect"] for f in rec["fields"])
+                elif r["change"] == "deleted":
+                    rec["still_in_effect"] = current is None
+                out.append(rec)
+            return out
 
     # ---------------------------------------------------------------- live watch
     def start(self, kube, namespaces: list[str]) -> None:
