@@ -78,7 +78,10 @@ jobs:
         run: make venv
 
       - name: Bring up the environment (make up)
-        run: make up
+        run: |
+          mkdir -p out
+          set -o pipefail
+          make up 2>&1 | tee out/up-log.txt
 
       - name: Point the in-cluster agent at the chosen model
         if: env.REASONERS != 'rules'
@@ -111,7 +114,9 @@ jobs:
         run: |
           args=""
           if [ "${{ inputs.scenarios }}" != "all" ]; then for s in ${{ inputs.scenarios }}; do args="$args -s $s"; done; fi
-          .venv/bin/python eval/run_eval.py --reasoner "$REASONERS" --model "$KUBESLEUTH_MODEL" --out out/eval $args
+          set -o pipefail
+          .venv/bin/python -u eval/run_eval.py --reasoner "$REASONERS" --model "$KUBESLEUTH_MODEL" --out out/eval $args 2>&1 \
+            | tee out/eval-log.txt
 
       - name: Collect alert-triggered reports from the in-cluster agent
         if: always()
@@ -125,6 +130,23 @@ jobs:
       - name: Diagnostics
         if: always()
         run: ./scripts/diagnostics.sh out/diagnostics || true
+
+      - name: Save the full run output to the ci-output branch
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          src="$GITHUB_WORKSPACE/out"
+          rm -rf /tmp/cio && mkdir /tmp/cio && cd /tmp/cio
+          git init -q
+          git config user.name "kubesleuth-ci"
+          git config user.email "kubesleuth-ci@users.noreply.github.com"
+          git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          if git fetch -q --depth 1 origin ci-output; then git checkout -q -b ci-output FETCH_HEAD; else git checkout -q --orphan ci-output; fi
+          mkdir -p "runs/${{ github.run_id }}"
+          cp -r "$src/." "runs/${{ github.run_id }}/"
+          find runs -type f -size +5M -delete
+          git add runs && git commit -qm "Output of live-eval run ${{ github.run_id }}" && git push -q origin ci-output
 
       - uses: actions/upload-artifact@v4
         if: always()
