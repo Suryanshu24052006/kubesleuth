@@ -30,7 +30,7 @@ spec:
             - name: DATABASE_URL
               value: postgresql://shop:$(DB_PASSWORD)@postgres:5432/shop
             - name: WORK_SECONDS
-              value: "0.012"
+              value: "0.02"
           ports:
             - {name: http, containerPort: 8080}
           livenessProbe:

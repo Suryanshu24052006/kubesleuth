@@ -1,0 +1,155 @@
+# The full environment on a fresh GitHub-hosted machine: kind cluster, observability stack,
+# demo shop, kubesleuth. Then the security boundary checks and every failure scenario,
+# investigated by the agent and scored against ground truth. Results are committed to results/.
+name: live-eval
+
+on:
+  workflow_dispatch:
+    inputs:
+      scenarios:
+        description: "Space-separated scenario ids, or 'all'"
+        default: all
+      reasoners:
+        description: "'auto' (rules, plus llm when an API key secret exists), 'rules', 'llm' or 'rules,llm'"
+        default: auto
+      publish:
+        description: "Commit results to results/ on main"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: live-eval
+  cancel-in-progress: false
+
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    env:
+      KIND_VERSION: v0.29.0
+      KUBECTL_VERSION: v1.33.1
+      GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - name: Free disk space (container images need ~15 GB)
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL /usr/local/share/boost
+          df -h /
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install kind, kubectl, helm
+        run: |
+          curl -sSLo kind "https://kind.sigs.k8s.io/dl/${KIND_VERSION}/kind-linux-amd64"
+          curl -sSLo kubectl "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
+          chmod +x kind kubectl && sudo mv kind kubectl /usr/local/bin/
+          curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+          kind version && kubectl version --client && helm version
+          echo "127.0.0.1 shop.localhost gw.shop.localhost" | sudo tee -a /etc/hosts
+
+      - name: Choose reasoners and model
+        run: |
+          want="${{ inputs.reasoners }}"
+          llm=""
+          if [ -n "$ANTHROPIC_API_KEY" ]; then
+            llm="anthropic:claude-sonnet-5-5"
+          elif [ -n "$GOOGLE_API_KEY" ]; then
+            llm="google_genai:${{ vars.GEMINI_MODEL || 'gemini-2.5-flash' }}"
+            echo "KUBESLEUTH_LLM_RPM=${{ vars.LLM_RPM || '8' }}" >> "$GITHUB_ENV"
+          elif [ -n "$OPENAI_API_KEY" ]; then
+            llm="openai:gpt-4.1"
+          fi
+          [ -n "${{ vars.KUBESLEUTH_MODEL }}" ] && llm="${{ vars.KUBESLEUTH_MODEL }}"
+          if [ "$want" = "auto" ]; then want=$([ -n "$llm" ] && echo "rules,llm" || echo "rules"); fi
+          if [[ "$want" == *llm* && -z "$llm" ]]; then echo "::warning::no LLM API key secret; running rules only"; want=rules; fi
+          echo "REASONERS=$want" >> "$GITHUB_ENV"
+          echo "KUBESLEUTH_MODEL=${llm:-anthropic:claude-sonnet-5-5}" >> "$GITHUB_ENV"
+          echo "reasoners=$want model=${llm:-none}"
+
+      - name: Python environment
+        run: make venv
+
+      - name: Bring up the environment (make up)
+        run: make up
+
+      - name: Point the in-cluster agent at the chosen model
+        if: env.REASONERS != 'rules'
+        run: |
+          kubectl -n kubesleuth set env deploy/kubesleuth-agent KUBESLEUTH_MODEL="$KUBESLEUTH_MODEL" \
+            KUBESLEUTH_LLM_RPM="${KUBESLEUTH_LLM_RPM:-0}"
+          kubectl -n kubesleuth rollout status deploy/kubesleuth-agent --timeout=120s
+
+      - name: Smoke test (Ingress, Gateway API, broker)
+        run: |
+          mkdir -p out
+          for i in $(seq 1 30); do curl -sf 'http://shop.localhost:8080/?q=tent' && break; sleep 5; done | tee out/smoke.txt
+          echo | tee -a out/smoke.txt
+          curl -s -H 'Host: gw.shop.localhost' 'http://localhost:8080/?q=tent' | tee -a out/smoke.txt; echo
+          kubectl get pods -A -o wide | tee out/pods-after-up.txt
+          echo "waiting 4 minutes for metrics, logs and traces to accumulate"; sleep 240
+
+      - name: Security boundary demo (live cluster)
+        id: security
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          PY=.venv/bin/python ./scripts/security_demo.sh 2>&1 | sed 's/\x1b\[[0-9;]*m//g' | tee out/security-demo.txt
+
+      - name: Evaluate scenarios
+        id: eval
+        continue-on-error: true
+        env:
+          EVAL_ENV_NOTE: "Run on a GitHub-hosted runner (ubuntu-latest), kind ${{ env.KIND_VERSION }}, commit ${{ github.sha }}, workflow run ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+        run: |
+          args=""
+          if [ "${{ inputs.scenarios }}" != "all" ]; then for s in ${{ inputs.scenarios }}; do args="$args -s $s"; done; fi
+          .venv/bin/python eval/run_eval.py --reasoner "$REASONERS" --model "$KUBESLEUTH_MODEL" --out out/eval $args
+
+      - name: Collect alert-triggered reports from the in-cluster agent
+        if: always()
+        continue-on-error: true
+        run: |
+          kubectl -n kubesleuth port-forward svc/kubesleuth-agent 18081:8080 >/dev/null 2>&1 &
+          sleep 3
+          curl -s localhost:18081/investigations | tee out/in-cluster-investigations.json; echo
+          kill %1 || true
+
+      - name: Diagnostics
+        if: always()
+        run: ./scripts/diagnostics.sh out/diagnostics || true
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: live-eval-${{ github.run_id }}
+          path: out/
+          retention-days: 30
+
+      - name: Publish results to results/ on main
+        if: always() && inputs.publish && steps.eval.outcome != 'skipped'
+        run: |
+          dest="results/live/$(date -u +%Y%m%d-%H%M)-run${{ github.run_id }}"
+          mkdir -p "$dest"
+          cp -r out/eval/. "$dest/" 2>/dev/null || true
+          cp out/security-demo.txt out/smoke.txt out/in-cluster-investigations.json "$dest/" 2>/dev/null || true
+          if [ -f "$dest/summary.md" ]; then
+            { echo "Latest live run: [$dest]($(basename "$dest")/summary.md) — security demo: ${{ steps.security.outcome }}";
+              echo; sed '1d' "$dest/summary.md" | sed "s#](\([^)]*\.md\))#]($(basename "$dest")/\1)#g"; } > results/live/LATEST.md
+          fi
+          git config user.name "kubesleuth-ci"
+          git config user.email "kubesleuth-ci@users.noreply.github.com"
+          git add results
+          git commit -m "Live evaluation results (run ${{ github.run_id }})" || exit 0
+          for i in 1 2 3; do git pull --rebase origin main && git push origin HEAD:main && break; sleep 5; done
+
+      - name: Fail the job if the evaluation step failed
+        if: steps.eval.outcome == 'failure'
+        run: exit 1

@@ -1,0 +1,53 @@
+# Fast checks on every push: tests, offline demo, security probe, manifest validation.
+name: ci
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ["results/**", "**.md"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            agent/requirements.txt
+            broker/requirements.txt
+      - name: Install
+        run: make venv
+      - name: Unit, protocol and end-to-end tests
+        run: make test
+      - name: Offline investigation (rule-based baseline, recorded incident)
+        run: make demo-offline REASONER=rules
+      - name: Broker attack probe (14 attacks must be refused)
+        run: make security-probe-offline
+      - name: Shell scripts parse
+        run: for f in scripts/*.sh scenarios/run.sh scenarios/*/inject.sh; do bash -n "$f"; done
+
+  manifests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate Kubernetes manifests against the 1.33 schemas (CRDs included)
+        run: |
+          curl -sSL https://github.com/yannh/kubeconform/releases/download/v0.7.0/kubeconform-linux-amd64.tar.gz | tar xz kubeconform
+          kubectl kustomize deploy/shop > /tmp/shop.yaml
+          kubectl kustomize deploy/kubesleuth > /tmp/kubesleuth.yaml
+          ./kubeconform -strict -summary -ignore-missing-schemas -kubernetes-version 1.33.1 \
+            -schema-location default \
+            -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' \
+            /tmp/shop.yaml /tmp/kubesleuth.yaml deploy/observability/jaeger.yaml \
+            scenarios/knight-2012-stale-version-flag/pricing-legacy.yaml \
+            scenarios/chef-2014-healthcheck-timeouts/postgres-latency.yaml

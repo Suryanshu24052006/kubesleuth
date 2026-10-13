@@ -74,7 +74,7 @@ eval-rules: ## same, with the rule-based baseline
 	$(PY) eval/run_eval.py --reasoner rules
 
 security-demo: ## RBAC / credentials / NetworkPolicy / broker-policy checks on the live cluster
-	./scripts/security_demo.sh
+	PY=$(PY) ./scripts/security_demo.sh
 
 noise-off: ## stop the adversarial review-bot
 	kubectl -n shop scale deploy review-bot --replicas=0

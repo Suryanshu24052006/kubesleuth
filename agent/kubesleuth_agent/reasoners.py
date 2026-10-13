@@ -71,9 +71,16 @@ def evidence_text(ledger: Ledger) -> str:
 # ============================================================================ LLM
 class LLMReasoner:
     def __init__(self, model_spec: str, temperature: float = 0.0, max_tokens: int = 4096):
+        import os
         from langchain.chat_models import init_chat_model
         self.name = f"llm:{model_spec}"
-        self.model = init_chat_model(model_spec, temperature=temperature, max_tokens=max_tokens)
+        kwargs = {"temperature": temperature, "max_tokens": max_tokens, "max_retries": 6}
+        rpm = float(os.environ.get("KUBESLEUTH_LLM_RPM", "0") or 0)
+        if rpm > 0:  # free-tier APIs (e.g. Gemini) cap requests per minute
+            from langchain_core.rate_limiters import InMemoryRateLimiter
+            kwargs["rate_limiter"] = InMemoryRateLimiter(requests_per_second=rpm / 60, check_every_n_seconds=0.2,
+                                                         max_bucket_size=1)
+        self.model = init_chat_model(model_spec, **kwargs)
         self.usage = {"calls": 0, "input_tokens": 0, "output_tokens": 0}
 
     async def _structured(self, schema, prompt: str):

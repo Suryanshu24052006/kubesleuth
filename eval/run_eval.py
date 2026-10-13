@@ -69,8 +69,8 @@ def wait_for_alert(am_url: str, timeout: int, minimum: int = 60) -> str | None:
     return None
 
 
-def run_one(sc: dict, args, broker_url: str, am_url: str, outdir: Path) -> dict:
-    print(f"\n=== {sc['id']}: {sc['title']}")
+def run_one(sc: dict, args, broker_url: str, am_url: str, outdir: Path) -> list[dict]:
+    print(f"\n=== {sc['id']}: {sc['title']}", flush=True)
     if not args.no_reset:
         sh("scenarios/run.sh", "reset")
         print(f"  settling {args.settle}s", flush=True)
@@ -78,47 +78,71 @@ def run_one(sc: dict, args, broker_url: str, am_url: str, outdir: Path) -> dict:
     sh("scenarios/run.sh", sc["id"], "inject")
     fired = wait_for_alert(am_url, int(sc.get("wait_seconds", 180)) + 120, minimum=int(sc.get("wait_seconds", 180)) // 2)
     print(f"  alert: {fired or 'none fired (investigating anyway)'}", flush=True)
-    reasoner = make_reasoner(args.reasoner, args.model)
-    report = asyncio.run(run_investigation(sc["incident"], "shop", f"{broker_url}/mcp", reasoner,
-                                           Budget(max_rounds=args.max_rounds), quiet=False))
-    result = {"scenario": sc["id"], "alert": fired, **score(report, sc["ground_truth"]),
-              "root_cause": report["root_cause"]["statement"], "report_id": report["id"]}
-    (outdir / f"{sc['id']}.json").write_text(json.dumps(report, indent=2, default=str))
-    (outdir / f"{sc['id']}.md").write_text(to_markdown(report))
-    print(f"  -> {result['verdict'].upper()} ({result['confidence']}): {result['root_cause']}", flush=True)
-    return result
+    rows = []
+    # Every reasoner investigates the SAME live incident, so the comparison is fair.
+    for kind in args.reasoners:
+        try:
+            reasoner = make_reasoner(kind, args.model)
+            report = asyncio.run(run_investigation(sc["incident"], "shop", f"{broker_url}/mcp", reasoner,
+                                                   Budget(max_rounds=args.max_rounds), quiet=False))
+        except Exception as exc:  # one failing reasoner must not lose the others' results
+            print(f"  !! {kind} investigation failed: {type(exc).__name__}: {exc}", flush=True)
+            rows.append({"scenario": sc["id"], "reasoner": kind, "alert": fired, "verdict": "error",
+                         "confidence": None, "posterior": None, "evidence_sources": [], "rounds": None,
+                         "tool_calls": None, "evidence_rejected": None, "duration_s": None, "tokens": 0,
+                         "root_cause": f"{type(exc).__name__}: {str(exc)[:200]}"})
+            continue
+        name = reasoner.name.replace(":", "-").replace("/", "-")
+        (outdir / f"{sc['id']}.{name}.json").write_text(json.dumps(report, indent=2, default=str))
+        (outdir / f"{sc['id']}.{name}.md").write_text(to_markdown(report))
+        row = {"scenario": sc["id"], "reasoner": reasoner.name, "alert": fired, **score(report, sc["ground_truth"]),
+               "root_cause": report["root_cause"]["statement"], "report": f"{sc['id']}.{name}.md"}
+        print(f"  -> [{reasoner.name}] {row['verdict'].upper()} ({row['confidence']}): {row['root_cause']}", flush=True)
+        rows.append(row)
+    return rows
 
 
 def summary_md(results: list[dict], meta: dict) -> str:
-    n = len(results)
-    correct = sum(r["verdict"] == "correct" for r in results)
-    lines = [f"# kubesleuth evaluation — {meta['when']}", "",
-             f"Reasoner: `{meta['reasoner']}` · scenarios: {n} · **correct {correct}/{n}**, "
-             f"partial {sum(r['verdict'] == 'partial' for r in results)}, "
-             f"inconclusive {sum(r['verdict'] == 'inconclusive' for r in results)}, "
-             f"wrong {sum(r['verdict'] == 'wrong' for r in results)}", "",
-             "| Scenario | Verdict | Confidence | Evidence sources | Rounds | Tool calls | Rejected claims | Time (s) | Tokens | Root cause (agent) |",
-             "|---|---|---|---|---|---|---|---|---|---|"]
+    lines = [f"# kubesleuth evaluation, {meta['when']}", "", meta.get("env", ""), ""]
+    for r_name in dict.fromkeys(r["reasoner"] for r in results):
+        rs = [r for r in results if r["reasoner"] == r_name]
+        n = len(rs)
+        lines.append(f"**{r_name}**: correct {sum(r['verdict'] == 'correct' for r in rs)}/{n}, "
+                     f"partial {sum(r['verdict'] == 'partial' for r in rs)}, "
+                     f"inconclusive {sum(r['verdict'] == 'inconclusive' for r in rs)}, "
+                     f"wrong {sum(r['verdict'] == 'wrong' for r in rs)}"
+                     + (f", errors {sum(r['verdict'] == 'error' for r in rs)}" if any(r['verdict'] == 'error' for r in rs) else "")
+                     + "  ")
+    lines += ["", "| Scenario | Reasoner | Alert fired | Verdict | Confidence | Evidence sources | Rounds | Tool calls | "
+                  "Rejected claims | Time (s) | Tokens | Root cause given by the agent |",
+              "|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for r in results:
-        lines.append(f"| {r['scenario']} | **{r['verdict']}** | {r['confidence']} ({r['posterior']}) | "
-                     f"{', '.join(r['evidence_sources'])} | {r['rounds']} | {r['tool_calls']} | {r['evidence_rejected']} | "
-                     f"{r['duration_s']} | {r['tokens']} | {str(r['root_cause'])[:140]} |")
+        rc = str(r["root_cause"]).replace("|", "/").replace("\n", " ")[:160]
+        link = f"[{r['scenario']}]({r['report']})" if r.get("report") else r["scenario"]
+        lines.append(f"| {link} | {r['reasoner']} | {r.get('alert') or 'no'} | **{r['verdict']}** | {r['confidence']} "
+                     f"({r['posterior']}) | {', '.join(r['evidence_sources'])} | {r['rounds']} | {r['tool_calls']} | "
+                     f"{r['evidence_rejected']} | {r['duration_s']} | {r['tokens']} | {rc} |")
     return "\n".join(lines) + "\n"
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("-s", "--scenario", action="append", help="scenario id (repeatable); default all")
-    ap.add_argument("--reasoner", choices=["llm", "rules"], default="llm")
+    ap.add_argument("--reasoner", default="llm",
+                    help="comma-separated: llm, rules or both (e.g. 'rules,llm'); all investigate the same incident")
     ap.add_argument("--model", default=os.environ.get("KUBESLEUTH_MODEL", "anthropic:claude-sonnet-5-5"))
     ap.add_argument("--max-rounds", type=int, default=6)
     ap.add_argument("--settle", type=int, default=180, help="seconds to wait after reset")
     ap.add_argument("--no-reset", action="store_true")
     ap.add_argument("--offline", action="store_true", help="score the offline fixture instead of the cluster")
+    ap.add_argument("--out", help="output directory (default eval/results/<timestamp>)")
     args = ap.parse_args()
+    args.reasoners = [r.strip() for r in args.reasoner.split(",") if r.strip() in ("llm", "rules")]
+    if not args.reasoners:
+        ap.error("--reasoner must name llm and/or rules")
 
     when = time.strftime("%Y%m%d-%H%M%S")
-    outdir = ROOT / "eval" / "results" / f"{when}-{args.reasoner}"
+    outdir = Path(args.out) if args.out else ROOT / "eval" / "results" / f"{when}-{'-'.join(args.reasoners)}"
     outdir.mkdir(parents=True, exist_ok=True)
     scenarios = {p.parent.name: yaml.safe_load(p.read_text()) for p in sorted((ROOT / "scenarios").glob("*/scenario.yaml"))}
 
@@ -127,21 +151,27 @@ def main():
         os.environ["BROKER_FIXTURE"] = str(ROOT / "fixtures" / "github-conn-saturation.json")
         from kubesleuth_broker.server import build_toolbox, create_server
         sc = scenarios["github-conn-saturation"]
-        report = asyncio.run(run_investigation(sc["incident"], "shop", create_server(build_toolbox(), 1000, 1000),
-                                               make_reasoner(args.reasoner, args.model), Budget(max_rounds=args.max_rounds)))
-        (outdir / "offline.md").write_text(to_markdown(report))
-        results.append({"scenario": "github-conn-saturation (offline fixture)", **score(report, sc["ground_truth"]),
-                        "root_cause": report["root_cause"]["statement"]})
+        for kind in args.reasoners:
+            reasoner = make_reasoner(kind, args.model)
+            report = asyncio.run(run_investigation(sc["incident"], "shop", create_server(build_toolbox(), 1000, 1000),
+                                                   reasoner, Budget(max_rounds=args.max_rounds), quiet=True))
+            (outdir / f"offline.{kind}.md").write_text(to_markdown(report))
+            results.append({"scenario": "github-conn-saturation (offline fixture)", "reasoner": reasoner.name,
+                            **score(report, sc["ground_truth"]), "root_cause": report["root_cause"]["statement"],
+                            "report": f"offline.{kind}.md"})
     else:
         ids = args.scenario or list(scenarios)
         with port_forward("kubesleuth", "kubesleuth-broker", 18090, 8090) as broker, \
                 port_forward("monitoring", "kps-alertmanager", 19093, 9093) as am:
-            for i, sid in enumerate(ids):
-                results.append(run_one(scenarios[sid], args, broker, am, outdir))
+            for sid in ids:
+                results.extend(run_one(scenarios[sid], args, broker, am, outdir))
+                # write partial results as we go, so a later failure never loses earlier work
+                (outdir / "summary.json").write_text(json.dumps(results, indent=2))
             if not args.no_reset:
                 sh("scenarios/run.sh", "reset")
 
-    md = summary_md(results, {"when": when, "reasoner": args.reasoner if args.reasoner == "rules" else args.model})
+    env = os.environ.get("EVAL_ENV_NOTE", "")
+    md = summary_md(results, {"when": when, "env": env})
     (outdir / "summary.md").write_text(md)
     (outdir / "summary.json").write_text(json.dumps(results, indent=2))
     print("\n" + md + f"\nresults: {outdir}")

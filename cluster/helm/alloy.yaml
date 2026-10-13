@@ -3,6 +3,8 @@ controller:
   type: deployment
   replicas: 1
 alloy:
+  # loki.source.kubernetes is not GA in every Alloy release; allow it explicitly.
+  stabilityLevel: experimental
   configMap:
     content: |
       discovery.kubernetes "pods" {

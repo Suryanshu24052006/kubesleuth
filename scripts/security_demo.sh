@@ -59,7 +59,7 @@ echo "  (if the 'blocked' checks fail, your CNI does not enforce NetworkPolicy; 
 echo "4) Broker policy: a hijacked agent attacking through MCP"
 kubectl -n kubesleuth port-forward svc/kubesleuth-broker 18091:8090 >/dev/null 2>&1 & PF=$!
 sleep 3
-PYTHONPATH=agent python -m kubesleuth_agent.security_probe --broker http://127.0.0.1:18091/mcp || FAIL=1
+PYTHONPATH=agent "${PY:-.venv/bin/python}" -m kubesleuth_agent.security_probe --broker http://127.0.0.1:18091/mcp || FAIL=1
 kill $PF 2>/dev/null
 
 echo "5) Audit trail (last denied calls, from the broker log)"
