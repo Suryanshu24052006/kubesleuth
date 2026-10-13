@@ -1,0 +1,28 @@
+[
+  {
+    "scenario": "github-conn-saturation",
+    "reasoner": "llm:google_genai:gemini-3.8-flash",
+    "alert": "ShopEdgeHigh5xxRate",
+    "verdict": "inconclusive",
+    "component_hit": true,
+    "category_hit": true,
+    "keyword_hits": [
+      "db_pool_size",
+      "pool",
+      "connection"
+    ],
+    "blamed_symptom": false,
+    "confidence": "inconclusive",
+    "posterior": 0.149,
+    "evidence_sources": [],
+    "multi_source": false,
+    "rounds": 3,
+    "tool_calls": 8,
+    "evidence_rejected": 0,
+    "security_events": 0,
+    "duration_s": 1852.8,
+    "tokens": 62825,
+    "root_cause": "Increasing DB_POOL_SIZE in checkout-config from 4 to 30 caused checkout pods to exceed PostgreSQL max connections, resulting in 5xx errors.",
+    "report": "github-conn-saturation.llm-google_genai-gemini-3.8-flash.md"
+  }
+]

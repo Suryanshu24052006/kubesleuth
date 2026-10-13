@@ -1,0 +1,51 @@
+NAME                                  READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS            IMAGES       SELECTOR
+deployment.apps/catalog-indexer       3/3     3            3           41m   catalog-indexer       shop:1.4.0   app=catalog-indexer
+deployment.apps/checkout              3/3     3            3           41m   checkout              shop:1.4.0   app=checkout
+deployment.apps/edge                  2/2     2            2           41m   edge                  shop:1.4.0   app=edge
+deployment.apps/inventory             4/4     4            4           41m   inventory             shop:1.4.0   app=inventory
+deployment.apps/loadgen               1/1     1            1           41m   loadgen               shop:1.4.0   app=loadgen
+deployment.apps/pricing               2/2     2            2           41m   pricing               shop:1.4.0   app=pricing
+deployment.apps/recommendations       2/2     2            2           41m   recommendations       shop:1.4.0   app=recommendations
+deployment.apps/review-bot            1/1     1            1           41m   review-bot            shop:1.4.0   app=review-bot
+deployment.apps/telemetry-collector   1/1     1            1           41m   telemetry-collector   shop:1.4.0   app=telemetry-collector
+
+NAME                        READY   AGE   CONTAINERS   IMAGES
+statefulset.apps/postgres   1/1     41m   postgres     postgres:16-alpine
+
+NAME                          TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE   SELECTOR
+service/catalog-indexer       ClusterIP   10.96.244.217   <none>        8080/TCP   41m   app=catalog-indexer
+service/checkout              ClusterIP   10.96.139.126   <none>        8080/TCP   41m   app=checkout
+service/edge                  ClusterIP   10.96.214.145   <none>        8080/TCP   41m   app=edge
+service/inventory             ClusterIP   10.96.174.16    <none>        8080/TCP   41m   app=inventory
+service/postgres              ClusterIP   10.96.151.109   <none>        5432/TCP   41m   app=postgres
+service/pricing               ClusterIP   10.96.103.126   <none>        8080/TCP   41m   app=pricing
+service/recommendations       ClusterIP   10.96.59.5      <none>        8080/TCP   41m   app=recommendations
+service/telemetry-collector   ClusterIP   10.96.92.17     <none>        8080/TCP   41m   app=telemetry-collector
+
+NAME                                                       ADDRESSTYPE   PORTS   ENDPOINTS                                         AGE
+endpointslice.discovery.k8s.io/catalog-indexer-zrw6d       IPv4          8080    10.244.1.18,10.244.1.20,10.244.1.21               41m
+endpointslice.discovery.k8s.io/checkout-rv7fd              IPv4          8080    10.244.1.59,10.244.1.58,10.244.1.63               41m
+endpointslice.discovery.k8s.io/edge-vbjsm                  IPv4          8080    10.244.1.60,10.244.1.65                           41m
+endpointslice.discovery.k8s.io/inventory-6jlzb             IPv4          8080    10.244.1.61,10.244.1.62,10.244.1.64 + 1 more...   41m
+endpointslice.discovery.k8s.io/postgres-gkdxg              IPv4          5432    10.244.1.41                                       41m
+endpointslice.discovery.k8s.io/pricing-mjd8k               IPv4          8080    10.244.1.31,10.244.1.28                           41m
+endpointslice.discovery.k8s.io/recommendations-gbh96       IPv4          8080    10.244.1.57,10.244.1.66                           41m
+endpointslice.discovery.k8s.io/telemetry-collector-2lf6l   IPv4          8080    10.244.1.36                                       41m
+
+NAME                                       REFERENCE         TARGETS              MINPODS   MAXPODS   REPLICAS   AGE
+horizontalpodautoscaler.autoscaling/edge   Deployment/edge   cpu: <unknown>/70%   2         4         2          41m
+
+NAME                                    STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE   VOLUMEMODE
+persistentvolumeclaim/data-postgres-0   Bound    pvc-f078fc71-bdd3-42b7-b695-6dd2fafbaf8c   1Gi        RWO            standard       <unset>                 41m   Filesystem
+
+NAME                             CLASS     HOSTS            ADDRESS   PORTS   AGE
+ingress.networking.k8s.io/shop   traefik   shop.localhost             80      41m
+
+NAME                                       HOSTNAMES               AGE
+httproute.gateway.networking.k8s.io/shop   ["gw.shop.localhost"]   41m
+
+NAME                         DATA   AGE
+configmap/checkout-config    2      41m
+configmap/edge-waf-rules     1      41m
+configmap/feature-flags      1      41m
+configmap/kube-root-ca.crt   1      41m

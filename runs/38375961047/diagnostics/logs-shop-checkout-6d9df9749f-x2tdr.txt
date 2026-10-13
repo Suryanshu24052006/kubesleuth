@@ -1,0 +1,10 @@
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+{"ts": "2026-10-13T10:13:54.779Z", "level": "info", "svc": "checkout", "version": "1.4.0", "msg": "opening database pool", "min_size": 4, "max_size": 4}
+error connecting in 'pool-1': connection failed: connection to server at "10.96.151.109", port 5432 failed: FATAL:  sorry, too many clients already
+error connecting in 'pool-1': connection failed: connection to server at "10.96.151.109", port 5432 failed: FATAL:  sorry, too many clients already
+error connecting in 'pool-1': connection failed: connection to server at "10.96.151.109", port 5432 failed: FATAL:  sorry, too many clients already
+{"ts": "2026-10-13T10:13:54.838Z", "level": "info", "svc": "checkout", "version": "1.4.0", "msg": "service started", "role": "checkout", "pod": "checkout-6d9df9749f-x2tdr"}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+{"ts": "2026-10-13T10:13:57.077Z", "level": "error", "svc": "checkout", "version": "1.4.0", "msg": "upstream connection error", "error": "ConnectError", "detail": "All connection attempts failed"}

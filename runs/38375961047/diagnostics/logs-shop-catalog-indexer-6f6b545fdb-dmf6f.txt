@@ -1,0 +1,5 @@
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+{"ts": "2026-10-13T09:33:00.848Z", "level": "info", "svc": "catalog-indexer", "version": "1.4.0", "msg": "service started", "role": "catalog-indexer", "pod": "catalog-indexer-6f6b545fdb-dmf6f"}
+INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)

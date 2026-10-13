@@ -1,0 +1,666 @@
+NAMESPACE            LAST SEEN   TYPE      REASON                         OBJECT                                                           MESSAGE
+default              46m         Normal    Starting                       node/kubesleuth-worker                                           
+default              46m         Normal    Starting                       node/kubesleuth-control-plane                                    
+default              46m         Normal    NodeHasSufficientMemory        node/kubesleuth-control-plane                                    Node kubesleuth-control-plane status is now: NodeHasSufficientMemory
+default              46m         Normal    NodeHasNoDiskPressure          node/kubesleuth-control-plane                                    Node kubesleuth-control-plane status is now: NodeHasNoDiskPressure
+default              46m         Normal    NodeHasSufficientPID           node/kubesleuth-control-plane                                    Node kubesleuth-control-plane status is now: NodeHasSufficientPID
+default              46m         Normal    NodeAllocatableEnforced        node/kubesleuth-control-plane                                    Updated Node Allocatable limit across pods
+kube-system          46m         Normal    Pulled                         pod/kube-scheduler-kubesleuth-control-plane                      Container image "registry.k8s.io/kube-scheduler:v1.33.1" already present on machine
+kube-system          46m         Normal    Pulled                         pod/kube-apiserver-kubesleuth-control-plane                      Container image "registry.k8s.io/kube-apiserver:v1.33.1" already present on machine
+kube-system          46m         Normal    Pulled                         pod/etcd-kubesleuth-control-plane                                Container image "registry.k8s.io/etcd:3.5.21-0" already present on machine
+kube-system          46m         Normal    Pulled                         pod/kube-controller-manager-kubesleuth-control-plane             Container image "registry.k8s.io/kube-controller-manager:v1.33.1" already present on machine
+kube-system          46m         Normal    Created                        pod/kube-scheduler-kubesleuth-control-plane                      Created container: kube-scheduler
+kube-system          46m         Normal    Created                        pod/kube-controller-manager-kubesleuth-control-plane             Created container: kube-controller-manager
+kube-system          46m         Normal    Started                        pod/kube-apiserver-kubesleuth-control-plane                      Started container kube-apiserver
+kube-system          46m         Normal    Started                        pod/kube-scheduler-kubesleuth-control-plane                      Started container kube-scheduler
+kube-system          46m         Normal    Created                        pod/kube-apiserver-kubesleuth-control-plane                      Created container: kube-apiserver
+kube-system          46m         Normal    Started                        pod/kube-controller-manager-kubesleuth-control-plane             Started container kube-controller-manager
+kube-system          46m         Normal    Started                        pod/etcd-kubesleuth-control-plane                                Started container etcd
+kube-system          46m         Normal    Created                        pod/etcd-kubesleuth-control-plane                                Created container: etcd
+default              46m         Normal    Starting                       node/kubesleuth-control-plane                                    Starting kubelet.
+default              46m         Normal    NodeAllocatableEnforced        node/kubesleuth-control-plane                                    Updated Node Allocatable limit across pods
+default              46m         Normal    NodeHasSufficientPID           node/kubesleuth-control-plane                                    Node kubesleuth-control-plane status is now: NodeHasSufficientPID
+default              46m         Normal    NodeHasNoDiskPressure          node/kubesleuth-control-plane                                    Node kubesleuth-control-plane status is now: NodeHasNoDiskPressure
+default              46m         Normal    NodeHasSufficientMemory        node/kubesleuth-control-plane                                    Node kubesleuth-control-plane status is now: NodeHasSufficientMemory
+kube-system          46m         Warning   Unhealthy                      pod/kube-scheduler-kubesleuth-control-plane                      Readiness probe failed: HTTP probe failed with statuscode: 500
+kube-system          46m         Normal    LeaderElection                 lease/kube-scheduler                                             kubesleuth-control-plane_3e2bc7dc-2c80-419f-96cf-9273c408d1dd became leader
+kube-system          46m         Normal    LeaderElection                 lease/kube-controller-manager                                    kubesleuth-control-plane_b4ace77a-1f0d-4a0b-aa29-13a72924e081 became leader
+default              46m         Normal    RegisteredNode                 node/kubesleuth-control-plane                                    Node kubesleuth-control-plane event: Registered Node kubesleuth-control-plane in Controller
+kube-system          46m         Warning   FailedMount                    pod/kube-proxy-72lh2                                             MountVolume.SetUp failed for volume "kube-api-access-x6ptc" : configmap "kube-root-ca.crt" not found
+kube-system          46m         Normal    Scheduled                      pod/kindnet-zzpgx                                                Successfully assigned kube-system/kindnet-zzpgx to kubesleuth-control-plane
+kube-system          46m         Normal    SuccessfulCreate               daemonset/kindnet                                                Created pod: kindnet-zzpgx
+kube-system          46m         Normal    SuccessfulCreate               daemonset/kube-proxy                                             Created pod: kube-proxy-72lh2
+kube-system          46m         Warning   FailedMount                    pod/kindnet-zzpgx                                                MountVolume.SetUp failed for volume "kube-api-access-7xq8v" : configmap "kube-root-ca.crt" not found
+local-path-storage   46m         Normal    ScalingReplicaSet              deployment/local-path-provisioner                                Scaled up replica set local-path-provisioner-7dc846544d from 0 to 1
+kube-system          46m         Normal    Scheduled                      pod/kube-proxy-72lh2                                             Successfully assigned kube-system/kube-proxy-72lh2 to kubesleuth-control-plane
+kube-system          46m         Normal    ScalingReplicaSet              deployment/coredns                                               Scaled up replica set coredns-674b8bbfcf from 0 to 2
+local-path-storage   46m         Normal    SuccessfulCreate               replicaset/local-path-provisioner-7dc846544d                     Created pod: local-path-provisioner-7dc846544d-kq8r9
+local-path-storage   46m         Warning   FailedScheduling               pod/local-path-provisioner-7dc846544d-kq8r9                      0/1 nodes are available: 1 node(s) had untolerated taint {node.kubernetes.io/not-ready: }. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.
+kube-system          46m         Normal    SuccessfulCreate               replicaset/coredns-674b8bbfcf                                    Created pod: coredns-674b8bbfcf-79ptm
+kube-system          46m         Warning   FailedScheduling               pod/coredns-674b8bbfcf-tjrxn                                     0/1 nodes are available: 1 node(s) had untolerated taint {node.kubernetes.io/not-ready: }. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.
+kube-system          46m         Normal    SuccessfulCreate               replicaset/coredns-674b8bbfcf                                    Created pod: coredns-674b8bbfcf-tjrxn
+kube-system          46m         Warning   FailedScheduling               pod/coredns-674b8bbfcf-79ptm                                     0/1 nodes are available: 1 node(s) had untolerated taint {node.kubernetes.io/not-ready: }. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.
+kube-system          46m         Normal    Started                        pod/kube-proxy-72lh2                                             Started container kube-proxy
+kube-system          46m         Normal    Pulled                         pod/kindnet-zzpgx                                                Container image "docker.io/kindest/kindnetd:v20250512-df8de77b" already present on machine
+kube-system          46m         Normal    Pulled                         pod/kube-proxy-72lh2                                             Container image "registry.k8s.io/kube-proxy:v1.33.1" already present on machine
+kube-system          46m         Normal    Created                        pod/kube-proxy-72lh2                                             Created container: kube-proxy
+kube-system          46m         Normal    Created                        pod/kindnet-zzpgx                                                Created container: kindnet-cni
+kube-system          46m         Normal    Started                        pod/kindnet-zzpgx                                                Started container kindnet-cni
+kube-system          46m         Normal    Scheduled                      pod/kube-proxy-9ddtc                                             Successfully assigned kube-system/kube-proxy-9ddtc to kubesleuth-worker
+default              46m         Normal    NodeHasSufficientPID           node/kubesleuth-worker                                           Node kubesleuth-worker status is now: NodeHasSufficientPID
+default              46m         Normal    NodeHasNoDiskPressure          node/kubesleuth-worker                                           Node kubesleuth-worker status is now: NodeHasNoDiskPressure
+default              46m         Normal    NodeHasSufficientMemory        node/kubesleuth-worker                                           Node kubesleuth-worker status is now: NodeHasSufficientMemory
+kube-system          46m         Normal    SuccessfulCreate               daemonset/kube-proxy                                             Created pod: kube-proxy-9ddtc
+kube-system          46m         Normal    SuccessfulCreate               daemonset/kindnet                                                Created pod: kindnet-7pjxb
+default              46m         Normal    NodeAllocatableEnforced        node/kubesleuth-worker                                           Updated Node Allocatable limit across pods
+kube-system          46m         Normal    Scheduled                      pod/kindnet-7pjxb                                                Successfully assigned kube-system/kindnet-7pjxb to kubesleuth-worker
+kube-system          46m         Normal    Pulled                         pod/kube-proxy-9ddtc                                             Container image "registry.k8s.io/kube-proxy:v1.33.1" already present on machine
+kube-system          46m         Normal    Pulled                         pod/kindnet-7pjxb                                                Container image "docker.io/kindest/kindnetd:v20250512-df8de77b" already present on machine
+kube-system          46m         Normal    Created                        pod/kindnet-7pjxb                                                Created container: kindnet-cni
+kube-system          46m         Normal    Created                        pod/kube-proxy-9ddtc                                             Created container: kube-proxy
+kube-system          46m         Normal    Started                        pod/kube-proxy-9ddtc                                             Started container kube-proxy
+kube-system          46m         Normal    Started                        pod/kindnet-7pjxb                                                Started container kindnet-cni
+default              46m         Normal    RegisteredNode                 node/kubesleuth-worker                                           Node kubesleuth-worker event: Registered Node kubesleuth-worker in Controller
+kube-system          46m         Normal    Scheduled                      pod/coredns-674b8bbfcf-79ptm                                     Successfully assigned kube-system/coredns-674b8bbfcf-79ptm to kubesleuth-control-plane
+kube-system          46m         Normal    Scheduled                      pod/coredns-674b8bbfcf-tjrxn                                     Successfully assigned kube-system/coredns-674b8bbfcf-tjrxn to kubesleuth-control-plane
+local-path-storage   46m         Normal    Scheduled                      pod/local-path-provisioner-7dc846544d-kq8r9                      Successfully assigned local-path-storage/local-path-provisioner-7dc846544d-kq8r9 to kubesleuth-control-plane
+default              46m         Normal    NodeReady                      node/kubesleuth-control-plane                                    Node kubesleuth-control-plane status is now: NodeReady
+kube-system          46m         Normal    Pulled                         pod/coredns-674b8bbfcf-79ptm                                     Container image "registry.k8s.io/coredns/coredns:v1.12.0" already present on machine
+local-path-storage   46m         Normal    Pulled                         pod/local-path-provisioner-7dc846544d-kq8r9                      Container image "docker.io/kindest/local-path-provisioner:v20250214-acbabc1a" already present on machine
+kube-system          46m         Normal    Pulled                         pod/coredns-674b8bbfcf-tjrxn                                     Container image "registry.k8s.io/coredns/coredns:v1.12.0" already present on machine
+kube-system          46m         Normal    Started                        pod/coredns-674b8bbfcf-79ptm                                     Started container coredns
+kube-system          46m         Normal    Created                        pod/coredns-674b8bbfcf-79ptm                                     Created container: coredns
+kube-system          46m         Normal    Started                        pod/coredns-674b8bbfcf-tjrxn                                     Started container coredns
+kube-system          46m         Normal    Created                        pod/coredns-674b8bbfcf-tjrxn                                     Created container: coredns
+local-path-storage   46m         Normal    Created                        pod/local-path-provisioner-7dc846544d-kq8r9                      Created container: local-path-provisioner
+local-path-storage   46m         Normal    Started                        pod/local-path-provisioner-7dc846544d-kq8r9                      Started container local-path-provisioner
+default              46m         Normal    NodeReady                      node/kubesleuth-worker                                           Node kubesleuth-worker status is now: NodeReady
+monitoring           46m         Normal    Scheduled                      pod/kps-admission-create-q9bm4                                   Successfully assigned monitoring/kps-admission-create-q9bm4 to kubesleuth-worker
+monitoring           46m         Normal    SuccessfulCreate               job/kps-admission-create                                         Created pod: kps-admission-create-q9bm4
+monitoring           46m         Normal    Pulling                        pod/kps-admission-create-q9bm4                                   Pulling image "registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.6.0"
+monitoring           46m         Normal    Created                        pod/kps-admission-create-q9bm4                                   Created container: create
+monitoring           46m         Normal    Pulled                         pod/kps-admission-create-q9bm4                                   Successfully pulled image "registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.6.0" in 2.364s (2.364s including waiting). Image size: 28335565 bytes.
+monitoring           46m         Normal    Started                        pod/kps-admission-create-q9bm4                                   Started container create
+monitoring           46m         Normal    Completed                      job/kps-admission-create                                         Job completed
+monitoring           46m         Normal    ScalingReplicaSet              deployment/kps-kube-state-metrics                                Scaled up replica set kps-kube-state-metrics-7976d647b4 from 0 to 1
+monitoring           46m         Normal    SuccessfulCreate               replicaset/kps-grafana-f896bd644                                 Created pod: kps-grafana-f896bd644-f58ph
+monitoring           46m         Normal    ScalingReplicaSet              deployment/kps-grafana                                           Scaled up replica set kps-grafana-f896bd644 from 0 to 1
+monitoring           46m         Normal    Scheduled                      pod/kps-kube-state-metrics-7976d647b4-4ljf2                      Successfully assigned monitoring/kps-kube-state-metrics-7976d647b4-4ljf2 to kubesleuth-worker
+monitoring           46m         Normal    SuccessfulCreate               replicaset/kps-kube-state-metrics-7976d647b4                     Created pod: kps-kube-state-metrics-7976d647b4-4ljf2
+monitoring           46m         Normal    Scheduled                      pod/kps-grafana-f896bd644-f58ph                                  Successfully assigned monitoring/kps-grafana-f896bd644-f58ph to kubesleuth-worker
+monitoring           46m         Normal    Scheduled                      pod/kps-operator-cc4559ccc-zzdp4                                 Successfully assigned monitoring/kps-operator-cc4559ccc-zzdp4 to kubesleuth-worker
+monitoring           46m         Normal    SuccessfulCreate               replicaset/kps-operator-cc4559ccc                                Created pod: kps-operator-cc4559ccc-zzdp4
+monitoring           46m         Normal    ScalingReplicaSet              deployment/kps-operator                                          Scaled up replica set kps-operator-cc4559ccc from 0 to 1
+monitoring           46m         Normal    Scheduled                      pod/kps-prometheus-node-exporter-hmnd2                           Successfully assigned monitoring/kps-prometheus-node-exporter-hmnd2 to kubesleuth-worker
+monitoring           46m         Normal    Scheduled                      pod/kps-prometheus-node-exporter-zwwwl                           Successfully assigned monitoring/kps-prometheus-node-exporter-zwwwl to kubesleuth-control-plane
+monitoring           46m         Normal    SuccessfulCreate               daemonset/kps-prometheus-node-exporter                           Created pod: kps-prometheus-node-exporter-zwwwl
+monitoring           46m         Normal    SuccessfulCreate               daemonset/kps-prometheus-node-exporter                           Created pod: kps-prometheus-node-exporter-hmnd2
+monitoring           46m         Normal    Pulling                        pod/kps-prometheus-node-exporter-zwwwl                           Pulling image "quay.io/prometheus/node-exporter:v1.9.1"
+monitoring           46m         Normal    Pulling                        pod/kps-grafana-f896bd644-f58ph                                  Pulling image "quay.io/kiwigrid/k8s-sidecar:1.30.3"
+monitoring           46m         Normal    Pulling                        pod/kps-kube-state-metrics-7976d647b4-4ljf2                      Pulling image "registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.16.0"
+monitoring           46m         Normal    Pulling                        pod/kps-operator-cc4559ccc-zzdp4                                 Pulling image "quay.io/prometheus-operator/prometheus-operator:v0.83.0"
+monitoring           46m         Normal    Pulling                        pod/kps-prometheus-node-exporter-hmnd2                           Pulling image "quay.io/prometheus/node-exporter:v1.9.1"
+monitoring           46m         Normal    Created                        pod/kps-prometheus-node-exporter-hmnd2                           Created container: node-exporter
+monitoring           46m         Normal    Started                        pod/kps-prometheus-node-exporter-zwwwl                           Started container node-exporter
+monitoring           46m         Normal    Created                        pod/kps-prometheus-node-exporter-zwwwl                           Created container: node-exporter
+monitoring           46m         Normal    Pulled                         pod/kps-prometheus-node-exporter-zwwwl                           Successfully pulled image "quay.io/prometheus/node-exporter:v1.9.1" in 2.047s (2.047s including waiting). Image size: 12955907 bytes.
+monitoring           46m         Normal    Pulled                         pod/kps-prometheus-node-exporter-hmnd2                           Successfully pulled image "quay.io/prometheus/node-exporter:v1.9.1" in 2.065s (2.066s including waiting). Image size: 12955907 bytes.
+monitoring           46m         Normal    Started                        pod/kps-prometheus-node-exporter-hmnd2                           Started container node-exporter
+monitoring           46m         Normal    Pulled                         pod/kps-operator-cc4559ccc-zzdp4                                 Successfully pulled image "quay.io/prometheus-operator/prometheus-operator:v0.83.0" in 1.489s (3.341s including waiting). Image size: 19414956 bytes.
+monitoring           46m         Normal    Created                        pod/kps-operator-cc4559ccc-zzdp4                                 Created container: kube-prometheus-stack
+monitoring           46m         Normal    Scheduled                      pod/alertmanager-kps-alertmanager-0                              Successfully assigned monitoring/alertmanager-kps-alertmanager-0 to kubesleuth-worker
+monitoring           46m         Normal    SuccessfulCreate               statefulset/alertmanager-kps-alertmanager                        create Pod alertmanager-kps-alertmanager-0 in StatefulSet alertmanager-kps-alertmanager successful
+monitoring           46m         Normal    Started                        pod/kps-operator-cc4559ccc-zzdp4                                 Started container kube-prometheus-stack
+monitoring           46m         Normal    Pulling                        pod/alertmanager-kps-alertmanager-0                              Pulling image "quay.io/prometheus-operator/prometheus-config-reloader:v0.83.0"
+monitoring           46m         Normal    Pulling                        pod/prometheus-kps-prometheus-0                                  Pulling image "quay.io/prometheus-operator/prometheus-config-reloader:v0.83.0"
+monitoring           46m         Normal    Scheduled                      pod/prometheus-kps-prometheus-0                                  Successfully assigned monitoring/prometheus-kps-prometheus-0 to kubesleuth-worker
+monitoring           46m         Normal    SuccessfulCreate               statefulset/prometheus-kps-prometheus                            create Pod prometheus-kps-prometheus-0 in StatefulSet prometheus-kps-prometheus successful
+monitoring           46m         Normal    Created                        pod/kps-grafana-f896bd644-f58ph                                  Created container: grafana-sc-dashboard
+monitoring           46m         Normal    Created                        pod/kps-grafana-f896bd644-f58ph                                  Created container: grafana-sc-datasources
+monitoring           46m         Normal    Pulled                         pod/kps-grafana-f896bd644-f58ph                                  Container image "quay.io/kiwigrid/k8s-sidecar:1.30.3" already present on machine
+monitoring           46m         Normal    Started                        pod/kps-grafana-f896bd644-f58ph                                  Started container grafana-sc-dashboard
+monitoring           46m         Normal    Pulled                         pod/kps-grafana-f896bd644-f58ph                                  Successfully pulled image "quay.io/kiwigrid/k8s-sidecar:1.30.3" in 2.93s (6.059s including waiting). Image size: 22552493 bytes.
+monitoring           45m         Normal    Created                        pod/kps-kube-state-metrics-7976d647b4-4ljf2                      Created container: kube-state-metrics
+monitoring           45m         Normal    Pulled                         pod/kps-kube-state-metrics-7976d647b4-4ljf2                      Successfully pulled image "registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.16.0" in 890ms (6.949s including waiting). Image size: 18382550 bytes.
+monitoring           45m         Normal    Started                        pod/kps-grafana-f896bd644-f58ph                                  Started container grafana-sc-datasources
+monitoring           45m         Normal    Pulling                        pod/kps-grafana-f896bd644-f58ph                                  Pulling image "docker.io/grafana/grafana:12.1.0"
+monitoring           45m         Normal    Started                        pod/kps-kube-state-metrics-7976d647b4-4ljf2                      Started container kube-state-metrics
+monitoring           45m         Normal    Pulled                         pod/alertmanager-kps-alertmanager-0                              Successfully pulled image "quay.io/prometheus-operator/prometheus-config-reloader:v0.83.0" in 1.248s (4.226s including waiting). Image size: 14977246 bytes.
+monitoring           45m         Normal    Started                        pod/alertmanager-kps-alertmanager-0                              Started container init-config-reloader
+monitoring           45m         Normal    Created                        pod/alertmanager-kps-alertmanager-0                              Created container: init-config-reloader
+monitoring           45m         Normal    Pulled                         pod/prometheus-kps-prometheus-0                                  Successfully pulled image "quay.io/prometheus-operator/prometheus-config-reloader:v0.83.0" in 312ms (4.419s including waiting). Image size: 14977246 bytes.
+monitoring           45m         Normal    Started                        pod/prometheus-kps-prometheus-0                                  Started container init-config-reloader
+monitoring           45m         Normal    Created                        pod/prometheus-kps-prometheus-0                                  Created container: init-config-reloader
+monitoring           45m         Normal    Pulling                        pod/prometheus-kps-prometheus-0                                  Pulling image "quay.io/prometheus/prometheus:v3.5.0"
+monitoring           45m         Normal    Pulling                        pod/alertmanager-kps-alertmanager-0                              Pulling image "quay.io/prometheus/alertmanager:v0.28.1"
+monitoring           45m         Normal    Started                        pod/kps-grafana-f896bd644-f58ph                                  Started container grafana
+monitoring           45m         Normal    Created                        pod/kps-grafana-f896bd644-f58ph                                  Created container: grafana
+monitoring           45m         Normal    Pulled                         pod/kps-grafana-f896bd644-f58ph                                  Successfully pulled image "docker.io/grafana/grafana:12.1.0" in 7.049s (9.304s including waiting). Image size: 201268200 bytes.
+monitoring           45m         Warning   Unhealthy                      pod/kps-grafana-f896bd644-f58ph                                  Readiness probe failed: Get "http://10.244.1.5:3000/api/health": dial tcp 10.244.1.5:3000: connect: connection refused
+monitoring           45m         Normal    Started                        pod/prometheus-kps-prometheus-0                                  Started container config-reloader
+monitoring           45m         Normal    Created                        pod/prometheus-kps-prometheus-0                                  Created container: config-reloader
+monitoring           45m         Normal    Pulled                         pod/prometheus-kps-prometheus-0                                  Successfully pulled image "quay.io/prometheus/prometheus:v3.5.0" in 3.679s (8.593s including waiting). Image size: 123797512 bytes.
+monitoring           45m         Normal    Created                        pod/prometheus-kps-prometheus-0                                  Created container: prometheus
+monitoring           45m         Normal    Started                        pod/prometheus-kps-prometheus-0                                  Started container prometheus
+monitoring           45m         Normal    Pulled                         pod/prometheus-kps-prometheus-0                                  Container image "quay.io/prometheus-operator/prometheus-config-reloader:v0.83.0" already present on machine
+monitoring           45m         Normal    Started                        pod/alertmanager-kps-alertmanager-0                              Started container alertmanager
+monitoring           45m         Normal    Pulled                         pod/alertmanager-kps-alertmanager-0                              Successfully pulled image "quay.io/prometheus/alertmanager:v0.28.1" in 1.531s (10.123s including waiting). Image size: 35015543 bytes.
+monitoring           45m         Normal    Started                        pod/alertmanager-kps-alertmanager-0                              Started container config-reloader
+monitoring           45m         Normal    Created                        pod/alertmanager-kps-alertmanager-0                              Created container: config-reloader
+monitoring           45m         Normal    Pulled                         pod/alertmanager-kps-alertmanager-0                              Container image "quay.io/prometheus-operator/prometheus-config-reloader:v0.83.0" already present on machine
+monitoring           45m         Normal    Created                        pod/alertmanager-kps-alertmanager-0                              Created container: alertmanager
+monitoring           45m         Normal    Scheduled                      pod/kps-admission-patch-lbtgp                                    Successfully assigned monitoring/kps-admission-patch-lbtgp to kubesleuth-worker
+monitoring           45m         Normal    Pulled                         pod/kps-admission-patch-lbtgp                                    Container image "registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.6.0" already present on machine
+monitoring           45m         Normal    Created                        pod/kps-admission-patch-lbtgp                                    Created container: patch
+monitoring           45m         Normal    SuccessfulCreate               job/kps-admission-patch                                          Created pod: kps-admission-patch-lbtgp
+monitoring           45m         Normal    Started                        pod/kps-admission-patch-lbtgp                                    Started container patch
+monitoring           45m         Normal    Completed                      job/kps-admission-patch                                          Job completed
+observability        45m         Warning   FailedScheduling               pod/loki-0                                                       running PreBind plugin "VolumeBinding": Operation cannot be fulfilled on persistentvolumeclaims "storage-loki-0": the object has been modified; please apply your changes to the latest version and try again
+observability        45m         Normal    WaitForPodScheduled            persistentvolumeclaim/storage-loki-0                             waiting for pod loki-0 to be scheduled
+observability        45m         Normal    WaitForFirstConsumer           persistentvolumeclaim/storage-loki-0                             waiting for first consumer to be created before binding
+observability        45m         Normal    SuccessfulCreate               statefulset/loki                                                 create Pod loki-0 in StatefulSet loki successful
+observability        45m         Normal    SuccessfulCreate               statefulset/loki                                                 create Claim storage-loki-0 Pod loki-0 in StatefulSet loki success
+observability        45m         Normal    ExternalProvisioning           persistentvolumeclaim/storage-loki-0                             Waiting for a volume to be created either by the external provisioner 'rancher.io/local-path' or manually by the system administrator. If volume creation is delayed, please verify that the provisioner is running and correctly registered.
+local-path-storage   45m         Normal    Pulled                         pod/helper-pod-create-pvc-fbfa87f2-9034-4d47-8588-f1880061e68d   Container image "docker.io/kindest/local-path-helper:v20241212-8ac705d0" already present on machine
+observability        45m         Normal    Provisioning                   persistentvolumeclaim/storage-loki-0                             External provisioner is provisioning volume for claim "observability/storage-loki-0"
+local-path-storage   45m         Normal    Created                        pod/helper-pod-create-pvc-fbfa87f2-9034-4d47-8588-f1880061e68d   Created container: helper-pod
+local-path-storage   45m         Normal    Started                        pod/helper-pod-create-pvc-fbfa87f2-9034-4d47-8588-f1880061e68d   Started container helper-pod
+observability        45m         Normal    ProvisioningSucceeded          persistentvolumeclaim/storage-loki-0                             Successfully provisioned volume pvc-fbfa87f2-9034-4d47-8588-f1880061e68d
+observability        45m         Normal    Pulling                        pod/loki-0                                                       Pulling image "kiwigrid/k8s-sidecar:1.30.3"
+observability        45m         Normal    Scheduled                      pod/loki-0                                                       Successfully assigned observability/loki-0 to kubesleuth-worker
+observability        45m         Normal    Pulling                        pod/loki-0                                                       Pulling image "docker.io/grafana/loki:3.5.0"
+observability        45m         Normal    Started                        pod/loki-0                                                       Started container loki-sc-rules
+observability        45m         Normal    Created                        pod/loki-0                                                       Created container: loki-sc-rules
+observability        45m         Normal    Pulled                         pod/loki-0                                                       Successfully pulled image "kiwigrid/k8s-sidecar:1.30.3" in 575ms (575ms including waiting). Image size: 22552493 bytes.
+observability        45m         Normal    Created                        pod/loki-0                                                       Created container: loki
+observability        45m         Normal    Started                        pod/loki-0                                                       Started container loki
+observability        45m         Normal    Pulled                         pod/loki-0                                                       Successfully pulled image "docker.io/grafana/loki:3.5.0" in 4.792s (4.792s including waiting). Image size: 39207994 bytes.
+observability        44m         Warning   Unhealthy                      pod/loki-0                                                       Readiness probe failed: HTTP probe failed with statuscode: 503
+observability        44m         Normal    ScalingReplicaSet              deployment/alloy                                                 Scaled up replica set alloy-64dbfd4b7d from 0 to 1
+observability        44m         Normal    Scheduled                      pod/alloy-64dbfd4b7d-tpqf6                                       Successfully assigned observability/alloy-64dbfd4b7d-tpqf6 to kubesleuth-worker
+observability        44m         Normal    SuccessfulCreate               replicaset/alloy-64dbfd4b7d                                      Created pod: alloy-64dbfd4b7d-tpqf6
+observability        44m         Normal    Pulling                        pod/alloy-64dbfd4b7d-tpqf6                                       Pulling image "docker.io/grafana/alloy:v1.9.2"
+observability        44m         Normal    Pulling                        pod/alloy-64dbfd4b7d-tpqf6                                       Pulling image "quay.io/prometheus-operator/prometheus-config-reloader:v0.81.0"
+observability        44m         Normal    Pulled                         pod/alloy-64dbfd4b7d-tpqf6                                       Successfully pulled image "docker.io/grafana/alloy:v1.9.2" in 3.473s (3.473s including waiting). Image size: 140807319 bytes.
+observability        44m         Normal    Created                        pod/alloy-64dbfd4b7d-tpqf6                                       Created container: alloy
+observability        44m         Normal    Started                        pod/alloy-64dbfd4b7d-tpqf6                                       Started container alloy
+observability        44m         Normal    Pulled                         pod/alloy-64dbfd4b7d-tpqf6                                       Successfully pulled image "quay.io/prometheus-operator/prometheus-config-reloader:v0.81.0" in 1.348s (1.348s including waiting). Image size: 14433657 bytes.
+observability        44m         Normal    Created                        pod/alloy-64dbfd4b7d-tpqf6                                       Created container: config-reloader
+observability        44m         Normal    Started                        pod/alloy-64dbfd4b7d-tpqf6                                       Started container config-reloader
+observability        44m         Normal    Scheduled                      pod/jaeger-7c4bb6bcb8-mrbg8                                      Successfully assigned observability/jaeger-7c4bb6bcb8-mrbg8 to kubesleuth-worker
+observability        44m         Normal    SuccessfulCreate               replicaset/jaeger-7c4bb6bcb8                                     Created pod: jaeger-7c4bb6bcb8-mrbg8
+observability        44m         Normal    ScalingReplicaSet              deployment/jaeger                                                Scaled up replica set jaeger-7c4bb6bcb8 from 0 to 1
+observability        43m         Normal    Pulling                        pod/jaeger-7c4bb6bcb8-mrbg8                                      Pulling image "jaegertracing/jaeger:2.8.0"
+traefik              43m         Normal    ScalingReplicaSet              deployment/traefik                                               Scaled up replica set traefik-5478bbd884 from 0 to 1
+traefik              43m         Normal    SuccessfulCreate               replicaset/traefik-5478bbd884                                    Created pod: traefik-5478bbd884-b9k8q
+traefik              43m         Normal    Scheduled                      pod/traefik-5478bbd884-b9k8q                                     Successfully assigned traefik/traefik-5478bbd884-b9k8q to kubesleuth-control-plane
+traefik              43m         Normal    Pulling                        pod/traefik-5478bbd884-b9k8q                                     Pulling image "docker.io/traefik:v3.4.3"
+observability        43m         Normal    Pulled                         pod/jaeger-7c4bb6bcb8-mrbg8                                      Successfully pulled image "jaegertracing/jaeger:2.8.0" in 4.534s (4.534s including waiting). Image size: 52201596 bytes.
+traefik              43m         Normal    Pulled                         pod/traefik-5478bbd884-b9k8q                                     Successfully pulled image "docker.io/traefik:v3.4.3" in 2.98s (2.98s including waiting). Image size: 58912386 bytes.
+traefik              43m         Normal    Created                        pod/traefik-5478bbd884-b9k8q                                     Created container: traefik
+traefik              43m         Normal    Started                        pod/traefik-5478bbd884-b9k8q                                     Started container traefik
+kube-system          43m         Normal    ScalingReplicaSet              deployment/metrics-server                                        Scaled up replica set metrics-server-6f665c9d54 from 0 to 1
+kube-system          43m         Normal    SuccessfulCreate               replicaset/metrics-server-6f665c9d54                             Created pod: metrics-server-6f665c9d54-vsg76
+kube-system          43m         Normal    Scheduled                      pod/metrics-server-6f665c9d54-vsg76                              Successfully assigned kube-system/metrics-server-6f665c9d54-vsg76 to kubesleuth-worker
+kube-system          43m         Normal    Pulling                        pod/metrics-server-6f665c9d54-vsg76                              Pulling image "registry.k8s.io/metrics-server/metrics-server:v0.7.2"
+kube-system          43m         Normal    Started                        pod/metrics-server-6f665c9d54-vsg76                              Started container metrics-server
+kube-system          43m         Normal    Created                        pod/metrics-server-6f665c9d54-vsg76                              Created container: metrics-server
+kube-system          43m         Normal    Pulled                         pod/metrics-server-6f665c9d54-vsg76                              Successfully pulled image "registry.k8s.io/metrics-server/metrics-server:v0.7.2" in 1.086s (1.086s including waiting). Image size: 19494617 bytes.
+chaos-mesh           43m         Normal    Scheduled                      pod/chaos-controller-manager-5cf7fbc66c-bt7jg                    Successfully assigned chaos-mesh/chaos-controller-manager-5cf7fbc66c-bt7jg to kubesleuth-worker
+chaos-mesh           43m         Normal    SuccessfulCreate               replicaset/chaos-controller-manager-5cf7fbc66c                   Created pod: chaos-controller-manager-5cf7fbc66c-bt7jg
+chaos-mesh           43m         Normal    Scheduled                      pod/chaos-dashboard-6465b58bcc-9pbjn                             Successfully assigned chaos-mesh/chaos-dashboard-6465b58bcc-9pbjn to kubesleuth-worker
+chaos-mesh           43m         Normal    Pulling                        pod/chaos-dashboard-6465b58bcc-9pbjn                             Pulling image "ghcr.io/chaos-mesh/chaos-dashboard:v2.7.2"
+chaos-mesh           43m         Normal    SuccessfulCreate               replicaset/chaos-dashboard-6465b58bcc                            Created pod: chaos-dashboard-6465b58bcc-9pbjn
+chaos-mesh           43m         Normal    ScalingReplicaSet              deployment/chaos-dashboard                                       Scaled up replica set chaos-dashboard-6465b58bcc from 0 to 1
+chaos-mesh           43m         Normal    Scheduled                      pod/chaos-dns-server-558955948b-fm5s2                            Successfully assigned chaos-mesh/chaos-dns-server-558955948b-fm5s2 to kubesleuth-worker
+chaos-mesh           43m         Normal    Pulling                        pod/chaos-dns-server-558955948b-fm5s2                            Pulling image "ghcr.io/chaos-mesh/chaos-coredns:v0.2.6"
+chaos-mesh           43m         Normal    SuccessfulCreate               daemonset/chaos-daemon                                           Created pod: chaos-daemon-j2kvx
+chaos-mesh           43m         Normal    SuccessfulCreate               replicaset/chaos-dns-server-558955948b                           Created pod: chaos-dns-server-558955948b-fm5s2
+chaos-mesh           43m         Normal    Pulling                        pod/chaos-daemon-j2kvx                                           Pulling image "ghcr.io/chaos-mesh/chaos-daemon:v2.7.2"
+chaos-mesh           43m         Normal    Scheduled                      pod/chaos-daemon-j2kvx                                           Successfully assigned chaos-mesh/chaos-daemon-j2kvx to kubesleuth-worker
+chaos-mesh           43m         Normal    Pulling                        pod/chaos-controller-manager-5cf7fbc66c-bt7jg                    Pulling image "ghcr.io/chaos-mesh/chaos-mesh:v2.7.2"
+chaos-mesh           43m         Normal    ScalingReplicaSet              deployment/chaos-dns-server                                      Scaled up replica set chaos-dns-server-558955948b from 0 to 1
+chaos-mesh           43m         Normal    ScalingReplicaSet              deployment/chaos-controller-manager                              Scaled up replica set chaos-controller-manager-5cf7fbc66c from 0 to 1
+chaos-mesh           43m         Normal    Pulled                         pod/chaos-daemon-j2kvx                                           Successfully pulled image "ghcr.io/chaos-mesh/chaos-daemon:v2.7.2" in 9.666s (9.666s including waiting). Image size: 258856893 bytes.
+chaos-mesh           43m         Normal    Started                        pod/chaos-daemon-j2kvx                                           Started container chaos-daemon
+chaos-mesh           43m         Normal    Created                        pod/chaos-daemon-j2kvx                                           Created container: chaos-daemon
+chaos-mesh           43m         Normal    Pulled                         pod/chaos-dns-server-558955948b-fm5s2                            Successfully pulled image "ghcr.io/chaos-mesh/chaos-coredns:v0.2.6" in 1.739s (11.364s including waiting). Image size: 13905012 bytes.
+chaos-mesh           43m         Normal    Created                        pod/chaos-dns-server-558955948b-fm5s2                            Created container: chaos-dns-server
+chaos-mesh           43m         Normal    Started                        pod/chaos-dns-server-558955948b-fm5s2                            Started container chaos-dns-server
+chaos-mesh           43m         Normal    LeaderElection                 lease/chaos-mesh                                                 chaos-controller-manager-5cf7fbc66c-bt7jg_929f4cf7-20a1-4a01-a9ac-8757553bb97c became leader
+chaos-mesh           43m         Normal    Created                        pod/chaos-controller-manager-5cf7fbc66c-bt7jg                    Created container: chaos-mesh
+chaos-mesh           43m         Normal    Started                        pod/chaos-controller-manager-5cf7fbc66c-bt7jg                    Started container chaos-mesh
+chaos-mesh           43m         Normal    Pulled                         pod/chaos-controller-manager-5cf7fbc66c-bt7jg                    Successfully pulled image "ghcr.io/chaos-mesh/chaos-mesh:v2.7.2" in 2.313s (13.678s including waiting). Image size: 25366780 bytes.
+chaos-mesh           43m         Normal    Pulled                         pod/chaos-dashboard-6465b58bcc-9pbjn                             Successfully pulled image "ghcr.io/chaos-mesh/chaos-dashboard:v2.7.2" in 3.003s (16.643s including waiting). Image size: 65175070 bytes.
+chaos-mesh           43m         Normal    Created                        pod/chaos-dashboard-6465b58bcc-9pbjn                             Created container: chaos-dashboard
+chaos-mesh           43m         Normal    Started                        pod/chaos-dashboard-6465b58bcc-9pbjn                             Started container chaos-dashboard
+shop                 41m         Normal    Scheduled                      pod/edge-6675f7688f-6kvmv                                        Successfully assigned shop/edge-6675f7688f-6kvmv to kubesleuth-worker
+shop                 41m         Normal    SuccessfulCreate               replicaset/inventory-6ffc77fd45                                  Created pod: inventory-6ffc77fd45-54rqh
+shop                 41m         Normal    SuccessfulCreate               replicaset/catalog-indexer-6f6b545fdb                            Created pod: catalog-indexer-6f6b545fdb-dmf6f
+shop                 41m         Normal    Scheduled                      pod/inventory-6ffc77fd45-54rqh                                   Successfully assigned shop/inventory-6ffc77fd45-54rqh to kubesleuth-worker
+shop                 41m         Normal    SuccessfulCreate               replicaset/loadgen-786bccd86d                                    Created pod: loadgen-786bccd86d-xnmhw
+shop                 41m         Normal    ScalingReplicaSet              deployment/inventory                                             Scaled up replica set inventory-6ffc77fd45 from 0 to 4
+shop                 41m         Normal    SuccessfulCreate               replicaset/catalog-indexer-6f6b545fdb                            Created pod: catalog-indexer-6f6b545fdb-dspjq
+shop                 41m         Normal    ScalingReplicaSet              deployment/catalog-indexer                                       Scaled up replica set catalog-indexer-6f6b545fdb from 0 to 3
+shop                 41m         Normal    Scheduled                      pod/catalog-indexer-6f6b545fdb-dspjq                             Successfully assigned shop/catalog-indexer-6f6b545fdb-dspjq to kubesleuth-worker
+shop                 41m         Normal    Scheduled                      pod/checkout-69cf4467b9-9mrds                                    Successfully assigned shop/checkout-69cf4467b9-9mrds to kubesleuth-worker
+shop                 41m         Normal    Scheduled                      pod/checkout-69cf4467b9-f58cl                                    Successfully assigned shop/checkout-69cf4467b9-f58cl to kubesleuth-worker
+shop                 41m         Normal    SuccessfulCreate               replicaset/inventory-6ffc77fd45                                  Created pod: inventory-6ffc77fd45-jgtpc
+shop                 41m         Normal    SuccessfulCreate               replicaset/edge-6675f7688f                                       Created pod: edge-6675f7688f-6kvmv
+shop                 41m         Normal    SuccessfulCreate               replicaset/edge-6675f7688f                                       Created pod: edge-6675f7688f-l4fvr
+shop                 41m         Normal    Scheduled                      pod/edge-6675f7688f-l4fvr                                        Successfully assigned shop/edge-6675f7688f-l4fvr to kubesleuth-worker
+shop                 41m         Normal    Scheduled                      pod/checkout-69cf4467b9-zw866                                    Successfully assigned shop/checkout-69cf4467b9-zw866 to kubesleuth-worker
+shop                 41m         Normal    SuccessfulCreate               replicaset/checkout-69cf4467b9                                   Created pod: checkout-69cf4467b9-zw866
+shop                 41m         Normal    Scheduled                      pod/catalog-indexer-6f6b545fdb-dmf6f                             Successfully assigned shop/catalog-indexer-6f6b545fdb-dmf6f to kubesleuth-worker
+shop                 41m         Normal    SuccessfulCreate               replicaset/checkout-69cf4467b9                                   Created pod: checkout-69cf4467b9-9mrds
+shop                 41m         Normal    SuccessfulCreate               replicaset/checkout-69cf4467b9                                   Created pod: checkout-69cf4467b9-f58cl
+shop                 41m         Normal    ScalingReplicaSet              deployment/checkout                                              Scaled up replica set checkout-69cf4467b9 from 0 to 3
+shop                 41m         Normal    ScalingReplicaSet              deployment/loadgen                                               Scaled up replica set loadgen-786bccd86d from 0 to 1
+shop                 41m         Normal    Scheduled                      pod/catalog-indexer-6f6b545fdb-4tkhf                             Successfully assigned shop/catalog-indexer-6f6b545fdb-4tkhf to kubesleuth-worker
+shop                 41m         Normal    Scheduled                      pod/inventory-6ffc77fd45-vm7gm                                   Successfully assigned shop/inventory-6ffc77fd45-vm7gm to kubesleuth-worker
+shop                 41m         Normal    ScalingReplicaSet              deployment/edge                                                  Scaled up replica set edge-6675f7688f from 0 to 2
+shop                 41m         Normal    SuccessfulCreate               replicaset/inventory-6ffc77fd45                                  Created pod: inventory-6ffc77fd45-vm7gm
+shop                 41m         Normal    SuccessfulCreate               replicaset/catalog-indexer-6f6b545fdb                            Created pod: catalog-indexer-6f6b545fdb-4tkhf
+shop                 41m         Normal    Scheduled                      pod/telemetry-collector-865ccb84c6-n4r6p                         Successfully assigned shop/telemetry-collector-865ccb84c6-n4r6p to kubesleuth-worker
+shop                 41m         Normal    Pulled                         pod/catalog-indexer-6f6b545fdb-dspjq                             Container image "shop:1.4.0" already present on machine
+shop                 41m         Normal    SuccessfulCreate               replicaset/pricing-95c99775f                                     Created pod: pricing-95c99775f-6vbcr
+shop                 41m         Normal    SuccessfulCreate               replicaset/pricing-95c99775f                                     Created pod: pricing-95c99775f-p5rbm
+shop                 41m         Normal    Scheduled                      pod/pricing-95c99775f-6vbcr                                      Successfully assigned shop/pricing-95c99775f-6vbcr to kubesleuth-worker
+shop                 41m         Normal    SuccessfulCreate               statefulset/postgres                                             create Pod postgres-0 in StatefulSet postgres successful
+shop                 41m         Normal    SuccessfulCreate               statefulset/postgres                                             create Claim data-postgres-0 Pod postgres-0 in StatefulSet postgres success
+shop                 41m         Normal    Scheduled                      pod/inventory-6ffc77fd45-q8vgs                                   Successfully assigned shop/inventory-6ffc77fd45-q8vgs to kubesleuth-worker
+shop                 41m         Normal    ScalingReplicaSet              deployment/pricing                                               Scaled up replica set pricing-95c99775f from 0 to 2
+shop                 41m         Normal    ScalingReplicaSet              deployment/telemetry-collector                                   Scaled up replica set telemetry-collector-865ccb84c6 from 0 to 1
+shop                 41m         Normal    WaitForFirstConsumer           persistentvolumeclaim/data-postgres-0                            waiting for first consumer to be created before binding
+shop                 41m         Normal    SuccessfulCreate               replicaset/telemetry-collector-865ccb84c6                        Created pod: telemetry-collector-865ccb84c6-n4r6p
+shop                 41m         Normal    Scheduled                      pod/pricing-95c99775f-p5rbm                                      Successfully assigned shop/pricing-95c99775f-p5rbm to kubesleuth-worker
+shop                 41m         Normal    SuccessfulCreate               replicaset/review-bot-5dd44db4dd                                 Created pod: review-bot-5dd44db4dd-l22n6
+shop                 41m         Normal    Scheduled                      pod/loadgen-786bccd86d-xnmhw                                     Successfully assigned shop/loadgen-786bccd86d-xnmhw to kubesleuth-worker
+shop                 41m         Normal    Scheduled                      pod/recommendations-7bd4dd95d6-fvxzd                             Successfully assigned shop/recommendations-7bd4dd95d6-fvxzd to kubesleuth-worker
+shop                 41m         Normal    Pulled                         pod/checkout-69cf4467b9-zw866                                    Container image "shop:1.4.0" already present on machine
+shop                 41m         Normal    Scheduled                      pod/recommendations-7bd4dd95d6-hzswl                             Successfully assigned shop/recommendations-7bd4dd95d6-hzswl to kubesleuth-worker
+shop                 41m         Normal    SuccessfulCreate               replicaset/recommendations-7bd4dd95d6                            Created pod: recommendations-7bd4dd95d6-hzswl
+shop                 41m         Normal    SuccessfulCreate               replicaset/inventory-6ffc77fd45                                  Created pod: inventory-6ffc77fd45-q8vgs
+shop                 41m         Normal    Scheduled                      pod/review-bot-5dd44db4dd-l22n6                                  Successfully assigned shop/review-bot-5dd44db4dd-l22n6 to kubesleuth-worker
+shop                 41m         Normal    ScalingReplicaSet              deployment/review-bot                                            Scaled up replica set review-bot-5dd44db4dd from 0 to 1
+shop                 41m         Normal    ScalingReplicaSet              deployment/recommendations                                       Scaled up replica set recommendations-7bd4dd95d6 from 0 to 2
+shop                 41m         Normal    SuccessfulCreate               replicaset/recommendations-7bd4dd95d6                            Created pod: recommendations-7bd4dd95d6-fvxzd
+shop                 41m         Normal    Scheduled                      pod/inventory-6ffc77fd45-jgtpc                                   Successfully assigned shop/inventory-6ffc77fd45-jgtpc to kubesleuth-worker
+shop                 41m         Normal    Pulled                         pod/inventory-6ffc77fd45-jgtpc                                   Container image "shop:1.4.0" already present on machine
+shop                 41m         Normal    Provisioning                   persistentvolumeclaim/data-postgres-0                            External provisioner is provisioning volume for claim "shop/data-postgres-0"
+shop                 41m         Normal    Started                        pod/catalog-indexer-6f6b545fdb-dspjq                             Started container catalog-indexer
+shop                 41m         Normal    Created                        pod/catalog-indexer-6f6b545fdb-dspjq                             Created container: catalog-indexer
+shop                 41m         Normal    Pulled                         pod/inventory-6ffc77fd45-vm7gm                                   Container image "shop:1.4.0" already present on machine
+shop                 41m         Normal    Pulled                         pod/checkout-69cf4467b9-f58cl                                    Container image "shop:1.4.0" already present on machine
+shop                 41m         Normal    Pulled                         pod/inventory-6ffc77fd45-54rqh                                   Container image "shop:1.4.0" already present on machine
+shop                 41m         Normal    Pulled                         pod/pricing-95c99775f-6vbcr                                      Container image "shop:1.4.0" already present on machine
+shop                 41m         Normal    Created                        pod/catalog-indexer-6f6b545fdb-dmf6f                             Created container: catalog-indexer
+shop                 41m         Normal    Pulled                         pod/loadgen-786bccd86d-xnmhw                                     Container image "shop:1.4.0" already present on machine
+shop                 41m         Normal    Pulled                         pod/inventory-6ffc77fd45-q8vgs                                   Container image "shop:1.4.0" already present on machine
+shop                 41m         Normal    Pulled                         pod/catalog-indexer-6f6b545fdb-dmf6f                             Container image "shop:1.4.0" already present on machine
+shop                 41m         Normal    Pulled                         pod/catalog-indexer-6f6b545fdb-4tkhf                             Container image "shop:1.4.0" already present on machine
+kubesleuth           41m         Normal    SuccessfulCreate               replicaset/kubesleuth-agent-95fb84b5c                            Created pod: kubesleuth-agent-95fb84b5c-mqtqk
+shop                 41m         Normal    Pulled                         pod/recommendations-7bd4dd95d6-hzswl                             Container image "shop:1.4.0" already present on machine
+kubesleuth           41m         Normal    ScalingReplicaSet              deployment/kubesleuth-agent                                      Scaled up replica set kubesleuth-agent-95fb84b5c from 0 to 1
+shop                 41m         Normal    Started                        pod/checkout-69cf4467b9-zw866                                    Started container checkout
+shop                 41m         Normal    Created                        pod/checkout-69cf4467b9-zw866                                    Created container: checkout
+kubesleuth           41m         Normal    ScalingReplicaSet              deployment/kubesleuth-broker                                     Scaled up replica set kubesleuth-broker-6b79ff45f4 from 0 to 1
+kubesleuth           41m         Normal    SuccessfulCreate               replicaset/kubesleuth-broker-6b79ff45f4                          Created pod: kubesleuth-broker-6b79ff45f4-d26nv
+shop                 41m         Normal    Started                        pod/catalog-indexer-6f6b545fdb-dmf6f                             Started container catalog-indexer
+kubesleuth           41m         Normal    WaitForFirstConsumer           persistentvolumeclaim/kubesleuth-reports                         waiting for first consumer to be created before binding
+shop                 41m         Normal    Started                        pod/inventory-6ffc77fd45-54rqh                                   Started container inventory
+shop                 41m         Normal    Created                        pod/inventory-6ffc77fd45-54rqh                                   Created container: inventory
+shop                 41m         Normal    Pulled                         pod/pricing-95c99775f-p5rbm                                      Container image "shop:1.4.0" already present on machine
+kubesleuth           41m         Normal    Provisioning                   persistentvolumeclaim/kubesleuth-reports                         External provisioner is provisioning volume for claim "kubesleuth/kubesleuth-reports"
+shop                 41m         Normal    Pulled                         pod/checkout-69cf4467b9-9mrds                                    Container image "shop:1.4.0" already present on machine
+shop                 41m         Normal    Started                        pod/checkout-69cf4467b9-f58cl                                    Started container checkout
+shop                 41m         Normal    Created                        pod/catalog-indexer-6f6b545fdb-4tkhf                             Created container: catalog-indexer
+kubesleuth           41m         Normal    Scheduled                      pod/kubesleuth-broker-6b79ff45f4-d26nv                           Successfully assigned kubesleuth/kubesleuth-broker-6b79ff45f4-d26nv to kubesleuth-worker
+kubesleuth           41m         Warning   FailedScheduling               pod/kubesleuth-agent-95fb84b5c-mqtqk                             running PreBind plugin "VolumeBinding": binding volumes: pod does not exist any more: pod "kubesleuth-agent-95fb84b5c-mqtqk" not found
+shop                 41m         Normal    Pulled                         pod/edge-6675f7688f-6kvmv                                        Container image "shop:1.4.0" already present on machine
+shop                 41m         Normal    Pulled                         pod/recommendations-7bd4dd95d6-fvxzd                             Container image "shop:1.4.0" already present on machine
+kubesleuth           41m         Normal    ScalingReplicaSet              deployment/kubesleuth-agent                                      Scaled down replica set kubesleuth-agent-95fb84b5c from 1 to 0
+shop                 41m         Normal    Started                        pod/catalog-indexer-6f6b545fdb-4tkhf                             Started container catalog-indexer
+shop                 41m         Normal    Created                        pod/inventory-6ffc77fd45-q8vgs                                   Created container: inventory
+shop                 41m         Normal    Started                        pod/inventory-6ffc77fd45-q8vgs                                   Started container inventory
+shop                 41m         Normal    Pulled                         pod/review-bot-5dd44db4dd-l22n6                                  Container image "shop:1.4.0" already present on machine
+shop                 41m         Normal    Created                        pod/checkout-69cf4467b9-f58cl                                    Created container: checkout
+kubesleuth           41m         Normal    SuccessfulDelete               replicaset/kubesleuth-agent-95fb84b5c                            Deleted pod: kubesleuth-agent-95fb84b5c-mqtqk
+shop                 41m         Normal    Pulled                         pod/edge-6675f7688f-l4fvr                                        Container image "shop:1.4.0" already present on machine
+monitoring           41m         Warning   InvalidConfiguration           servicemonitor/kps-grafana                                       ServiceMonitor kps-grafana was rejected due to invalid configuration: scrapeTimeout "30s" greater than scrapeInterval "15s"
+kubesleuth           41m         Normal    SuccessfulCreate               replicaset/kubesleuth-agent-56f676db59                           Created pod: kubesleuth-agent-56f676db59-x8r2t
+kubesleuth           41m         Normal    ScalingReplicaSet              deployment/kubesleuth-agent                                      Scaled up replica set kubesleuth-agent-56f676db59 from 0 to 1
+shop                 41m         Normal    Created                        pod/pricing-95c99775f-p5rbm                                      Created container: pricing
+shop                 41m         Normal    Created                        pod/loadgen-786bccd86d-xnmhw                                     Created container: loadgen
+shop                 41m         Normal    Created                        pod/inventory-6ffc77fd45-jgtpc                                   Created container: inventory
+shop                 41m         Normal    Created                        pod/inventory-6ffc77fd45-vm7gm                                   Created container: inventory
+shop                 41m         Normal    Created                        pod/pricing-95c99775f-6vbcr                                      Created container: pricing
+shop                 41m         Normal    Created                        pod/checkout-69cf4467b9-9mrds                                    Created container: checkout
+shop                 41m         Normal    Started                        pod/inventory-6ffc77fd45-jgtpc                                   Started container inventory
+shop                 41m         Normal    Created                        pod/recommendations-7bd4dd95d6-hzswl                             Created container: recommendations
+shop                 41m         Normal    Created                        pod/review-bot-5dd44db4dd-l22n6                                  Created container: review-bot
+shop                 41m         Normal    Started                        pod/pricing-95c99775f-p5rbm                                      Started container pricing
+shop                 41m         Normal    Started                        pod/inventory-6ffc77fd45-vm7gm                                   Started container inventory
+shop                 41m         Normal    Started                        pod/pricing-95c99775f-6vbcr                                      Started container pricing
+shop                 41m         Warning   Unhealthy                      pod/inventory-6ffc77fd45-54rqh                                   Readiness probe failed: Get "http://10.244.1.22:8080/healthz": dial tcp 10.244.1.22:8080: connect: connection refused
+shop                 41m         Normal    Started                        pod/checkout-69cf4467b9-9mrds                                    Started container checkout
+shop                 41m         Normal    Created                        pod/edge-6675f7688f-l4fvr                                        Created container: edge
+shop                 41m         Normal    Started                        pod/recommendations-7bd4dd95d6-hzswl                             Started container recommendations
+shop                 41m         Normal    Created                        pod/edge-6675f7688f-6kvmv                                        Created container: edge
+shop                 41m         Normal    Started                        pod/loadgen-786bccd86d-xnmhw                                     Started container loadgen
+shop                 41m         Normal    Pulled                         pod/telemetry-collector-865ccb84c6-n4r6p                         Container image "shop:1.4.0" already present on machine
+kubesleuth           41m         Normal    Created                        pod/kubesleuth-broker-6b79ff45f4-d26nv                           Created container: broker
+kubesleuth           41m         Normal    Pulled                         pod/kubesleuth-broker-6b79ff45f4-d26nv                           Container image "kubesleuth-broker:0.1.0" already present on machine
+shop                 41m         Normal    Created                        pod/recommendations-7bd4dd95d6-fvxzd                             Created container: recommendations
+shop                 41m         Normal    Started                        pod/review-bot-5dd44db4dd-l22n6                                  Started container review-bot
+shop                 41m         Normal    Started                        pod/recommendations-7bd4dd95d6-fvxzd                             Started container recommendations
+local-path-storage   41m         Normal    Created                        pod/helper-pod-create-pvc-f078fc71-bdd3-42b7-b695-6dd2fafbaf8c   Created container: helper-pod
+shop                 41m         Normal    Started                        pod/edge-6675f7688f-6kvmv                                        Started container edge
+local-path-storage   41m         Normal    Pulled                         pod/helper-pod-create-pvc-f078fc71-bdd3-42b7-b695-6dd2fafbaf8c   Container image "docker.io/kindest/local-path-helper:v20241212-8ac705d0" already present on machine
+shop                 41m         Normal    Created                        pod/telemetry-collector-865ccb84c6-n4r6p                         Created container: telemetry-collector
+shop                 41m         Normal    Started                        pod/edge-6675f7688f-l4fvr                                        Started container edge
+shop                 41m         Warning   Unhealthy                      pod/pricing-95c99775f-p5rbm                                      Readiness probe failed: Get "http://10.244.1.31:8080/healthz": dial tcp 10.244.1.31:8080: connect: connection refused
+shop                 41m         Warning   Unhealthy                      pod/recommendations-7bd4dd95d6-hzswl                             Readiness probe failed: Get "http://10.244.1.30:8080/healthz": dial tcp 10.244.1.30:8080: connect: connection refused
+shop                 41m         Normal    Started                        pod/telemetry-collector-865ccb84c6-n4r6p                         Started container telemetry-collector
+kubesleuth           41m         Normal    Started                        pod/kubesleuth-broker-6b79ff45f4-d26nv                           Started container broker
+shop                 41m         Warning   Unhealthy                      pod/inventory-6ffc77fd45-jgtpc                                   Readiness probe failed: Get "http://10.244.1.25:8080/healthz": dial tcp 10.244.1.25:8080: connect: connection refused
+local-path-storage   41m         Normal    Pulled                         pod/helper-pod-create-pvc-398ea53a-998e-4379-a5ce-c1acaa80e802   Container image "docker.io/kindest/local-path-helper:v20241212-8ac705d0" already present on machine
+shop                 41m         Warning   Unhealthy                      pod/edge-6675f7688f-6kvmv                                        Readiness probe failed: Get "http://10.244.1.34:8080/healthz": dial tcp 10.244.1.34:8080: connect: connection refused
+shop                 41m         Warning   Unhealthy                      pod/pricing-95c99775f-6vbcr                                      Readiness probe failed: Get "http://10.244.1.28:8080/healthz": dial tcp 10.244.1.28:8080: connect: connection refused
+shop                 41m         Normal    ExternalProvisioning           persistentvolumeclaim/data-postgres-0                            Waiting for a volume to be created either by the external provisioner 'rancher.io/local-path' or manually by the system administrator. If volume creation is delayed, please verify that the provisioner is running and correctly registered.
+local-path-storage   41m         Normal    Started                        pod/helper-pod-create-pvc-f078fc71-bdd3-42b7-b695-6dd2fafbaf8c   Started container helper-pod
+shop                 41m         Warning   Unhealthy                      pod/catalog-indexer-6f6b545fdb-dspjq                             Readiness probe failed: Get "http://10.244.1.18:8080/healthz": dial tcp 10.244.1.18:8080: connect: connection refused
+shop                 41m         Warning   Unhealthy                      pod/edge-6675f7688f-l4fvr                                        Readiness probe failed: Get "http://10.244.1.32:8080/healthz": dial tcp 10.244.1.32:8080: connect: connection refused
+local-path-storage   41m         Normal    Started                        pod/helper-pod-create-pvc-398ea53a-998e-4379-a5ce-c1acaa80e802   Started container helper-pod
+local-path-storage   41m         Normal    Created                        pod/helper-pod-create-pvc-398ea53a-998e-4379-a5ce-c1acaa80e802   Created container: helper-pod
+kubesleuth           41m         Normal    ExternalProvisioning           persistentvolumeclaim/kubesleuth-reports                         Waiting for a volume to be created either by the external provisioner 'rancher.io/local-path' or manually by the system administrator. If volume creation is delayed, please verify that the provisioner is running and correctly registered.
+kubesleuth           41m         Warning   Unhealthy                      pod/kubesleuth-broker-6b79ff45f4-d26nv                           Readiness probe failed: Get "http://10.244.1.39:8090/healthz": dial tcp 10.244.1.39:8090: connect: connection refused
+shop                 41m         Warning   Unhealthy                      pod/recommendations-7bd4dd95d6-fvxzd                             Readiness probe failed: Get "http://10.244.1.35:8080/healthz": dial tcp 10.244.1.35:8080: connect: connection refused
+shop                 41m         Warning   Unhealthy                      pod/telemetry-collector-865ccb84c6-n4r6p                         Readiness probe failed: Get "http://10.244.1.36:8080/healthz": dial tcp 10.244.1.36:8080: connect: connection refused
+shop                 41m         Warning   Unhealthy                      pod/checkout-69cf4467b9-9mrds                                    Liveness probe failed: Get "http://10.244.1.29:8080/healthz": dial tcp 10.244.1.29:8080: connect: connection refused
+shop                 41m         Warning   Unhealthy                      pod/catalog-indexer-6f6b545fdb-dmf6f                             Readiness probe failed: Get "http://10.244.1.20:8080/healthz": dial tcp 10.244.1.20:8080: connect: connection refused
+shop                 41m         Warning   Unhealthy                      pod/checkout-69cf4467b9-f58cl                                    Liveness probe failed: Get "http://10.244.1.23:8080/healthz": dial tcp 10.244.1.23:8080: connect: connection refused
+kubesleuth           41m         Normal    ProvisioningSucceeded          persistentvolumeclaim/kubesleuth-reports                         Successfully provisioned volume pvc-398ea53a-998e-4379-a5ce-c1acaa80e802
+shop                 41m         Warning   Unhealthy                      pod/checkout-69cf4467b9-zw866                                    Liveness probe failed: Get "http://10.244.1.19:8080/healthz": dial tcp 10.244.1.19:8080: connect: connection refused
+shop                 41m         Warning   Unhealthy                      pod/catalog-indexer-6f6b545fdb-4tkhf                             Liveness probe failed: Get "http://10.244.1.21:8080/healthz": dial tcp 10.244.1.21:8080: connect: connection refused
+shop                 41m         Normal    ProvisioningSucceeded          persistentvolumeclaim/data-postgres-0                            Successfully provisioned volume pvc-f078fc71-bdd3-42b7-b695-6dd2fafbaf8c
+shop                 41m         Warning   Unhealthy                      pod/catalog-indexer-6f6b545fdb-4tkhf                             Readiness probe failed: Get "http://10.244.1.21:8080/healthz": dial tcp 10.244.1.21:8080: connect: connection refused
+shop                 41m         Warning   Unhealthy                      pod/catalog-indexer-6f6b545fdb-dspjq                             Liveness probe failed: Get "http://10.244.1.18:8080/healthz": dial tcp 10.244.1.18:8080: connect: connection refused
+shop                 41m         Warning   Unhealthy                      pod/catalog-indexer-6f6b545fdb-dmf6f                             Liveness probe failed: Get "http://10.244.1.20:8080/healthz": dial tcp 10.244.1.20:8080: connect: connection refused
+shop                 41m         Normal    Scheduled                      pod/postgres-0                                                   Successfully assigned shop/postgres-0 to kubesleuth-worker
+shop                 41m         Warning   Unhealthy                      pod/checkout-69cf4467b9-f58cl                                    Readiness probe failed: Get "http://10.244.1.23:8080/readyz": dial tcp 10.244.1.23:8080: connect: connection refused
+kubesleuth           41m         Normal    Scheduled                      pod/kubesleuth-agent-56f676db59-x8r2t                            Successfully assigned kubesleuth/kubesleuth-agent-56f676db59-x8r2t to kubesleuth-worker
+kubesleuth           41m         Normal    Pulled                         pod/kubesleuth-agent-56f676db59-x8r2t                            Container image "kubesleuth-agent:0.1.0" already present on machine
+kubesleuth           41m         Normal    Created                        pod/kubesleuth-agent-56f676db59-x8r2t                            Created container: agent
+kubesleuth           41m         Normal    Started                        pod/kubesleuth-agent-56f676db59-x8r2t                            Started container agent
+shop                 41m         Normal    Pulling                        pod/postgres-0                                                   Pulling image "postgres:16-alpine"
+kubesleuth           41m         Warning   Unhealthy                      pod/kubesleuth-agent-56f676db59-x8r2t                            Readiness probe failed: Get "http://10.244.1.40:8080/healthz": dial tcp 10.244.1.40:8080: connect: connection refused
+shop                 41m         Warning   Unhealthy                      pod/checkout-69cf4467b9-zw866                                    Readiness probe failed: Get "http://10.244.1.19:8080/readyz": dial tcp 10.244.1.19:8080: connect: connection refused
+shop                 41m         Normal    Pulled                         pod/postgres-0                                                   Successfully pulled image "postgres:16-alpine" in 5.498s (5.498s including waiting). Image size: 116084812 bytes.
+shop                 41m         Warning   Unhealthy                      pod/checkout-69cf4467b9-9mrds                                    Readiness probe failed: Get "http://10.244.1.29:8080/readyz": dial tcp 10.244.1.29:8080: connect: connection refused
+shop                 41m         Normal    Created                        pod/postgres-0                                                   Created container: postgres
+shop                 41m         Normal    Started                        pod/postgres-0                                                   Started container postgres
+shop                 41m         Warning   Unhealthy                      pod/postgres-0                                                   Readiness probe failed: /var/run/postgresql:5432 - no response
+kubesleuth           40m         Normal    SuccessfulDelete               replicaset/kubesleuth-agent-56f676db59                           Deleted pod: kubesleuth-agent-56f676db59-x8r2t
+kubesleuth           40m         Normal    Killing                        pod/kubesleuth-agent-56f676db59-x8r2t                            Stopping container agent
+kubesleuth           40m         Normal    ScalingReplicaSet              deployment/kubesleuth-agent                                      Scaled down replica set kubesleuth-agent-56f676db59 from 1 to 0
+kubesleuth           40m         Normal    SuccessfulCreate               replicaset/kubesleuth-agent-5f9f97cb75                           Created pod: kubesleuth-agent-5f9f97cb75-mdzc4
+kubesleuth           40m         Normal    Scheduled                      pod/kubesleuth-agent-5f9f97cb75-mdzc4                            Successfully assigned kubesleuth/kubesleuth-agent-5f9f97cb75-mdzc4 to kubesleuth-worker
+kubesleuth           40m         Normal    ScalingReplicaSet              deployment/kubesleuth-agent                                      Scaled up replica set kubesleuth-agent-5f9f97cb75 from 0 to 1
+kubesleuth           40m         Normal    Pulled                         pod/kubesleuth-agent-5f9f97cb75-mdzc4                            Container image "kubesleuth-agent:0.1.0" already present on machine
+kubesleuth           40m         Normal    Created                        pod/kubesleuth-agent-5f9f97cb75-mdzc4                            Created container: agent
+kubesleuth           40m         Normal    Started                        pod/kubesleuth-agent-5f9f97cb75-mdzc4                            Started container agent
+shop                 36m         Normal    SuccessfulCreate               replicaset/edge-787d795f9c                                       Created pod: edge-787d795f9c-7qctj
+shop                 36m         Normal    SuccessfulCreate               replicaset/inventory-5958dddc7c                                  Created pod: inventory-5958dddc7c-khqlj
+shop                 36m         Normal    SuccessfulCreate               replicaset/checkout-786978cbfc                                   Created pod: checkout-786978cbfc-dscjc
+shop                 36m         Normal    Scheduled                      pod/inventory-5958dddc7c-p9tgr                                   Successfully assigned shop/inventory-5958dddc7c-p9tgr to kubesleuth-worker
+shop                 36m         Normal    SuccessfulDelete               replicaset/inventory-6ffc77fd45                                  Deleted pod: inventory-6ffc77fd45-q8vgs
+shop                 36m         Normal    ScalingReplicaSet              deployment/edge                                                  Scaled up replica set edge-787d795f9c from 0 to 1
+shop                 36m         Normal    Killing                        pod/checkout-69cf4467b9-zw866                                    Stopping container checkout
+shop                 36m         Normal    SuccessfulCreate               replicaset/checkout-786978cbfc                                   Created pod: checkout-786978cbfc-x26wc
+shop                 36m         Normal    SuccessfulCreate               replicaset/inventory-5958dddc7c                                  Created pod: inventory-5958dddc7c-p9tgr
+shop                 36m         Normal    Scheduled                      pod/inventory-5958dddc7c-khqlj                                   Successfully assigned shop/inventory-5958dddc7c-khqlj to kubesleuth-worker
+shop                 36m         Normal    SuccessfulCreate               replicaset/recommendations-775d84fbf4                            Created pod: recommendations-775d84fbf4-qq4mh
+shop                 36m         Normal    ScalingReplicaSet              deployment/recommendations                                       Scaled up replica set recommendations-775d84fbf4 from 0 to 1
+shop                 36m         Normal    Scheduled                      pod/recommendations-775d84fbf4-qq4mh                             Successfully assigned shop/recommendations-775d84fbf4-qq4mh to kubesleuth-worker
+shop                 36m         Normal    ScalingReplicaSet              deployment/checkout                                              Scaled up replica set checkout-786978cbfc from 1 to 2
+shop                 36m         Normal    Killing                        pod/inventory-6ffc77fd45-q8vgs                                   Stopping container inventory
+shop                 36m         Normal    ScalingReplicaSet              deployment/inventory                                             Scaled up replica set inventory-5958dddc7c from 1 to 2
+shop                 36m         Normal    ScalingReplicaSet              deployment/checkout                                              Scaled up replica set checkout-786978cbfc from 0 to 1
+shop                 36m         Normal    ScalingReplicaSet              deployment/checkout                                              Scaled down replica set checkout-69cf4467b9 from 3 to 2
+shop                 36m         Normal    SuccessfulDelete               replicaset/checkout-69cf4467b9                                   Deleted pod: checkout-69cf4467b9-zw866
+shop                 36m         Normal    Scheduled                      pod/checkout-786978cbfc-x26wc                                    Successfully assigned shop/checkout-786978cbfc-x26wc to kubesleuth-worker
+shop                 36m         Normal    Scheduled                      pod/checkout-786978cbfc-dscjc                                    Successfully assigned shop/checkout-786978cbfc-dscjc to kubesleuth-worker
+shop                 36m         Normal    Scheduled                      pod/edge-787d795f9c-7qctj                                        Successfully assigned shop/edge-787d795f9c-7qctj to kubesleuth-worker
+shop                 36m         Normal    ScalingReplicaSet              deployment/inventory                                             Scaled down replica set inventory-6ffc77fd45 from 4 to 3
+shop                 36m         Normal    ScalingReplicaSet              deployment/inventory                                             Scaled up replica set inventory-5958dddc7c from 0 to 1
+shop                 36m         Normal    Created                        pod/checkout-786978cbfc-dscjc                                    Created container: checkout
+shop                 36m         Normal    Created                        pod/checkout-786978cbfc-x26wc                                    Created container: checkout
+shop                 36m         Normal    Created                        pod/edge-787d795f9c-7qctj                                        Created container: edge
+shop                 36m         Normal    Pulled                         pod/inventory-5958dddc7c-khqlj                                   Container image "shop:1.4.0" already present on machine
+shop                 36m         Normal    Pulled                         pod/edge-787d795f9c-7qctj                                        Container image "shop:1.4.0" already present on machine
+shop                 36m         Warning   Unhealthy                      pod/inventory-6ffc77fd45-q8vgs                                   Readiness probe failed: Get "http://10.244.1.26:8080/healthz": dial tcp 10.244.1.26:8080: connect: connection refused
+shop                 36m         Normal    Pulled                         pod/checkout-786978cbfc-x26wc                                    Container image "shop:1.4.0" already present on machine
+shop                 36m         Normal    Started                        pod/inventory-5958dddc7c-p9tgr                                   Started container inventory
+shop                 36m         Normal    Created                        pod/inventory-5958dddc7c-khqlj                                   Created container: inventory
+shop                 36m         Normal    Started                        pod/checkout-786978cbfc-dscjc                                    Started container checkout
+shop                 36m         Normal    Created                        pod/recommendations-775d84fbf4-qq4mh                             Created container: recommendations
+shop                 36m         Normal    Pulled                         pod/recommendations-775d84fbf4-qq4mh                             Container image "shop:1.4.0" already present on machine
+shop                 36m         Normal    Pulled                         pod/inventory-5958dddc7c-p9tgr                                   Container image "shop:1.4.0" already present on machine
+shop                 36m         Normal    Pulled                         pod/checkout-786978cbfc-dscjc                                    Container image "shop:1.4.0" already present on machine
+shop                 36m         Normal    Created                        pod/inventory-5958dddc7c-p9tgr                                   Created container: inventory
+shop                 36m         Normal    Started                        pod/recommendations-775d84fbf4-qq4mh                             Started container recommendations
+shop                 36m         Normal    Started                        pod/checkout-786978cbfc-x26wc                                    Started container checkout
+shop                 36m         Normal    Started                        pod/inventory-5958dddc7c-khqlj                                   Started container inventory
+shop                 36m         Normal    Started                        pod/edge-787d795f9c-7qctj                                        Started container edge
+shop                 36m         Warning   Unhealthy                      pod/edge-787d795f9c-7qctj                                        Readiness probe failed: Get "http://10.244.1.45:8080/healthz": dial tcp 10.244.1.45:8080: connect: connection refused
+shop                 36m         Warning   Unhealthy                      pod/inventory-5958dddc7c-p9tgr                                   Readiness probe failed: Get "http://10.244.1.44:8080/healthz": dial tcp 10.244.1.44:8080: connect: connection refused
+shop                 36m         Warning   Unhealthy                      pod/checkout-786978cbfc-dscjc                                    Readiness probe failed: Get "http://10.244.1.43:8080/readyz": dial tcp 10.244.1.43:8080: connect: connection refused
+shop                 36m         Normal    ScalingReplicaSet              deployment/edge                                                  Scaled up replica set edge-787d795f9c from 1 to 2
+shop                 36m         Normal    ScalingReplicaSet              deployment/edge                                                  Scaled down replica set edge-6675f7688f from 2 to 1
+shop                 36m         Normal    Killing                        pod/edge-6675f7688f-6kvmv                                        Stopping container edge
+shop                 36m         Normal    SuccessfulCreate               replicaset/edge-787d795f9c                                       Created pod: edge-787d795f9c-tmsjn
+shop                 36m         Warning   Unhealthy                      pod/checkout-786978cbfc-x26wc                                    Readiness probe failed: Get "http://10.244.1.48:8080/readyz": dial tcp 10.244.1.48:8080: connect: connection refused
+shop                 36m         Normal    SuccessfulDelete               replicaset/edge-6675f7688f                                       Deleted pod: edge-6675f7688f-6kvmv
+shop                 36m         Normal    Scheduled                      pod/edge-787d795f9c-tmsjn                                        Successfully assigned shop/edge-787d795f9c-tmsjn to kubesleuth-worker
+shop                 36m         Warning   Unhealthy                      pod/inventory-5958dddc7c-khqlj                                   Readiness probe failed: Get "http://10.244.1.47:8080/healthz": dial tcp 10.244.1.47:8080: connect: connection refused
+shop                 36m         Warning   Unhealthy                      pod/recommendations-775d84fbf4-qq4mh                             Readiness probe failed: Get "http://10.244.1.46:8080/healthz": dial tcp 10.244.1.46:8080: connect: connection refused
+shop                 36m         Normal    Started                        pod/edge-787d795f9c-tmsjn                                        Started container edge
+shop                 36m         Normal    Created                        pod/edge-787d795f9c-tmsjn                                        Created container: edge
+shop                 36m         Normal    Pulled                         pod/edge-787d795f9c-tmsjn                                        Container image "shop:1.4.0" already present on machine
+shop                 36m         Normal    Killing                        pod/edge-6675f7688f-l4fvr                                        Stopping container edge
+shop                 36m         Normal    SuccessfulDelete               replicaset/edge-6675f7688f                                       Deleted pod: edge-6675f7688f-l4fvr
+shop                 36m         Normal    ScalingReplicaSet              deployment/edge                                                  Scaled down replica set edge-6675f7688f from 1 to 0
+shop                 36m         Normal    SuccessfulCreate               replicaset/checkout-786978cbfc                                   Created pod: checkout-786978cbfc-sjqn4
+shop                 36m         Normal    Killing                        pod/inventory-6ffc77fd45-jgtpc                                   Stopping container inventory
+shop                 36m         Normal    SuccessfulDelete               replicaset/inventory-6ffc77fd45                                  Deleted pod: inventory-6ffc77fd45-jgtpc
+shop                 36m         Normal    Killing                        pod/checkout-69cf4467b9-f58cl                                    Stopping container checkout
+shop                 36m         Normal    Scheduled                      pod/inventory-5958dddc7c-hkvnq                                   Successfully assigned shop/inventory-5958dddc7c-hkvnq to kubesleuth-worker
+shop                 36m         Normal    ScalingReplicaSet              deployment/checkout                                              Scaled up replica set checkout-786978cbfc from 2 to 3
+shop                 36m         Normal    ScalingReplicaSet              deployment/checkout                                              Scaled down replica set checkout-69cf4467b9 from 2 to 1
+shop                 36m         Normal    Scheduled                      pod/checkout-786978cbfc-sjqn4                                    Successfully assigned shop/checkout-786978cbfc-sjqn4 to kubesleuth-worker
+shop                 36m         Normal    SuccessfulCreate               replicaset/inventory-5958dddc7c                                  Created pod: inventory-5958dddc7c-hkvnq
+shop                 36m         Normal    SuccessfulDelete               replicaset/checkout-69cf4467b9                                   Deleted pod: checkout-69cf4467b9-f58cl
+shop                 36m         Normal    ScalingReplicaSet              deployment/inventory                                             Scaled down replica set inventory-6ffc77fd45 from 3 to 2
+shop                 36m         Normal    ScalingReplicaSet              deployment/inventory                                             Scaled up replica set inventory-5958dddc7c from 2 to 3
+shop                 36m         Normal    Started                        pod/inventory-5958dddc7c-hkvnq                                   Started container inventory
+shop                 36m         Normal    ScalingReplicaSet              deployment/checkout                                              Scaled down replica set checkout-69cf4467b9 from 1 to 0
+shop                 36m         Normal    SuccessfulDelete               replicaset/checkout-69cf4467b9                                   Deleted pod: checkout-69cf4467b9-9mrds
+shop                 36m         Normal    Pulled                         pod/inventory-5958dddc7c-hkvnq                                   Container image "shop:1.4.0" already present on machine
+shop                 36m         Normal    Killing                        pod/checkout-69cf4467b9-9mrds                                    Stopping container checkout
+shop                 36m         Normal    Started                        pod/checkout-786978cbfc-sjqn4                                    Started container checkout
+shop                 36m         Normal    Created                        pod/checkout-786978cbfc-sjqn4                                    Created container: checkout
+shop                 36m         Normal    Pulled                         pod/checkout-786978cbfc-sjqn4                                    Container image "shop:1.4.0" already present on machine
+shop                 36m         Normal    Created                        pod/inventory-5958dddc7c-hkvnq                                   Created container: inventory
+shop                 36m         Normal    ScalingReplicaSet              deployment/recommendations                                       Scaled up replica set recommendations-775d84fbf4 from 1 to 2
+shop                 36m         Normal    ScalingReplicaSet              deployment/inventory                                             Scaled up replica set inventory-5958dddc7c from 3 to 4
+shop                 36m         Normal    Scheduled                      pod/recommendations-775d84fbf4-8wmmh                             Successfully assigned shop/recommendations-775d84fbf4-8wmmh to kubesleuth-worker
+shop                 36m         Normal    ScalingReplicaSet              deployment/recommendations                                       Scaled down replica set recommendations-7bd4dd95d6 from 2 to 1
+shop                 36m         Normal    Killing                        pod/inventory-6ffc77fd45-54rqh                                   Stopping container inventory
+shop                 36m         Normal    SuccessfulDelete               replicaset/inventory-6ffc77fd45                                  Deleted pod: inventory-6ffc77fd45-54rqh
+shop                 36m         Normal    SuccessfulDelete               replicaset/recommendations-7bd4dd95d6                            Deleted pod: recommendations-7bd4dd95d6-fvxzd
+shop                 36m         Normal    SuccessfulCreate               replicaset/inventory-5958dddc7c                                  Created pod: inventory-5958dddc7c-kbh4d
+shop                 36m         Normal    Killing                        pod/recommendations-7bd4dd95d6-fvxzd                             Stopping container recommendations
+shop                 36m         Normal    Scheduled                      pod/inventory-5958dddc7c-kbh4d                                   Successfully assigned shop/inventory-5958dddc7c-kbh4d to kubesleuth-worker
+shop                 36m         Normal    ScalingReplicaSet              deployment/inventory                                             Scaled down replica set inventory-6ffc77fd45 from 2 to 1
+shop                 36m         Normal    SuccessfulCreate               replicaset/recommendations-775d84fbf4                            Created pod: recommendations-775d84fbf4-8wmmh
+shop                 35m         Warning   Unhealthy                      pod/checkout-786978cbfc-sjqn4                                    Readiness probe failed: Get "http://10.244.1.51:8080/readyz": dial tcp 10.244.1.51:8080: connect: connection refused
+shop                 35m         Normal    Started                        pod/recommendations-775d84fbf4-8wmmh                             Started container recommendations
+shop                 35m         Normal    Pulled                         pod/inventory-5958dddc7c-kbh4d                                   Container image "shop:1.4.0" already present on machine
+shop                 35m         Normal    Created                        pod/recommendations-775d84fbf4-8wmmh                             Created container: recommendations
+shop                 35m         Normal    Pulled                         pod/recommendations-775d84fbf4-8wmmh                             Container image "shop:1.4.0" already present on machine
+shop                 35m         Normal    Created                        pod/inventory-5958dddc7c-kbh4d                                   Created container: inventory
+shop                 35m         Warning   Unhealthy                      pod/inventory-5958dddc7c-hkvnq                                   Readiness probe failed: Get "http://10.244.1.50:8080/healthz": dial tcp 10.244.1.50:8080: connect: connection refused
+shop                 35m         Normal    Started                        pod/inventory-5958dddc7c-kbh4d                                   Started container inventory
+shop                 35m         Warning   Unhealthy                      pod/recommendations-775d84fbf4-8wmmh                             Readiness probe failed: Get "http://10.244.1.53:8080/healthz": dial tcp 10.244.1.53:8080: connect: connection refused
+shop                 35m         Normal    Killing                        pod/recommendations-7bd4dd95d6-hzswl                             Stopping container recommendations
+shop                 35m         Warning   Unhealthy                      pod/inventory-5958dddc7c-kbh4d                                   Readiness probe failed: Get "http://10.244.1.52:8080/healthz": dial tcp 10.244.1.52:8080: connect: connection refused
+shop                 35m         Normal    SuccessfulDelete               replicaset/recommendations-7bd4dd95d6                            Deleted pod: recommendations-7bd4dd95d6-hzswl
+shop                 35m         Normal    ScalingReplicaSet              deployment/recommendations                                       Scaled down replica set recommendations-7bd4dd95d6 from 1 to 0
+shop                 35m         Normal    Killing                        pod/inventory-6ffc77fd45-vm7gm                                   Stopping container inventory
+shop                 35m         Normal    ScalingReplicaSet              deployment/inventory                                             Scaled down replica set inventory-6ffc77fd45 from 1 to 0
+shop                 35m         Normal    SuccessfulDelete               replicaset/inventory-6ffc77fd45                                  Deleted pod: inventory-6ffc77fd45-vm7gm
+shop                 35m         Warning   Unhealthy                      pod/inventory-6ffc77fd45-vm7gm                                   Readiness probe failed: Get "http://10.244.1.27:8080/healthz": dial tcp 10.244.1.27:8080: connect: connection refused
+shop                 35m         Warning   FailedGetResourceMetric        horizontalpodautoscaler/edge                                     failed to get cpu utilization: unable to get metrics for resource cpu: no metrics returned from resource metrics API
+shop                 35m         Warning   FailedComputeMetricsReplicas   horizontalpodautoscaler/edge                                     invalid metrics (1 invalid out of 1), first error is: failed to get cpu resource metric value: failed to get cpu utilization: unable to get metrics for resource cpu: no metrics returned from resource metrics API
+shop                 32m         Normal    Scheduled                      pod/checkout-658f4596f5-wflwt                                    Successfully assigned shop/checkout-658f4596f5-wflwt to kubesleuth-worker
+shop                 32m         Normal    SuccessfulCreate               replicaset/checkout-658f4596f5                                   Created pod: checkout-658f4596f5-wflwt
+shop                 32m         Normal    ScalingReplicaSet              deployment/checkout                                              Scaled up replica set checkout-658f4596f5 from 0 to 1
+shop                 32m         Normal    SuccessfulDelete               replicaset/checkout-786978cbfc                                   Deleted pod: checkout-786978cbfc-dscjc
+shop                 32m         Normal    Scheduled                      pod/checkout-658f4596f5-ghr2q                                    Successfully assigned shop/checkout-658f4596f5-ghr2q to kubesleuth-worker
+shop                 32m         Normal    ScalingReplicaSet              deployment/checkout                                              Scaled down replica set checkout-786978cbfc from 3 to 2
+shop                 32m         Normal    Pulled                         pod/checkout-658f4596f5-wflwt                                    Container image "shop:1.4.0" already present on machine
+shop                 32m         Normal    Killing                        pod/checkout-786978cbfc-dscjc                                    Stopping container checkout
+shop                 32m         Normal    SuccessfulCreate               replicaset/checkout-658f4596f5                                   Created pod: checkout-658f4596f5-ghr2q
+shop                 32m         Normal    Created                        pod/checkout-658f4596f5-wflwt                                    Created container: checkout
+shop                 32m         Normal    Started                        pod/checkout-658f4596f5-wflwt                                    Started container checkout
+shop                 32m         Normal    Started                        pod/checkout-658f4596f5-ghr2q                                    Started container checkout
+shop                 32m         Warning   Unhealthy                      pod/checkout-658f4596f5-wflwt                                    Readiness probe failed: Get "http://10.244.1.54:8080/readyz": dial tcp 10.244.1.54:8080: connect: connection refused
+shop                 32m         Normal    Pulled                         pod/checkout-658f4596f5-ghr2q                                    Container image "shop:1.4.0" already present on machine
+shop                 32m         Normal    Created                        pod/checkout-658f4596f5-ghr2q                                    Created container: checkout
+shop                 32m         Warning   Unhealthy                      pod/checkout-658f4596f5-ghr2q                                    Readiness probe failed: Get "http://10.244.1.55:8080/readyz": dial tcp 10.244.1.55:8080: connect: connection refused
+shop                 32m         Normal    SuccessfulDelete               replicaset/checkout-786978cbfc                                   Deleted pod: checkout-786978cbfc-sjqn4
+shop                 32m         Normal    Scheduled                      pod/checkout-658f4596f5-8vkcd                                    Successfully assigned shop/checkout-658f4596f5-8vkcd to kubesleuth-worker
+shop                 32m         Normal    Pulled                         pod/checkout-658f4596f5-8vkcd                                    Container image "shop:1.4.0" already present on machine
+shop                 32m         Normal    SuccessfulCreate               replicaset/checkout-658f4596f5                                   Created pod: checkout-658f4596f5-8vkcd
+shop                 32m         Normal    Killing                        pod/checkout-786978cbfc-sjqn4                                    Stopping container checkout
+shop                 32m         Normal    Killing                        pod/checkout-786978cbfc-x26wc                                    Stopping container checkout
+shop                 32m         Normal    ScalingReplicaSet              deployment/checkout                                              (combined from similar events): Scaled down replica set checkout-786978cbfc from 1 to 0
+shop                 32m         Normal    Created                        pod/checkout-658f4596f5-8vkcd                                    Created container: checkout
+shop                 32m         Normal    SuccessfulDelete               replicaset/checkout-786978cbfc                                   Deleted pod: checkout-786978cbfc-x26wc
+shop                 32m         Normal    Started                        pod/checkout-658f4596f5-8vkcd                                    Started container checkout
+shop                 32m         Warning   Unhealthy                      pod/checkout-658f4596f5-8vkcd                                    Readiness probe failed: Get "http://10.244.1.56:8080/readyz": dial tcp 10.244.1.56:8080: connect: connection refused
+observability        5m44s       Normal    Pulled                         pod/jaeger-7c4bb6bcb8-mrbg8                                      Container image "jaegertracing/jaeger:2.8.0" already present on machine
+observability        5m44s       Normal    Started                        pod/jaeger-7c4bb6bcb8-mrbg8                                      Started container jaeger
+observability        5m44s       Normal    Created                        pod/jaeger-7c4bb6bcb8-mrbg8                                      Created container: jaeger
+shop                 23s         Normal    Scheduled                      pod/inventory-84f748f879-rrqdh                                   Successfully assigned shop/inventory-84f748f879-rrqdh to kubesleuth-worker
+shop                 23s         Normal    Scheduled                      pod/recommendations-68b7495d8d-z8q52                             Successfully assigned shop/recommendations-68b7495d8d-z8q52 to kubesleuth-worker
+shop                 23s         Normal    SuccessfulCreate               replicaset/checkout-6d9df9749f                                   Created pod: checkout-6d9df9749f-spwvs
+shop                 23s         Normal    ScalingReplicaSet              deployment/inventory                                             Scaled up replica set inventory-84f748f879 from 0 to 1
+shop                 23s         Normal    Killing                        pod/checkout-658f4596f5-8vkcd                                    Stopping container checkout
+shop                 23s         Normal    SuccessfulDelete               replicaset/checkout-658f4596f5                                   Deleted pod: checkout-658f4596f5-8vkcd
+shop                 23s         Normal    SuccessfulCreate               replicaset/edge-76b7c9c4bc                                       Created pod: edge-76b7c9c4bc-p2c7m
+shop                 23s         Normal    ScalingReplicaSet              deployment/edge                                                  Scaled up replica set edge-76b7c9c4bc from 0 to 1
+shop                 23s         Normal    Scheduled                      pod/edge-76b7c9c4bc-p2c7m                                        Successfully assigned shop/edge-76b7c9c4bc-p2c7m to kubesleuth-worker
+shop                 23s         Normal    SuccessfulCreate               replicaset/inventory-84f748f879                                  Created pod: inventory-84f748f879-rrqdh
+shop                 23s         Normal    Scheduled                      pod/checkout-6d9df9749f-spwvs                                    Successfully assigned shop/checkout-6d9df9749f-spwvs to kubesleuth-worker
+shop                 23s         Normal    SuccessfulCreate               replicaset/recommendations-68b7495d8d                            Created pod: recommendations-68b7495d8d-z8q52
+shop                 23s         Normal    ScalingReplicaSet              deployment/checkout                                              Scaled down replica set checkout-658f4596f5 from 3 to 2
+shop                 23s         Normal    ScalingReplicaSet              deployment/checkout                                              Scaled up replica set checkout-6d9df9749f from 0 to 1
+shop                 23s         Normal    ScalingReplicaSet              deployment/recommendations                                       Scaled up replica set recommendations-68b7495d8d from 0 to 1
+shop                 22s         Normal    ScalingReplicaSet              deployment/checkout                                              Scaled up replica set checkout-6d9df9749f from 1 to 2
+shop                 22s         Normal    SuccessfulCreate               replicaset/checkout-6d9df9749f                                   Created pod: checkout-6d9df9749f-dpxtw
+shop                 22s         Normal    Killing                        pod/inventory-5958dddc7c-khqlj                                   Stopping container inventory
+shop                 22s         Normal    SuccessfulDelete               replicaset/inventory-5958dddc7c                                  Deleted pod: inventory-5958dddc7c-khqlj
+shop                 22s         Normal    Scheduled                      pod/checkout-6d9df9749f-dpxtw                                    Successfully assigned shop/checkout-6d9df9749f-dpxtw to kubesleuth-worker
+shop                 22s         Normal    Scheduled                      pod/inventory-84f748f879-mjfg8                                   Successfully assigned shop/inventory-84f748f879-mjfg8 to kubesleuth-worker
+shop                 22s         Normal    Pulled                         pod/checkout-6d9df9749f-dpxtw                                    Container image "shop:1.4.0" already present on machine
+shop                 22s         Normal    ScalingReplicaSet              deployment/inventory                                             Scaled up replica set inventory-84f748f879 from 1 to 2
+shop                 22s         Normal    ScalingReplicaSet              deployment/inventory                                             Scaled down replica set inventory-5958dddc7c from 4 to 3
+shop                 22s         Normal    Created                        pod/checkout-6d9df9749f-dpxtw                                    Created container: checkout
+shop                 22s         Normal    Pulled                         pod/checkout-6d9df9749f-spwvs                                    Container image "shop:1.4.0" already present on machine
+shop                 22s         Normal    Created                        pod/checkout-6d9df9749f-spwvs                                    Created container: checkout
+shop                 22s         Normal    Created                        pod/recommendations-68b7495d8d-z8q52                             Created container: recommendations
+shop                 22s         Normal    Pulled                         pod/recommendations-68b7495d8d-z8q52                             Container image "shop:1.4.0" already present on machine
+shop                 22s         Normal    SuccessfulCreate               replicaset/inventory-84f748f879                                  Created pod: inventory-84f748f879-mjfg8
+shop                 21s         Normal    Created                        pod/edge-76b7c9c4bc-p2c7m                                        Created container: edge
+shop                 21s         Normal    Started                        pod/checkout-6d9df9749f-dpxtw                                    Started container checkout
+shop                 21s         Normal    Started                        pod/checkout-6d9df9749f-spwvs                                    Started container checkout
+shop                 21s         Normal    Pulled                         pod/inventory-84f748f879-rrqdh                                   Container image "shop:1.4.0" already present on machine
+shop                 21s         Normal    Created                        pod/inventory-84f748f879-rrqdh                                   Created container: inventory
+shop                 21s         Normal    Created                        pod/inventory-84f748f879-mjfg8                                   Created container: inventory
+shop                 21s         Normal    Pulled                         pod/inventory-84f748f879-mjfg8                                   Container image "shop:1.4.0" already present on machine
+shop                 21s         Normal    Started                        pod/edge-76b7c9c4bc-p2c7m                                        Started container edge
+shop                 21s         Normal    Pulled                         pod/edge-76b7c9c4bc-p2c7m                                        Container image "shop:1.4.0" already present on machine
+shop                 21s         Normal    Started                        pod/recommendations-68b7495d8d-z8q52                             Started container recommendations
+shop                 20s         Normal    Started                        pod/inventory-84f748f879-rrqdh                                   Started container inventory
+shop                 20s         Normal    Started                        pod/inventory-84f748f879-mjfg8                                   Started container inventory
+shop                 19s         Warning   Unhealthy                      pod/edge-76b7c9c4bc-p2c7m                                        Readiness probe failed: Get "http://10.244.1.60:8080/healthz": dial tcp 10.244.1.60:8080: connect: connection refused
+shop                 19s         Warning   Unhealthy                      pod/recommendations-68b7495d8d-z8q52                             Readiness probe failed: Get "http://10.244.1.57:8080/healthz": dial tcp 10.244.1.57:8080: connect: connection refused
+shop                 19s         Warning   Unhealthy                      pod/checkout-6d9df9749f-spwvs                                    Readiness probe failed: Get "http://10.244.1.58:8080/readyz": dial tcp 10.244.1.58:8080: connect: connection refused
+shop                 19s         Warning   Unhealthy                      pod/checkout-6d9df9749f-dpxtw                                    Readiness probe failed: Get "http://10.244.1.59:8080/readyz": dial tcp 10.244.1.59:8080: connect: connection refused
+shop                 19s         Warning   Unhealthy                      pod/inventory-84f748f879-rrqdh                                   Readiness probe failed: Get "http://10.244.1.61:8080/healthz": dial tcp 10.244.1.61:8080: connect: connection refused
+shop                 18s         Normal    ScalingReplicaSet              deployment/checkout                                              Scaled up replica set checkout-6d9df9749f from 2 to 3
+shop                 18s         Normal    SuccessfulDelete               replicaset/checkout-658f4596f5                                   Deleted pod: checkout-658f4596f5-wflwt
+shop                 18s         Normal    Killing                        pod/checkout-658f4596f5-wflwt                                    Stopping container checkout
+shop                 18s         Normal    ScalingReplicaSet              deployment/checkout                                              Scaled down replica set checkout-658f4596f5 from 2 to 1
+shop                 18s         Normal    Scheduled                      pod/checkout-6d9df9749f-x2tdr                                    Successfully assigned shop/checkout-6d9df9749f-x2tdr to kubesleuth-worker
+shop                 18s         Normal    SuccessfulCreate               replicaset/checkout-6d9df9749f                                   Created pod: checkout-6d9df9749f-x2tdr
+shop                 17s         Normal    Pulled                         pod/checkout-6d9df9749f-x2tdr                                    Container image "shop:1.4.0" already present on machine
+shop                 17s         Normal    Created                        pod/checkout-6d9df9749f-x2tdr                                    Created container: checkout
+shop                 17s         Normal    Started                        pod/checkout-6d9df9749f-x2tdr                                    Started container checkout
+shop                 17s         Warning   Unhealthy                      pod/inventory-84f748f879-mjfg8                                   Readiness probe failed: Get "http://10.244.1.62:8080/healthz": dial tcp 10.244.1.62:8080: connect: connection refused
+shop                 15s         Normal    Killing                        pod/checkout-658f4596f5-ghr2q                                    Stopping container checkout
+shop                 15s         Normal    SuccessfulDelete               replicaset/checkout-658f4596f5                                   Deleted pod: checkout-658f4596f5-ghr2q
+shop                 15s         Normal    ScalingReplicaSet              deployment/checkout                                              Scaled down replica set checkout-658f4596f5 from 1 to 0
+shop                 14s         Normal    ScalingReplicaSet              deployment/inventory                                             Scaled up replica set inventory-84f748f879 from 2 to 3
+shop                 14s         Normal    ScalingReplicaSet              deployment/recommendations                                       Scaled down replica set recommendations-775d84fbf4 from 2 to 1
+shop                 14s         Normal    Killing                        pod/inventory-5958dddc7c-kbh4d                                   Stopping container inventory
+shop                 14s         Normal    SuccessfulCreate               replicaset/recommendations-68b7495d8d                            Created pod: recommendations-68b7495d8d-lgwgz
+shop                 14s         Normal    SuccessfulDelete               replicaset/recommendations-775d84fbf4                            Deleted pod: recommendations-775d84fbf4-qq4mh
+shop                 14s         Normal    ScalingReplicaSet              deployment/edge                                                  Scaled up replica set edge-76b7c9c4bc from 1 to 2
+shop                 14s         Normal    Scheduled                      pod/inventory-84f748f879-zs8kk                                   Successfully assigned shop/inventory-84f748f879-zs8kk to kubesleuth-worker
+shop                 14s         Normal    SuccessfulDelete               replicaset/edge-787d795f9c                                       Deleted pod: edge-787d795f9c-7qctj
+shop                 14s         Normal    SuccessfulCreate               replicaset/inventory-84f748f879                                  Created pod: inventory-84f748f879-zs8kk
+shop                 14s         Normal    Killing                        pod/edge-787d795f9c-7qctj                                        Stopping container edge
+shop                 14s         Normal    ScalingReplicaSet              deployment/inventory                                             Scaled down replica set inventory-5958dddc7c from 3 to 2
+shop                 14s         Normal    SuccessfulCreate               replicaset/edge-76b7c9c4bc                                       Created pod: edge-76b7c9c4bc-jtdnk
+shop                 14s         Normal    Scheduled                      pod/recommendations-68b7495d8d-lgwgz                             Successfully assigned shop/recommendations-68b7495d8d-lgwgz to kubesleuth-worker
+shop                 14s         Normal    ScalingReplicaSet              deployment/edge                                                  Scaled down replica set edge-787d795f9c from 2 to 1
+shop                 14s         Normal    Killing                        pod/recommendations-775d84fbf4-qq4mh                             Stopping container recommendations
+shop                 14s         Normal    SuccessfulDelete               replicaset/inventory-5958dddc7c                                  Deleted pod: inventory-5958dddc7c-kbh4d
+shop                 14s         Normal    ScalingReplicaSet              deployment/recommendations                                       Scaled up replica set recommendations-68b7495d8d from 1 to 2
+shop                 14s         Normal    Scheduled                      pod/edge-76b7c9c4bc-jtdnk                                        Successfully assigned shop/edge-76b7c9c4bc-jtdnk to kubesleuth-worker
+shop                 13s         Normal    Pulled                         pod/recommendations-68b7495d8d-lgwgz                             Container image "shop:1.4.0" already present on machine
+shop                 13s         Normal    Started                        pod/recommendations-68b7495d8d-lgwgz                             Started container recommendations
+shop                 13s         Normal    Pulled                         pod/inventory-84f748f879-zs8kk                                   Container image "shop:1.4.0" already present on machine
+shop                 13s         Normal    Pulled                         pod/edge-76b7c9c4bc-jtdnk                                        Container image "shop:1.4.0" already present on machine
+shop                 13s         Normal    Created                        pod/edge-76b7c9c4bc-jtdnk                                        Created container: edge
+shop                 13s         Normal    Started                        pod/edge-76b7c9c4bc-jtdnk                                        Started container edge
+shop                 13s         Normal    Created                        pod/inventory-84f748f879-zs8kk                                   Created container: inventory
+shop                 13s         Normal    Created                        pod/recommendations-68b7495d8d-lgwgz                             Created container: recommendations
+shop                 13s         Normal    Started                        pod/inventory-84f748f879-zs8kk                                   Started container inventory
+shop                 12s         Normal    Killing                        pod/inventory-5958dddc7c-hkvnq                                   Stopping container inventory
+shop                 12s         Normal    ScalingReplicaSet              deployment/inventory                                             Scaled down replica set inventory-5958dddc7c from 2 to 1
+shop                 12s         Normal    ScalingReplicaSet              deployment/inventory                                             Scaled up replica set inventory-84f748f879 from 3 to 4
+shop                 12s         Normal    Scheduled                      pod/inventory-84f748f879-5gsgt                                   Successfully assigned shop/inventory-84f748f879-5gsgt to kubesleuth-worker
+shop                 12s         Normal    SuccessfulDelete               replicaset/inventory-5958dddc7c                                  Deleted pod: inventory-5958dddc7c-hkvnq
+shop                 12s         Normal    SuccessfulCreate               replicaset/inventory-84f748f879                                  Created pod: inventory-84f748f879-5gsgt
+shop                 11s         Warning   Unhealthy                      pod/inventory-84f748f879-zs8kk                                   Readiness probe failed: Get "http://10.244.1.64:8080/healthz": dial tcp 10.244.1.64:8080: connect: connection refused
+shop                 11s         Normal    Pulled                         pod/inventory-84f748f879-5gsgt                                   Container image "shop:1.4.0" already present on machine
+shop                 11s         Normal    Created                        pod/inventory-84f748f879-5gsgt                                   Created container: inventory
+shop                 11s         Warning   Unhealthy                      pod/edge-76b7c9c4bc-jtdnk                                        Readiness probe failed: Get "http://10.244.1.65:8080/healthz": dial tcp 10.244.1.65:8080: connect: connection refused
+shop                 10s         Normal    Started                        pod/inventory-84f748f879-5gsgt                                   Started container inventory
+shop                 10s         Warning   Unhealthy                      pod/recommendations-68b7495d8d-lgwgz                             Readiness probe failed: Get "http://10.244.1.66:8080/healthz": dial tcp 10.244.1.66:8080: connect: connection refused
+shop                 9s          Warning   Unhealthy                      pod/inventory-84f748f879-5gsgt                                   Readiness probe failed: Get "http://10.244.1.67:8080/healthz": dial tcp 10.244.1.67:8080: connect: connection refused
+shop                 6s          Normal    SuccessfulDelete               replicaset/edge-787d795f9c                                       Deleted pod: edge-787d795f9c-tmsjn
+shop                 6s          Normal    Killing                        pod/edge-787d795f9c-tmsjn                                        Stopping container edge
+shop                 6s          Normal    ScalingReplicaSet              deployment/inventory                                             Scaled down replica set inventory-5958dddc7c from 1 to 0
+shop                 6s          Normal    ScalingReplicaSet              deployment/edge                                                  Scaled down replica set edge-787d795f9c from 1 to 0
+shop                 6s          Normal    SuccessfulDelete               replicaset/inventory-5958dddc7c                                  Deleted pod: inventory-5958dddc7c-p9tgr
+shop                 6s          Normal    Killing                        pod/inventory-5958dddc7c-p9tgr                                   Stopping container inventory
+shop                 5s          Normal    SuccessfulDelete               replicaset/recommendations-775d84fbf4                            Deleted pod: recommendations-775d84fbf4-8wmmh
+shop                 5s          Normal    ScalingReplicaSet              deployment/recommendations                                       Scaled down replica set recommendations-775d84fbf4 from 1 to 0
+shop                 5s          Normal    Killing                        pod/recommendations-775d84fbf4-8wmmh                             Stopping container recommendations
+shop                 0s          Warning   FailedComputeMetricsReplicas   horizontalpodautoscaler/edge                                     invalid metrics (1 invalid out of 1), first error is: failed to get cpu resource metric value: failed to get cpu utilization: did not receive metrics for targeted pods (pods might be unready)
+shop                 0s          Warning   FailedGetResourceMetric        horizontalpodautoscaler/edge                                     failed to get cpu utilization: did not receive metrics for targeted pods (pods might be unready)
