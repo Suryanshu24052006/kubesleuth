@@ -1,5 +1,8 @@
 # kubesleuth
 
+[![ci](https://github.com/Suryanshu24052006/kubesleuth/actions/workflows/ci.yml/badge.svg)](https://github.com/Suryanshu24052006/kubesleuth/actions/workflows/ci.yml)
+[![live-eval](https://github.com/Suryanshu24052006/kubesleuth/actions/workflows/live.yml/badge.svg)](https://github.com/Suryanshu24052006/kubesleuth/actions/workflows/live.yml)
+
 An AI agent that investigates Kubernetes incidents and writes a root-cause analysis, built for the
 Inter IIT Tech Meet 15.0 Prepathon (Development PS).
 
