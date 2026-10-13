@@ -6,8 +6,8 @@ on:
   workflow_dispatch:
     inputs:
       models:
-        description: "Space-separated LangChain model ids to try against GitHub Models"
-        default: "openai:openai/gpt-4.1 openai:openai/gpt-4.1-mini openai:openai/gpt-4o"
+        description: "Space-separated LangChain model ids (openai:openai/... goes to GitHub Models)"
+        default: "google_genai:gemini-3.8-flash"
 
 permissions:
   contents: write
@@ -40,10 +40,18 @@ jobs:
                 | python3 -c "import json,sys; d=json.load(sys.stdin); [print(m['name']) for m in d.get('models',[]) if 'generateContent' in m.get('supportedGenerationMethods',[])]" 2>&1 | head -60
             fi
             echo
-            echo "## Structured-output calls through GitHub Models"
+            echo "## GitHub Models raw response"
+            curl -s -w "\nHTTP %{http_code}\n" -H "Authorization: Bearer $GITHUB_TOKEN" -H "Content-Type: application/json" \
+              https://models.github.ai/inference/chat/completions \
+              -d '{"model":"openai/gpt-4.1-mini","messages":[{"role":"user","content":"say ok"}]}' | head -c 600; echo
+            echo "## Structured-output calls"
             for m in ${{ inputs.models }}; do
-              KUBESLEUTH_LLM_BASE_URL=https://models.github.ai/inference KUBESLEUTH_LLM_API_KEY_ENV=GITHUB_TOKEN \
-              PYTHONPATH=agent .venv/bin/python - "$m" <<'EOF' 2>&1 | tail -4
+              if [[ $m == openai:openai/* ]]; then
+                export KUBESLEUTH_LLM_BASE_URL=https://models.github.ai/inference KUBESLEUTH_LLM_API_KEY_ENV=GITHUB_TOKEN
+              else
+                unset KUBESLEUTH_LLM_BASE_URL KUBESLEUTH_LLM_API_KEY_ENV
+              fi
+              PYTHONPATH=agent .venv/bin/python - "$m" <<'EOF' 2>&1 | grep -v "attempt" | tail -3
           import asyncio, sys, time
           from kubesleuth_agent.reasoners import LLMReasoner
           from kubesleuth_agent.schemas import Step
