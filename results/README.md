@@ -12,7 +12,31 @@ against the scenario's ground truth. Nothing here is hand-edited.
 | Run | Date | What changed before it | Baseline | LLM | Security demo |
 |---|---|---|---|---|---|
 | [run 1](live/2026-10-13-run1/summary.md) | 13 Oct 2026 | first complete run | **3/6 correct**, 1 partial | **2/5 correct**, 2 partial (1 not run: quota) | all checks passed ([output](live/2026-10-13-run1/security-demo.txt)) |
-| run 2 | 13 Oct 2026 | fixes listed below | running | running | |
+| [run 2](live/2026-10-13-run2/summary.md) | 13 Oct 2026 | the 8 fixes listed below | **4/6 correct**, 0 wrong | **4/6 correct**, 1 partial, 0 wrong | all checks passed ([output](live/2026-10-13-run2/security-demo.txt)) |
+
+## Run 2 (after the fixes), scenario by scenario
+
+| Scenario (real post-mortem) | Baseline | LLM agent |
+|---|---|---|
+| AWS EBS 2012: latent memory leak | ✅ correct ([report](live/2026-10-13-run2/aws-ebs-2012-latent-leak.rules.md)) | ⚠️ inconclusive: chased containerd errors caused by the harness restarting many workloads at once ([report](live/2026-10-13-run2/aws-ebs-2012-latent-leak.llm-google_genai-gemini-3.5-flash.md)) |
+| AWS S3 2017: mistyped capacity removal | ✅ correct ([report](live/2026-10-13-run2/aws-s3-2017-capacity-removal.rules.md)) | ✅ correct, confidence high (0.99) ([report](live/2026-10-13-run2/aws-s3-2017-capacity-removal.llm-google_genai-gemini-3.5-flash.md)) |
+| Chef 2014: aggressive health checks | ⚠️ inconclusive ([report](live/2026-10-13-run2/chef-2014-healthcheck-timeouts.rules.md)) | ✅ correct, high (0.96): the `/healthz?deep=1` probe with failureThreshold 1 ([report](live/2026-10-13-run2/chef-2014-healthcheck-timeouts.llm-google_genai-gemini-3.5-flash.md)) |
+| Cloudflare 2019: regex CPU exhaustion | ⚠️ inconclusive: found the WAF ConfigMap change but could not confirm it ([report](live/2026-10-13-run2/cloudflare-2019-waf-regex.rules.md)) | ✅ correct, high (0.89), evidence from 3 sources ([report](live/2026-10-13-run2/cloudflare-2019-waf-regex.llm-google_genai-gemini-3.5-flash.md)) |
+| GitHub: DB connection saturation | ✅ correct ([report](live/2026-10-13-run2/github-conn-saturation.rules.md)) | 🟡 partial: its narrative named DB_POOL_SIZE 4→30, but its top-scored hypothesis blamed the victim, inventory (0.54 vs 0.45) ([report](live/2026-10-13-run2/github-conn-saturation.llm-google_genai-gemini-3.5-flash.md)) |
+| Knight Capital 2012: stale version + flag | ✅ correct ([report](live/2026-10-13-run2/knight-2012-stale-version-flag.rules.md)) | ✅ correct, high (0.99), 3 sources ([report](live/2026-10-13-run2/knight-2012-stale-version-flag.llm-google_genai-gemini-3.5-flash.md)) |
+
+**Together, at least one of the two approaches found the root cause in all 6 scenarios**, and neither
+named a wrong cause. Model note: today's free quota for the regular Flash models was already used, so
+the LLM ran almost entirely on the lightest model, `gemini-3.5-flash-lite`. Every report lists the models
+it actually used.
+
+What run 2 still shows:
+- The LLM is strongest where the cause has to be connected across sources (probe settings, regex rule,
+  stale version). The baseline is strongest where one recent change explains everything.
+- When a victim and its cause score close together (GitHub scenario), the ledger can still crown the victim.
+  Next improvement: let evidence of the form "fails because upstream X failed" move belief to X.
+- The harness itself added noise: resetting between scenarios restarted four deployments at once.
+  Now fixed: resets only restart what a scenario changed.
 
 ## Run 1, scenario by scenario
 

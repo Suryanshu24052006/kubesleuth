@@ -13,11 +13,24 @@ reset() {
   kubectl -n "$NS" delete networkchaos --all --ignore-not-found >/dev/null 2>&1 || true
   kubectl -n "$NS" delete deploy pricing-legacy --ignore-not-found
   kubectl -n "$NS" delete svc telemetry-collector-v2 --ignore-not-found
+  # Remember what needs a restart BEFORE restoring: only restart what a scenario actually changed.
+  # (Restarting everything at once overloads a small node and becomes noise in the next scenario.)
+  local pool restarts
+  pool=$(kubectl -n "$NS" get configmap checkout-config -o jsonpath='{.data.DB_POOL_SIZE}' 2>/dev/null)
+  restarts=$(kubectl -n "$NS" get pods -l app=recommendations \
+    -o jsonpath='{range .items[*]}{.status.containerStatuses[0].restartCount}{"\n"}{end}' 2>/dev/null | awk '{s+=$1} END {print s+0}')
+  # Restores ConfigMaps (WAF rules and flags hot-reload), replica counts and pod templates (probes roll out).
   kubectl apply -k ../deploy/shop >/dev/null
-  # config-only changes need a restart to be picked up the same way they were broken
-  kubectl -n "$NS" rollout restart deploy/checkout deploy/edge deploy/recommendations deploy/inventory >/dev/null
-  for d in checkout edge recommendations inventory pricing catalog-indexer; do
-    kubectl -n "$NS" rollout status "deploy/$d" --timeout=240s >/dev/null
+  if [ "$pool" != "4" ]; then
+    log "checkout reads DB_POOL_SIZE at start-up: restarting checkout"
+    kubectl -n "$NS" rollout restart deploy/checkout >/dev/null
+  fi
+  if [ "${restarts:-0}" -gt 0 ]; then
+    log "recommendations crashed during the scenario: restarting it to clear its buffer"
+    kubectl -n "$NS" rollout restart deploy/recommendations >/dev/null
+  fi
+  for d in $(kubectl -n "$NS" get deploy -o name); do
+    kubectl -n "$NS" rollout status "$d" --timeout=240s >/dev/null
   done
   log "baseline restored; give metrics ~3 minutes to settle before the next scenario"
 }

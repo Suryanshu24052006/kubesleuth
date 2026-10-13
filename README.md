@@ -150,18 +150,18 @@ make security-demo   # RBAC, credentials, network policy and broker attack check
 
 **Live, on a real cluster.** The [`live-eval`](.github/workflows/live.yml) workflow builds the whole
 environment from scratch on a GitHub-hosted machine (`make up`), runs the security demo, then injects every
-scenario and lets the agent investigate. The first complete run:
+scenario and lets the agent investigate:
 
-| | Baseline (rules) | LLM agent (Gemini Flash, free tier) |
+| | Run 1 | Run 2 (after fixing what run 1 exposed) |
 |---|---|---|
-| Correct root cause | **3 / 6** | **2 / 5** (6th not run: free daily quota used up) |
-| Partially correct | 1 | 2 |
-| Security demo on the live cluster | all checks passed: RBAC, no credentials in the agent pod, network isolation, 14/14 attacks blocked | |
+| Baseline (rules), correct root cause | 3 / 6 | **4 / 6**, none wrong |
+| LLM agent (Gemini, free tier), correct root cause | 2 / 5 (6th: quota) | **4 / 6**, 1 partial, none wrong, high confidence (0.89–0.99) on all 4 |
+| Security demo on the live cluster | passed | passed: RBAC, no credentials in the agent pod, network isolation, 14/14 attacks blocked |
 
-Per-scenario reports, the security demo output and the problems these runs exposed (with the fix and
-test for each) are in **[results/](results/README.md)**. The runs found 8 real problems, including a
-broker bug that credited `kubectl scale` to the Kubernetes controller instead of the person who ran it.
-All are fixed, and a second full run is in progress.
+In run 2, at least one of the two approaches found the root cause in **all 6** scenarios. Per-scenario
+reports, the security demo output and the 8 problems the live runs exposed (each with its fix and test) are
+in **[results/](results/README.md)**. Those problems include a broker bug that credited `kubectl scale`
+to the Kubernetes controller instead of the person who ran it.
 
 **Automated tests.** 83 tests run on every push ([ci](.github/workflows/ci.yml)):
 - policy and PromQL scoping, credential redaction and injection flagging;

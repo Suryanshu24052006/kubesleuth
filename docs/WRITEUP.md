@@ -249,11 +249,12 @@ The most useful bugs came from the first runs on a real cluster (GitHub Actions,
 
 ## 11. Results and continuous live evaluation
 
-The first complete live run: the rule-based baseline found the correct root cause in **3 of 6** scenarios
-and the LLM agent in **2 of 5** (the sixth could not run because the free daily quota was used up). The
-security demo passed every check on the live cluster. The LLM found the two causes that need reasoning
-across sources (the exact Cloudflare WAF rule; the Chef-style aggressive liveness probe). The baseline won
-where one recent change explains everything. Per-scenario reports and the problems the run exposed are in
+After fixing what the first live run exposed, the second run found the correct root cause in **4 of 6**
+scenarios with the rule-based baseline and **4 of 6** with the LLM agent (one more partial). Neither named a
+wrong cause, and together they covered all six. The security demo passed every check on the live cluster
+both times. The LLM found the causes that need reasoning across sources (the Cloudflare WAF rule, the Chef
+liveness probe, Knight's stale version), with confidence 0.89–0.99. The baseline won where one recent change
+explains everything. Per-scenario reports and the problems the run exposed are in
 [results/](../results/README.md).
 
 
