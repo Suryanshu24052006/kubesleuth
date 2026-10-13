@@ -21,6 +21,16 @@ from .schemas import (Assessment, ChainStep, EvidenceDraft, FactDraft, Hypothesi
 
 log = logging.getLogger("kubesleuth.reasoner")
 
+
+class LLMUnavailable(RuntimeError):
+    """The model cannot be used at all (unknown model, bad key, no access). Retrying is pointless,
+    and continuing would turn a configuration error into a fake 'inconclusive' verdict."""
+
+
+_FATAL_MARKERS = ("NOT_FOUND", "PERMISSION_DENIED", "UNAUTHENTICATED", "API_KEY_INVALID", "invalid x-api-key",
+                  "authentication_error", "permission_error", "not_found_error", "Incorrect API key",
+                  "model_not_found", "401", "403 ")
+
 def _dicts(xs) -> list:
     """Tool results are untrusted input: tolerate missing or mistyped list items."""
     return [x for x in xs if isinstance(x, dict)] if isinstance(xs, list) else []
@@ -102,6 +112,8 @@ class LLMReasoner:
                     return res["parsed"]
                 last = res.get("parsing_error") or ValueError("no structured output")
             except Exception as exc:  # provider hiccup or malformed output: retry once
+                if any(m in str(exc) for m in _FATAL_MARKERS):
+                    raise LLMUnavailable(f"{self.name}: {str(exc)[:300]}") from exc
                 last = exc
             log.warning("structured output attempt %d failed: %s", attempt + 1, last)
         raise RuntimeError(f"model failed to produce {schema.__name__}: {last}")

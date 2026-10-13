@@ -24,7 +24,7 @@ from langgraph.graph import END, START, StateGraph
 from . import timeline as tl
 from .ledger import Ledger
 from .observations import Observation, ObservationStore
-from .reasoners import Context, Reasoner
+from .reasoners import Context, LLMUnavailable, Reasoner
 from .toolclient import BrokerClient, Firewall, SecurityEvent
 
 log = logging.getLogger("kubesleuth.investigation")
@@ -133,6 +133,8 @@ class Investigation:
         try:
             assessment = await self.reasoner.assess(self.ctx(0))
             self._apply_assessment(assessment, 0)
+        except LLMUnavailable:
+            raise
         except Exception as exc:
             log.warning("triage assessment failed: %s", exc)
         return {"round": 1, "stalls": 0, "done": False}
@@ -141,6 +143,8 @@ class Investigation:
         r = state["round"]
         try:
             upd = await self.reasoner.hypothesize(self.ctx(r, stalled=state.get("stalls", 0) > 0))
+        except LLMUnavailable:
+            raise
         except Exception as exc:
             self._round(r).notes += f"hypothesize failed: {exc}. "
             return {}
@@ -159,6 +163,8 @@ class Investigation:
             return {}
         try:
             plan = await self.reasoner.plan(self.ctx(r))
+        except LLMUnavailable:
+            raise
         except Exception as exc:
             self._round(r).notes += f"plan failed: {exc}. "
             return {}
@@ -205,6 +211,8 @@ class Investigation:
             return {}
         try:
             self._apply_assessment(await self.reasoner.assess(self.ctx(r)), r)
+        except LLMUnavailable:
+            raise
         except Exception as exc:
             self._round(r).notes += f"assess failed: {exc}. "
         return {}
@@ -244,6 +252,8 @@ class Investigation:
         label, p, top = self.ledger.confidence()
         try:
             draft = await self.reasoner.report(self.ctx(state.get("round", 0)), label, p, top.id if top else None)
+        except LLMUnavailable:
+            raise
         except Exception as exc:
             draft = None
             self.security_notes.append(f"(report narrative unavailable: {exc})")
