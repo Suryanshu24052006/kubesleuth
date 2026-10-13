@@ -21,6 +21,11 @@ from .schemas import (Assessment, ChainStep, EvidenceDraft, FactDraft, Hypothesi
 
 log = logging.getLogger("kubesleuth.reasoner")
 
+def _dicts(xs) -> list:
+    """Tool results are untrusted input: tolerate missing or mistyped list items."""
+    return [x for x in xs if isinstance(x, dict)] if isinstance(xs, list) else []
+
+
 
 @dataclass
 class Context:
@@ -154,8 +159,8 @@ class RuleReasoner:
         for o in ctx.store.all():
             d = o.envelope.get("data") or {}
             if o.tool == "recent_changes":
-                for c in d.get("changes", []):
-                    fields = ", ".join(f"{f['field']} {f.get('old')}->{f.get('new')}" for f in c.get("fields", [])[:3])
+                for c in _dicts(d.get("changes")):
+                    fields = ", ".join(f"{f['field']} {f.get('old')}->{f.get('new')}" for f in _dicts(c.get("fields"))[:3])
                     kind, name = c["kind"], c["name"]
                     fl = fields.lower()
                     if kind == "configmap" and c["change"] == "modified":
@@ -173,7 +178,7 @@ class RuleReasoner:
                     elif kind == "service" and c["change"] in ("modified", "deleted"):
                         drafts.append(HypothesisDraft(statement=f"Service {name} was {c['change']} ({fields}) so callers cannot reach it",
                                                       mechanism="no endpoints / DNS", component=name, category="dependency", layer="cause"))
-                    elif kind == "rollout" and any("image" in f["field"] for f in c.get("fields", [])):
+                    elif kind == "rollout" and any("image" in f["field"] for f in _dicts(c.get("fields"))):
                         drafts.append(HypothesisDraft(statement=f"New rollout of {name} ({fields}) introduced a defect",
                                                       mechanism="bad build", component=name, category="deployment", layer="cause"))
                     elif kind == "deployment" and c["change"] == "created":
@@ -240,7 +245,7 @@ class RuleReasoner:
                     break
             d = o.envelope.get("data") or {}
             for name, series in (d.get("signals") or {}).items():
-                for s in series:
+                for s in _dicts(series):
                     if s.get("onset") and name in ("error_ratio_5xx", "db_errors_rps", "memory_working_set_bytes"):
                         facts.append(FactDraft(observation_id=o.id, quote=s["onset"]["time"],
                                                statement=f"{d.get('workload')} {name} {s['onset']['direction']} at {s['onset']['time']}",
@@ -271,7 +276,7 @@ def _decreased(change: dict) -> bool:
 def _alert_service(store: ObservationStore) -> str | None:
     for o in store.all():
         if o.tool == "active_alerts":
-            for a in (o.envelope.get("data") or {}).get("alerts", []):
+            for a in _dicts((o.envelope.get("data") or {}).get("alerts")):
                 svc = (a.get("labels") or {}).get("service")
                 if svc:
                     return svc
@@ -281,7 +286,7 @@ def _alert_service(store: ObservationStore) -> str | None:
 def _trace_origin(store: ObservationStore) -> str | None:
     for o in reversed(store.all()):
         if o.tool == "find_traces":
-            origins = (o.envelope.get("data") or {}).get("error_origins") or []
+            origins = _dicts((o.envelope.get("data") or {}).get("error_origins"))
             if origins:
                 return origins[0]["service"]
     return None

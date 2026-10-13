@@ -13,7 +13,6 @@ from __future__ import annotations
 
 import argparse
 import asyncio
-import contextlib
 import json
 import os
 import subprocess
@@ -34,20 +33,51 @@ from kubesleuth_agent.report import to_markdown  # noqa: E402
 from score import score  # noqa: E402
 
 
-@contextlib.contextmanager
-def port_forward(ns: str, svc: str, local: int, remote: int):
-    p = subprocess.Popen(["kubectl", "-n", ns, "port-forward", f"svc/{svc}", f"{local}:{remote}"],
-                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    try:
-        for _ in range(40):
+class PortForward:
+    """kubectl port-forward that checks itself before every use and restarts when it has died.
+    Its stderr goes to a log file so a broken tunnel is visible in the run output."""
+
+    def __init__(self, ns: str, svc: str, local: int, remote: int, health: str, logdir: Path):
+        self.ns, self.svc, self.local, self.remote, self.health = ns, svc, local, remote, health
+        self.log = logdir / f"port-forward-{svc}.log"
+        self.proc: subprocess.Popen | None = None
+        self.url = f"http://127.0.0.1:{local}"
+
+    def _healthy(self) -> bool:
+        try:
+            httpx.get(self.url + self.health, timeout=3)
+            return True
+        except httpx.HTTPError:
+            return False
+
+    def ensure(self) -> str:
+        if self.proc and self.proc.poll() is None and self._healthy():
+            return self.url
+        for attempt in range(1, 4):
+            self.close()
+            with open(self.log, "a") as fh:
+                fh.write(f"--- {time.strftime('%H:%M:%S')} starting (attempt {attempt})\n")
+            fh = open(self.log, "a")
+            self.proc = subprocess.Popen(["kubectl", "-n", self.ns, "port-forward", f"svc/{self.svc}",
+                                          f"{self.local}:{self.remote}"], stdout=fh, stderr=fh,
+                                         stdin=subprocess.DEVNULL, start_new_session=True)
+            for _ in range(30):
+                if self.proc.poll() is not None:
+                    break
+                if self._healthy():
+                    return self.url
+                time.sleep(1)
+            print(f"  port-forward to {self.svc} not ready (attempt {attempt}); see {self.log.name}", flush=True)
+        raise RuntimeError(f"cannot reach {self.ns}/{self.svc} through port-forward")
+
+    def close(self):
+        if self.proc and self.proc.poll() is None:
+            self.proc.terminate()
             try:
-                httpx.get(f"http://127.0.0.1:{local}/", timeout=1)
-                break
-            except httpx.HTTPError:
-                time.sleep(0.5)
-        yield f"http://127.0.0.1:{local}"
-    finally:
-        p.terminate()
+                self.proc.wait(5)
+            except subprocess.TimeoutExpired:
+                self.proc.kill()
+        self.proc = None
 
 
 def sh(*args: str):
@@ -55,37 +85,48 @@ def sh(*args: str):
     subprocess.run(args, check=True, cwd=ROOT)
 
 
-def wait_for_alert(am_url: str, timeout: int, minimum: int = 60) -> str | None:
-    start = time.time()
+def wait_for_alert(am: PortForward, timeout: int, minimum: int = 60) -> str | None:
+    start, last_err = time.time(), None
     while time.time() - start < timeout:
         try:
-            alerts = httpx.get(f"{am_url}/api/v2/alerts", params={"active": "true"}, timeout=5).json()
+            alerts = httpx.get(f"{am.ensure()}/api/v2/alerts", params={"active": "true"}, timeout=5).json()
             firing = [a["labels"]["alertname"] for a in alerts if a["labels"].get("namespace") == "shop"]
             if firing and time.time() - start >= minimum:
                 return ", ".join(sorted(set(firing)))
-        except (httpx.HTTPError, ValueError, KeyError):
-            pass
+        except Exception as exc:  # keep polling; report the reason once
+            if str(exc) != last_err:
+                last_err = str(exc)
+                print(f"  (alert poll failed: {type(exc).__name__}: {exc})", flush=True)
         time.sleep(10)
     return None
 
 
-def run_one(sc: dict, args, broker_url: str, am_url: str, outdir: Path) -> list[dict]:
+def _unwrap(exc: BaseException) -> BaseException:
+    while isinstance(exc, BaseExceptionGroup) and exc.exceptions:
+        exc = exc.exceptions[0]
+    return exc
+
+
+def run_one(sc: dict, args, broker: PortForward, am: PortForward, outdir: Path) -> list[dict]:
     print(f"\n=== {sc['id']}: {sc['title']}", flush=True)
     if not args.no_reset:
         sh("scenarios/run.sh", "reset")
         print(f"  settling {args.settle}s", flush=True)
         time.sleep(args.settle)
     sh("scenarios/run.sh", sc["id"], "inject")
-    fired = wait_for_alert(am_url, int(sc.get("wait_seconds", 180)) + 120, minimum=int(sc.get("wait_seconds", 180)) // 2)
+    fired = wait_for_alert(am, int(sc.get("wait_seconds", 180)) + 120, minimum=int(sc.get("wait_seconds", 180)) // 2)
     print(f"  alert: {fired or 'none fired (investigating anyway)'}", flush=True)
     rows = []
     # Every reasoner investigates the SAME live incident, so the comparison is fair.
     for kind in args.reasoners:
         try:
             reasoner = make_reasoner(kind, args.model)
-            report = asyncio.run(run_investigation(sc["incident"], "shop", f"{broker_url}/mcp", reasoner,
+            report = asyncio.run(run_investigation(sc["incident"], "shop", f"{broker.ensure()}/mcp", reasoner,
                                                    Budget(max_rounds=args.max_rounds), quiet=False))
         except Exception as exc:  # one failing reasoner must not lose the others' results
+            import traceback
+            traceback.print_exc()
+            exc = _unwrap(exc)
             print(f"  !! {kind} investigation failed: {type(exc).__name__}: {exc}", flush=True)
             rows.append({"scenario": sc["id"], "reasoner": kind, "alert": fired, "verdict": "error",
                          "confidence": None, "posterior": None, "evidence_sources": [], "rounds": None,
@@ -161,14 +202,20 @@ def main():
                             "report": f"offline.{kind}.md"})
     else:
         ids = args.scenario or list(scenarios)
-        with port_forward("kubesleuth", "kubesleuth-broker", 18090, 8090) as broker, \
-                port_forward("monitoring", "kps-alertmanager", 19093, 9093) as am:
+        broker = PortForward("kubesleuth", "kubesleuth-broker", 18090, 8090, "/healthz", outdir)
+        am = PortForward("monitoring", "kps-alertmanager", 19093, 9093, "/-/healthy", outdir)
+        try:
+            broker.ensure()
+            am.ensure()
             for sid in ids:
                 results.extend(run_one(scenarios[sid], args, broker, am, outdir))
                 # write partial results as we go, so a later failure never loses earlier work
                 (outdir / "summary.json").write_text(json.dumps(results, indent=2))
             if not args.no_reset:
                 sh("scenarios/run.sh", "reset")
+        finally:
+            broker.close()
+            am.close()
 
     env = os.environ.get("EVAL_ENV_NOTE", "")
     md = summary_md(results, {"when": when, "env": env})

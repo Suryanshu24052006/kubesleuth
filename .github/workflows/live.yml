@@ -83,11 +83,11 @@ jobs:
           set -o pipefail
           make up 2>&1 | tee out/up-log.txt
 
-      - name: Point the in-cluster agent at the chosen model
-        if: env.REASONERS != 'rules'
+      - name: In-cluster agent uses the rule-based reasoner during the eval
+        # It still answers every Alertmanager webhook (proving that path), but the LLM quota
+        # is kept for the scored investigations, which run the LLM themselves.
         run: |
-          kubectl -n kubesleuth set env deploy/kubesleuth-agent KUBESLEUTH_MODEL="$KUBESLEUTH_MODEL" \
-            KUBESLEUTH_LLM_RPM="${KUBESLEUTH_LLM_RPM:-0}"
+          kubectl -n kubesleuth set env deploy/kubesleuth-agent KUBESLEUTH_REASONER=rules
           kubectl -n kubesleuth rollout status deploy/kubesleuth-agent --timeout=120s
 
       - name: Smoke test (Ingress, Gateway API, broker)

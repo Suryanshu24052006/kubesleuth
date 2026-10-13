@@ -67,26 +67,35 @@ def selector_matches(selector: dict | None, labels: dict | None) -> bool:
     return all(labels.get(k) == v for k, v in selector.items())
 
 
-def fit(data: Any, budget: int = MAX_RESULT_CHARS) -> tuple[Any, bool]:
-    """Shrink lists until the JSON fits the budget (keeps the most relevant head)."""
+def fit(data: Any, budget: int = MAX_RESULT_CHARS) -> tuple[Any, int | bool]:
+    """Shrink lists until the JSON fits the budget. Every list keeps its most relevant head
+    (tools order their lists most-relevant-first) and keeps its element type: no marker
+    strings are inserted, so consumers can rely on the schema. Returns (data, list cap or False)."""
     if len(json.dumps(data, default=str)) <= budget:
         return data, False
     for cap in (40, 25, 15, 10, 6, 3):
         trimmed = _cap_lists(data, cap)
         if len(json.dumps(trimmed, default=str)) <= budget:
-            return trimmed, True
-    text = json.dumps(_cap_lists(data, 3), default=str)
-    return {"partial_json": text[:budget]}, True
+            return trimmed, cap
+    trimmed = _cap_strings(_cap_lists(data, 3), 300)
+    return trimmed, 3
 
 
 def _cap_lists(obj, cap):
     if isinstance(obj, list):
-        items = [_cap_lists(x, cap) for x in obj[:cap]]
-        if len(obj) > cap:
-            items.append(f"…{len(obj) - cap} more omitted")
-        return items
+        return [_cap_lists(x, cap) for x in obj[:cap]]
     if isinstance(obj, dict):
         return {k: _cap_lists(v, cap) for k, v in obj.items()}
+    return obj
+
+
+def _cap_strings(obj, n):
+    if isinstance(obj, str):
+        return obj if len(obj) <= n else obj[:n] + "…"
+    if isinstance(obj, list):
+        return [_cap_strings(x, n) for x in obj]
+    if isinstance(obj, dict):
+        return {k: _cap_strings(v, n) for k, v in obj.items()}
     return obj
 
 
@@ -104,9 +113,12 @@ class Toolbox:
     def _envelope(self, tool: str, source: str, data: Any) -> dict:
         f = Findings()
         clean = sanitize(data, f)
-        clean, truncated = fit(clean)
-        return {"tool": tool, "source": source, "generated_at": to_iso(utcnow()), "data": clean,
-                "security": f.as_dict(), "truncated": truncated}
+        clean, cap = fit(clean)
+        env = {"tool": tool, "source": source, "generated_at": to_iso(utcnow()), "data": clean,
+               "security": f.as_dict(), "truncated": bool(cap)}
+        if cap:
+            env["note"] = f"result was large: every list was cut to its first {cap} (most relevant) items"
+        return env
 
     # ================================================================ alerts
     def active_alerts(self) -> dict:
@@ -323,10 +335,10 @@ class Toolbox:
                                     "actor": mgr, "fields": [],
                                     "note": "content diff unavailable (change predates the broker's journal)",
                                     "source": "managedFields"})
-        changes.sort(key=lambda c: c["time"])
+        changes.sort(key=lambda c: c["time"], reverse=True)  # newest first: trimming keeps the latest
         return self._envelope("recent_changes", "kubernetes", {
             "namespace": ns, "window_minutes": minutes, "journal_since": self.journal.started_at,
-            "changes": changes[-60:]})
+            "changes": changes[:60]})
 
     def describe(self, kind: str, namespace: str, name: str) -> dict:
         k = self.policy.kind(kind)

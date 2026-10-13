@@ -16,6 +16,11 @@ import time
 from dataclasses import dataclass, field
 from typing import Any
 
+def _dicts(xs) -> list:
+    """Tool results are untrusted input: tolerate missing or mistyped list items."""
+    return [x for x in xs if isinstance(x, dict)] if isinstance(xs, list) else []
+
+
 
 @dataclass
 class Observation:
@@ -108,26 +113,26 @@ def digest_for(o: Observation) -> str:
     t = o.tool
     try:
         if t == "active_alerts":
-            return "; ".join(f"{a['alert']} ({a.get('severity')}) since {a.get('starts_at')}" for a in d.get("alerts", [])) or "no alerts"
+            return "; ".join(f"{a['alert']} ({a.get('severity')}) since {a.get('starts_at')}" for a in _dicts(d.get("alerts"))) or "no alerts"
         if t == "cluster_overview":
-            return "findings: " + " | ".join(d.get("findings", [])[:8])
+            return "findings: " + " | ".join(str(x) for x in (d.get("findings") or [])[:8])
         if t == "recent_changes":
             parts = []
-            for c in d.get("changes", [])[-8:]:
-                f = "; ".join(f"{x['field']}: {_short(x.get('old'), 40)} -> {_short(x.get('new'), 40)}" for x in c.get("fields", [])[:2])
+            for c in _dicts(d.get("changes"))[:8]:
+                f = "; ".join(f"{x['field']}: {_short(x.get('old'), 40)} -> {_short(x.get('new'), 40)}" for x in _dicts(c.get("fields"))[:2])
                 parts.append(f"{c['time']} {c['kind']}/{c['name']} {c['change']} {f}".strip())
             return " | ".join(parts) or "no changes"
         if t == "get_events":
             return " | ".join(f"{g['reason']}x{g['count']} {g['kind']}/{','.join(g['objects'][:2])}: {_short(g['message'], 80)}"
-                              for g in d.get("event_groups", [])[:6]) or "no events"
+                              for g in _dicts(d.get("event_groups"))[:6]) or "no events"
         if t in ("pod_logs", "search_logs"):
-            tpl = d.get("templates", [])[:3]
+            tpl = _dicts(d.get("templates"))[:3]
             return (f"{d.get('lines_examined', 0)} lines; " +
                     " | ".join(f"{x['level']}x{x['count']}: {_short(x['pattern'], 110)}" for x in tpl))
         if t == "workload_metrics":
             parts = []
             for name, series in (d.get("signals") or {}).items():
-                for s in series[:2]:
+                for s in _dicts(series)[:2]:
                     on = s.get("onset")
                     lbl = ",".join(f"{v}" for v in (s.get("labels") or {}).values())
                     parts.append(f"{name}{'[' + lbl + ']' if lbl else ''}: {s.get('first')}->{s.get('last')}"
@@ -135,13 +140,13 @@ def digest_for(o: Observation) -> str:
             return " | ".join(parts[:10]) or "no data"
         if t == "query_metrics":
             return " | ".join(f"{_short(s.get('labels'), 60)} {s.get('first')}->{s.get('last')} max {s.get('max')}"
-                              + (f" onset {s['onset']['time']}" if s.get("onset") else "") for s in d.get("series", [])[:4]) or "no series"
+                              + (f" onset {s['onset']['time']}" if s.get("onset") else "") for s in _dicts(d.get("series"))[:4]) or "no series"
         if t == "find_traces":
-            orig = d.get("error_origins", [])[:3]
+            orig = _dicts(d.get("error_origins"))[:3]
             return (f"{d.get('traces_with_errors')}/{d.get('traces_examined')} traces with errors; origins: " +
                     " | ".join(f"{x['service']} {x['operation']} {x.get('status_code') or ''} {_short(x.get('message') or '', 70)} x{x['count']}" for x in orig))
         if t == "service_map":
-            return " | ".join(f"{e['caller']}->{e['callee']}" for e in d.get("edges", [])[:10])
+            return " | ".join(f"{e['caller']}->{e['callee']}" for e in _dicts(d.get("edges"))[:10])
         if t == "describe":
             return f"{d.get('kind')}/{(d.get('metadata') or {}).get('name')}: " + _short(d.get("spec") or d.get("data"), 200)
     except (KeyError, TypeError, AttributeError):
