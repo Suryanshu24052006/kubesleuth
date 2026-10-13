@@ -1,0 +1,19 @@
+ts=2026-10-13T09:04:30.866043521Z level=info caller=/workspace/cmd/prometheus-config-reloader/main.go:148 msg="Starting prometheus-config-reloader" version="(version=0.83.0, branch=, revision=5cf2f5d)" build_context="(go=go1.24.3, platform=linux/amd64, user=, date=20250530-07:46:40, tags=unknown)"
+ts=2026-10-13T09:04:30.867157681Z level=info caller=/workspace/internal/goruntime/cpu.go:27 msg="Leaving GOMAXPROCS=4: CPU quota undefined"
+level=info ts=2026-10-13T09:04:30.868727449Z caller=reloader.go:282 msg="reloading via HTTP"
+time=2026-10-13T09:04:41.281Z level=INFO source=main.go:191 msg="Starting Alertmanager" version="(version=0.28.1, branch=HEAD, revision=b2099eaa2c9ebc25edb26517cb9c732738e93910)"
+time=2026-10-13T09:04:41.281Z level=INFO source=main.go:192 msg="Build context" build_context="(go=go1.23.7, platform=linux/amd64, user=root@fa3ca569dfe4, date=20250307-15:05:18, tags=netgo)"
+time=2026-10-13T09:04:41.320Z level=INFO source=coordinator.go:112 msg="Loading configuration file" component=configuration file=/etc/alertmanager/config_out/alertmanager.env.yaml
+time=2026-10-13T09:04:41.320Z level=INFO source=coordinator.go:125 msg="Completed loading of configuration file" component=configuration file=/etc/alertmanager/config_out/alertmanager.env.yaml
+time=2026-10-13T09:04:41.323Z level=INFO source=tls_config.go:347 msg="Listening on" address=[::]:9093
+time=2026-10-13T09:04:41.323Z level=INFO source=tls_config.go:386 msg="TLS is disabled." http2=false address=[::]:9093
+time=2026-10-13T09:04:41.389Z level=INFO source=coordinator.go:112 msg="Loading configuration file" component=configuration file=/etc/alertmanager/config_out/alertmanager.env.yaml
+time=2026-10-13T09:04:41.390Z level=INFO source=coordinator.go:125 msg="Completed loading of configuration file" component=configuration file=/etc/alertmanager/config_out/alertmanager.env.yaml
+ts=2026-10-13T09:04:41.388328539Z level=info caller=/workspace/cmd/prometheus-config-reloader/main.go:148 msg="Starting prometheus-config-reloader" version="(version=0.83.0, branch=, revision=5cf2f5d)" build_context="(go=go1.24.3, platform=linux/amd64, user=, date=20250530-07:46:40, tags=unknown)"
+ts=2026-10-13T09:04:41.388548569Z level=info caller=/workspace/internal/goruntime/cpu.go:27 msg="Leaving GOMAXPROCS=4: CPU quota undefined"
+ts=2026-10-13T09:04:41.389138148Z level=info caller=/workspace/cmd/prometheus-config-reloader/main.go:202 msg="Starting web server for metrics" listen=:8080
+level=info ts=2026-10-13T09:04:41.389170001Z caller=reloader.go:282 msg="reloading via HTTP"
+ts=2026-10-13T09:04:41.38934057Z level=info caller=/go/pkg/mod/github.com/prometheus/exporter-toolkit@v0.14.0/web/tls_config.go:347 msg="Listening on" address=[::]:8080
+ts=2026-10-13T09:04:41.389380802Z level=info caller=/go/pkg/mod/github.com/prometheus/exporter-toolkit@v0.14.0/web/tls_config.go:386 msg="TLS is disabled." http2=false address=[::]:8080
+level=info ts=2026-10-13T09:04:41.39210708Z caller=reloader.go:548 msg="Reload triggered" cfg_in=/etc/alertmanager/config/alertmanager.yaml.gz cfg_out=/etc/alertmanager/config_out/alertmanager.env.yaml cfg_dirs= watched_dirs=/etc/alertmanager/config
+level=info ts=2026-10-13T09:04:41.392142087Z caller=reloader.go:330 msg="started watching config file and directories for changes" cfg=/etc/alertmanager/config/alertmanager.yaml.gz cfgDirs= out=/etc/alertmanager/config_out/alertmanager.env.yaml dirs=/etc/alertmanager/config

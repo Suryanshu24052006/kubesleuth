@@ -1,0 +1,6 @@
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+{"ts": "2026-10-13T09:20:10.520Z", "level": "info", "svc": "edge", "version": "1.4.0", "msg": "service started", "role": "edge", "pod": "edge-64998f4f74-cz65z"}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+{"ts": "2026-10-13T09:20:15.697Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectError", "detail": "All connection attempts failed"}

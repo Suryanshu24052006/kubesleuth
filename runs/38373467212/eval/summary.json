@@ -1,0 +1,52 @@
+[
+  {
+    "scenario": "github-conn-saturation",
+    "reasoner": "rules",
+    "alert": "ShopEdgeHigh5xxRate",
+    "verdict": "correct",
+    "component_hit": true,
+    "category_hit": true,
+    "keyword_hits": [
+      "db_pool_size",
+      "pool",
+      "connection"
+    ],
+    "blamed_symptom": false,
+    "confidence": "medium",
+    "posterior": 0.555,
+    "evidence_sources": [
+      "kubernetes"
+    ],
+    "multi_source": false,
+    "rounds": 2,
+    "tool_calls": 6,
+    "evidence_rejected": 0,
+    "security_events": 0,
+    "duration_s": 0.5,
+    "tokens": 0,
+    "root_cause": "ConfigMap checkout-config change (data.DB_POOL_SIZE 4->30) broke a dependent service",
+    "report": "github-conn-saturation.rules.md"
+  },
+  {
+    "scenario": "github-conn-saturation",
+    "reasoner": "llm:google_genai:gemini-2.5-flash",
+    "alert": "ShopEdgeHigh5xxRate",
+    "verdict": "inconclusive",
+    "component_hit": false,
+    "category_hit": false,
+    "keyword_hits": [],
+    "blamed_symptom": false,
+    "confidence": "inconclusive",
+    "posterior": 0.0,
+    "evidence_sources": [],
+    "multi_source": false,
+    "rounds": 2,
+    "tool_calls": 4,
+    "evidence_rejected": 0,
+    "security_events": 0,
+    "duration_s": 92.3,
+    "tokens": 0,
+    "root_cause": null,
+    "report": "github-conn-saturation.llm-google_genai-gemini-2.5-flash.md"
+  }
+]

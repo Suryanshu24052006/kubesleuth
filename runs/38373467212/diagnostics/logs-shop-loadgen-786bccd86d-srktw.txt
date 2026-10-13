@@ -1,0 +1,28 @@
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+{"ts": "2026-10-13T09:08:32.653Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "service started", "role": "loadgen", "pod": "loadgen-786bccd86d-srktw"}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+{"ts": "2026-10-13T09:09:02.784Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 371, "err": 215}
+{"ts": "2026-10-13T09:09:32.802Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 611, "err": 1}
+{"ts": "2026-10-13T09:10:02.816Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 619, "err": 0}
+{"ts": "2026-10-13T09:10:32.904Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 567, "err": 0}
+{"ts": "2026-10-13T09:11:02.923Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 601, "err": 0}
+{"ts": "2026-10-13T09:11:32.948Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 596, "err": 0}
+{"ts": "2026-10-13T09:12:03.023Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 609, "err": 0}
+{"ts": "2026-10-13T09:12:33.050Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 581, "err": 0}
+{"ts": "2026-10-13T09:13:03.079Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 581, "err": 0}
+{"ts": "2026-10-13T09:13:33.120Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 601, "err": 0}
+{"ts": "2026-10-13T09:14:03.207Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 547, "err": 40}
+{"ts": "2026-10-13T09:14:33.223Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 610, "err": 10}
+{"ts": "2026-10-13T09:15:03.248Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 598, "err": 0}
+{"ts": "2026-10-13T09:15:33.514Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 596, "err": 0}
+{"ts": "2026-10-13T09:16:03.514Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 571, "err": 0}
+{"ts": "2026-10-13T09:16:33.529Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 593, "err": 0}
+{"ts": "2026-10-13T09:17:03.539Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 553, "err": 67}
+{"ts": "2026-10-13T09:17:33.547Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 38, "err": 492}
+{"ts": "2026-10-13T09:18:03.596Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 614}
+{"ts": "2026-10-13T09:18:33.682Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 623}
+{"ts": "2026-10-13T09:19:03.765Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 593}
+{"ts": "2026-10-13T09:19:33.796Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 585}
+{"ts": "2026-10-13T09:20:03.833Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 640}

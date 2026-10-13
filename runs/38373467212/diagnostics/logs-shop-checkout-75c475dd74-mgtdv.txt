@@ -1,0 +1,18 @@
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+{"ts": "2026-10-13T09:20:10.841Z", "level": "info", "svc": "checkout", "version": "1.4.0", "msg": "opening database pool", "min_size": 4, "max_size": 4}
+error connecting in 'pool-1': connection failed: connection to server at "10.96.126.159", port 5432 failed: FATAL:  sorry, too many clients already
+error connecting in 'pool-1': connection failed: connection to server at "10.96.126.159", port 5432 failed: FATAL:  sorry, too many clients already
+error connecting in 'pool-1': connection failed: connection to server at "10.96.126.159", port 5432 failed: FATAL:  sorry, too many clients already
+error connecting in 'pool-1': connection failed: connection to server at "10.96.126.159", port 5432 failed: FATAL:  sorry, too many clients already
+error connecting in 'pool-1': connection failed: connection to server at "10.96.126.159", port 5432 failed: FATAL:  sorry, too many clients already
+error connecting in 'pool-1': connection failed: connection to server at "10.96.126.159", port 5432 failed: FATAL:  sorry, too many clients already
+error connecting in 'pool-1': connection failed: connection to server at "10.96.126.159", port 5432 failed: FATAL:  sorry, too many clients already
+error connecting in 'pool-1': connection failed: connection to server at "10.96.126.159", port 5432 failed: FATAL:  sorry, too many clients already
+error connecting in 'pool-1': connection failed: connection to server at "10.96.126.159", port 5432 failed: FATAL:  sorry, too many clients already
+error connecting in 'pool-1': connection failed: connection to server at "10.96.126.159", port 5432 failed: FATAL:  sorry, too many clients already
+error connecting in 'pool-1': connection failed: connection to server at "10.96.126.159", port 5432 failed: FATAL:  sorry, too many clients already
+error connecting in 'pool-1': connection failed: connection to server at "10.96.126.159", port 5432 failed: FATAL:  sorry, too many clients already
+{"ts": "2026-10-13T09:20:17.280Z", "level": "info", "svc": "checkout", "version": "1.4.0", "msg": "service started", "role": "checkout", "pod": "checkout-75c475dd74-mgtdv"}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)

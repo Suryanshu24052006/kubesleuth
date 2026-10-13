@@ -1,0 +1,21 @@
+I1013 09:04:27.533157       1 wrapper.go:120] "Starting kube-state-metrics"
+W1013 09:04:27.533355       1 client_config.go:667] Neither --kubeconfig nor --master was specified.  Using the inClusterConfig.  This might not work.
+I1013 09:04:27.533514       1 server.go:202] "Used resources" resources=["endpoints","horizontalpodautoscalers","limitranges","mutatingwebhookconfigurations","namespaces","networkpolicies","poddisruptionbudgets","cronjobs","daemonsets","ingresses","leases","replicasets","resourcequotas","storageclasses","nodes","persistentvolumes","pods","secrets","services","statefulsets","validatingwebhookconfigurations","volumeattachments","certificatesigningrequests","deployments","jobs","persistentvolumeclaims","replicationcontrollers","configmaps"]
+I1013 09:04:27.533571       1 types.go:195] "Using all namespaces"
+I1013 09:04:27.533600       1 server.go:235] "Metric allow-denylisting" allowDenyStatus="Excluding the following lists that were on denylist: "
+W1013 09:04:27.533647       1 client_config.go:667] Neither --kubeconfig nor --master was specified.  Using the inClusterConfig.  This might not work.
+I1013 09:04:27.534432       1 utils.go:70] "Tested communication with server"
+I1013 09:04:27.543778       1 utils.go:75] "Run with Kubernetes cluster version" major="1" minor="33" gitVersion="v1.33.1" gitTreeState="clean" gitCommit="8adc0f041b8e7ad1d30e29cc59c6ae7a15e19828" platform="linux/amd64"
+I1013 09:04:27.543792       1 utils.go:76] "Communication with server successful"
+I1013 09:04:27.545061       1 server.go:364] "Started metrics server" metricsServerAddress="[::]:8080"
+I1013 09:04:27.545079       1 metrics_handler.go:110] "Autosharding disabled"
+I1013 09:04:27.545097       1 server.go:353] "Started kube-state-metrics self metrics server" telemetryAddress="[::]:8081"
+I1013 09:04:27.545542       1 tls_config.go:347] "Listening on" address="[::]:8080"
+I1013 09:04:27.545681       1 tls_config.go:350] "TLS is disabled." http2=false address="[::]:8080"
+I1013 09:04:27.545613       1 tls_config.go:347] "Listening on" address="[::]:8081"
+I1013 09:04:27.545851       1 tls_config.go:350] "TLS is disabled." http2=false address="[::]:8081"
+I1013 09:04:27.545997       1 builder.go:294] "Active resources" activeStoreNames="certificatesigningrequests,configmaps,cronjobs,daemonsets,deployments,endpoints,horizontalpodautoscalers,ingresses,jobs,leases,limitranges,mutatingwebhookconfigurations,namespaces,networkpolicies,nodes,persistentvolumeclaims,persistentvolumes,poddisruptionbudgets,pods,replicasets,replicationcontrollers,resourcequotas,secrets,services,statefulsets,storageclasses,validatingwebhookconfigurations,volumeattachments"
+W1013 09:04:27.562640       1 warnings.go:70] v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+W1013 09:04:27.570516       1 warnings.go:70] v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+W1013 09:09:48.572815       1 warnings.go:70] v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+W1013 09:16:53.573147       1 warnings.go:70] v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
