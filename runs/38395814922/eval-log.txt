@@ -1,0 +1,483 @@
+
+=== aws-ebs-2012-latent-leak: Unreachable telemetry collector triggers a latent memory leak and OOM crash loop
+  $ scenarios/run.sh reset
+[1;33m[scenario][0m restoring baseline
+[1;33m[scenario][0m baseline restored; give metrics ~3 minutes to settle before the next scenario
+  settling 180s
+  $ scenarios/run.sh aws-ebs-2012-latent-leak inject
+[1;33m[scenario][0m injecting aws-ebs-2012-latent-leak
+migrating the telemetry collector to a new Service name (clients are not updated)
+service/telemetry-collector-v2 created
+service "telemetry-collector" deleted
+recommendations now buffers telemetry in memory; expect OOMKilled in ~3-6 minutes
+  alert: InfoInhibitor
+  ✓ O1 active_alerts()  — what is alerting and since when
+  ✓ O2 get_events(minutes=60, warnings_only=True)  — recent warning events
+  ✓ O3 recent_changes(minutes=120)  — what changed recently
+  ✓ O4 cluster_overview()  — resource-level health snapshot
+  + H1 [cause] Service telemetry-collector was deleted () so callers cannot reach it
+  ✓ O5 workload_metrics(workload=telemetry-collector, minutes=30)  — test H1
+  ✓ O6 find_traces(service=edge, minutes=15)  — where do errors originate?
+  ✓ O7 workload_metrics(workload=edge, minutes=30)  — symptom onset
+── round 1 → continue
+   posteriors unexplained:0.62  H1:0.38
+── round 2 → continue
+   posteriors unexplained:0.62  H1:0.38
+── round 3 → no new evidence for two rounds
+   posteriors unexplained:0.62  H1:0.38
+  -> [rules] CORRECT (low): Service telemetry-collector was deleted () so callers cannot reach it
+  ✓ O1 active_alerts()  — what is alerting and since when
+  ✓ O2 recent_changes(minutes=120)  — what changed recently
+  ✓ O3 get_events(minutes=60, warnings_only=True)  — recent warning events
+  ✓ O4 cluster_overview()  — resource-level health snapshot
+daily quota exhausted; continuing with google_genai:gemini-3.6-flash
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.6-flash' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+daily quota exhausted; continuing with google_genai:gemini-3-flash-preview
+  + H1 [cause] Container runtime (containerd) instability or crash on the worker node.
+  + H2 [cause] Telemetry collector failure causing upstream timeouts and 502s.
+  + H3 [symptom] Checkout 502s are symptoms of downstream dependency failures (Inventory/Recommendations).
+  ✗ O5 query_metrics(promql=sum(rate(container_cpu_usage_seconds_total{namespace='shop'}[2m])) by (pod))  — Check for CPU spikes during the 12:21 rollout that could have crashed 
+  ✓ O6 pod_logs(pod=recommendations-58866dbd86-8wlzh, previous=True)  — Check why recommendations pods were restarting (OOM, crash, or probe f
+  ✓ O7 workload_metrics(workload=checkout)  — Confirm 5xx onset time and identify if it correlates with dependency f
+  ✓ O8 find_traces(service=checkout, errors_only=True)  — Identify the exact service and operation where checkout errors origina
+  + H4 [cause] Services are hanging on synchronous telemetry exports to a missing or unreachable collector.
+  + H5 [symptom] Edge/Ingress is returning 502s because checkout pods are unready or timing out.
+── round 1 → continue
+   posteriors H1:0.36  H2:0.36  H3:0.12  unexplained:0.10  H4:0.04
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/selectors.py:351: RuntimeWarning: coroutine 'ClientResponse.json' was never awaited
+  def register(self, fileobj, events, data=None):
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+  ✓ O9 describe(kind=deployment, name=checkout)  — Check environment variables for telemetry endpoints (OTEL_EXPORTER_OTL
+  ✓ O10 search_logs(contains=telemetry, level=error)  — Look for explicit connection errors to the telemetry collector across 
+  ✓ O11 get_events(involved_name=telemetry-collector-v2)  — Check if the new telemetry collector is actually running and healthy.
+  ✓ O12 workload_metrics(workload=edge)  — Verify if 502s are originating at the edge layer and check its depende
+daily quota exhausted; continuing with google_genai:gemini-3.7-flash
+daily quota exhausted; continuing with google_genai:gemini-flash-latest
+daily quota exhausted; continuing with google_genai:gemini-3.8-flash
+  + H6 [cause] Recommendations deployment has a probe misconfiguration or startup crash preventing it from serving traffic.
+  + H7 [cause] Inventory service readiness failure causes checkout to hang and time out, propagating 502s upstream to edge.
+── round 2 → continue
+   posteriors H3:0.30  H1:0.28  H5:0.28  unexplained:0.07  H6:0.03
+  ✓ O13 describe(kind=deployment, name=inventory)  — Check probe configuration, container ports, and status for inventory p
+  ✓ O14 describe(kind=deployment, name=recommendations)  — Check probe configuration, container ports, environment, and readiness
+  ✓ O15 search_logs(app=recommendations, minutes=30)  — Inspect application logs from recommendations to identify crash reason
+  ✓ O16 workload_metrics(workload=recommendations)  — Check restart counts, latency, and request rates for recommendations.
+daily quota exhausted; continuing with google_genai:gemini-3.5-flash-lite
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+  + H8 [cause] Applications are timing out or blocking on synchronous HTTP telemetry calls to the deleted telemetry-collector
+── round 3 → continue
+   posteriors H3:0.37  H1:0.25  H5:0.25  unexplained:0.07  H6:0.03
+  ✓ O17 search_logs(contains=telemetry)  — Check for errors related to telemetry export failures in the shop name
+  ✓ O18 pod_logs(pod=checkout-8457f655f7-9hmfj, tail=100)  — Examine checkout logs to see why p95 latency increased and if connecti
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+── round 4 → continue
+   posteriors H3:0.85  H1:0.06  H5:0.06  unexplained:0.02  H6:0.01
+  ✓ O19 pod_logs(pod=inventory-668745bb49-5xmp9)  — Inspect inventory logs to find the cause of probe failures.
+  ✓ O20 get_events(involved_name=inventory)  — Check inventory events to see why readiness probes failed.
+  ✓ O21 get_events(involved_name=recommendations)  — Check recommendations events to see why readiness probes failed or pod
+  ✓ O22 workload_metrics(workload=inventory)  — Check inventory workload metrics for latency, restarts, and error rate
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+── round 5 → continue
+   posteriors H3:0.84  H1:0.14  H5:0.01  unexplained:0.00  H6:0.00
+── round 6 → round budget exhausted
+   posteriors H3:0.84  H1:0.14  H5:0.01  unexplained:0.00  H6:0.00
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+  -> [llm:google_genai:gemini-3.5-flash] INCONCLUSIVE (inconclusive): A mass rollout of multiple shop workloads triggered container runtime resource contention and socket errors, leading to readiness probe failures in downstream dependencies (inventory and recommendations) which propagated upstream as 502s at the checkout and edge layers.
+
+=== aws-s3-2017-capacity-removal: A mistyped capacity-removal command scales a critical tier down
+  $ scenarios/run.sh reset
+[1;33m[scenario][0m restoring baseline
+service "telemetry-collector-v2" deleted
+[1;33m[scenario][0m baseline restored; give metrics ~3 minutes to settle before the next scenario
+  settling 180s
+  $ scenarios/run.sh aws-s3-2017-capacity-removal inject
+[1;33m[scenario][0m injecting aws-s3-2017-capacity-removal
+intended: kubectl -n shop scale deploy -l app=catalog-indexer --replicas=1
+executed: kubectl -n shop scale deploy -l tier=backend --replicas=1   (typo'd selector)
+deployment.apps/catalog-indexer scaled
+deployment.apps/inventory scaled
+  alert: CPUThrottlingHigh, InfoInhibitor, ShopEdgeHigh5xxRate
+  ✓ O1 active_alerts()  — what is alerting and since when
+  ✓ O2 get_events(minutes=60, warnings_only=True)  — recent warning events
+  ✓ O3 cluster_overview()  — resource-level health snapshot
+  ✓ O4 recent_changes(minutes=120)  — what changed recently
+  + H1 [cause] Capacity of inventory was reduced (spec.replicas 4->1)
+  + H2 [cause] Service telemetry-collector-v2 was deleted () so callers cannot reach it
+  + H3 [cause] Capacity of catalog-indexer was reduced (spec.replicas 3->1)
+  ✓ O5 workload_metrics(workload=telemetry-collector-v2, minutes=30)  — test H2
+  ✓ O6 workload_metrics(workload=edge, minutes=30)  — symptom onset
+  ✓ O7 workload_metrics(workload=inventory, minutes=30)  — test H1
+  ✓ O8 find_traces(service=edge, minutes=15)  — where do errors originate?
+── round 1 → continue
+   posteriors H1:0.61  H3:0.20  unexplained:0.12  H2:0.07
+  ✓ O9 workload_metrics(workload=catalog-indexer, minutes=30)  — test H3
+── round 2 → continue
+   posteriors H1:0.60  H3:0.23  unexplained:0.11  H2:0.07
+── round 3 → model judged evidence sufficient; H1 p=0.60 (medium)
+   posteriors H1:0.60  H3:0.23  unexplained:0.11  H2:0.07
+  -> [rules] CORRECT (medium): Capacity of inventory was reduced (spec.replicas 4->1)
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/mcp/client/client.py:756: RuntimeWarning: coroutine 'ClientResponse.json' was never awaited
+  async def call_tool(
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+  ✓ O1 active_alerts()  — what is alerting and since when
+  ✓ O2 get_events(minutes=60, warnings_only=True)  — recent warning events
+  ✓ O3 recent_changes(minutes=120)  — what changed recently
+  ✓ O4 cluster_overview()  — resource-level health snapshot
+daily quota exhausted; continuing with google_genai:gemini-3.6-flash
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.6-flash' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+daily quota exhausted; continuing with google_genai:gemini-3-flash-preview
+daily quota exhausted; continuing with google_genai:gemini-3.7-flash
+daily quota exhausted; continuing with google_genai:gemini-flash-latest
+daily quota exhausted; continuing with google_genai:gemini-3.8-flash
+daily quota exhausted; continuing with google_genai:gemini-3.5-flash-lite
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+  + H1 [cause] Inventory service replica reduction to 1 and subsequent resource starvation/overload causes probe failures and
+  ✓ O5 pod_logs(pod=inventory-6dcd8d4f55-vb8z7, previous=True)  — Examine previous logs of the restarted inventory pod to see if it cras
+  ✓ O6 workload_metrics(workload=inventory)  — Check CPU, memory utilization, and request rate on the inventory workl
+  ✓ O7 find_traces(service=checkout, minutes=15, errors_only=True)  — Identify downstream errors originating from checkout calls to inventor
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+  + H2 [cause] Database connection pool exhaustion caused by too many replicas or unreleased connections.
+── round 1 → confident: H1 p=0.99, margin 0.99, sources ['kubernetes', 'kubernetes-logs']
+   posteriors H1:0.99  unexplained:0.01  H2:0.00
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+  -> [llm:google_genai:gemini-3.5-flash] CORRECT (high): The inventory deployment replicas were reduced from 4 to 1, causing resource contention, health probe failures, and downstream checkout timeouts.
+
+=== chef-2014-healthcheck-timeouts: Aggressive deep liveness probe turns a mild dependency slowdown into a restart storm
+  $ scenarios/run.sh reset
+[1;33m[scenario][0m restoring baseline
+[1;33m[scenario][0m baseline restored; give metrics ~3 minutes to settle before the next scenario
+  settling 180s
+  $ scenarios/run.sh chef-2014-healthcheck-timeouts inject
+[1;33m[scenario][0m injecting chef-2014-healthcheck-timeouts
+1/2 'hardening' the checkout liveness probe
+deployment.apps/checkout patched
+Waiting for deployment "checkout" rollout to finish: 2 out of 3 new replicas have been updated...
+Waiting for deployment "checkout" rollout to finish: 2 out of 3 new replicas have been updated...
+Waiting for deployment "checkout" rollout to finish: 2 out of 3 new replicas have been updated...
+Waiting for deployment "checkout" rollout to finish: 2 out of 3 new replicas have been updated...
+Waiting for deployment "checkout" rollout to finish: 2 out of 3 new replicas have been updated...
+Waiting for deployment "checkout" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "checkout" rollout to finish: 2 of 3 updated replicas are available...
+deployment "checkout" successfully rolled out
+2/2 Chaos Mesh: Postgres gets ~850ms of network latency (a tolerable degradation on its own)
+networkchaos.chaos-mesh.org/postgres-latency created
+  alert: ShopEdgeHigh5xxRate
+  ✓ O1 active_alerts()  — what is alerting and since when
+  ✓ O2 recent_changes(minutes=120)  — what changed recently
+  ✓ O3 cluster_overview()  — resource-level health snapshot
+  ✓ O4 get_events(minutes=60, warnings_only=True)  — recent warning events
+  + H1 [cause] Probe change on checkout (containers[checkout].livenessProbe {"failureThreshold": 3, "httpGet": {"path": "/hea
+  + H2 [cause] Service telemetry-collector-v2 was deleted () so callers cannot reach it
+  + H3 [cause] Service checkout has no healthy backends
+  ✓ O5 find_traces(service=edge, minutes=15)  — where do errors originate?
+  ✓ O6 workload_metrics(workload=telemetry-collector-v2, minutes=30)  — test H2
+  ✓ O7 workload_metrics(workload=edge, minutes=30)  — symptom onset
+  ✓ O8 workload_metrics(workload=checkout, minutes=30)  — test H1
+── round 1 → continue
+   posteriors H1:0.30  H3:0.30  unexplained:0.25  H2:0.15
+── round 2 → continue
+   posteriors H1:0.30  H3:0.30  unexplained:0.25  H2:0.15
+── round 3 → no new evidence for two rounds
+   posteriors H1:0.30  H3:0.30  unexplained:0.25  H2:0.15
+  -> [rules] INCONCLUSIVE (inconclusive): Probe change on checkout (containers[checkout].livenessProbe {"failureThreshold": 3, "httpGet": {"path": "/healthz", "port": "http", "scheme": "HTTP"}, "periodSeconds": 10, "successThreshold": 1, "timeoutSeconds": 3}->{"failureThreshold": 1, "httpGet": {"path": "/healthz?deep=1", "port": "http", "scheme": "HTTP"}, "periodSeconds": 5, "successThreshold": 1, "timeoutSeconds": 1}) kills or unreadies healthy pods
+  ✓ O1 active_alerts()  — what is alerting and since when
+  ✓ O2 cluster_overview()  — resource-level health snapshot
+  ✓ O3 recent_changes(minutes=120)  — what changed recently
+  ✓ O4 get_events(minutes=60, warnings_only=True)  — recent warning events
+daily quota exhausted; continuing with google_genai:gemini-3.6-flash
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.6-flash' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+daily quota exhausted; continuing with google_genai:gemini-3-flash-preview
+daily quota exhausted; continuing with google_genai:gemini-3.7-flash
+daily quota exhausted; continuing with google_genai:gemini-flash-latest
+daily quota exhausted; continuing with google_genai:gemini-3.8-flash
+daily quota exhausted; continuing with google_genai:gemini-3.5-flash-lite
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+  + H1 [cause] The checkout liveness probe path '/healthz?deep=1' or tight failure threshold (1) is failing or not supported 
+  + H2 [symptom] Edge is returning 5xx responses as a symptom because the upstream checkout service has 0 ready endpoints and i
+  ✓ O5 describe(kind=deployment, name=checkout)  — Inspect the full deployment specification for checkout to verify the e
+  ✓ O6 pod_logs(pod=checkout-7d6bdccdc8-7qz6f, previous=True)  — Check the previous logs of a crashed checkout pod to see if the applic
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+  + H3 [cause] Database connectivity issues or downstream database exhaustion prevents the checkout service from starting or 
+── round 1 → confident: H1 p=0.96, margin 0.95, sources ['kubernetes', 'kubernetes-logs']
+   posteriors H1:0.96  H2:0.03  unexplained:0.01  H3:0.00
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+  -> [llm:google_genai:gemini-3.5-flash] CORRECT (high): A patch applied to the checkout deployment modified the liveness probe path to '/healthz?deep=1' with an overly aggressive failure threshold of 1, causing containers to be repeatedly killed when deep health checks fail or time out.
+
+=== cloudflare-2019-waf-regex: WAF rule with catastrophic regex backtracking exhausts CPU at the edge
+  $ scenarios/run.sh reset
+[1;33m[scenario][0m restoring baseline
+[1;33m[scenario][0m baseline restored; give metrics ~3 minutes to settle before the next scenario
+  settling 180s
+  $ scenarios/run.sh cloudflare-2019-waf-regex inject
+[1;33m[scenario][0m injecting cloudflare-2019-waf-regex
+configmap/edge-waf-rules configured
+WAF rule pushed (kubelet syncs mounted ConfigMaps within ~60-90 s; edge reloads without restarting)
+  alert: InfoInhibitor
+  ✓ O1 active_alerts()  — what is alerting and since when
+  ✓ O2 get_events(minutes=60, warnings_only=True)  — recent warning events
+  ✓ O3 cluster_overview()  — resource-level health snapshot
+  ✓ O4 recent_changes(minutes=120)  — what changed recently
+  + H1 [cause] ConfigMap edge-waf-rules change (data.rules.json {"rules": [
+  {"id": "sqli-union-select", "pattern": "(?i)uni
+  + H2 [cause] Probe change on checkout (containers[checkout].livenessProbe {"failureThreshold": 1, "httpGet": {"path": "/hea
+  ✓ O5 find_traces(service=edge, minutes=15)  — where do errors originate?
+  ✓ O6 workload_metrics(workload=edge, minutes=30)  — symptom onset
+  ✓ O7 workload_metrics(workload=checkout, minutes=30)  — test H2
+── round 1 → continue
+   posteriors unexplained:0.45  H1:0.27  H2:0.27
+── round 2 → continue
+   posteriors unexplained:0.45  H1:0.27  H2:0.27
+── round 3 → no new evidence for two rounds
+   posteriors unexplained:0.45  H1:0.27  H2:0.27
+  -> [rules] INCONCLUSIVE (inconclusive): ConfigMap edge-waf-rules change (data.rules.json {"rules": [
+  {"id": "sqli-union-select", "pattern": "(?i)union\\s+select", "action": "block"},
+  {"id": "path-traversal", "pattern": "\\.\\./\\.\\./", "action": "block"}
+]}
+->{"rules": [
+  {"id": "sqli-union-select", "pattern": "(?i)union\\s+select", "action": "block"},
+  {"id": "path-traversal", "pattern": "\\.\\./\\.\\./", "action": "block"},
+  {"id": "xss-inline-js-2019-07", "pattern": "(?:(?:\\\"|'|\\]|\\}|\\\\|\\d|(?:nan|infinity|true|false|null|undefined|symbol|math)|\\`|\\-|\\+)+[)]*;?((?:\\s|-|~|!|{}|\\|\\||\\+)*.*(?:.*=.*)))", "action": "log"}
+]}) broke a dependent service
+  ✓ O1 active_alerts()  — what is alerting and since when
+  ✓ O2 get_events(minutes=60, warnings_only=True)  — recent warning events
+  ✓ O3 recent_changes(minutes=120)  — what changed recently
+  ✓ O4 cluster_overview()  — resource-level health snapshot
+daily quota exhausted; continuing with google_genai:gemini-3.6-flash
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.6-flash' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+daily quota exhausted; continuing with google_genai:gemini-3-flash-preview
+daily quota exhausted; continuing with google_genai:gemini-3.7-flash
+daily quota exhausted; continuing with google_genai:gemini-flash-latest
+daily quota exhausted; continuing with google_genai:gemini-3.8-flash
+daily quota exhausted; continuing with google_genai:gemini-3.5-flash-lite
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+  + H1 [cause] The newly added regex in edge-waf-rules causes heavy CPU consumption or request blocking, leading to CPU starv
+  + H2 [symptom] High traffic load or lack of capacity on edge pods is causing CPU exhaustion and probe failures.
+  ✓ O5 search_logs(app=edge)  — Check edge pod logs for any WAF-related errors, panic, or long process
+  ✓ O6 workload_metrics(workload=edge)  — Examine CPU and request rate metrics for edge to see the exact onset t
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+  + H3 [cause] The checkout service itself is failing or down, causing edge pods to receive connect and read timeouts.
+── round 1 → continue
+   posteriors H1:0.88  unexplained:0.07  H2:0.03  H3:0.03
+  ✓ O7 pod_logs(pod=edge-66978949cf-2m5mj, previous=True)  — Inspect the previous container logs of a restarted edge pod to see if 
+  ✓ O8 workload_metrics(workload=checkout)  — Check the health, request rate, error ratio, and CPU/memory metrics of
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+── round 2 → confident: H1 p=0.89, margin 0.81, sources ['kubernetes', 'kubernetes-logs', 'loki']
+   posteriors H1:0.89  H3:0.08  unexplained:0.02  H2:0.01
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+  -> [llm:google_genai:gemini-3.5-flash] CORRECT (high): A newly introduced regular expression in the edge-waf-rules ConfigMap caused heavy CPU consumption and request blocking, leading to severe CPU starvation, high latency, and probe timeouts on the edge pods.
+
+=== github-conn-saturation: Config rollout raises a connection pool size and exhausts Postgres connection slots
+  $ scenarios/run.sh reset
+[1;33m[scenario][0m restoring baseline
+[1;33m[scenario][0m baseline restored; give metrics ~3 minutes to settle before the next scenario
+  settling 180s
+  $ scenarios/run.sh github-conn-saturation inject
+[1;33m[scenario][0m injecting github-conn-saturation
+a 'performance tuning' change: bigger DB pool for checkout
+configmap/checkout-config patched
+deployment.apps/checkout restarted
+  alert: ShopEdgeHigh5xxRate
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/asyncio/events.py:38: RuntimeWarning: coroutine 'ClientResponse.json' was never awaited
+  context = contextvars.copy_context()
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+  ✓ O1 active_alerts()  — what is alerting and since when
+  ✓ O2 recent_changes(minutes=120)  — what changed recently
+  ✓ O3 cluster_overview()  — resource-level health snapshot
+  ✓ O4 get_events(minutes=60, warnings_only=True)  — recent warning events
+  + H1 [cause] ConfigMap checkout-config change (data.DB_POOL_SIZE 4->30) broke a dependent service
+  + H2 [cause] ConfigMap edge-waf-rules change (data.rules.json {"rules": [
+  {"id": "sqli-union-select", "pattern": "(?i)uni
+  + H3 [cause] Probe change on checkout (containers[checkout].livenessProbe {"failureThreshold": 1, "httpGet": {"path": "/hea
+  ✓ O5 workload_metrics(workload=edge, minutes=30)  — symptom onset
+  ✓ O6 find_traces(service=edge, minutes=15)  — where do errors originate?
+  ✓ O7 workload_metrics(workload=checkout, minutes=30)  — test H3
+── round 1 → continue
+   posteriors H1:0.41  unexplained:0.24  H2:0.20  H3:0.15
+── round 2 → continue
+   posteriors H1:0.41  unexplained:0.24  H2:0.20  H3:0.15
+── round 3 → no new evidence for two rounds
+   posteriors H1:0.41  unexplained:0.24  H2:0.20  H3:0.15
+  -> [rules] CORRECT (low): ConfigMap checkout-config change (data.DB_POOL_SIZE 4->30) broke a dependent service
+  ✓ O1 active_alerts()  — what is alerting and since when
+  ✓ O2 cluster_overview()  — resource-level health snapshot
+  ✓ O3 get_events(minutes=60, warnings_only=True)  — recent warning events
+  ✓ O4 recent_changes(minutes=120)  — what changed recently
+daily quota exhausted; continuing with google_genai:gemini-3.6-flash
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.6-flash' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+daily quota exhausted; continuing with google_genai:gemini-3-flash-preview
+daily quota exhausted; continuing with google_genai:gemini-3.7-flash
+daily quota exhausted; continuing with google_genai:gemini-flash-latest
+daily quota exhausted; continuing with google_genai:gemini-3.8-flash
+daily quota exhausted; continuing with google_genai:gemini-3.5-flash-lite
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+  + H1 [cause] The increase of DB_POOL_SIZE from 4 to 30 in checkout-config caused checkout pods to crash or become unready d
+  ✓ O5 pod_logs(pod=checkout-868f44778d-2cz7k, tail=100)  — Check why checkout pods are failing or restarting after the DB_POOL_SI
+  ✓ O6 workload_metrics(workload=checkout)  — Check the exact metrics and onset of 5xx or DB errors on checkout.
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+  + H2 [cause] The inventory service is returning 500 errors for stock lookup requests, causing checkout to fail.
+── round 1 → continue
+   posteriors H2:0.73  unexplained:0.20  H1:0.07
+  ✓ O7 pod_logs(pod=inventory-5577665986-4q7mj, tail=100)  — Check inventory pod logs to determine why stock lookups are failing.
+  ✓ O8 workload_metrics(workload=inventory)  — Check inventory workload metrics for error rates and latency.
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+── round 2 → continue
+   posteriors H2:0.76  H1:0.19  unexplained:0.05
+  ✓ O9 describe(kind=configmap, name=checkout-config)  — Verify the exact configuration value set for DB_POOL_SIZE.
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+── round 3 → continue
+   posteriors H2:0.53  H1:0.44  unexplained:0.04
+  ✓ O10 pod_logs(pod=inventory-5577665986-4q7mj, previous=True, tail=100)  — Check previous logs of inventory pods to determine why inventory is fa
+  ✗ O11 pod_logs(pod=checkout-55f8c5b4bc-6ssw7, previous=True, tail=100)  — Check previous crash logs of checkout pods to see if DB_POOL_SIZE=30 c
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+── round 4 → continue
+   posteriors H2:0.53  H1:0.44  unexplained:0.04
+  ✓ O12 search_logs(app=inventory, minutes=30)  — Find all inventory log errors across pods to confirm database connecti
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+── round 5 → continue
+   posteriors H2:0.54  H1:0.45  unexplained:0.00
+── round 6 → round budget exhausted
+   posteriors H2:0.54  H1:0.45  unexplained:0.00
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+  -> [llm:google_genai:gemini-3.5-flash] PARTIAL (low): The DB_POOL_SIZE configuration in checkout-config was increased from 4 to 30, which caused connection exhaustion and database operational errors in downstream inventory queries, leading to checkout failures and edge 5xx errors.
+
+=== knight-2012-stale-version-flag: Repurposed feature flag re-activates dead code on a forgotten old-version deployment
+  $ scenarios/run.sh reset
+[1;33m[scenario][0m restoring baseline
+[1;33m[scenario][0m baseline restored; give metrics ~3 minutes to settle before the next scenario
+  settling 180s
+  $ scenarios/run.sh knight-2012-stale-version-flag inject
+[1;33m[scenario][0m injecting knight-2012-stale-version-flag
+1/2 the forgotten legacy deployment is (already) running behind the pricing Service
+deployment.apps/pricing-legacy created
+Waiting for deployment "pricing-legacy" rollout to finish: 0 of 1 updated replicas are available...
+deployment "pricing-legacy" successfully rolled out
+2/2 product turns on the repurposed flag
+configmap/feature-flags configured
+  alert: InfoInhibitor
+  ✓ O1 active_alerts()  — what is alerting and since when
+  ✓ O2 recent_changes(minutes=120)  — what changed recently
+  ✓ O3 cluster_overview()  — resource-level health snapshot
+  ✓ O4 get_events(minutes=60, warnings_only=True)  — recent warning events
+  + H1 [cause] ConfigMap feature-flags change (data.flags.json {"smart_routing": false, "new_checkout_ui": true}
+->{"smart_ro
+  + H2 [cause] Newly created workload pricing-legacy serves traffic with different code
+  + H3 [cause] ConfigMap checkout-config change (data.DB_POOL_SIZE 30->4) broke a dependent service
+  + H4 [cause] Capacity of edge was reduced (spec.replicas 3->2)
+  ✓ O5 find_traces(service=edge, minutes=15)  — where do errors originate?
+  ✓ O6 workload_metrics(workload=pricing-legacy, minutes=30)  — test H2
+  ✓ O7 workload_metrics(workload=edge, minutes=30)  — symptom onset
+  ✓ O8 workload_metrics(workload=edge, minutes=30)  — test H4
+── round 1 → continue
+   posteriors H2:0.66  H4:0.17  H3:0.08  unexplained:0.05  H1:0.04
+  + H5 [cause] Service pricing mixes versions of its backend
+  ✓ O9 workload_metrics(workload=pricing, minutes=30)  — test H5
+── round 2 → continue
+   posteriors H2:0.39  H5:0.39  H4:0.11  H3:0.05  unexplained:0.03
+── round 3 → continue
+   posteriors H2:0.39  H5:0.39  H4:0.11  H3:0.05  unexplained:0.03
+── round 4 → no new evidence for two rounds
+   posteriors H2:0.39  H5:0.39  H4:0.11  H3:0.05  unexplained:0.03
+  -> [rules] CORRECT (low): Newly created workload pricing-legacy serves traffic with different code
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/mcp/client/client.py:756: RuntimeWarning: coroutine 'ClientResponse.json' was never awaited
+  async def call_tool(
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+  ✓ O1 active_alerts()  — what is alerting and since when
+  ✓ O2 recent_changes(minutes=120)  — what changed recently
+  ✓ O3 cluster_overview()  — resource-level health snapshot
+  ✓ O4 get_events(minutes=60, warnings_only=True)  — recent warning events
+daily quota exhausted; continuing with google_genai:gemini-3.6-flash
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.6-flash' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+daily quota exhausted; continuing with google_genai:gemini-3-flash-preview
+daily quota exhausted; continuing with google_genai:gemini-3.7-flash
+daily quota exhausted; continuing with google_genai:gemini-flash-latest
+daily quota exhausted; continuing with google_genai:gemini-3.8-flash
+daily quota exhausted; continuing with google_genai:gemini-3.5-flash-lite
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+  + H1 [cause] Enabling smart routing introduced traffic to pricing-legacy which is failing health checks, causing downstream
+  + H2 [cause] Checkout errors are a symptom of database pool exhaustion or misconfiguration from recent ConfigMap changes.
+  ✓ O5 pod_logs(pod=pricing-legacy-79659db7cf-2lnp8, tail=100)  — Check why pricing-legacy is failing its health checks.
+  ✓ O6 workload_metrics(workload=checkout)  — Check golden signals and error rates for checkout workload to confirm 
+  ✓ O7 find_traces(service=checkout, errors_only=True)  — Identify if checkout errors originate from calls to the pricing servic
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+── round 1 → confident: H1 p=0.99, margin 0.99, sources ['kubernetes', 'kubernetes-logs', 'prometheus']
+   posteriors H1:0.99  unexplained:0.01  H2:0.00
+/home/runner/work/kubesleuth/kubesleuth/.venv/lib/python3.12/site-packages/langchain_google_genai/chat_models.py:3914: UserWarning: Model 'gemini-3.5-flash-lite' uses fixed sampling defaults; the sampling parameter(s) temperature will be ignored.
+  request = self._build_request_config(
+  -> [llm:google_genai:gemini-3.5-flash] CORRECT (high): Enabling the smart_routing feature flag routed traffic to the newly created pricing-legacy deployment running an incompatible or failing image version, resulting in downstream pricing and checkout failures.
+  $ scenarios/run.sh reset
+[1;33m[scenario][0m restoring baseline
+deployment.apps "pricing-legacy" deleted
+[1;33m[scenario][0m baseline restored; give metrics ~3 minutes to settle before the next scenario
+
+# kubesleuth evaluation, 20261013-122615
+
+Run on a GitHub-hosted runner (ubuntu-latest), kind v0.29.0, commit 7340da3647ae8f4e292003c952abf74f8b77ec67, workflow run https://github.com/Suryanshu24052006/kubesleuth/actions/runs/38395814922
+
+**rules**: correct 4/6, partial 0, inconclusive 2, wrong 0  
+**llm:google_genai:gemini-3.5-flash**: correct 4/6, partial 1, inconclusive 1, wrong 0  
+
+| Scenario | Reasoner | Alert fired | Verdict | Confidence | Evidence sources | Rounds | Tool calls | Rejected claims | Time (s) | Tokens | Root cause given by the agent |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| [aws-ebs-2012-latent-leak](aws-ebs-2012-latent-leak.rules.md) | rules | InfoInhibitor | **correct** | low (0.378) | kubernetes | 3 | 7 | 0 | 0.4 | 0 | Service telemetry-collector was deleted () so callers cannot reach it |
+| [aws-ebs-2012-latent-leak](aws-ebs-2012-latent-leak.llm-google_genai-gemini-3.5-flash.md) | llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview, gemini-3.7-flash, gemini-flash-latest, gemini-3.8-flash, gemini-3.5-flash-lite) | InfoInhibitor | **inconclusive** | inconclusive (0.136) | kubernetes | 6 | 22 | 4 | 547.5 | 120882 | A mass rollout of multiple shop workloads triggered container runtime resource contention and socket errors, leading to readiness probe failures in downstream d |
+| [aws-s3-2017-capacity-removal](aws-s3-2017-capacity-removal.rules.md) | rules | CPUThrottlingHigh, InfoInhibitor, ShopEdgeHigh5xxRate | **correct** | medium (0.599) | kubernetes, prometheus | 3 | 9 | 0 | 0.7 | 0 | Capacity of inventory was reduced (spec.replicas 4->1) |
+| [aws-s3-2017-capacity-removal](aws-s3-2017-capacity-removal.llm-google_genai-gemini-3.5-flash.md) | llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview, gemini-3.7-flash, gemini-flash-latest, gemini-3.8-flash, gemini-3.5-flash-lite) | CPUThrottlingHigh, InfoInhibitor, ShopEdgeHigh5xxRate | **correct** | high (0.991) | kubernetes, kubernetes-logs | 1 | 7 | 1 | 155.9 | 42899 | The inventory deployment replicas were reduced from 4 to 1, causing resource contention, health probe failures, and downstream checkout timeouts. |
+| [chef-2014-healthcheck-timeouts](chef-2014-healthcheck-timeouts.rules.md) | rules | ShopEdgeHigh5xxRate | **inconclusive** | inconclusive (0.302) | kubernetes | 3 | 8 | 0 | 0.5 | 0 | Probe change on checkout (containers[checkout].livenessProbe {"failureThreshold": 3, "httpGet": {"path": "/healthz", "port": "http", "scheme": "HTTP"}, "periodS |
+| [chef-2014-healthcheck-timeouts](chef-2014-healthcheck-timeouts.llm-google_genai-gemini-3.5-flash.md) | llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview, gemini-3.7-flash, gemini-flash-latest, gemini-3.8-flash, gemini-3.5-flash-lite) | ShopEdgeHigh5xxRate | **correct** | high (0.957) | kubernetes, kubernetes-logs | 1 | 6 | 1 | 169.8 | 38288 | A patch applied to the checkout deployment modified the liveness probe path to '/healthz?deep=1' with an overly aggressive failure threshold of 1, causing conta |
+| [cloudflare-2019-waf-regex](cloudflare-2019-waf-regex.rules.md) | rules | InfoInhibitor | **inconclusive** | inconclusive (0.274) | kubernetes | 3 | 7 | 0 | 1.0 | 0 | ConfigMap edge-waf-rules change (data.rules.json {"rules": [   {"id": "sqli-union-select", "pattern": "(?i)union\\s+select", "action": "block"},   {"id": "path- |
+| [cloudflare-2019-waf-regex](cloudflare-2019-waf-regex.llm-google_genai-gemini-3.5-flash.md) | llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview, gemini-3.7-flash, gemini-flash-latest, gemini-3.8-flash, gemini-3.5-flash-lite) | InfoInhibitor | **correct** | high (0.889) | kubernetes, kubernetes-logs, loki | 2 | 8 | 2 | 400.2 | 63157 | A newly introduced regular expression in the edge-waf-rules ConfigMap caused heavy CPU consumption and request blocking, leading to severe CPU starvation, high  |
+| [github-conn-saturation](github-conn-saturation.rules.md) | rules | ShopEdgeHigh5xxRate | **correct** | low (0.405) | kubernetes | 3 | 7 | 0 | 0.8 | 0 | ConfigMap checkout-config change (data.DB_POOL_SIZE 4->30) broke a dependent service |
+| [github-conn-saturation](github-conn-saturation.llm-google_genai-gemini-3.5-flash.md) | llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview, gemini-3.7-flash, gemini-flash-latest, gemini-3.8-flash, gemini-3.5-flash-lite) | ShopEdgeHigh5xxRate | **partial** | low (0.543) | kubernetes-logs, loki | 6 | 12 | 4 | 488.8 | 82690 | The DB_POOL_SIZE configuration in checkout-config was increased from 4 to 30, which caused connection exhaustion and database operational errors in downstream i |
+| [knight-2012-stale-version-flag](knight-2012-stale-version-flag.rules.md) | rules | InfoInhibitor | **correct** | low (0.392) | kubernetes, prometheus | 4 | 9 | 12 | 0.8 | 0 | Newly created workload pricing-legacy serves traffic with different code |
+| [knight-2012-stale-version-flag](knight-2012-stale-version-flag.llm-google_genai-gemini-3.5-flash.md) | llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview, gemini-3.7-flash, gemini-flash-latest, gemini-3.8-flash, gemini-3.5-flash-lite) | InfoInhibitor | **correct** | high (0.989) | kubernetes, kubernetes-logs, prometheus | 1 | 7 | 2 | 484.4 | 42743 | Enabling the smart_routing feature flag routed traffic to the newly created pricing-legacy deployment running an incompatible or failing image version, resultin |
+
+results: out/eval
+sys:1: RuntimeWarning: coroutine 'ClientResponse.json' was never awaited
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback

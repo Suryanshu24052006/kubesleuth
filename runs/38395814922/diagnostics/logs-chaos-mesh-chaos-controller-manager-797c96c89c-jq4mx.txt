@@ -1,0 +1,300 @@
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "workflow-statuscheck-reconciler", "controllerGroup": "chaos-mesh.org", "controllerKind": "WorkflowNode", "source": "kind source: *v1alpha1.WorkflowNode"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "workflow-abort-node-reconciler", "controllerGroup": "chaos-mesh.org", "controllerKind": "WorkflowNode", "source": "kind source: *v1alpha1.WorkflowNode"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "workflow-statuscheck-reconciler", "controllerGroup": "chaos-mesh.org", "controllerKind": "WorkflowNode", "source": "kind source: *v1alpha1.WorkflowNode"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:186	Starting Controller	{"controller": "workflow-abort-node-reconciler", "controllerGroup": "chaos-mesh.org", "controllerKind": "WorkflowNode"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "remotecluster", "controllerGroup": "chaos-mesh.org", "controllerKind": "RemoteCluster", "source": "kind source: *v1alpha1.RemoteCluster"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:186	Starting Controller	{"controller": "stresschaos-pipeline", "controllerGroup": "chaos-mesh.org", "controllerKind": "StressChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:186	Starting Controller	{"controller": "remotecluster", "controllerGroup": "chaos-mesh.org", "controllerKind": "RemoteCluster"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "workflow-statuscheck-reconciler", "controllerGroup": "chaos-mesh.org", "controllerKind": "WorkflowNode", "source": "kind source: *v1alpha1.StatusCheck"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "azurechaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "AzureChaos", "source": "kind source: *v1alpha1.AzureChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:186	Starting Controller	{"controller": "azurechaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "AzureChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "physicalmachinechaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "PhysicalMachineChaos", "source": "kind source: *v1alpha1.PhysicalMachineChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:186	Starting Controller	{"controller": "physicalmachinechaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "PhysicalMachineChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:186	Starting Controller	{"controller": "workflow-statuscheck-reconciler", "controllerGroup": "chaos-mesh.org", "controllerKind": "WorkflowNode"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "timechaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "TimeChaos", "source": "kind source: *v1alpha1.TimeChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:186	Starting Controller	{"controller": "timechaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "TimeChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "awschaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "AWSChaos", "source": "kind source: *v1alpha1.AWSChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:186	Starting Controller	{"controller": "awschaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "AWSChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-cron", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.Schedule"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:186	Starting Controller	{"controller": "schedule-cron", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "stresschaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "StressChaos", "source": "kind source: *v1alpha1.StressChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:186	Starting Controller	{"controller": "stresschaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "StressChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "blockchaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "BlockChaos", "source": "kind source: *v1alpha1.BlockChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "gcpchaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "GCPChaos", "source": "kind source: *v1alpha1.GCPChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-pause", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.Schedule"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:186	Starting Controller	{"controller": "schedule-pause", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:186	Starting Controller	{"controller": "gcpchaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "GCPChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "iochaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "IOChaos", "source": "kind source: *v1alpha1.IOChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:186	Starting Controller	{"controller": "iochaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "IOChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "kernelchaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "KernelChaos", "source": "kind source: *v1alpha1.KernelChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "jvmchaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "JVMChaos", "source": "kind source: *v1alpha1.JVMChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:186	Starting Controller	{"controller": "kernelchaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "KernelChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-active", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.Schedule"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-active", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.JVMChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-active", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.DNSChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-gc", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.Schedule"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "dnschaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "DNSChaos", "source": "kind source: *v1alpha1.DNSChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:186	Starting Controller	{"controller": "dnschaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "DNSChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:186	Starting Controller	{"controller": "jvmchaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "JVMChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-gc", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.AWSChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "podchaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "PodChaos", "source": "kind source: *v1alpha1.PodChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:186	Starting Controller	{"controller": "podchaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "PodChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-gc", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.JVMChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-gc", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.GCPChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-gc", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.AzureChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "networkchaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "NetworkChaos", "source": "kind source: *v1alpha1.NetworkChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-gc", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.NetworkChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:186	Starting Controller	{"controller": "networkchaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "NetworkChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-gc", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.HTTPChaos"}
+2026-10-13T12:19:47.428Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-gc", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.KernelChaos"}
+2026-10-13T12:19:47.428Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-gc", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.DNSChaos"}
+2026-10-13T12:19:47.428Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-gc", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.BlockChaos"}
+2026-10-13T12:19:47.428Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-gc", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.StressChaos"}
+2026-10-13T12:19:47.428Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-gc", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.IOChaos"}
+2026-10-13T12:19:47.428Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-gc", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.PhysicalMachineChaos"}
+2026-10-13T12:19:47.428Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-gc", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.PodChaos"}
+2026-10-13T12:19:47.428Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-gc", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.TimeChaos"}
+2026-10-13T12:19:47.428Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-gc", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.Workflow"}
+2026-10-13T12:19:47.428Z	INFO	controller/controller.go:186	Starting Controller	{"controller": "schedule-gc", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-active", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.IOChaos"}
+2026-10-13T12:19:47.428Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-active", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.StressChaos"}
+2026-10-13T12:19:47.428Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-active", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.GCPChaos"}
+2026-10-13T12:19:47.428Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-active", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.BlockChaos"}
+2026-10-13T12:19:47.428Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-active", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.TimeChaos"}
+2026-10-13T12:19:47.428Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-active", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.HTTPChaos"}
+2026-10-13T12:19:47.427Z	INFO	controller/controller.go:186	Starting Controller	{"controller": "blockchaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "BlockChaos"}
+2026-10-13T12:19:47.428Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-active", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.AzureChaos"}
+2026-10-13T12:19:47.428Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-active", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.NetworkChaos"}
+2026-10-13T12:19:47.428Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-active", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.PodChaos"}
+2026-10-13T12:19:47.428Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-active", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.PhysicalMachineChaos"}
+2026-10-13T12:19:47.428Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-active", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.KernelChaos"}
+2026-10-13T12:19:47.428Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-active", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.AWSChaos"}
+2026-10-13T12:19:47.428Z	INFO	controller/controller.go:178	Starting EventSource	{"controller": "schedule-active", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "source": "kind source: *v1alpha1.Workflow"}
+2026-10-13T12:19:47.428Z	INFO	controller/controller.go:186	Starting Controller	{"controller": "schedule-active", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule"}
+2026-10-13T12:19:47.729Z	INFO	controller/controller.go:220	Starting workers	{"controller": "gcpchaos-pipeline", "controllerGroup": "chaos-mesh.org", "controllerKind": "GCPChaos", "worker count": 1}
+2026-10-13T12:19:47.729Z	INFO	controller/controller.go:220	Starting workers	{"controller": "dnschaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "DNSChaos", "worker count": 1}
+2026-10-13T12:19:47.729Z	INFO	controller/controller.go:220	Starting workers	{"controller": "kernelchaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "KernelChaos", "worker count": 1}
+2026-10-13T12:19:47.729Z	INFO	controller/controller.go:220	Starting workers	{"controller": "gcpchaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "GCPChaos", "worker count": 1}
+2026-10-13T12:19:47.729Z	INFO	controller/controller.go:220	Starting workers	{"controller": "blockchaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "BlockChaos", "worker count": 1}
+2026-10-13T12:19:47.729Z	INFO	controller/controller.go:220	Starting workers	{"controller": "kernelchaos-pipeline", "controllerGroup": "chaos-mesh.org", "controllerKind": "KernelChaos", "worker count": 1}
+2026-10-13T12:19:47.729Z	INFO	controller/controller.go:220	Starting workers	{"controller": "networkchaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "NetworkChaos", "worker count": 1}
+2026-10-13T12:19:47.729Z	INFO	controller/controller.go:220	Starting workers	{"controller": "jvmchaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "JVMChaos", "worker count": 1}
+2026-10-13T12:19:47.729Z	INFO	controller/controller.go:220	Starting workers	{"controller": "podnetworkchaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "PodNetworkChaos", "worker count": 1}
+2026-10-13T12:19:47.729Z	INFO	controller/controller.go:220	Starting workers	{"controller": "jvmchaos-pipeline", "controllerGroup": "chaos-mesh.org", "controllerKind": "JVMChaos", "worker count": 1}
+2026-10-13T12:19:47.729Z	INFO	controller/controller.go:220	Starting workers	{"controller": "blockchaos-pipeline", "controllerGroup": "chaos-mesh.org", "controllerKind": "BlockChaos", "worker count": 1}
+2026-10-13T12:19:47.730Z	INFO	controller/controller.go:220	Starting workers	{"controller": "networkchaos-pipeline", "controllerGroup": "chaos-mesh.org", "controllerKind": "NetworkChaos", "worker count": 1}
+2026-10-13T12:19:47.730Z	INFO	controller/controller.go:220	Starting workers	{"controller": "schedule-pause", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "worker count": 1}
+2026-10-13T12:19:47.730Z	INFO	controller/controller.go:220	Starting workers	{"controller": "podhttpchaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "PodHttpChaos", "worker count": 1}
+2026-10-13T12:19:47.730Z	INFO	controller/controller.go:220	Starting workers	{"controller": "dnschaos-pipeline", "controllerGroup": "chaos-mesh.org", "controllerKind": "DNSChaos", "worker count": 1}
+2026-10-13T12:19:47.730Z	INFO	controller/controller.go:220	Starting workers	{"controller": "remotecluster", "controllerGroup": "chaos-mesh.org", "controllerKind": "RemoteCluster", "worker count": 1}
+2026-10-13T12:19:47.730Z	INFO	controller/controller.go:220	Starting workers	{"controller": "podchaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "PodChaos", "worker count": 1}
+2026-10-13T12:19:47.730Z	INFO	controller/controller.go:220	Starting workers	{"controller": "podchaos-pipeline", "controllerGroup": "chaos-mesh.org", "controllerKind": "PodChaos", "worker count": 1}
+2026-10-13T12:19:47.730Z	INFO	controller/controller.go:220	Starting workers	{"controller": "schedule-cron", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "worker count": 1}
+2026-10-13T12:19:47.730Z	INFO	controller/controller.go:220	Starting workers	{"controller": "awschaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "AWSChaos", "worker count": 1}
+2026-10-13T12:19:47.731Z	INFO	controller/controller.go:220	Starting workers	{"controller": "statuscheck", "controllerGroup": "chaos-mesh.org", "controllerKind": "StatusCheck", "worker count": 1}
+2026-10-13T12:19:47.731Z	INFO	controller/controller.go:220	Starting workers	{"controller": "physicalmachinechaos-pipeline", "controllerGroup": "chaos-mesh.org", "controllerKind": "PhysicalMachineChaos", "worker count": 1}
+2026-10-13T12:19:47.731Z	INFO	controller/controller.go:220	Starting workers	{"controller": "workflow-abort-node-reconciler", "controllerGroup": "chaos-mesh.org", "controllerKind": "WorkflowNode", "worker count": 1}
+2026-10-13T12:19:47.731Z	INFO	controller/controller.go:220	Starting workers	{"controller": "httpchaos-pipeline", "controllerGroup": "chaos-mesh.org", "controllerKind": "HTTPChaos", "worker count": 1}
+2026-10-13T12:19:47.731Z	INFO	controller/controller.go:220	Starting workers	{"controller": "azurechaos-pipeline", "controllerGroup": "chaos-mesh.org", "controllerKind": "AzureChaos", "worker count": 1}
+2026-10-13T12:19:47.731Z	INFO	controller/controller.go:220	Starting workers	{"controller": "workflow-abort-workflow-reconciler", "controllerGroup": "chaos-mesh.org", "controllerKind": "Workflow", "worker count": 1}
+2026-10-13T12:19:47.731Z	INFO	controller/controller.go:220	Starting workers	{"controller": "workflow-deadline-reconciler", "controllerGroup": "chaos-mesh.org", "controllerKind": "WorkflowNode", "worker count": 1}
+2026-10-13T12:19:47.731Z	INFO	controller/controller.go:220	Starting workers	{"controller": "timechaos-pipeline", "controllerGroup": "chaos-mesh.org", "controllerKind": "TimeChaos", "worker count": 1}
+2026-10-13T12:19:47.731Z	INFO	controller/controller.go:220	Starting workers	{"controller": "httpchaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "HTTPChaos", "worker count": 1}
+2026-10-13T12:19:47.731Z	INFO	controller/controller.go:220	Starting workers	{"controller": "stresschaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "StressChaos", "worker count": 1}
+2026-10-13T12:19:47.731Z	INFO	controller/controller.go:220	Starting workers	{"controller": "workflow-chaos-node-reconciler", "controllerGroup": "chaos-mesh.org", "controllerKind": "WorkflowNode", "worker count": 1}
+2026-10-13T12:19:47.731Z	INFO	controller/controller.go:220	Starting workers	{"controller": "iochaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "IOChaos", "worker count": 1}
+2026-10-13T12:19:47.731Z	INFO	controller/controller.go:220	Starting workers	{"controller": "workflow-serial-node-reconciler", "controllerGroup": "chaos-mesh.org", "controllerKind": "WorkflowNode", "worker count": 1}
+2026-10-13T12:19:47.731Z	INFO	controller/controller.go:220	Starting workers	{"controller": "iochaos-pipeline", "controllerGroup": "chaos-mesh.org", "controllerKind": "IOChaos", "worker count": 1}
+2026-10-13T12:19:47.731Z	INFO	controller/controller.go:220	Starting workers	{"controller": "schedule-active", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "worker count": 1}
+2026-10-13T12:19:47.731Z	INFO	controller/controller.go:220	Starting workers	{"controller": "schedule-gc", "controllerGroup": "chaos-mesh.org", "controllerKind": "Schedule", "worker count": 1}
+2026-10-13T12:19:47.732Z	INFO	controller/controller.go:220	Starting workers	{"controller": "podiochaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "PodIOChaos", "worker count": 1}
+2026-10-13T12:19:47.733Z	INFO	controller/controller.go:220	Starting workers	{"controller": "physicalmachinechaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "PhysicalMachineChaos", "worker count": 1}
+2026-10-13T12:19:47.733Z	INFO	controller/controller.go:220	Starting workers	{"controller": "workflow-entry-reconciler", "controllerGroup": "chaos-mesh.org", "controllerKind": "Workflow", "worker count": 1}
+2026-10-13T12:19:47.733Z	INFO	controller/controller.go:220	Starting workers	{"controller": "workflow-parallel-node-reconciler", "controllerGroup": "chaos-mesh.org", "controllerKind": "WorkflowNode", "worker count": 1}
+2026-10-13T12:19:47.733Z	INFO	controller/controller.go:220	Starting workers	{"controller": "workflow-statuscheck-reconciler", "controllerGroup": "chaos-mesh.org", "controllerKind": "WorkflowNode", "worker count": 1}
+2026-10-13T12:19:47.733Z	INFO	controller/controller.go:220	Starting workers	{"controller": "azurechaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "AzureChaos", "worker count": 1}
+2026-10-13T12:19:47.733Z	INFO	controller/controller.go:220	Starting workers	{"controller": "timechaos-remotechaos", "controllerGroup": "chaos-mesh.org", "controllerKind": "TimeChaos", "worker count": 1}
+2026-10-13T12:19:47.733Z	INFO	controller/controller.go:220	Starting workers	{"controller": "awschaos-pipeline", "controllerGroup": "chaos-mesh.org", "controllerKind": "AWSChaos", "worker count": 1}
+2026-10-13T12:19:47.733Z	INFO	controller/controller.go:220	Starting workers	{"controller": "workflow-task-reconciler", "controllerGroup": "chaos-mesh.org", "controllerKind": "WorkflowNode", "worker count": 1}
+2026-10-13T12:19:47.733Z	INFO	controller/controller.go:220	Starting workers	{"controller": "stresschaos-pipeline", "controllerGroup": "chaos-mesh.org", "controllerKind": "StressChaos", "worker count": 1}
+2026-10-13T12:54:35.988Z	INFO	NetworkChaos-resource	v1alpha1/zz_generated.chaosmesh.go:1396	validate create	{"name": "postgres-latency"}
+2026-10-13T12:54:36.000Z	INFO	NetworkChaos-resource	v1alpha1/zz_generated.chaosmesh.go:1402	validate update	{"name": "postgres-latency"}
+2026-10-13T12:54:36.004Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:54:36.004Z	INFO	desiredphase	desiredphase/controller.go:129	modify desiredPhase	{"desiredPhase": "Run"}
+2026-10-13T12:54:36.004Z	INFO	desiredphase	desiredphase/controller.go:145	update object	{"namespace": "shop", "name": "postgres-latency"}
+remote cluster is empty
+2026-10-13T12:54:36.011Z	INFO	NetworkChaos-resource	v1alpha1/zz_generated.chaosmesh.go:1402	validate update	{"name": "postgres-latency"}
+remote cluster is empty
+2026-10-13T12:54:36.017Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":1798995636207}}
+2026-10-13T12:54:36.018Z	INFO	condition	condition/controller.go:85	updating conditions	{"conditions": [{"type":"Selected","status":"False"},{"type":"AllInjected","status":"False"},{"type":"AllRecovered","status":"False"},{"type":"Paused","status":"False"}]}
+2026-10-13T12:54:36.025Z	INFO	NetworkChaos-resource	v1alpha1/zz_generated.chaosmesh.go:1402	validate update	{"name": "postgres-latency"}
+2026-10-13T12:54:36.029Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:54:36.029Z	INFO	records	records/controller.go:121	iterating record	{"name": "postgres-latency", "namespace": "shop", "kind": "NetworkChaos", "id": "shop/postgres-0", "record": {"id":"shop/postgres-0","selectorKey":".","phase":"Not Injected","injectedCount":0,"recoveredCount":0}, "desiredPhase": "Run"}
+2026-10-13T12:54:36.029Z	INFO	records	records/controller.go:152	apply chaos	{"name": "postgres-latency", "namespace": "shop", "kind": "NetworkChaos", "id": "shop/postgres-0"}
+2026-10-13T12:54:36.029Z	INFO	trafficcontrol	trafficcontrol/impl.go:61	traffic control Apply	{"namespace": "shop", "name": "postgres-latency"}
+2026-10-13T12:54:36.029Z	INFO	trafficcontrol	trafficcontrol/impl.go:271	apply traffic control	{"sources": "shop/postgres-latency"}
+remote cluster is empty
+2026-10-13T12:54:36.029Z	INFO	podnetworkchaosmanager/podnetworkchaosmanager.go:64	running modification on pod	{"key": {"name":"postgres-0","namespace":"shop"}, "modification": {"Steps":[{"Source":"shop/postgres-latency"},{"Item":{"type":"netem","delay":{"latency":"850ms","correlation":"25","jitter":"200ms"},"source":"shop/postgres-latency"}}]}}
+2026-10-13T12:54:36.035Z	INFO	podnetworkchaos	podnetworkchaos/controller.go:74	updating podnetworkchaos	{"pod": "shop/postgres-0", "spec": {"tcs":[{"type":"netem","delay":{"latency":"850ms","correlation":"25","jitter":"200ms"},"source":"shop/postgres-latency"}]}}
+2026-10-13T12:54:36.035Z	INFO	controller-chaos-daemon-client-utils	chaosdaemon/chaosdaemon.go:59	Creating client to chaos-daemon	{"node": "kubesleuth-worker"}
+2026-10-13T12:54:36.038Z	INFO	records	records/controller.go:233	updating records	{"name": "postgres-latency", "namespace": "shop", "kind": "NetworkChaos", "records": [{"id":"shop/postgres-0","selectorKey":".","phase":"Not Injected/Wait","injectedCount":0,"recoveredCount":0}]}
+2026-10-13T12:54:36.042Z	INFO	NetworkChaos-resource	v1alpha1/zz_generated.chaosmesh.go:1402	validate update	{"name": "postgres-latency"}
+remote cluster is empty
+2026-10-13T12:54:36.045Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:54:36.045Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:54:36.045Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:54:36.045Z	INFO	desiredphase	desiredphase/controller.go:129	modify desiredPhase	{"desiredPhase": "Run"}
+2026-10-13T12:54:36.045Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":1798954580261}}
+2026-10-13T12:54:36.045Z	INFO	condition	condition/controller.go:85	updating conditions	{"conditions": [{"type":"Selected","status":"True"},{"type":"AllInjected","status":"False"},{"type":"AllRecovered","status":"False"},{"type":"Paused","status":"False"}]}
+2026-10-13T12:54:36.051Z	INFO	NetworkChaos-resource	v1alpha1/zz_generated.chaosmesh.go:1402	validate update	{"name": "postgres-latency"}
+2026-10-13T12:54:36.054Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:54:36.054Z	INFO	records	records/controller.go:121	iterating record	{"name": "postgres-latency", "namespace": "shop", "kind": "NetworkChaos", "id": "shop/postgres-0", "record": {"id":"shop/postgres-0","selectorKey":".","phase":"Not Injected/Wait","injectedCount":0,"recoveredCount":0}, "desiredPhase": "Run"}
+2026-10-13T12:54:36.054Z	INFO	records	records/controller.go:152	apply chaos	{"name": "postgres-latency", "namespace": "shop", "kind": "NetworkChaos", "id": "shop/postgres-0"}
+2026-10-13T12:54:36.054Z	INFO	trafficcontrol	trafficcontrol/impl.go:61	traffic control Apply	{"namespace": "shop", "name": "postgres-latency"}
+2026-10-13T12:54:36.054Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:54:36.054Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+remote cluster is empty
+2026-10-13T12:54:36.055Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:54:36.055Z	INFO	desiredphase	desiredphase/controller.go:129	modify desiredPhase	{"desiredPhase": "Run"}
+2026-10-13T12:54:36.055Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":1798944143171}}
+2026-10-13T12:54:36.055Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:54:36.055Z	INFO	records	records/controller.go:121	iterating record	{"name": "postgres-latency", "namespace": "shop", "kind": "NetworkChaos", "id": "shop/postgres-0", "record": {"id":"shop/postgres-0","selectorKey":".","phase":"Not Injected/Wait","injectedCount":0,"recoveredCount":0}, "desiredPhase": "Run"}
+2026-10-13T12:54:36.055Z	INFO	records	records/controller.go:152	apply chaos	{"name": "postgres-latency", "namespace": "shop", "kind": "NetworkChaos", "id": "shop/postgres-0"}
+2026-10-13T12:54:36.055Z	INFO	trafficcontrol	trafficcontrol/impl.go:61	traffic control Apply	{"namespace": "shop", "name": "postgres-latency"}
+2026-10-13T12:54:36.056Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:54:36.056Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:54:36.140Z	INFO	ipset	ipset/ipset.go:110	Flushing IP Sets....
+2026-10-13T12:54:36.140Z	INFO	ipset	ipset/ipset.go:113	attempting to flush ip set	{"containerID": "containerd://c173823042f364e464c78978216a1b8bf3e88b10d219d63edaa91515fcfef60a"}
+2026-10-13T12:54:36.155Z	INFO	ipset	ipset/ipset.go:124	Successfully flushed ip set
+2026-10-13T12:54:36.155Z	INFO	iptable	iptable/iptable.go:45	Setting IP Tables Chains...
+2026-10-13T12:54:36.155Z	INFO	iptable	iptable/iptable.go:49	attempting to set ip table chains	{"containerName": "postgres", "containerID": "containerd://c173823042f364e464c78978216a1b8bf3e88b10d219d63edaa91515fcfef60a"}
+2026-10-13T12:54:36.180Z	INFO	iptable	iptable/iptable.go:59	Successfully set ip table chains
+2026-10-13T12:54:36.180Z	INFO	podnetworkchaos	podnetworkchaos/controller.go:259	setting tcs	{"tcs": [{"netem":{"time":850000,"jitter":200000,"delay_corr":25}}]}
+2026-10-13T12:54:36.180Z	INFO	tc	tc/tc.go:43	Settings Tcs...
+2026-10-13T12:54:36.180Z	INFO	tc	tc/tc.go:47	attempting to set tcs	{"containerName": "postgres", "containerID": "containerd://c173823042f364e464c78978216a1b8bf3e88b10d219d63edaa91515fcfef60a"}
+2026-10-13T12:54:36.220Z	INFO	tc	tc/tc.go:58	Successfully set tcs
+2026-10-13T12:54:36.224Z	INFO	setup-common	common/fx.go:114	mapping requests	{"source": {"name":"postgres-0","namespace":"shop"}, "target": {"name":"postgres-latency","namespace":"shop"}}
+2026-10-13T12:54:36.225Z	INFO	setup-common	common/fx.go:114	mapping requests	{"source": {"name":"postgres-0","namespace":"shop"}, "target": {"name":"postgres-latency","namespace":"shop"}}
+2026-10-13T12:54:36.225Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:54:36.225Z	INFO	desiredphase	desiredphase/controller.go:129	modify desiredPhase	{"desiredPhase": "Run"}
+2026-10-13T12:54:36.225Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":1798774858655}}
+2026-10-13T12:54:36.225Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:54:36.225Z	INFO	records	records/controller.go:121	iterating record	{"name": "postgres-latency", "namespace": "shop", "kind": "NetworkChaos", "id": "shop/postgres-0", "record": {"id":"shop/postgres-0","selectorKey":".","phase":"Not Injected/Wait","injectedCount":0,"recoveredCount":0}, "desiredPhase": "Run"}
+2026-10-13T12:54:36.225Z	INFO	records	records/controller.go:152	apply chaos	{"name": "postgres-latency", "namespace": "shop", "kind": "NetworkChaos", "id": "shop/postgres-0"}
+2026-10-13T12:54:36.225Z	INFO	trafficcontrol	trafficcontrol/impl.go:61	traffic control Apply	{"namespace": "shop", "name": "postgres-latency"}
+2026-10-13T12:54:36.225Z	INFO	records	records/controller.go:233	updating records	{"name": "postgres-latency", "namespace": "shop", "kind": "NetworkChaos", "records": [{"id":"shop/postgres-0","selectorKey":".","phase":"Injected","injectedCount":1,"recoveredCount":0,"events":[{"type":"Succeeded","operation":"Apply","timestamp":"2026-10-13T12:54:36Z"}]}]}
+2026-10-13T12:54:36.230Z	INFO	NetworkChaos-resource	v1alpha1/zz_generated.chaosmesh.go:1402	validate update	{"name": "postgres-latency"}
+remote cluster is empty
+2026-10-13T12:54:36.234Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:54:36.234Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:54:36.234Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:54:36.235Z	INFO	desiredphase	desiredphase/controller.go:129	modify desiredPhase	{"desiredPhase": "Run"}
+2026-10-13T12:54:36.235Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":1798764744766}}
+2026-10-13T12:54:36.235Z	INFO	condition	condition/controller.go:85	updating conditions	{"conditions": [{"type":"Selected","status":"True"},{"type":"AllInjected","status":"True"},{"type":"AllRecovered","status":"False"},{"type":"Paused","status":"False"}]}
+2026-10-13T12:54:36.239Z	INFO	NetworkChaos-resource	v1alpha1/zz_generated.chaosmesh.go:1402	validate update	{"name": "postgres-latency"}
+2026-10-13T12:54:36.241Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:54:36.241Z	INFO	records	records/controller.go:121	iterating record	{"name": "postgres-latency", "namespace": "shop", "kind": "NetworkChaos", "id": "shop/postgres-0", "record": {"id":"shop/postgres-0","selectorKey":".","phase":"Injected","injectedCount":1,"recoveredCount":0,"events":[{"type":"Succeeded","operation":"Apply","timestamp":"2026-10-13T12:54:36Z"}]}, "desiredPhase": "Run"}
+2026-10-13T12:54:36.241Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:54:36.241Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+remote cluster is empty
+2026-10-13T12:54:36.241Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:54:36.241Z	INFO	desiredphase	desiredphase/controller.go:129	modify desiredPhase	{"desiredPhase": "Run"}
+2026-10-13T12:54:36.241Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":1798758042003}}
+2026-10-13T12:54:36.241Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:54:36.242Z	INFO	records	records/controller.go:121	iterating record	{"name": "postgres-latency", "namespace": "shop", "kind": "NetworkChaos", "id": "shop/postgres-0", "record": {"id":"shop/postgres-0","selectorKey":".","phase":"Injected","injectedCount":1,"recoveredCount":0,"events":[{"type":"Succeeded","operation":"Apply","timestamp":"2026-10-13T12:54:36Z"}]}, "desiredPhase": "Run"}
+2026-10-13T12:54:36.242Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:54:36.242Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+remote cluster is empty
+2026-10-13T12:59:26.948Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:26.948Z	INFO	desiredphase	desiredphase/controller.go:129	modify desiredPhase	{"desiredPhase": "Stop"}
+2026-10-13T12:59:26.948Z	INFO	desiredphase	desiredphase/controller.go:145	update object	{"namespace": "shop", "name": "postgres-latency"}
+2026-10-13T12:59:26.960Z	INFO	NetworkChaos-resource	v1alpha1/zz_generated.chaosmesh.go:1402	validate update	{"name": "postgres-latency"}
+2026-10-13T12:59:26.963Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:26.963Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:26.963Z	INFO	records	records/controller.go:121	iterating record	{"name": "postgres-latency", "namespace": "shop", "kind": "NetworkChaos", "id": "shop/postgres-0", "record": {"id":"shop/postgres-0","selectorKey":".","phase":"Injected","injectedCount":1,"recoveredCount":0,"events":[{"type":"Succeeded","operation":"Apply","timestamp":"2026-10-13T12:54:36Z"}]}, "desiredPhase": "Stop"}
+2026-10-13T12:59:26.963Z	INFO	records	records/controller.go:188	recover chaos	{"name": "postgres-latency", "namespace": "shop", "kind": "NetworkChaos", "id": "shop/postgres-0"}
+2026-10-13T12:59:26.963Z	INFO	podnetworkchaosmanager/podnetworkchaosmanager.go:64	running modification on pod	{"key": {"name":"postgres-0","namespace":"shop"}, "modification": {"Steps":[{"Source":"shop/postgres-latency"}]}}
+remote cluster is empty
+2026-10-13T12:59:26.967Z	INFO	setup-common	common/fx.go:114	mapping requests	{"source": {"name":"postgres-0","namespace":"shop"}, "target": {"name":"postgres-latency","namespace":"shop"}}
+2026-10-13T12:59:26.967Z	INFO	setup-common	common/fx.go:114	mapping requests	{"source": {"name":"postgres-0","namespace":"shop"}, "target": {"name":"postgres-latency","namespace":"shop"}}
+2026-10-13T12:59:26.967Z	INFO	podnetworkchaos	podnetworkchaos/controller.go:74	updating podnetworkchaos	{"pod": "shop/postgres-0", "spec": {}}
+2026-10-13T12:59:26.967Z	INFO	controller-chaos-daemon-client-utils	chaosdaemon/chaosdaemon.go:59	Creating client to chaos-daemon	{"node": "kubesleuth-worker"}
+2026-10-13T12:59:26.968Z	INFO	ipset	ipset/ipset.go:110	Flushing IP Sets....
+2026-10-13T12:59:26.968Z	INFO	ipset	ipset/ipset.go:113	attempting to flush ip set	{"containerID": "containerd://c173823042f364e464c78978216a1b8bf3e88b10d219d63edaa91515fcfef60a"}
+2026-10-13T12:59:26.969Z	INFO	records	records/controller.go:233	updating records	{"name": "postgres-latency", "namespace": "shop", "kind": "NetworkChaos", "records": [{"id":"shop/postgres-0","selectorKey":".","phase":"Injected/Wait","injectedCount":1,"recoveredCount":0,"events":[{"type":"Succeeded","operation":"Apply","timestamp":"2026-10-13T12:54:36Z"}]}]}
+2026-10-13T12:59:26.976Z	INFO	NetworkChaos-resource	v1alpha1/zz_generated.chaosmesh.go:1402	validate update	{"name": "postgres-latency"}
+remote cluster is empty
+2026-10-13T12:59:26.980Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:26.980Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:26.980Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:26.980Z	INFO	desiredphase	desiredphase/controller.go:129	modify desiredPhase	{"desiredPhase": "Stop"}
+2026-10-13T12:59:26.980Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:26.980Z	INFO	condition	condition/controller.go:85	updating conditions	{"conditions": [{"type":"AllRecovered","status":"False"},{"type":"Paused","status":"False"},{"type":"Selected","status":"True"},{"type":"AllInjected","status":"False"}]}
+2026-10-13T12:59:26.983Z	INFO	ipset	ipset/ipset.go:124	Successfully flushed ip set
+2026-10-13T12:59:26.983Z	INFO	iptable	iptable/iptable.go:45	Setting IP Tables Chains...
+2026-10-13T12:59:26.984Z	INFO	iptable	iptable/iptable.go:49	attempting to set ip table chains	{"containerName": "postgres", "containerID": "containerd://c173823042f364e464c78978216a1b8bf3e88b10d219d63edaa91515fcfef60a"}
+2026-10-13T12:59:26.986Z	INFO	NetworkChaos-resource	v1alpha1/zz_generated.chaosmesh.go:1402	validate update	{"name": "postgres-latency"}
+2026-10-13T12:59:26.988Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:26.988Z	INFO	records	records/controller.go:121	iterating record	{"name": "postgres-latency", "namespace": "shop", "kind": "NetworkChaos", "id": "shop/postgres-0", "record": {"id":"shop/postgres-0","selectorKey":".","phase":"Injected/Wait","injectedCount":1,"recoveredCount":0,"events":[{"type":"Succeeded","operation":"Apply","timestamp":"2026-10-13T12:54:36Z"}]}, "desiredPhase": "Stop"}
+2026-10-13T12:59:26.988Z	INFO	records	records/controller.go:188	recover chaos	{"name": "postgres-latency", "namespace": "shop", "kind": "NetworkChaos", "id": "shop/postgres-0"}
+2026-10-13T12:59:26.988Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:26.988Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+remote cluster is empty
+2026-10-13T12:59:26.989Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:26.989Z	INFO	desiredphase	desiredphase/controller.go:129	modify desiredPhase	{"desiredPhase": "Stop"}
+2026-10-13T12:59:26.989Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:26.989Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:26.989Z	INFO	records	records/controller.go:121	iterating record	{"name": "postgres-latency", "namespace": "shop", "kind": "NetworkChaos", "id": "shop/postgres-0", "record": {"id":"shop/postgres-0","selectorKey":".","phase":"Injected/Wait","injectedCount":1,"recoveredCount":0,"events":[{"type":"Succeeded","operation":"Apply","timestamp":"2026-10-13T12:54:36Z"}]}, "desiredPhase": "Stop"}
+2026-10-13T12:59:26.989Z	INFO	records	records/controller.go:188	recover chaos	{"name": "postgres-latency", "namespace": "shop", "kind": "NetworkChaos", "id": "shop/postgres-0"}
+2026-10-13T12:59:26.989Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:26.989Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:27.002Z	INFO	iptable	iptable/iptable.go:59	Successfully set ip table chains
+2026-10-13T12:59:27.002Z	INFO	podnetworkchaos	podnetworkchaos/controller.go:259	setting tcs	{"tcs": []}
+2026-10-13T12:59:27.002Z	INFO	tc	tc/tc.go:43	Settings Tcs...
+2026-10-13T12:59:27.002Z	INFO	tc	tc/tc.go:47	attempting to set tcs	{"containerName": "postgres", "containerID": "containerd://c173823042f364e464c78978216a1b8bf3e88b10d219d63edaa91515fcfef60a"}
+2026-10-13T12:59:27.011Z	INFO	tc	tc/tc.go:58	Successfully set tcs
+2026-10-13T12:59:27.014Z	INFO	setup-common	common/fx.go:114	mapping requests	{"source": {"name":"postgres-0","namespace":"shop"}, "target": {"name":"postgres-latency","namespace":"shop"}}
+2026-10-13T12:59:27.014Z	INFO	setup-common	common/fx.go:114	mapping requests	{"source": {"name":"postgres-0","namespace":"shop"}, "target": {"name":"postgres-latency","namespace":"shop"}}
+2026-10-13T12:59:27.014Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:27.014Z	INFO	desiredphase	desiredphase/controller.go:129	modify desiredPhase	{"desiredPhase": "Stop"}
+2026-10-13T12:59:27.015Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:27.015Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:27.015Z	INFO	records	records/controller.go:121	iterating record	{"name": "postgres-latency", "namespace": "shop", "kind": "NetworkChaos", "id": "shop/postgres-0", "record": {"id":"shop/postgres-0","selectorKey":".","phase":"Injected/Wait","injectedCount":1,"recoveredCount":0,"events":[{"type":"Succeeded","operation":"Apply","timestamp":"2026-10-13T12:54:36Z"}]}, "desiredPhase": "Stop"}
+2026-10-13T12:59:27.015Z	INFO	records	records/controller.go:188	recover chaos	{"name": "postgres-latency", "namespace": "shop", "kind": "NetworkChaos", "id": "shop/postgres-0"}
+2026-10-13T12:59:27.015Z	INFO	records	records/controller.go:233	updating records	{"name": "postgres-latency", "namespace": "shop", "kind": "NetworkChaos", "records": [{"id":"shop/postgres-0","selectorKey":".","phase":"Not Injected","injectedCount":1,"recoveredCount":1,"events":[{"type":"Succeeded","operation":"Apply","timestamp":"2026-10-13T12:54:36Z"},{"type":"Succeeded","operation":"Recover","timestamp":"2026-10-13T12:59:27Z"}]}]}
+2026-10-13T12:59:27.019Z	INFO	NetworkChaos-resource	v1alpha1/zz_generated.chaosmesh.go:1402	validate update	{"name": "postgres-latency"}
+remote cluster is empty
+2026-10-13T12:59:27.027Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:27.032Z	INFO	NetworkChaos-resource	v1alpha1/zz_generated.chaosmesh.go:1402	validate update	{"name": "postgres-latency"}
+2026-10-13T12:59:27.036Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:27.036Z	INFO	initFinalizers	finalizers/controller.go:65	chaos not found
+2026-10-13T12:59:27.036Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:27.036Z	INFO	desiredphase	desiredphase/controller.go:51	chaos not found
+2026-10-13T12:59:27.036Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:27.036Z	INFO	condition	condition/controller.go:56	chaos not found
+remote cluster is empty
+2026-10-13T12:59:27.036Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:27.037Z	INFO	records	records/controller.go:68	chaos not found
+2026-10-13T12:59:27.037Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:27.037Z	INFO	initFinalizers	finalizers/controller.go:95	chaos not found
+2026-10-13T12:59:27.037Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:27.038Z	INFO	initFinalizers	finalizers/controller.go:65	chaos not found
+2026-10-13T12:59:27.038Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:27.039Z	INFO	desiredphase	desiredphase/controller.go:51	chaos not found
+2026-10-13T12:59:27.039Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:27.039Z	INFO	condition	condition/controller.go:56	chaos not found
+2026-10-13T12:59:27.039Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:27.039Z	INFO	records	records/controller.go:68	chaos not found
+2026-10-13T12:59:27.039Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T12:59:27.039Z	INFO	initFinalizers	finalizers/controller.go:95	chaos not found
+2026-10-13T12:59:27.039Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T13:24:35.000Z	INFO	initFinalizers	finalizers/controller.go:65	chaos not found
+2026-10-13T13:24:35.000Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T13:24:35.000Z	INFO	desiredphase	desiredphase/controller.go:51	chaos not found
+2026-10-13T13:24:35.000Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T13:24:35.000Z	INFO	condition	condition/controller.go:56	chaos not found
+2026-10-13T13:24:35.000Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T13:24:35.000Z	INFO	records	records/controller.go:68	chaos not found
+2026-10-13T13:24:35.000Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}
+2026-10-13T13:24:35.000Z	INFO	initFinalizers	finalizers/controller.go:95	chaos not found
+2026-10-13T13:24:35.000Z	INFO	pipeline	pipeline/pipeline.go:78	reconcile result	{"result": {"Requeue":false,"RequeueAfter":0}}

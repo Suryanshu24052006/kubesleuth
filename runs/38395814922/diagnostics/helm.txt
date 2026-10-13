@@ -1,0 +1,7 @@
+NAME          	NAMESPACE    	REVISION	UPDATED                                	STATUS  	CHART                        	APP VERSION
+alloy         	observability	1       	2026-10-13 12:18:27.813465834 +0000 UTC	deployed	alloy-1.1.2                  	v1.9.2     
+chaos-mesh    	chaos-mesh   	1       	2026-10-13 12:19:31.442882992 +0000 UTC	deployed	chaos-mesh-2.7.2             	2.7.2      
+kps           	monitoring   	1       	2026-10-13 12:16:46.244225173 +0000 UTC	deployed	kube-prometheus-stack-75.15.1	v0.83.0    
+loki          	observability	1       	2026-10-13 12:17:24.881672743 +0000 UTC	deployed	loki-6.30.1                  	3.5.0      
+metrics-server	kube-system  	1       	2026-10-13 12:19:03.596993684 +0000 UTC	deployed	metrics-server-3.12.2        	0.7.2      
+traefik       	traefik      	1       	2026-10-13 12:18:46.827601842 +0000 UTC	deployed	traefik-36.3.0               	v3.4.3     

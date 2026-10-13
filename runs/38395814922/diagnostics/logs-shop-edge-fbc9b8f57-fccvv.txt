@@ -1,0 +1,12 @@
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+{"ts": "2026-10-13T13:38:41.477Z", "level": "info", "svc": "edge", "version": "1.4.0", "msg": "service started", "role": "edge", "pod": "edge-fbc9b8f57-fccvv"}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+{"ts": "2026-10-13T13:38:46.613Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectError", "detail": "All connection attempts failed"}
+{"ts": "2026-10-13T13:38:46.684Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectError", "detail": "All connection attempts failed"}
+{"ts": "2026-10-13T13:38:46.812Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectError", "detail": "All connection attempts failed"}
+{"ts": "2026-10-13T13:38:47.130Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectError", "detail": "All connection attempts failed"}
+{"ts": "2026-10-13T13:38:49.331Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T13:38:49.471Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ConnectTimeout", "detail": ""}
+{"ts": "2026-10-13T13:38:50.803Z", "level": "error", "svc": "edge", "version": "1.4.0", "msg": "checkout call failed", "error": "ReadTimeout", "detail": ""}
