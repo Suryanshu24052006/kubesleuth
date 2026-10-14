@@ -1,0 +1,781 @@
+{
+  "id": "20261013-133031-8a6cfa",
+  "incident": "Checkout errors jumped to roughly a third of requests a few minutes ago.",
+  "namespace": "shop",
+  "reasoner": "llm:google_genai:gemini-3.5-flash",
+  "started_at": "2026-10-13T13:30:31Z",
+  "finished_at": "2026-10-13T13:38:35Z",
+  "duration_s": 484.4,
+  "stop_reason": "confident: H1 p=0.99, margin 0.99, sources ['kubernetes', 'kubernetes-logs', 'prometheus']",
+  "title": "Checkout Errors Due to Smart Routing to Pricing-Legacy",
+  "root_cause": {
+    "hypothesis": "H1",
+    "statement": "Enabling the smart_routing feature flag routed traffic to the newly created pricing-legacy deployment running an incompatible or failing image version, resulting in downstream pricing and checkout failures.",
+    "component": "deployment/pricing-legacy",
+    "category": "version_skew"
+  },
+  "confidence": {
+    "label": "high",
+    "posterior": 0.989,
+    "explanation": "High: the leading cause is supported by multiple independent sources and nothing strongly contradicts it."
+  },
+  "causal_chain": [
+    {
+      "step": "Deployment pricing-legacy was created and the feature-flags configmap enabled smart_routing.",
+      "observation_ids": [
+        "O2"
+      ]
+    },
+    {
+      "step": "Traffic was routed to pricing-legacy, which experienced failing readiness probes and runtime routing errors.",
+      "observation_ids": [
+        "O3",
+        "O4",
+        "O5"
+      ]
+    },
+    {
+      "step": "Checkout workloads began encountering errors due to the failing downstream pricing dependency.",
+      "observation_ids": [
+        "O6"
+      ]
+    }
+  ],
+  "facts": [
+    {
+      "observation_id": "O3",
+      "quote": "service pricing routes to 2 different workloads (pricing, pricing-legacy) running images ['shop:0.9.7', 'shop:1.4.0']",
+      "statement": "The pricing service routes traffic to both pricing (shop:1.4.0) and pricing-legacy (shop:0.9.7).",
+      "time": "2026-10-13T13:30:31Z",
+      "source": "kubernetes"
+    },
+    {
+      "observation_id": "O6",
+      "quote": "error_ratio_5xx\": [{\"labels\": {}, \"points\": 121, \"from\": \"2026-10-13T13:05:05Z\", \"to\": \"2026-10-13T13:35:05Z\", \"first\": 0.0, \"last\": 0.02829, \"min\": 0.0, \"max\": 1.0, \"mean\": 0.332",
+      "statement": "Checkout error ratio 5xx increased starting around 2026-10-13T13:15:20Z.",
+      "time": "2026-10-13T13:15:20Z",
+      "source": "prometheus"
+    },
+    {
+      "observation_id": "O5",
+      "quote": "PowerPeg router active: child orders exceed parent quantity, rejecting flag=smart_routing",
+      "statement": "Pricing-legacy container logs show PowerPeg router errors regarding smart_routing flag.",
+      "time": "2026-10-13T13:30:12.428634134Z",
+      "source": "kubernetes-logs"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "H1",
+      "statement": "Enabling smart routing introduced traffic to pricing-legacy which is failing health checks, causing downstream checkout errors.",
+      "mechanism": "ConfigMap feature-flags smart_routing was enabled, routing traffic to the newly created pricing-legacy (image shop:0.9.7) which has failing probes and connection refused errors, leading to checkout failures.",
+      "component": "deployment/pricing-legacy",
+      "category": "version_skew",
+      "layer": "cause",
+      "status": "active",
+      "retired_reason": "",
+      "posterior": 0.989,
+      "supporting": 3,
+      "contradicting": 0,
+      "sources": [
+        "kubernetes",
+        "kubernetes-logs",
+        "prometheus"
+      ],
+      "strong_contradictions": 0
+    },
+    {
+      "id": "H2",
+      "statement": "Checkout errors are a symptom of database pool exhaustion or misconfiguration from recent ConfigMap changes.",
+      "mechanism": "ConfigMap checkout-config changed DB_POOL_SIZE and caused application internal connection failures.",
+      "component": "configmap/checkout-config",
+      "category": "configuration",
+      "layer": "cause",
+      "status": "active",
+      "retired_reason": "",
+      "posterior": 0.003,
+      "supporting": 0,
+      "contradicting": 0,
+      "sources": [],
+      "strong_contradictions": 0
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E2",
+      "hypothesis": "H1",
+      "observation": "O3",
+      "source": "kubernetes",
+      "stance": "supports",
+      "strength": "strong",
+      "weight": 2.3,
+      "quote": "service pricing routes to 2 different workloads (pricing, pricing-legacy) running images ['shop:0.9.7', 'shop:1.4.0']",
+      "rationale": "Shows that traffic is split to an older version pricing-legacy pod which could be incompatible or broken."
+    },
+    {
+      "id": "E4",
+      "hypothesis": "H1",
+      "observation": "O5",
+      "source": "kubernetes-logs",
+      "stance": "supports",
+      "strength": "strong",
+      "weight": 2.3,
+      "quote": "PowerPeg router active: child orders exceed parent quantity, rejecting flag=smart_routing",
+      "rationale": "Confirms that pricing-legacy is running with the smart_routing flag enabled and actively producing errors under load."
+    },
+    {
+      "id": "E5",
+      "hypothesis": "H1",
+      "observation": "O6",
+      "source": "prometheus",
+      "stance": "supports",
+      "strength": "moderate",
+      "weight": 1.2,
+      "quote": "error_ratio_5xx\": [{\"labels\": {}, \"points\": 121, \"from\": \"2026-10-13T13:05:05Z\", \"to\": \"2026-10-13T13:35:05Z\", \"first\": 0.0, \"last\": 0.02829",
+      "rationale": "Shows checkout workload experiencing 5xx errors concurrently with feature flag and routing changes."
+    }
+  ],
+  "rejected_evidence": [
+    {
+      "hypothesis": "H1",
+      "observation": "O2",
+      "quote": "configmap/feature-flags modified data.flags.json: {\"smart_routing\": false, \"new_checkout_u\u2026 -> {\"smart_routing\": true, \"new_checkout_ui\u2026",
+      "reason": "quote not found verbatim in the cited observation"
+    },
+    {
+      "hypothesis": "H1",
+      "observation": "O4",
+      "quote": "pricing-legacy-79659db7cf-2lnp8: Readiness probe failed: Get \"http://10.244.1.125:8080/healthz\": dial tcp 10.244",
+      "reason": "quote not found verbatim in the cited observation"
+    }
+  ],
+  "alternatives": [
+    {
+      "hypothesis_id": "H2",
+      "why_less_likely": "Database pool size adjustments in checkout-config were subsequently reverted and do not correlate with the direct runtime router errors seen in pricing-legacy."
+    }
+  ],
+  "uncertainty": [
+    "Exact client-side impact distribution across all upstream services beyond checkout remains partially unquantified."
+  ],
+  "remediation": [
+    "Disable the smart_routing flag in the feature-flags configmap or scale down/remove the pricing-legacy deployment."
+  ],
+  "timeline": [
+    {
+      "time": "2026-10-13T12:17:30.161Z",
+      "event": "alert Watchdog fired (none)",
+      "kind": "alert",
+      "observation_id": "O1",
+      "source": "alertmanager"
+    },
+    {
+      "time": "2026-10-13T12:21:16Z",
+      "event": "event Unhealthy x12 on Pod/catalog-indexer-6f6b545fdb-rpmzl,catalog-indexer-6f6b545fdb-wv8gh: Readiness probe failed: Get \"http://10.244.1.66:8080/healthz\": dial tcp 10.244.1.66:8080: \u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:21:28Z",
+      "event": "event FailedGetResourceMetric x7 on HorizontalPodAutoscaler/edge: failed to get cpu utilization: unable to get metrics for resource cpu: no metrics returned\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:21:28Z",
+      "event": "event FailedComputeMetricsReplicas x7 on HorizontalPodAutoscaler/edge: invalid metrics (1 invalid out of 1), first error is: failed to get cpu resource metric va\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:21:43Z",
+      "event": "event FailedGetResourceMetric x12 on HorizontalPodAutoscaler/edge: failed to get cpu utilization: did not receive metrics for targeted pods (pods might be un\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:21:43Z",
+      "event": "event FailedComputeMetricsReplicas x12 on HorizontalPodAutoscaler/edge: invalid metrics (1 invalid out of 1), first error is: failed to get cpu resource metric va\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:26:45Z",
+      "event": "event Unhealthy x25 on Pod/recommendations-54c5f6ddff-7fvrl,recommendations-54c5f6ddff-8nwmm: Readiness probe failed: Get \"http://10.244.1.100:8080/healthz\": dial tcp 10.244.1.100:8080\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:42:37Z",
+      "event": "event Unhealthy x98 on Pod/checkout-55f8c5b4bc-6ssw7,checkout-55f8c5b4bc-bqhj9: Readiness probe failed: Get \"http://10.244.1.91:8080/readyz\": dial tcp 10.244.1.91:8080: c\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:42:38Z",
+      "event": "event Unhealthy x54 on Pod/inventory-5577665986-4q7mj,inventory-5577665986-9g7mx: Readiness probe failed: Get \"http://10.244.1.106:8080/healthz\": dial tcp 10.244.1.106:8080\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:42:38Z",
+      "event": "event Unhealthy x50 on Pod/edge-66978949cf-2m5mj,edge-66978949cf-g8mnj: Readiness probe failed: Get \"http://10.244.1.97:8080/healthz\": dial tcp 10.244.1.97:8080: \u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:45:59Z",
+      "event": "event Unhealthy x9 on Pod/inventory-6dcd8d4f55-vb8z7: Readiness probe failed: Get \"http://10.244.1.65:8080/healthz\": context deadline exceeded (\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:45:59Z",
+      "event": "event Unhealthy x5 on Pod/inventory-6dcd8d4f55-vb8z7: Liveness probe failed: Get \"http://10.244.1.65:8080/healthz\": context deadline exceeded (C\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:46:36Z",
+      "event": "event Unhealthy x1 on Pod/inventory-6dcd8d4f55-vb8z7: Liveness probe failed: Get \"http://10.244.1.65:8080/healthz\": dial tcp 10.244.1.65:8080: c\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:47:02Z",
+      "event": "event Unhealthy x1 on Pod/inventory-6dcd8d4f55-vb8z7: Readiness probe failed: Get \"http://10.244.1.65:8080/healthz\": read tcp 10.244.1.1:52866->\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:50:07Z",
+      "event": "event Unhealthy x1 on Pod/checkout-6cc8cb7b8c-9kcll: Readiness probe failed: Get \"http://10.244.1.60:8080/readyz\": context deadline exceeded (C\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:50:12Z",
+      "event": "event Unhealthy x2 on Pod/catalog-indexer-6f6b545fdb-rpmzl,catalog-indexer-6f6b545fdb-wv8gh: Liveness probe failed: Get \"http://10.244.1.66:8080/healthz\": dial tcp 10.244.1.66:8080: c\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:54:38Z",
+      "event": "event Unhealthy x3 on Pod/checkout-7d6bdccdc8-7qz6f,checkout-7d6bdccdc8-r6c2x: Liveness probe failed: Get \"http://10.244.1.82:8080/healthz?deep=1\": context deadline exce\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:54:42Z",
+      "event": "event Unhealthy x11 on Pod/checkout-7d6bdccdc8-7qz6f,checkout-7d6bdccdc8-r6c2x: Liveness probe failed: Get \"http://10.244.1.82:8080/healthz?deep=1\": dial tcp 10.244.1.82:\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:55:16Z",
+      "event": "event BackOff x17 on Pod/checkout-7d6bdccdc8-wd72m: Back-off restarting failed container checkout in pod checkout-7d6bdccdc8-wd72m_shop(41dd06\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:55:16Z",
+      "event": "event BackOff x3 on Pod/checkout-7d6bdccdc8-7qz6f: Back-off restarting failed container checkout in pod checkout-7d6bdccdc8-7qz6f_shop(0d8ee6\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:55:17Z",
+      "event": "event BackOff x18 on Pod/checkout-7d6bdccdc8-r6c2x: Back-off restarting failed container checkout in pod checkout-7d6bdccdc8-r6c2x_shop(94ba00\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:03:17Z",
+      "event": "event Unhealthy x33 on Pod/edge-66978949cf-2m5mj,edge-66978949cf-g8mnj: Readiness probe failed: Get \"http://10.244.1.97:8080/healthz\": context deadline exceeded (\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:03:20Z",
+      "event": "event Unhealthy x27 on Pod/edge-66978949cf-2m5mj,edge-66978949cf-g8mnj: Liveness probe failed: Get \"http://10.244.1.97:8080/healthz\": context deadline exceeded (C\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:04:53Z",
+      "event": "event Unhealthy x1 on Pod/edge-66978949cf-g8mnj: Readiness probe failed: Get \"http://10.244.1.98:8080/healthz\": read tcp 10.244.1.1:49114->\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:07:31Z",
+      "event": "event BackOff x13 on Pod/edge-66978949cf-2m5mj: Back-off restarting failed container edge in pod edge-66978949cf-2m5mj_shop(2c4af26d-274d-\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:08:05Z",
+      "event": "checkout cpu_throttled_ratio[checkout-55f8c5b4bc-6ssw7] increase: 0.0 \u2192 0.005714",
+      "kind": "onset",
+      "observation_id": "O6",
+      "source": "prometheus"
+    },
+    {
+      "time": "2026-10-13T13:09:15Z",
+      "event": "event BackOff x4 on Pod/edge-66978949cf-g8mnj: Back-off restarting failed container edge in pod edge-66978949cf-g8mnj_shop(f7cb0755-f2ff-\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:09:20Z",
+      "event": "checkout errors_by_pod_rps on 3/3 series increase: 0.0 \u2192 0.066667",
+      "kind": "onset",
+      "observation_id": "O6",
+      "source": "prometheus"
+    },
+    {
+      "time": "2026-10-13T13:09:20Z",
+      "event": "checkout dependency_failures_rps[inventory,timeout] increase: 0.0 \u2192 0.422222",
+      "kind": "onset",
+      "observation_id": "O6",
+      "source": "prometheus"
+    },
+    {
+      "time": "2026-10-13T13:11:30+00:00",
+      "event": "deployment/edge modified: spec.replicas 3 \u2192 2 (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:11:30+00:00",
+      "event": "deployment/checkout modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (since reverted) (by kubectl-rollout)",
+      "kind": "change",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:11:30+00:00",
+      "event": "deployment/edge modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (since reverted) (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:11:30+00:00",
+      "event": "deployment/recommendations modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (since reverted) (by kubectl-rollout)",
+      "kind": "change",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:11:30+00:00",
+      "event": "deployment/inventory modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (since reverted) (by kubectl-rollout)",
+      "kind": "change",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:11:30+00:00",
+      "event": "deployment/edge modified: spec.replicas 2 \u2192 3 (since reverted) (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:11:30+00:00",
+      "event": "rollout/checkout new-revision: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026",
+      "kind": "change",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:11:30+00:00",
+      "event": "rollout/edge new-revision: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026",
+      "kind": "change",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:11:30+00:00",
+      "event": "rollout/inventory new-revision: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026",
+      "kind": "change",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:11:31Z",
+      "event": "event FailedRescale x1 on HorizontalPodAutoscaler/edge: New size: 3; reason: cpu resource utilization (percentage of request) above target; error:\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:14:46+00:00",
+      "event": "configmap/checkout-config modified: data.DB_POOL_SIZE 4 \u2192 30 (since reverted) (by kubectl-patch)",
+      "kind": "change",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:14:46+00:00",
+      "event": "deployment/checkout modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (since reverted) (by kubectl-rollout)",
+      "kind": "change",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:14:46+00:00",
+      "event": "rollout/checkout new-revision: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026",
+      "kind": "change",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:15:20Z",
+      "event": "checkout error_ratio_5xx increase: 0.0 \u2192 1.0",
+      "kind": "onset",
+      "observation_id": "O6",
+      "source": "prometheus"
+    },
+    {
+      "time": "2026-10-13T13:24:28+00:00",
+      "event": "configmap/checkout-config modified: data.DB_POOL_SIZE 30 \u2192 4 (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:24:29+00:00",
+      "event": "deployment/checkout modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (by kubectl-rollout)",
+      "kind": "change",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:24:29+00:00",
+      "event": "deployment/edge modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (by kubectl-rollout)",
+      "kind": "change",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:24:29+00:00",
+      "event": "deployment/recommendations modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (by kubectl-rollout)",
+      "kind": "change",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:24:29+00:00",
+      "event": "deployment/inventory modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (by kubectl-rollout)",
+      "kind": "change",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:24:29+00:00",
+      "event": "rollout/checkout new-revision: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026",
+      "kind": "change",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:24:29+00:00",
+      "event": "rollout/edge new-revision: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026",
+      "kind": "change",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:24:29+00:00",
+      "event": "rollout/inventory new-revision: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026",
+      "kind": "change",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:24:29+00:00",
+      "event": "rollout/recommendations new-revision: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026",
+      "kind": "change",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:27:47+00:00",
+      "event": "deployment/pricing-legacy created (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:27:47+00:00",
+      "event": "rollout/pricing-legacy new-revision",
+      "kind": "change",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:27:48Z",
+      "event": "event Unhealthy x2 on Pod/pricing-legacy-79659db7cf-2lnp8: Readiness probe failed: Get \"http://10.244.1.125:8080/healthz\": dial tcp 10.244.1.125:8080\u2026",
+      "kind": "event",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:28:39+00:00",
+      "event": "configmap/feature-flags modified: data.flags.json {\"smart_routing\": false, \"new_\u2026 \u2192 {\"smart_routing\": true, \"new_c\u2026 (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:30:12.428634134Z",
+      "event": "first log: PowerPeg router active: child orders exceed parent quantity, rejecting flag=smart_routing (x67)",
+      "kind": "log",
+      "observation_id": "O5",
+      "source": "kubernetes-logs"
+    }
+  ],
+  "security": {
+    "events": [],
+    "model_notes": []
+  },
+  "observations": [
+    {
+      "id": "O1",
+      "round": 0,
+      "tool": "active_alerts",
+      "args": {},
+      "purpose": "what is alerting and since when",
+      "ok": true,
+      "source": "alertmanager",
+      "flagged": 0
+    },
+    {
+      "id": "O2",
+      "round": 0,
+      "tool": "recent_changes",
+      "args": {
+        "namespace": "shop",
+        "minutes": 120
+      },
+      "purpose": "what changed recently",
+      "ok": true,
+      "source": "kubernetes",
+      "flagged": 0
+    },
+    {
+      "id": "O3",
+      "round": 0,
+      "tool": "cluster_overview",
+      "args": {
+        "namespace": "shop"
+      },
+      "purpose": "resource-level health snapshot",
+      "ok": true,
+      "source": "kubernetes",
+      "flagged": 0
+    },
+    {
+      "id": "O4",
+      "round": 0,
+      "tool": "get_events",
+      "args": {
+        "namespace": "shop",
+        "minutes": 60,
+        "warnings_only": true
+      },
+      "purpose": "recent warning events",
+      "ok": true,
+      "source": "kubernetes",
+      "flagged": 0
+    },
+    {
+      "id": "O5",
+      "round": 1,
+      "tool": "pod_logs",
+      "args": {
+        "namespace": "shop",
+        "pod": "pricing-legacy-79659db7cf-2lnp8",
+        "tail": 100
+      },
+      "purpose": "Check why pricing-legacy is failing its health checks.",
+      "ok": true,
+      "source": "kubernetes-logs",
+      "flagged": 0
+    },
+    {
+      "id": "O6",
+      "round": 1,
+      "tool": "workload_metrics",
+      "args": {
+        "namespace": "shop",
+        "workload": "checkout"
+      },
+      "purpose": "Check golden signals and error rates for checkout workload to confirm onset and dependency failures.",
+      "ok": true,
+      "source": "prometheus",
+      "flagged": 0
+    },
+    {
+      "id": "O7",
+      "round": 1,
+      "tool": "find_traces",
+      "args": {
+        "service": "checkout",
+        "errors_only": true
+      },
+      "purpose": "Identify if checkout errors originate from calls to the pricing service or database.",
+      "ok": true,
+      "source": "jaeger",
+      "flagged": 0
+    }
+  ],
+  "rounds": [
+    {
+      "round": 0,
+      "hypotheses_added": [
+        "H1",
+        "H2"
+      ],
+      "hypotheses_retired": [],
+      "calls": [
+        {
+          "observation": "O1",
+          "tool": "active_alerts",
+          "args": {},
+          "purpose": "what is alerting and since when",
+          "ok": true
+        },
+        {
+          "observation": "O2",
+          "tool": "recent_changes",
+          "args": {
+            "namespace": "shop",
+            "minutes": 120
+          },
+          "purpose": "what changed recently",
+          "ok": true
+        },
+        {
+          "observation": "O3",
+          "tool": "cluster_overview",
+          "args": {
+            "namespace": "shop"
+          },
+          "purpose": "resource-level health snapshot",
+          "ok": true
+        },
+        {
+          "observation": "O4",
+          "tool": "get_events",
+          "args": {
+            "namespace": "shop",
+            "minutes": 60,
+            "warnings_only": true
+          },
+          "purpose": "recent warning events",
+          "ok": true
+        }
+      ],
+      "evidence_accepted": 1,
+      "evidence_rejected": 2,
+      "posteriors": {},
+      "decision": "",
+      "notes": ""
+    },
+    {
+      "round": 1,
+      "hypotheses_added": [],
+      "hypotheses_retired": [],
+      "calls": [
+        {
+          "observation": "O5",
+          "tool": "pod_logs",
+          "args": {
+            "namespace": "shop",
+            "pod": "pricing-legacy-79659db7cf-2lnp8",
+            "tail": 100
+          },
+          "purpose": "Check why pricing-legacy is failing its health checks.",
+          "ok": true
+        },
+        {
+          "observation": "O6",
+          "tool": "workload_metrics",
+          "args": {
+            "namespace": "shop",
+            "workload": "checkout"
+          },
+          "purpose": "Check golden signals and error rates for checkout workload to confirm onset and dependency failures.",
+          "ok": true
+        },
+        {
+          "observation": "O7",
+          "tool": "find_traces",
+          "args": {
+            "service": "checkout",
+            "errors_only": true
+          },
+          "purpose": "Identify if checkout errors originate from calls to the pricing service or database.",
+          "ok": true
+        }
+      ],
+      "evidence_accepted": 2,
+      "evidence_rejected": 0,
+      "posteriors": {
+        "H1": 0.989,
+        "H2": 0.003,
+        "unexplained": 0.008
+      },
+      "decision": "confident: H1 p=0.99, margin 0.99, sources ['kubernetes', 'kubernetes-logs', 'prometheus']",
+      "notes": ""
+    }
+  ],
+  "stats": {
+    "rounds": 1,
+    "tool_calls": 7,
+    "evidence_accepted": 3,
+    "evidence_rejected": 2,
+    "llm_usage": {
+      "calls": 3,
+      "input_tokens": 40181,
+      "output_tokens": 2562,
+      "models": [
+        "google_genai:gemini-3.5-flash",
+        "google_genai:gemini-3.6-flash",
+        "google_genai:gemini-3-flash-preview",
+        "google_genai:gemini-3.7-flash",
+        "google_genai:gemini-flash-latest",
+        "google_genai:gemini-3.8-flash",
+        "google_genai:gemini-3.5-flash-lite"
+      ]
+    }
+  }
+}

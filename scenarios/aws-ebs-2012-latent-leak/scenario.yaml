@@ -24,6 +24,8 @@ category: resource_exhaustion
 ground_truth:
   components: [recommendations, telemetry-collector]
   categories: [resource_exhaustion, dependency]
+  # the root-cause statement must name one of these for a 'correct' verdict
+  mechanism: [telemetry]
   keywords: [telemetry, buffer, collector, memory, oom, leak]
   must_not_blame: [checkout, edge, postgres, inventory]
 multi_source: true   # Service deletion (journal) + memory ramp & OOMKilled (metrics/k8s) + previous logs

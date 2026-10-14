@@ -1,6 +1,6 @@
 # kubesleuth evaluation, 20261013-122615
 
-Run on a GitHub-hosted runner (ubuntu-latest), kind v0.29.0, commit 7340da3647ae8f4e292003c952abf74f8b77ec67, workflow run https://github.com/Suryanshu24052006/kubesleuth/actions/runs/38395814922
+Run on a GitHub-hosted runner (ubuntu-latest), kind v0.29.0, commit 7340da3647ae8f4e292003c952abf74f8b77ec67, workflow run https://github.com/Suryanshu24052006/kubesleuth/actions/runs/38395814922 Graded with eval/score.py (strict scorer). Graded with eval/score.py (strict scorer).
 
 **rules**: correct 4/6, partial 0, inconclusive 2, wrong 0  
 **llm:google_genai:gemini-3.5-flash**: correct 4/6, partial 1, inconclusive 1, wrong 0  

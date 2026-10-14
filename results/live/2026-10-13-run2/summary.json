@@ -4,14 +4,16 @@
     "reasoner": "rules",
     "reasoner_detail": "rules",
     "alert": "InfoInhibitor",
+    "report": "aws-ebs-2012-latent-leak.rules.md",
     "verdict": "correct",
     "component_hit": true,
-    "category_hit": true,
+    "mechanism_hit": true,
     "keyword_hits": [
       "telemetry",
       "collector"
     ],
-    "blamed_symptom": false,
+    "blamed_victim": false,
+    "category_hit": true,
     "confidence": "low",
     "posterior": 0.378,
     "evidence_sources": [
@@ -24,19 +26,20 @@
     "security_events": 0,
     "duration_s": 0.4,
     "tokens": 0,
-    "root_cause": "Service telemetry-collector was deleted () so callers cannot reach it",
-    "report": "aws-ebs-2012-latent-leak.rules.md"
+    "root_cause": "Service telemetry-collector was deleted () so callers cannot reach it"
   },
   {
     "scenario": "aws-ebs-2012-latent-leak",
     "reasoner": "llm:google_genai:gemini-3.5-flash",
     "reasoner_detail": "llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview, gemini-3.7-flash, gemini-flash-latest, gemini-3.8-flash, gemini-3.5-flash-lite)",
     "alert": "InfoInhibitor",
+    "report": "aws-ebs-2012-latent-leak.llm-google_genai-gemini-3.5-flash.md",
     "verdict": "inconclusive",
     "component_hit": true,
-    "category_hit": true,
+    "mechanism_hit": false,
     "keyword_hits": [],
-    "blamed_symptom": false,
+    "blamed_victim": false,
+    "category_hit": true,
     "confidence": "inconclusive",
     "posterior": 0.136,
     "evidence_sources": [
@@ -49,23 +52,23 @@
     "security_events": 0,
     "duration_s": 547.5,
     "tokens": 120882,
-    "root_cause": "A mass rollout of multiple shop workloads triggered container runtime resource contention and socket errors, leading to readiness probe failures in downstream dependencies (inventory and recommendations) which propagated upstream as 502s at the checkout and edge layers.",
-    "report": "aws-ebs-2012-latent-leak.llm-google_genai-gemini-3.5-flash.md"
+    "root_cause": "A mass rollout of multiple shop workloads triggered container runtime resource contention and socket errors, leading to readiness probe failures in downstream dependencies (inventory and recommendations) which propagated upstream as 502s at the checkout and edge layers."
   },
   {
     "scenario": "aws-s3-2017-capacity-removal",
     "reasoner": "rules",
     "reasoner_detail": "rules",
     "alert": "CPUThrottlingHigh, InfoInhibitor, ShopEdgeHigh5xxRate",
+    "report": "aws-s3-2017-capacity-removal.rules.md",
     "verdict": "correct",
     "component_hit": true,
-    "category_hit": true,
+    "mechanism_hit": true,
     "keyword_hits": [
       "replica",
-      "capacity",
-      "throttl"
+      "capacity"
     ],
-    "blamed_symptom": false,
+    "blamed_victim": false,
+    "category_hit": true,
     "confidence": "medium",
     "posterior": 0.599,
     "evidence_sources": [
@@ -79,24 +82,23 @@
     "security_events": 0,
     "duration_s": 0.7,
     "tokens": 0,
-    "root_cause": "Capacity of inventory was reduced (spec.replicas 4->1)",
-    "report": "aws-s3-2017-capacity-removal.rules.md"
+    "root_cause": "Capacity of inventory was reduced (spec.replicas 4->1)"
   },
   {
     "scenario": "aws-s3-2017-capacity-removal",
     "reasoner": "llm:google_genai:gemini-3.5-flash",
     "reasoner_detail": "llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview, gemini-3.7-flash, gemini-flash-latest, gemini-3.8-flash, gemini-3.5-flash-lite)",
     "alert": "CPUThrottlingHigh, InfoInhibitor, ShopEdgeHigh5xxRate",
+    "report": "aws-s3-2017-capacity-removal.llm-google_genai-gemini-3.5-flash.md",
     "verdict": "correct",
     "component_hit": true,
-    "category_hit": true,
+    "mechanism_hit": true,
     "keyword_hits": [
       "replica",
-      "scale",
-      "scaled",
       "4 to 1"
     ],
-    "blamed_symptom": false,
+    "blamed_victim": false,
+    "category_hit": true,
     "confidence": "high",
     "posterior": 0.991,
     "evidence_sources": [
@@ -110,24 +112,25 @@
     "security_events": 0,
     "duration_s": 155.9,
     "tokens": 42899,
-    "root_cause": "The inventory deployment replicas were reduced from 4 to 1, causing resource contention, health probe failures, and downstream checkout timeouts.",
-    "report": "aws-s3-2017-capacity-removal.llm-google_genai-gemini-3.5-flash.md"
+    "root_cause": "The inventory deployment replicas were reduced from 4 to 1, causing resource contention, health probe failures, and downstream checkout timeouts."
   },
   {
     "scenario": "chef-2014-healthcheck-timeouts",
     "reasoner": "rules",
     "reasoner_detail": "rules",
     "alert": "ShopEdgeHigh5xxRate",
+    "report": "chef-2014-healthcheck-timeouts.rules.md",
     "verdict": "inconclusive",
     "component_hit": true,
-    "category_hit": true,
+    "mechanism_hit": true,
     "keyword_hits": [
       "liveness",
       "probe",
       "timeoutseconds",
       "healthz"
     ],
-    "blamed_symptom": false,
+    "blamed_victim": false,
+    "category_hit": true,
     "confidence": "inconclusive",
     "posterior": 0.302,
     "evidence_sources": [
@@ -140,24 +143,25 @@
     "security_events": 0,
     "duration_s": 0.5,
     "tokens": 0,
-    "root_cause": "Probe change on checkout (containers[checkout].livenessProbe {\"failureThreshold\": 3, \"httpGet\": {\"path\": \"/healthz\", \"port\": \"http\", \"scheme\": \"HTTP\"}, \"periodSeconds\": 10, \"successThreshold\": 1, \"timeoutSeconds\": 3}->{\"failureThreshold\": 1, \"httpGet\": {\"path\": \"/healthz?deep=1\", \"port\": \"http\", \"scheme\": \"HTTP\"}, \"periodSeconds\": 5, \"successThreshold\": 1, \"timeoutSeconds\": 1}) kills or unreadies healthy pods",
-    "report": "chef-2014-healthcheck-timeouts.rules.md"
+    "root_cause": "Probe change on checkout (containers[checkout].livenessProbe {\"failureThreshold\": 3, \"httpGet\": {\"path\": \"/healthz\", \"port\": \"http\", \"scheme\": \"HTTP\"}, \"periodSeconds\": 10, \"successThreshold\": 1, \"timeoutSeconds\": 3}->{\"failureThreshold\": 1, \"httpGet\": {\"path\": \"/healthz?deep=1\", \"port\": \"http\", \"scheme\": \"HTTP\"}, \"periodSeconds\": 5, \"successThreshold\": 1, \"timeoutSeconds\": 1}) kills or unreadies healthy pods"
   },
   {
     "scenario": "chef-2014-healthcheck-timeouts",
     "reasoner": "llm:google_genai:gemini-3.5-flash",
     "reasoner_detail": "llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview, gemini-3.7-flash, gemini-flash-latest, gemini-3.8-flash, gemini-3.5-flash-lite)",
     "alert": "ShopEdgeHigh5xxRate",
+    "report": "chef-2014-healthcheck-timeouts.llm-google_genai-gemini-3.5-flash.md",
     "verdict": "correct",
     "component_hit": true,
-    "category_hit": true,
+    "mechanism_hit": true,
     "keyword_hits": [
       "liveness",
       "probe",
       "health check",
       "healthz"
     ],
-    "blamed_symptom": false,
+    "blamed_victim": false,
+    "category_hit": true,
     "confidence": "high",
     "posterior": 0.957,
     "evidence_sources": [
@@ -171,23 +175,24 @@
     "security_events": 0,
     "duration_s": 169.8,
     "tokens": 38288,
-    "root_cause": "A patch applied to the checkout deployment modified the liveness probe path to '/healthz?deep=1' with an overly aggressive failure threshold of 1, causing containers to be repeatedly killed when deep health checks fail or time out.",
-    "report": "chef-2014-healthcheck-timeouts.llm-google_genai-gemini-3.5-flash.md"
+    "root_cause": "A patch applied to the checkout deployment modified the liveness probe path to '/healthz?deep=1' with an overly aggressive failure threshold of 1, causing containers to be repeatedly killed when deep health checks fail or time out."
   },
   {
     "scenario": "cloudflare-2019-waf-regex",
     "reasoner": "rules",
     "reasoner_detail": "rules",
     "alert": "InfoInhibitor",
+    "report": "cloudflare-2019-waf-regex.rules.md",
     "verdict": "inconclusive",
     "component_hit": true,
-    "category_hit": true,
+    "mechanism_hit": true,
     "keyword_hits": [
       "waf",
       "rule",
       "edge-waf-rules"
     ],
-    "blamed_symptom": false,
+    "blamed_victim": false,
+    "category_hit": true,
     "confidence": "inconclusive",
     "posterior": 0.274,
     "evidence_sources": [
@@ -200,23 +205,24 @@
     "security_events": 0,
     "duration_s": 1.0,
     "tokens": 0,
-    "root_cause": "ConfigMap edge-waf-rules change (data.rules.json {\"rules\": [\n  {\"id\": \"sqli-union-select\", \"pattern\": \"(?i)union\\\\s+select\", \"action\": \"block\"},\n  {\"id\": \"path-traversal\", \"pattern\": \"\\\\.\\\\./\\\\.\\\\./\", \"action\": \"block\"}\n]}\n->{\"rules\": [\n  {\"id\": \"sqli-union-select\", \"pattern\": \"(?i)union\\\\s+select\", \"action\": \"block\"},\n  {\"id\": \"path-traversal\", \"pattern\": \"\\\\.\\\\./\\\\.\\\\./\", \"action\": \"block\"},\n  {\"id\": \"xss-inline-js-2019-07\", \"pattern\": \"(?:(?:\\\\\\\"|'|\\\\]|\\\\}|\\\\\\\\|\\\\d|(?:nan|infinity|true|false|null|undefined|symbol|math)|\\\\`|\\\\-|\\\\+)+[)]*;?((?:\\\\s|-|~|!|{}|\\\\|\\\\||\\\\+)*.*(?:.*=.*)))\", \"action\": \"log\"}\n]}) broke a dependent service",
-    "report": "cloudflare-2019-waf-regex.rules.md"
+    "root_cause": "ConfigMap edge-waf-rules change (data.rules.json {\"rules\": [\n  {\"id\": \"sqli-union-select\", \"pattern\": \"(?i)union\\\\s+select\", \"action\": \"block\"},\n  {\"id\": \"path-traversal\", \"pattern\": \"\\\\.\\\\./\\\\.\\\\./\", \"action\": \"block\"}\n]}\n->{\"rules\": [\n  {\"id\": \"sqli-union-select\", \"pattern\": \"(?i)union\\\\s+select\", \"action\": \"block\"},\n  {\"id\": \"path-traversal\", \"pattern\": \"\\\\.\\\\./\\\\.\\\\./\", \"action\": \"block\"},\n  {\"id\": \"xss-inline-js-2019-07\", \"pattern\": \"(?:(?:\\\\\\\"|'|\\\\]|\\\\}|\\\\\\\\|\\\\d|(?:nan|infinity|true|false|null|undefined|symbol|math)|\\\\`|\\\\-|\\\\+)+[)]*;?((?:\\\\s|-|~|!|{}|\\\\|\\\\||\\\\+)*.*(?:.*=.*)))\", \"action\": \"log\"}\n]}) broke a dependent service"
   },
   {
     "scenario": "cloudflare-2019-waf-regex",
     "reasoner": "llm:google_genai:gemini-3.5-flash",
     "reasoner_detail": "llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview, gemini-3.7-flash, gemini-flash-latest, gemini-3.8-flash, gemini-3.5-flash-lite)",
     "alert": "InfoInhibitor",
+    "report": "cloudflare-2019-waf-regex.llm-google_genai-gemini-3.5-flash.md",
     "verdict": "correct",
     "component_hit": true,
-    "category_hit": true,
+    "mechanism_hit": true,
     "keyword_hits": [
       "waf",
       "rule",
       "edge-waf-rules"
     ],
-    "blamed_symptom": false,
+    "blamed_victim": false,
+    "category_hit": true,
     "confidence": "high",
     "posterior": 0.889,
     "evidence_sources": [
@@ -231,23 +237,23 @@
     "security_events": 0,
     "duration_s": 400.2,
     "tokens": 63157,
-    "root_cause": "A newly introduced regular expression in the edge-waf-rules ConfigMap caused heavy CPU consumption and request blocking, leading to severe CPU starvation, high latency, and probe timeouts on the edge pods.",
-    "report": "cloudflare-2019-waf-regex.llm-google_genai-gemini-3.5-flash.md"
+    "root_cause": "A newly introduced regular expression in the edge-waf-rules ConfigMap caused heavy CPU consumption and request blocking, leading to severe CPU starvation, high latency, and probe timeouts on the edge pods."
   },
   {
     "scenario": "github-conn-saturation",
     "reasoner": "rules",
     "reasoner_detail": "rules",
     "alert": "ShopEdgeHigh5xxRate",
+    "report": "github-conn-saturation.rules.md",
     "verdict": "correct",
     "component_hit": true,
-    "category_hit": true,
+    "mechanism_hit": true,
     "keyword_hits": [
       "db_pool_size",
-      "pool",
-      "connection"
+      "pool"
     ],
-    "blamed_symptom": false,
+    "blamed_victim": false,
+    "category_hit": true,
     "confidence": "low",
     "posterior": 0.405,
     "evidence_sources": [
@@ -260,24 +266,24 @@
     "security_events": 0,
     "duration_s": 0.8,
     "tokens": 0,
-    "root_cause": "ConfigMap checkout-config change (data.DB_POOL_SIZE 4->30) broke a dependent service",
-    "report": "github-conn-saturation.rules.md"
+    "root_cause": "ConfigMap checkout-config change (data.DB_POOL_SIZE 4->30) broke a dependent service"
   },
   {
     "scenario": "github-conn-saturation",
     "reasoner": "llm:google_genai:gemini-3.5-flash",
     "reasoner_detail": "llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview, gemini-3.7-flash, gemini-flash-latest, gemini-3.8-flash, gemini-3.5-flash-lite)",
     "alert": "ShopEdgeHigh5xxRate",
+    "report": "github-conn-saturation.llm-google_genai-gemini-3.5-flash.md",
     "verdict": "partial",
     "component_hit": true,
-    "category_hit": false,
+    "mechanism_hit": true,
     "keyword_hits": [
       "db_pool_size",
       "pool",
-      "too many clients",
-      "connection"
+      "connect"
     ],
-    "blamed_symptom": true,
+    "blamed_victim": true,
+    "category_hit": false,
     "confidence": "low",
     "posterior": 0.543,
     "evidence_sources": [
@@ -291,22 +297,22 @@
     "security_events": 0,
     "duration_s": 488.8,
     "tokens": 82690,
-    "root_cause": "The DB_POOL_SIZE configuration in checkout-config was increased from 4 to 30, which caused connection exhaustion and database operational errors in downstream inventory queries, leading to checkout failures and edge 5xx errors.",
-    "report": "github-conn-saturation.llm-google_genai-gemini-3.5-flash.md"
+    "root_cause": "The DB_POOL_SIZE configuration in checkout-config was increased from 4 to 30, which caused connection exhaustion and database operational errors in downstream inventory queries, leading to checkout failures and edge 5xx errors."
   },
   {
     "scenario": "knight-2012-stale-version-flag",
     "reasoner": "rules",
     "reasoner_detail": "rules",
     "alert": "InfoInhibitor",
+    "report": "knight-2012-stale-version-flag.rules.md",
     "verdict": "correct",
     "component_hit": true,
-    "category_hit": true,
+    "mechanism_hit": true,
     "keyword_hits": [
-      "legacy",
-      "0.9.7"
+      "legacy"
     ],
-    "blamed_symptom": false,
+    "blamed_victim": false,
+    "category_hit": true,
     "confidence": "low",
     "posterior": 0.392,
     "evidence_sources": [
@@ -320,23 +326,24 @@
     "security_events": 0,
     "duration_s": 0.8,
     "tokens": 0,
-    "root_cause": "Newly created workload pricing-legacy serves traffic with different code",
-    "report": "knight-2012-stale-version-flag.rules.md"
+    "root_cause": "Newly created workload pricing-legacy serves traffic with different code"
   },
   {
     "scenario": "knight-2012-stale-version-flag",
     "reasoner": "llm:google_genai:gemini-3.5-flash",
     "reasoner_detail": "llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview, gemini-3.7-flash, gemini-flash-latest, gemini-3.8-flash, gemini-3.5-flash-lite)",
     "alert": "InfoInhibitor",
+    "report": "knight-2012-stale-version-flag.llm-google_genai-gemini-3.5-flash.md",
     "verdict": "correct",
     "component_hit": true,
-    "category_hit": true,
+    "mechanism_hit": true,
     "keyword_hits": [
       "legacy",
       "smart_routing",
       "version"
     ],
-    "blamed_symptom": false,
+    "blamed_victim": false,
+    "category_hit": true,
     "confidence": "high",
     "posterior": 0.989,
     "evidence_sources": [
@@ -351,7 +358,6 @@
     "security_events": 0,
     "duration_s": 484.4,
     "tokens": 42743,
-    "root_cause": "Enabling the smart_routing feature flag routed traffic to the newly created pricing-legacy deployment running an incompatible or failing image version, resulting in downstream pricing and checkout failures.",
-    "report": "knight-2012-stale-version-flag.llm-google_genai-gemini-3.5-flash.md"
+    "root_cause": "Enabling the smart_routing feature flag routed traffic to the newly created pricing-legacy deployment running an incompatible or failing image version, resulting in downstream pricing and checkout failures."
   }
 ]

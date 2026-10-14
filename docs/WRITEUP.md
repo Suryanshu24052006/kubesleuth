@@ -236,6 +236,9 @@ The most useful bugs came from the first runs on a real cluster (GitHub Actions,
 
 ## 10. What I'd build next
 
+0. **A hybrid reasoner**, the clearest lesson of the live runs: seed the LLM's ledger with the baseline's
+   change-based hypotheses, and let "X fails because upstream Y failed" evidence move belief from victim X
+   to cause Y. Together the two already found 15 of 18 root causes.
 1. Put mcp-grafana, prometheus-mcp and loki-mcp behind the broker with an allowlist of safe tools.
 2. Link hypotheses to each other ("this explains that") and check what *should* be true if each one is
    right, for example "if the new version is broken, pods on the old version should be fine".
@@ -249,12 +252,21 @@ The most useful bugs came from the first runs on a real cluster (GitHub Actions,
 
 ## 11. Results and continuous live evaluation
 
-After fixing what the first live run exposed, the second run found the correct root cause in **4 of 6**
-scenarios with the rule-based baseline and **4 of 6** with the LLM agent (one more partial). Neither named a
-wrong cause, and together they covered all six. The security demo passed every check on the live cluster
-both times. The LLM found the causes that need reasoning across sources (the Cloudflare WAF rule, the Chef
-liveness probe, Knight's stale version), with confidence 0.89–0.99. The baseline won where one recent change
-explains everything. Per-scenario reports and the problems the run exposed are in
+Three full live runs (36 investigations), all graded by the same strict scorer: the rule-based baseline
+found the correct root cause in **10 of 18** investigations and the LLM agent in **8 of 17** (4 more partially
+right). Together they covered **15 of 18**. The security demo passed every check on the live cluster in all
+three runs.
+
+The two approaches are complementary. The baseline is reliable when one recent change explains everything
+(AWS S3, AWS EBS, Knight Capital: 9/9). The LLM is the only one that solves the scenarios needing reasoning
+across sources (Chef's aggressive probe 3/3, Cloudflare's regex rule 2/3). Neither solved the GitHub scenario:
+the LLM always found the exhausted database connections but crowned the victim service instead of the
+`DB_POOL_SIZE` change. Results vary between runs: the LLM is non-deterministic, the free tier forces model
+switches mid-investigation, and a 4-vCPU runner is a noisy home for a 30-pod cluster.
+
+While reviewing the third run I found my first scorer too lenient (it credited a victim-blaming answer). I
+made it strict and re-graded all runs. The investigations were not rerun or edited.
+Per-scenario reports and the problems the run exposed are in
 [results/](../results/README.md).
 
 

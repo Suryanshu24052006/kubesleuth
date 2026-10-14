@@ -1,0 +1,848 @@
+{
+  "id": "20261013-130447-d9ee44",
+  "incident": "The edge service latency and error rate spiked; customers report timeouts.",
+  "namespace": "shop",
+  "reasoner": "rules",
+  "started_at": "2026-10-13T13:04:47Z",
+  "finished_at": "2026-10-13T13:04:48Z",
+  "duration_s": 1.0,
+  "stop_reason": "no new evidence for two rounds",
+  "title": "RCA: ConfigMap edge-waf-rules change (data.rules.json {\"rules\": [\n  {\"id\": \"sqli-union-select\", \"pattern\": \"(?i)union\\\\s+select\", \"action\": \"block\"},\n  {\"id\": \"path-traversal\", \"pattern\": \"\\\\.\\\\./\\\\.\\\\./\", \"action\": \"block\"}\n]}\n->{\"rules\": [\n  {\"id\": \"sqli-union-select\", \"pattern\": \"(?i)union\\\\s+select\", \"action\": \"block\"},\n  {\"id\": \"path-traversal\", \"pattern\": \"\\\\.\\\\./\\\\.\\\\./\", \"action\": \"block\"},\n  {\"id\": \"xss-inline-js-2019-07\", \"pattern\": \"(?:(?:\\\\\\\"|'|\\\\]|\\\\}|\\\\\\\\|\\\\d|(?:nan|infinity|true|false|null|undefined|symbol|math)|\\\\`|\\\\-|\\\\+)+[)]*;?((?:\\\\s|-|~|!|{}|\\\\|\\\\||\\\\+)*.*(?:.*=.*)))\", \"action\": \"log\"}\n]}) broke a dependent service",
+  "root_cause": {
+    "hypothesis": "H1",
+    "statement": "ConfigMap edge-waf-rules change (data.rules.json {\"rules\": [\n  {\"id\": \"sqli-union-select\", \"pattern\": \"(?i)union\\\\s+select\", \"action\": \"block\"},\n  {\"id\": \"path-traversal\", \"pattern\": \"\\\\.\\\\./\\\\.\\\\./\", \"action\": \"block\"}\n]}\n->{\"rules\": [\n  {\"id\": \"sqli-union-select\", \"pattern\": \"(?i)union\\\\s+select\", \"action\": \"block\"},\n  {\"id\": \"path-traversal\", \"pattern\": \"\\\\.\\\\./\\\\.\\\\./\", \"action\": \"block\"},\n  {\"id\": \"xss-inline-js-2019-07\", \"pattern\": \"(?:(?:\\\\\\\"|'|\\\\]|\\\\}|\\\\\\\\|\\\\d|(?:nan|infinity|true|false|null|undefined|symbol|math)|\\\\`|\\\\-|\\\\+)+[)]*;?((?:\\\\s|-|~|!|{}|\\\\|\\\\||\\\\+)*.*(?:.*=.*)))\", \"action\": \"log\"}\n]}) broke a dependent service",
+    "component": "configmap/edge-waf-rules",
+    "category": "configuration"
+  },
+  "confidence": {
+    "label": "inconclusive",
+    "posterior": 0.274,
+    "explanation": "Inconclusive: no hypothesis is supported well enough to be called the root cause."
+  },
+  "causal_chain": [
+    {
+      "step": "'connection' observed: \\\": dial tcp 10.244.1.23:8080: connect: connection refused\", \"count\": 32, \"first",
+      "observation_ids": [
+        "O2"
+      ]
+    }
+  ],
+  "facts": [
+    {
+      "observation_id": "O6",
+      "quote": "2026-10-13T12:46:03Z",
+      "statement": "edge error_ratio_5xx increase at 2026-10-13T12:46:03Z",
+      "time": "2026-10-13T12:46:03Z",
+      "source": "prometheus"
+    },
+    {
+      "observation_id": "O7",
+      "quote": "2026-10-13T12:42:48Z",
+      "statement": "checkout error_ratio_5xx increase at 2026-10-13T12:42:48Z",
+      "time": "2026-10-13T12:42:48Z",
+      "source": "prometheus"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "H1",
+      "statement": "ConfigMap edge-waf-rules change (data.rules.json {\"rules\": [\n  {\"id\": \"sqli-union-select\", \"pattern\": \"(?i)union\\\\s+select\", \"action\": \"block\"},\n  {\"id\": \"path-traversal\", \"pattern\": \"\\\\.\\\\./\\\\.\\\\./\", \"action\": \"block\"}\n]}\n->{\"rules\": [\n  {\"id\": \"sqli-union-select\", \"pattern\": \"(?i)union\\\\s+select\", \"action\": \"block\"},\n  {\"id\": \"path-traversal\", \"pattern\": \"\\\\.\\\\./\\\\.\\\\./\", \"action\": \"block\"},\n  {\"id\": \"xss-inline-js-2019-07\", \"pattern\": \"(?:(?:\\\\\\\"|'|\\\\]|\\\\}|\\\\\\\\|\\\\d|(?:nan|infinity|true|false|null|undefined|symbol|math)|\\\\`|\\\\-|\\\\+)+[)]*;?((?:\\\\s|-|~|!|{}|\\\\|\\\\||\\\\+)*.*(?:.*=.*)))\", \"action\": \"log\"}\n]}) broke a dependent service",
+      "mechanism": "config pushed then picked up by workloads",
+      "component": "configmap/edge-waf-rules",
+      "category": "configuration",
+      "layer": "cause",
+      "status": "active",
+      "retired_reason": "",
+      "posterior": 0.274,
+      "supporting": 1,
+      "contradicting": 0,
+      "sources": [
+        "kubernetes"
+      ],
+      "strong_contradictions": 0
+    },
+    {
+      "id": "H2",
+      "statement": "Probe change on checkout (containers[checkout].livenessProbe {\"failureThreshold\": 1, \"httpGet\": {\"path\": \"/healthz?deep=1\", \"port\": \"http\", \"scheme\": \"HTTP\"}, \"periodSeconds\": 5, \"successThreshold\": 1, \"timeoutSeconds\": 1}->{\"failureThreshold\": 3, \"httpGet\": {\"path\": \"/healthz\", \"port\": \"http\", \"scheme\": \"HTTP\"}, \"periodSeconds\": 10, \"successThreshold\": 1, \"timeoutSeconds\": 3}) kills or unreadies healthy pods",
+      "mechanism": "kubelet restarts containers",
+      "component": "checkout",
+      "category": "probe_misconfiguration",
+      "layer": "cause",
+      "status": "active",
+      "retired_reason": "",
+      "posterior": 0.274,
+      "supporting": 1,
+      "contradicting": 0,
+      "sources": [
+        "kubernetes"
+      ],
+      "strong_contradictions": 0
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "hypothesis": "H1",
+      "observation": "O2",
+      "source": "kubernetes",
+      "stance": "supports",
+      "strength": "weak",
+      "weight": 0.5,
+      "quote": "\\\": dial tcp 10.244.1.23:8080: connect: connection refused\", \"count\": 32, \"first_seen\": \"2026-10-13T12:21:16Z\"",
+      "rationale": "'connection' observed"
+    },
+    {
+      "id": "E2",
+      "hypothesis": "H2",
+      "observation": "O2",
+      "source": "kubernetes",
+      "stance": "supports",
+      "strength": "weak",
+      "weight": 0.5,
+      "quote": ", \"edge-66978949cf-m4mtr\"], \"message\": \"Liveness probe failed: Get \\\"http://10.244.1.97:8080/healthz\\\": context deadline ",
+      "rationale": "'liveness probe failed' observed"
+    }
+  ],
+  "rejected_evidence": [],
+  "alternatives": [],
+  "uncertainty": [
+    "Baseline rule reasoner: causal links are keyword-based, verify manually."
+  ],
+  "remediation": [
+    "Review and revert the implicated change if confirmed."
+  ],
+  "timeline": [
+    {
+      "time": "2026-10-13T12:17:30.161Z",
+      "event": "alert Watchdog fired (none)",
+      "kind": "alert",
+      "observation_id": "O1",
+      "source": "alertmanager"
+    },
+    {
+      "time": "2026-10-13T12:21:15Z",
+      "event": "event Unhealthy x104 on Pod/checkout-55f8c5b4bc-6ssw7,checkout-55f8c5b4bc-bqhj9: Readiness probe failed: Get \"http://10.244.1.91:8080/readyz\": dial tcp 10.244.1.91:8080: c\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:21:16Z",
+      "event": "event Unhealthy x32 on Pod/edge-6675f7688f-cvj8l,edge-6675f7688f-xz97h: Readiness probe failed: Get \"http://10.244.1.23:8080/healthz\": dial tcp 10.244.1.23:8080: \u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:21:16Z",
+      "event": "event Unhealthy x58 on Pod/inventory-5fd7bfd5d5-4vmdt,inventory-5fd7bfd5d5-7qlt7: Readiness probe failed: Get \"http://10.244.1.73:8080/healthz\": dial tcp 10.244.1.73:8080: \u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:21:16Z",
+      "event": "event Unhealthy x24 on Pod/recommendations-58866dbd86-8wlzh,recommendations-58866dbd86-9gsgr: Readiness probe failed: Get \"http://10.244.1.54:8080/healthz\": dial tcp 10.244.1.54:8080: \u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:21:16Z",
+      "event": "event Unhealthy x19 on Pod/catalog-indexer-6f6b545fdb-fcs76,catalog-indexer-6f6b545fdb-rpmzl: Readiness probe failed: Get \"http://10.244.1.18:8080/healthz\": dial tcp 10.244.1.18:8080: \u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:21:16Z",
+      "event": "event Unhealthy x4 on Pod/pricing-95c99775f-8v97j,pricing-95c99775f-fkzqq: Readiness probe failed: Get \"http://10.244.1.29:8080/healthz\": dial tcp 10.244.1.29:8080: \u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:21:17Z",
+      "event": "event Unhealthy x3 on Pod/telemetry-collector-865ccb84c6-vwkb8: Readiness probe failed: Get \"http://10.244.1.37:8080/healthz\": dial tcp 10.244.1.37:8080: \u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:21:18Z",
+      "event": "event Unhealthy x2 on Pod/edge-6675f7688f-cvj8l,edge-6675f7688f-xz97h: Liveness probe failed: Get \"http://10.244.1.23:8080/healthz\": dial tcp 10.244.1.23:8080: c\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:21:23Z",
+      "event": "event Unhealthy x5 on Pod/catalog-indexer-6f6b545fdb-fcs76,catalog-indexer-6f6b545fdb-rpmzl: Liveness probe failed: Get \"http://10.244.1.18:8080/healthz\": dial tcp 10.244.1.18:8080: c\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:21:23Z",
+      "event": "event Unhealthy x3 on Pod/checkout-69cf4467b9-j69d5,checkout-69cf4467b9-k5j84: Liveness probe failed: Get \"http://10.244.1.22:8080/healthz\": dial tcp 10.244.1.22:8080: c\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:21:28Z",
+      "event": "event FailedGetResourceMetric x2 on HorizontalPodAutoscaler/edge: failed to get cpu utilization: unable to get metrics for resource cpu: no metrics returned\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:21:28Z",
+      "event": "event FailedComputeMetricsReplicas x2 on HorizontalPodAutoscaler/edge: invalid metrics (1 invalid out of 1), first error is: failed to get cpu resource metric va\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:21:30Z",
+      "event": "event Unhealthy x1 on Pod/postgres-0: Readiness probe failed: /var/run/postgresql:5432 - no response\n",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:21:43Z",
+      "event": "event FailedGetResourceMetric x8 on HorizontalPodAutoscaler/edge: failed to get cpu utilization: did not receive metrics for targeted pods (pods might be un\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:21:43Z",
+      "event": "event FailedComputeMetricsReplicas x8 on HorizontalPodAutoscaler/edge: invalid metrics (1 invalid out of 1), first error is: failed to get cpu resource metric va\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:26:23Z",
+      "event": "event FailedKillPod x1 on Pod/checkout-69cf4467b9-k5j84: error killing pod: [failed to \"KillContainer\" for \"checkout\" with KillContainerError: \"rpc\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:26:23Z",
+      "event": "event FailedCreatePodSandBox x2 on Pod/checkout-8457f655f7-jwzw6,checkout-8457f655f7-nmx9x: Failed to create pod sandbox: rpc error: code = Unavailable desc = error reading from serv\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:26:23Z",
+      "event": "event FailedCreatePodSandBox x1 on Pod/edge-959ccbf85-khbs6: Failed to create pod sandbox: rpc error: code = Unavailable desc = error reading from serv\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:26:23Z",
+      "event": "event FailedCreatePodSandBox x2 on Pod/inventory-668745bb49-psdmx,inventory-668745bb49-s52z8: Failed to create pod sandbox: rpc error: code = Unavailable desc = error reading from serv\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:26:23Z",
+      "event": "event FailedKillPod x1 on Pod/inventory-6ffc77fd45-5cmsp: error killing pod: [failed to \"KillContainer\" for \"inventory\" with KillContainerError: \"rp\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:26:23Z",
+      "event": "event Unhealthy x1 on Pod/postgres-0: Readiness probe errored and resulted in unknown state: rpc error: code = Unavailable desc \u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:26:23Z",
+      "event": "event FailedCreatePodSandBox x1 on Pod/recommendations-58866dbd86-9gsgr: Failed to create pod sandbox: rpc error: code = Unavailable desc = error reading from serv\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:26:30Z",
+      "event": "event Unhealthy x24 on Pod/edge-6675f7688f-cvj8l,edge-66978949cf-2m5mj: Readiness probe failed: Get \"http://10.244.1.23:8080/healthz\": context deadline exceeded (\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:42:36+00:00",
+      "event": "deployment/checkout modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (since reverted) (by kubectl-rollout)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:42:36+00:00",
+      "event": "deployment/edge modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (since reverted) (by kubectl-rollout)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:42:48Z",
+      "event": "checkout error_ratio_5xx increase: 0.0 \u2192 0.002235",
+      "kind": "onset",
+      "observation_id": "O7",
+      "source": "prometheus"
+    },
+    {
+      "time": "2026-10-13T12:42:48Z",
+      "event": "checkout dependency_failures_rps on 2/3 series increase: 0.0 \u2192 0.036072",
+      "kind": "onset",
+      "observation_id": "O7",
+      "source": "prometheus"
+    },
+    {
+      "time": "2026-10-13T12:45:59Z",
+      "event": "event Unhealthy x9 on Pod/inventory-6dcd8d4f55-vb8z7: Readiness probe failed: Get \"http://10.244.1.65:8080/healthz\": context deadline exceeded (\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:45:59Z",
+      "event": "event Unhealthy x5 on Pod/inventory-6dcd8d4f55-vb8z7: Liveness probe failed: Get \"http://10.244.1.65:8080/healthz\": context deadline exceeded (C\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:46:03Z",
+      "event": "edge error_ratio_5xx increase: 0.0 \u2192 0.647315",
+      "kind": "onset",
+      "observation_id": "O6",
+      "source": "prometheus"
+    },
+    {
+      "time": "2026-10-13T12:46:03Z",
+      "event": "edge errors_by_pod_rps[edge-7ff6fb8567-k8zcr] increase: 0.0 \u2192 6.644172",
+      "kind": "onset",
+      "observation_id": "O6",
+      "source": "prometheus"
+    },
+    {
+      "time": "2026-10-13T12:46:03Z",
+      "event": "edge dependency_failures_rps on 3/3 series increase: 0.0 \u2192 2.434099",
+      "kind": "onset",
+      "observation_id": "O6",
+      "source": "prometheus"
+    },
+    {
+      "time": "2026-10-13T12:46:18Z",
+      "event": "edge latency_p95_seconds increase: 1.345328 \u2192 3.865242",
+      "kind": "onset",
+      "observation_id": "O6",
+      "source": "prometheus"
+    },
+    {
+      "time": "2026-10-13T12:46:18Z",
+      "event": "checkout errors_by_pod_rps on 2/3 series increase: 0.0 \u2192 5.852123",
+      "kind": "onset",
+      "observation_id": "O7",
+      "source": "prometheus"
+    },
+    {
+      "time": "2026-10-13T12:46:18Z",
+      "event": "checkout latency_p95_seconds increase: 1.36832 \u2192 3.861254",
+      "kind": "onset",
+      "observation_id": "O7",
+      "source": "prometheus"
+    },
+    {
+      "time": "2026-10-13T12:46:36Z",
+      "event": "event Unhealthy x1 on Pod/inventory-6dcd8d4f55-vb8z7: Liveness probe failed: Get \"http://10.244.1.65:8080/healthz\": dial tcp 10.244.1.65:8080: c\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:47:02Z",
+      "event": "event Unhealthy x1 on Pod/inventory-6dcd8d4f55-vb8z7: Readiness probe failed: Get \"http://10.244.1.65:8080/healthz\": read tcp 10.244.1.1:52866->\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:50:01+00:00",
+      "event": "deployment/catalog-indexer modified: spec.replicas 1 \u2192 3 (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:50:01+00:00",
+      "event": "deployment/inventory modified: spec.replicas 1 \u2192 4 (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:50:02+00:00",
+      "event": "deployment/checkout modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (since reverted) (by kubectl-rollout)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:50:02+00:00",
+      "event": "deployment/edge modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (since reverted) (by kubectl-rollout)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:50:02+00:00",
+      "event": "deployment/recommendations modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (since reverted) (by kubectl-rollout)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:50:02+00:00",
+      "event": "deployment/inventory modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (since reverted) (by kubectl-rollout)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:50:02+00:00",
+      "event": "rollout/checkout new-revision: containers[checkout].livenessProbe {\"failureThreshold\": 1, \"httpG\u2026 \u2192 {\"failureThreshold\": 3, \"httpG\u2026",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:50:02+00:00",
+      "event": "rollout/edge new-revision: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:50:02+00:00",
+      "event": "rollout/inventory new-revision: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:50:02+00:00",
+      "event": "rollout/recommendations new-revision: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:50:07Z",
+      "event": "event Unhealthy x1 on Pod/checkout-6cc8cb7b8c-9kcll: Readiness probe failed: Get \"http://10.244.1.60:8080/readyz\": context deadline exceeded (C\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:53:21+00:00",
+      "event": "deployment/checkout modified: containers[checkout].livenessProbe {\"failureThreshold\": 3, \"httpG\u2026 \u2192 {\"failureThreshold\": 1, \"httpG\u2026 (since reverted) (by kubectl-patch)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:53:21+00:00",
+      "event": "rollout/checkout new-revision: containers[checkout].livenessProbe {\"failureThreshold\": 3, \"httpG\u2026 \u2192 {\"failureThreshold\": 1, \"httpG\u2026; template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:54:38Z",
+      "event": "event Unhealthy x3 on Pod/checkout-7d6bdccdc8-7qz6f,checkout-7d6bdccdc8-r6c2x: Liveness probe failed: Get \"http://10.244.1.82:8080/healthz?deep=1\": context deadline exce\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:54:42Z",
+      "event": "event Unhealthy x11 on Pod/checkout-7d6bdccdc8-7qz6f,checkout-7d6bdccdc8-r6c2x: Liveness probe failed: Get \"http://10.244.1.82:8080/healthz?deep=1\": dial tcp 10.244.1.82:\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:55:16Z",
+      "event": "event BackOff x17 on Pod/checkout-7d6bdccdc8-wd72m: Back-off restarting failed container checkout in pod checkout-7d6bdccdc8-wd72m_shop(41dd06\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:55:16Z",
+      "event": "event BackOff x3 on Pod/checkout-7d6bdccdc8-7qz6f: Back-off restarting failed container checkout in pod checkout-7d6bdccdc8-7qz6f_shop(0d8ee6\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:55:17Z",
+      "event": "event BackOff x18 on Pod/checkout-7d6bdccdc8-r6c2x: Back-off restarting failed container checkout in pod checkout-7d6bdccdc8-r6c2x_shop(94ba00\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:59:28+00:00",
+      "event": "deployment/checkout modified: containers[checkout].livenessProbe {\"failureThreshold\": 1, \"httpG\u2026 \u2192 {\"failureThreshold\": 3, \"httpG\u2026 (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:59:29+00:00",
+      "event": "deployment/checkout modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (by kubectl-rollout)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:59:29+00:00",
+      "event": "deployment/edge modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (by kubectl-rollout)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:59:29+00:00",
+      "event": "deployment/recommendations modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (by kubectl-rollout)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:59:29+00:00",
+      "event": "deployment/inventory modified: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026 (by kubectl-rollout)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:59:29+00:00",
+      "event": "deployment/edge modified: spec.replicas 2 \u2192 3 (by kubectl-rollout)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:59:29+00:00",
+      "event": "rollout/checkout new-revision: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:59:29+00:00",
+      "event": "rollout/edge new-revision: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:59:29+00:00",
+      "event": "rollout/inventory new-revision: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T12:59:29+00:00",
+      "event": "rollout/recommendations new-revision: template.annotations {\"kubectl.kubernetes.io/restar\u2026 \u2192 {\"kubectl.kubernetes.io/restar\u2026",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:02:46+00:00",
+      "event": "configmap/edge-waf-rules modified: data.rules.json {\"rules\": [\n  {\"id\": \"sqli-uni\u2026 \u2192 {\"rules\": [\n  {\"id\": \"sqli-uni\u2026 (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:03:20Z",
+      "event": "event Unhealthy x18 on Pod/edge-66978949cf-2m5mj,edge-66978949cf-g8mnj: Liveness probe failed: Get \"http://10.244.1.97:8080/healthz\": context deadline exceeded (C\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-13T13:03:33Z",
+      "event": "edge cpu_throttled_ratio on 2/3 series increase: 0.00834 \u2192 0.731233",
+      "kind": "onset",
+      "observation_id": "O6",
+      "source": "prometheus"
+    },
+    {
+      "time": "2026-10-13T13:03:48Z",
+      "event": "checkout cpu_throttled_ratio on 2/3 series increase: 0.0 \u2192 0.005556",
+      "kind": "onset",
+      "observation_id": "O7",
+      "source": "prometheus"
+    },
+    {
+      "time": "2026-10-13T13:04:03Z",
+      "event": "edge container_restarts on 2/3 series increase: 0.0 \u2192 2.0",
+      "kind": "onset",
+      "observation_id": "O6",
+      "source": "prometheus"
+    }
+  ],
+  "security": {
+    "events": [],
+    "model_notes": []
+  },
+  "observations": [
+    {
+      "id": "O1",
+      "round": 0,
+      "tool": "active_alerts",
+      "args": {},
+      "purpose": "what is alerting and since when",
+      "ok": true,
+      "source": "alertmanager",
+      "flagged": 0
+    },
+    {
+      "id": "O2",
+      "round": 0,
+      "tool": "get_events",
+      "args": {
+        "namespace": "shop",
+        "minutes": 60,
+        "warnings_only": true
+      },
+      "purpose": "recent warning events",
+      "ok": true,
+      "source": "kubernetes",
+      "flagged": 0
+    },
+    {
+      "id": "O3",
+      "round": 0,
+      "tool": "cluster_overview",
+      "args": {
+        "namespace": "shop"
+      },
+      "purpose": "resource-level health snapshot",
+      "ok": true,
+      "source": "kubernetes",
+      "flagged": 0
+    },
+    {
+      "id": "O4",
+      "round": 0,
+      "tool": "recent_changes",
+      "args": {
+        "namespace": "shop",
+        "minutes": 120
+      },
+      "purpose": "what changed recently",
+      "ok": true,
+      "source": "kubernetes",
+      "flagged": 0
+    },
+    {
+      "id": "O5",
+      "round": 1,
+      "tool": "find_traces",
+      "args": {
+        "service": "edge",
+        "minutes": 15
+      },
+      "purpose": "where do errors originate?",
+      "ok": true,
+      "source": "jaeger",
+      "flagged": 0
+    },
+    {
+      "id": "O6",
+      "round": 1,
+      "tool": "workload_metrics",
+      "args": {
+        "namespace": "shop",
+        "workload": "edge",
+        "minutes": 30
+      },
+      "purpose": "symptom onset",
+      "ok": true,
+      "source": "prometheus",
+      "flagged": 0
+    },
+    {
+      "id": "O7",
+      "round": 1,
+      "tool": "workload_metrics",
+      "args": {
+        "namespace": "shop",
+        "workload": "checkout",
+        "minutes": 30
+      },
+      "purpose": "test H2",
+      "ok": true,
+      "source": "prometheus",
+      "flagged": 0
+    }
+  ],
+  "rounds": [
+    {
+      "round": 0,
+      "hypotheses_added": [],
+      "hypotheses_retired": [],
+      "calls": [
+        {
+          "observation": "O1",
+          "tool": "active_alerts",
+          "args": {},
+          "purpose": "what is alerting and since when",
+          "ok": true
+        },
+        {
+          "observation": "O2",
+          "tool": "get_events",
+          "args": {
+            "namespace": "shop",
+            "minutes": 60,
+            "warnings_only": true
+          },
+          "purpose": "recent warning events",
+          "ok": true
+        },
+        {
+          "observation": "O3",
+          "tool": "cluster_overview",
+          "args": {
+            "namespace": "shop"
+          },
+          "purpose": "resource-level health snapshot",
+          "ok": true
+        },
+        {
+          "observation": "O4",
+          "tool": "recent_changes",
+          "args": {
+            "namespace": "shop",
+            "minutes": 120
+          },
+          "purpose": "what changed recently",
+          "ok": true
+        }
+      ],
+      "evidence_accepted": 0,
+      "evidence_rejected": 0,
+      "posteriors": {},
+      "decision": "",
+      "notes": ""
+    },
+    {
+      "round": 1,
+      "hypotheses_added": [
+        "H1",
+        "H2"
+      ],
+      "hypotheses_retired": [],
+      "calls": [
+        {
+          "observation": "O5",
+          "tool": "find_traces",
+          "args": {
+            "service": "edge",
+            "minutes": 15
+          },
+          "purpose": "where do errors originate?",
+          "ok": true
+        },
+        {
+          "observation": "O6",
+          "tool": "workload_metrics",
+          "args": {
+            "namespace": "shop",
+            "workload": "edge",
+            "minutes": 30
+          },
+          "purpose": "symptom onset",
+          "ok": true
+        },
+        {
+          "observation": "O7",
+          "tool": "workload_metrics",
+          "args": {
+            "namespace": "shop",
+            "workload": "checkout",
+            "minutes": 30
+          },
+          "purpose": "test H2",
+          "ok": true
+        }
+      ],
+      "evidence_accepted": 2,
+      "evidence_rejected": 0,
+      "posteriors": {
+        "H1": 0.274,
+        "H2": 0.274,
+        "unexplained": 0.452
+      },
+      "decision": "continue",
+      "notes": ""
+    },
+    {
+      "round": 2,
+      "hypotheses_added": [],
+      "hypotheses_retired": [],
+      "calls": [],
+      "evidence_accepted": 0,
+      "evidence_rejected": 0,
+      "posteriors": {
+        "H1": 0.274,
+        "H2": 0.274,
+        "unexplained": 0.452
+      },
+      "decision": "continue",
+      "notes": ""
+    },
+    {
+      "round": 3,
+      "hypotheses_added": [],
+      "hypotheses_retired": [],
+      "calls": [],
+      "evidence_accepted": 0,
+      "evidence_rejected": 0,
+      "posteriors": {
+        "H1": 0.274,
+        "H2": 0.274,
+        "unexplained": 0.452
+      },
+      "decision": "no new evidence for two rounds",
+      "notes": ""
+    }
+  ],
+  "stats": {
+    "rounds": 3,
+    "tool_calls": 7,
+    "evidence_accepted": 2,
+    "evidence_rejected": 0,
+    "llm_usage": null
+  }
+}

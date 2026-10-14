@@ -20,8 +20,10 @@ why_hard: >
   latency onset, and identify the rule rather than "edge is overloaded".
 category: configuration
 ground_truth:
-  components: [edge-waf-rules, waf, edge]
+  components: [edge-waf-rules, waf]
   categories: [configuration, resource_exhaustion, code_defect]
+  # the root-cause statement must name one of these for a 'correct' verdict
+  mechanism: [regex, regular expression, waf]
   keywords: [regex, waf, rule, backtrack, edge-waf-rules]
   must_not_blame: [checkout, postgres, inventory, pricing]
 multi_source: true   # ConfigMap diff (k8s) + CPU/latency onset (metrics) + config reload log

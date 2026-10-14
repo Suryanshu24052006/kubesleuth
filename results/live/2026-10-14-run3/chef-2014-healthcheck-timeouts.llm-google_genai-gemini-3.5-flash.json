@@ -1,0 +1,972 @@
+{
+  "id": "20261014-082517-a318f2",
+  "incident": "Checkout pods keep restarting and the storefront is throwing errors.",
+  "namespace": "shop",
+  "reasoner": "llm:google_genai:gemini-3.5-flash",
+  "started_at": "2026-10-14T08:25:17Z",
+  "finished_at": "2026-10-14T08:26:46Z",
+  "duration_s": 89.0,
+  "stop_reason": "confident: H1 p=0.96, margin 0.94, sources ['kubernetes', 'kubernetes-logs']",
+  "title": "Checkout CrashLoopBackOff due to Aggressive Deep Liveness Probe",
+  "root_cause": {
+    "hypothesis": "H1",
+    "statement": "The checkout service was configured with an overly aggressive 'deep' liveness probe (1s timeout, failureThreshold=1) that failed when its dependencies (Postgres and Inventory) slowed down due to a database connection bottleneck.",
+    "component": "deployment/checkout",
+    "category": "probe_misconfiguration"
+  },
+  "confidence": {
+    "label": "high",
+    "posterior": 0.961,
+    "explanation": "High: the leading cause is supported by multiple independent sources and nothing strongly contradicts it."
+  },
+  "causal_chain": [
+    {
+      "step": "Scaling up inventory (1 to 4) and catalog-indexer (1 to 3) increased the connection load on the shared Postgres database.",
+      "observation_ids": [
+        "O3"
+      ]
+    },
+    {
+      "step": "Postgres reached connection limits, causing connection timeouts and increased latency for dependent services like inventory.",
+      "observation_ids": [
+        "O5",
+        "O6"
+      ]
+    },
+    {
+      "step": "The checkout liveness probe was updated to use a 'deep' check (?deep=1) with a strict 1s timeout and a failure threshold of 1.",
+      "observation_ids": [
+        "O3"
+      ]
+    },
+    {
+      "step": "The deep health check, which depends on the now-slow DB and inventory services, exceeded the 1s timeout.",
+      "observation_ids": [
+        "O2"
+      ]
+    },
+    {
+      "step": "Because the failure threshold was set to 1, a single timeout caused Kubernetes to kill and restart the checkout pods, leading to a CrashLoopBackOff.",
+      "observation_ids": [
+        "O2",
+        "O4"
+      ]
+    }
+  ],
+  "facts": [
+    {
+      "observation_id": "O2",
+      "quote": "Liveness probe failed: Get \"http://10.244.1.50:8080/healthz?deep=1\": context deadline exceeded",
+      "statement": "Checkout liveness probes began failing with timeouts immediately after the configuration change.",
+      "time": "2026-10-14T08:23:18Z",
+      "source": "kubernetes"
+    },
+    {
+      "observation_id": "O4",
+      "quote": "last_termination\": {\"container\": \"checkout\", \"reason\": \"Completed\", \"exit_code\": 0",
+      "statement": "Checkout containers are terminating with exit code 0, which is consistent with a graceful shutdown triggered by a liveness probe failure.",
+      "time": "2026-10-14T08:24:35Z",
+      "source": "kubernetes"
+    },
+    {
+      "observation_id": "O4",
+      "quote": "pod inventory-6ffc77fd45-dvnzz has restarted 2 times",
+      "statement": "The inventory service, a likely dependency of checkout, has experienced restarts.",
+      "time": "2026-10-14T08:25:17Z",
+      "source": "kubernetes"
+    },
+    {
+      "observation_id": "O1",
+      "quote": "63.72% of edge requests fail with 5xx.",
+      "statement": "The storefront is experiencing a high error rate due to the checkout service being unavailable.",
+      "time": "2026-10-14T08:24:36Z",
+      "source": "alertmanager"
+    },
+    {
+      "observation_id": "O4",
+      "quote": "service checkout has 0 ready endpoints (3 not ready)",
+      "statement": "The checkout service has no ready endpoints, causing the storefront 5xx errors.",
+      "time": "2026-10-14T08:25:17Z",
+      "source": "kubernetes"
+    },
+    {
+      "observation_id": "O5",
+      "quote": "error connecting in 'pool-1': connection timeout expired",
+      "statement": "Checkout pods are failing to establish database connections, timing out after 10 seconds.",
+      "time": "2026-10-14T08:25:30.406Z",
+      "source": "kubernetes-logs"
+    },
+    {
+      "observation_id": "O6",
+      "quote": "db_errors_rps: [{\"labels\": {\"kind\": \"ConnectionTimeout\"}, \"points\": 11, \"from\": \"2026-10-14T08:23:47Z\"",
+      "statement": "Inventory service is also experiencing database connection timeouts.",
+      "time": "2026-10-14T08:23:47Z",
+      "source": "prometheus"
+    },
+    {
+      "observation_id": "O5",
+      "quote": "asyncio.exceptions.CancelledError",
+      "statement": "Checkout application startup is being cancelled, likely by the kubelet killing the container due to probe failure.",
+      "time": "2026-10-14T08:25:37.368Z",
+      "source": "kubernetes-logs"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "H1",
+      "statement": "The new 'deep' liveness probe for checkout is too aggressive and is failing due to dependency latency.",
+      "mechanism": "The liveness probe was changed to use '?deep=1' with a 1s timeout and failureThreshold=1. If a dependency (like inventory or postgres) takes >1s to respond, the pod is killed immediately.",
+      "component": "deployment/checkout",
+      "category": "probe_misconfiguration",
+      "layer": "cause",
+      "status": "active",
+      "retired_reason": "",
+      "posterior": 0.961,
+      "supporting": 3,
+      "contradicting": 0,
+      "sources": [
+        "kubernetes",
+        "kubernetes-logs"
+      ],
+      "strong_contradictions": 0
+    },
+    {
+      "id": "H3",
+      "statement": "The Postgres database is saturated due to the recent scale-up of inventory and catalog-indexer.",
+      "mechanism": "Scaling inventory (1->4) and catalog-indexer (1->3) increased the connection load on Postgres. This causes connection timeouts for all clients (checkout, inventory). Checkout's new liveness probe (?deep=1) fails when it can't reach the DB, and with failureThreshold=1, it restarts the pod immediately.",
+      "component": "statefulset/postgres",
+      "category": "resource_exhaustion",
+      "layer": "cause",
+      "status": "active",
+      "retired_reason": "",
+      "posterior": 0.024,
+      "supporting": 1,
+      "contradicting": 0,
+      "sources": [
+        "prometheus"
+      ],
+      "strong_contradictions": 0
+    },
+    {
+      "id": "H2",
+      "statement": "The checkout service is failing because the inventory service is unhealthy.",
+      "mechanism": "Checkout's deep health check depends on inventory. Inventory pods were recently OOMKilled (exit 137), and if they are slow to respond, they trigger checkout's liveness failure.",
+      "component": "deployment/inventory",
+      "category": "dependency",
+      "layer": "cause",
+      "status": "active",
+      "retired_reason": "",
+      "posterior": 0.008,
+      "supporting": 1,
+      "contradicting": 0,
+      "sources": [
+        "kubernetes"
+      ],
+      "strong_contradictions": 0
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "hypothesis": "H1",
+      "observation": "O3",
+      "source": "kubernetes",
+      "stance": "supports",
+      "strength": "strong",
+      "weight": 2.3,
+      "quote": "new\": \"{\\\"failureThreshold\\\": 1, \\\"httpGet\\\": {\\\"path\\\": \\\"/healthz?deep=1\\\", \\\"port\\\": \\\"http\\\", \\\"scheme\\\": \\\"HTTP\\\"}, \\\"periodSeconds\\\": 5, \\\"successThreshold\\\": 1, \\\"timeoutSeconds\\\": 1}\"",
+      "rationale": "The change to a 1s timeout and failureThreshold of 1 is extremely brittle for a 'deep' check that likely hits other services."
+    },
+    {
+      "id": "E2",
+      "hypothesis": "H1",
+      "observation": "O2",
+      "source": "kubernetes",
+      "stance": "supports",
+      "strength": "strong",
+      "weight": 1.38,
+      "quote": "Liveness probe failed: Get \"http://10.244.1.50:8080/healthz?deep=1\": context deadline exceeded",
+      "rationale": "The 'context deadline exceeded' error directly matches the 1s timeout configured in the new probe."
+    },
+    {
+      "id": "E3",
+      "hypothesis": "H2",
+      "observation": "O4",
+      "source": "kubernetes",
+      "stance": "supports",
+      "strength": "moderate",
+      "weight": 1.2,
+      "quote": "last_termination\": {\"container\": \"inventory\", \"reason\": \"Error\", \"exit_code\": 137",
+      "rationale": "Inventory being OOMKilled at 08:19 suggests it is unstable, which would cause a 'deep' health check in checkout to fail."
+    },
+    {
+      "id": "E4",
+      "hypothesis": "H1",
+      "observation": "O5",
+      "source": "kubernetes-logs",
+      "stance": "supports",
+      "strength": "strong",
+      "weight": 2.3,
+      "quote": "error connecting in 'pool-1': connection timeout expired",
+      "rationale": "The logs show the application failing to connect to its dependency (DB) during startup, which would cause the 'deep' liveness probe to fail."
+    },
+    {
+      "id": "E7",
+      "hypothesis": "H3",
+      "observation": "O6",
+      "source": "prometheus",
+      "stance": "supports",
+      "strength": "strong",
+      "weight": 2.3,
+      "quote": "db_errors_rps: [{\"labels\": {\"kind\": \"ConnectionTimeout\"}",
+      "rationale": "Both checkout and inventory are reporting DB connection timeouts, pointing to a shared bottleneck at the database layer."
+    }
+  ],
+  "rejected_evidence": [
+    {
+      "hypothesis": "H1",
+      "observation": "O3",
+      "quote": "containers[checkout].livenessProbe: {\"failureThreshold\": 3, ... -> {\"failureThreshold\": 1",
+      "reason": "quote not found verbatim in the cited observation"
+    },
+    {
+      "hypothesis": "H2",
+      "observation": "O6",
+      "quote": "latency_p95_seconds: 0.2374->3.9 (onset 2026-10-14T08:19:32Z increase)",
+      "reason": "quote not found verbatim in the cited observation"
+    }
+  ],
+  "alternatives": [
+    {
+      "hypothesis_id": "H2",
+      "why_less_likely": "While inventory instability (OOMKills) contributed to the latency, the immediate cause of the checkout pod restarts was the liveness probe configuration. A standard shallow probe would have kept the pods running despite the dependency slowness."
+    },
+    {
+      "hypothesis_id": "H3",
+      "why_less_likely": "Postgres saturation is the trigger for the latency, but the 'hard failure' (restarts) is specifically due to how the checkout liveness probe was configured to react to that latency."
+    }
+  ],
+  "uncertainty": [
+    "The exact Postgres connection limit and current usage were not directly observed, though connection timeouts in logs strongly imply saturation."
+  ],
+  "remediation": [
+    "Revert the checkout liveness probe to a shallow check (e.g., /readyz or /healthz without ?deep=1).",
+    "Increase the liveness probe timeoutSeconds to at least 5s and failureThreshold to 3 if a deep check is required.",
+    "Investigate and increase the max_connections setting on the Postgres statefulset.",
+    "Implement connection pooling (e.g., PgBouncer) to handle the increased load from scaled-up microservices."
+  ],
+  "timeline": [
+    {
+      "time": "2026-10-14T07:49:52.298Z",
+      "event": "alert Watchdog fired (none)",
+      "kind": "alert",
+      "observation_id": "O1",
+      "source": "alertmanager"
+    },
+    {
+      "time": "2026-10-14T07:53:29+00:00",
+      "event": "configmap/checkout-config last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:29+00:00",
+      "event": "configmap/edge-waf-rules last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:29+00:00",
+      "event": "configmap/feature-flags last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:29+00:00",
+      "event": "configmap/kube-root-ca.crt last-write (by kube-controller-manager)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:29+00:00",
+      "event": "service/catalog-indexer last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:29+00:00",
+      "event": "service/checkout last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:29+00:00",
+      "event": "service/edge last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:29+00:00",
+      "event": "service/inventory last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:29+00:00",
+      "event": "service/postgres last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:29+00:00",
+      "event": "service/pricing last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "deployment/catalog-indexer modified: spec.replicas 3 \u2192 1 (since reverted) (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "deployment/inventory modified: spec.replicas 4 \u2192 1 (since reverted) (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "rollout/catalog-indexer new-revision",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "rollout/checkout new-revision",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "rollout/edge new-revision",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "rollout/inventory new-revision",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "rollout/loadgen new-revision",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "rollout/pricing new-revision",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "rollout/recommendations new-revision",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "rollout/review-bot new-revision",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "rollout/telemetry-collector new-revision",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "service/recommendations last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "deployment/edge last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "deployment/loadgen last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "deployment/pricing last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "deployment/recommendations last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "deployment/review-bot last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "deployment/telemetry-collector last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "statefulset/postgres last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "hpa/edge last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:33Z",
+      "event": "event Unhealthy x65 on Pod/checkout-68fb58bcfd-92lpn,checkout-68fb58bcfd-jlw7x: Readiness probe failed: Get \"http://10.244.1.50:8080/readyz\": dial tcp 10.244.1.50:8080: c\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:33Z",
+      "event": "event Unhealthy x16 on Pod/catalog-indexer-6f6b545fdb-27c8g,catalog-indexer-6f6b545fdb-7gbtg: Readiness probe failed: Get \"http://10.244.1.44:8080/healthz\": dial tcp 10.244.1.44:8080: \u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:33Z",
+      "event": "event Unhealthy x23 on Pod/inventory-6ffc77fd45-28b67,inventory-6ffc77fd45-5hvm2: Readiness probe failed: Get \"http://10.244.1.27:8080/healthz\": dial tcp 10.244.1.27:8080: \u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:33Z",
+      "event": "event Unhealthy x5 on Pod/edge-6675f7688f-dtglc,edge-6675f7688f-qfm4b: Readiness probe failed: Get \"http://10.244.1.22:8080/healthz\": dial tcp 10.244.1.22:8080: \u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:34Z",
+      "event": "event Unhealthy x5 on Pod/pricing-95c99775f-rtmsj,pricing-95c99775f-z5psf: Readiness probe failed: Get \"http://10.244.1.32:8080/healthz\": dial tcp 10.244.1.32:8080: \u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:34Z",
+      "event": "event Unhealthy x6 on Pod/recommendations-7bd4dd95d6-gfbqx,recommendations-7bd4dd95d6-pxghg: Readiness probe failed: Get \"http://10.244.1.34:8080/healthz\": dial tcp 10.244.1.34:8080: \u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:34Z",
+      "event": "event Unhealthy x3 on Pod/telemetry-collector-865ccb84c6-htm9x: Readiness probe failed: Get \"http://10.244.1.37:8080/healthz\": dial tcp 10.244.1.37:8080: \u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:35Z",
+      "event": "event Unhealthy x1 on Pod/edge-6675f7688f-dtglc: Liveness probe failed: Get \"http://10.244.1.22:8080/healthz\": dial tcp 10.244.1.22:8080: c\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:40Z",
+      "event": "event Unhealthy x3 on Pod/catalog-indexer-6f6b545fdb-7gbtg,catalog-indexer-6f6b545fdb-pmnvz: Liveness probe failed: Get \"http://10.244.1.20:8080/healthz\": dial tcp 10.244.1.20:8080: c\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:40Z",
+      "event": "event Unhealthy x3 on Pod/checkout-69cf4467b9-2cjfb,checkout-69cf4467b9-mtmgb: Liveness probe failed: Get \"http://10.244.1.25:8080/healthz\": dial tcp 10.244.1.25:8080: c\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:43Z",
+      "event": "event FailedCreatePodSandBox x1 on Pod/postgres-0: Failed to create pod sandbox: rpc error: code = Unavailable desc = error reading from serv\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:45Z",
+      "event": "event FailedGetResourceMetric x2 on HorizontalPodAutoscaler/edge: failed to get cpu utilization: unable to get metrics for resource cpu: no metrics returned\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:45Z",
+      "event": "event FailedComputeMetricsReplicas x2 on HorizontalPodAutoscaler/edge: invalid metrics (1 invalid out of 1), first error is: failed to get cpu resource metric va\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:45Z",
+      "event": "event InspectFailed x1 on Pod/postgres-0: Failed to inspect image \"\": rpc error: code = Unavailable desc = connection error: desc = \u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:45Z",
+      "event": "event Failed x1 on Pod/postgres-0: Error: ImageInspectError",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:50Z",
+      "event": "event Unhealthy x1 on Pod/postgres-0: Readiness probe failed: /var/run/postgresql:5432 - no response\n",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T08:01:26+00:00",
+      "event": "service/telemetry-collector-v2 created (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T08:01:26Z",
+      "event": "service/telemetry-collector deleted",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T08:12:26Z",
+      "event": "service/telemetry-collector-v2 deleted",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T08:12:27+00:00",
+      "event": "service/telemetry-collector created (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T08:15:36Z",
+      "event": "event Unhealthy x14 on Pod/inventory-6ffc77fd45-dvnzz: Readiness probe failed: Get \"http://10.244.1.30:8080/healthz\": context deadline exceeded (\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T08:15:43Z",
+      "event": "event Unhealthy x4 on Pod/inventory-6ffc77fd45-dvnzz: Liveness probe failed: Get \"http://10.244.1.30:8080/healthz\": context deadline exceeded (C\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T08:18:54+00:00",
+      "event": "deployment/catalog-indexer modified: spec.replicas 1 \u2192 3 (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T08:18:54+00:00",
+      "event": "deployment/inventory modified: spec.replicas 1 \u2192 4 (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T08:19:32Z",
+      "event": "inventory latency_p95_seconds increase: 0.248985 \u2192 1.78701",
+      "kind": "onset",
+      "observation_id": "O6",
+      "source": "prometheus"
+    },
+    {
+      "time": "2026-10-14T08:22:12+00:00",
+      "event": "deployment/checkout modified: containers[checkout].livenessProbe {\"failureThreshold\": 3, \"httpG\u2026 \u2192 {\"failureThreshold\": 1, \"httpG\u2026 (by kubectl-patch)",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T08:22:12+00:00",
+      "event": "rollout/checkout new-revision: containers[checkout].livenessProbe {\"failureThreshold\": 3, \"httpG\u2026 \u2192 {\"failureThreshold\": 1, \"httpG\u2026",
+      "kind": "change",
+      "observation_id": "O3",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T08:23:18Z",
+      "event": "event Unhealthy x3 on Pod/checkout-68fb58bcfd-92lpn,checkout-68fb58bcfd-jlw7x: Liveness probe failed: Get \"http://10.244.1.50:8080/healthz?deep=1\": context deadline exce\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T08:23:22Z",
+      "event": "event Unhealthy x12 on Pod/checkout-68fb58bcfd-92lpn,checkout-68fb58bcfd-jlw7x: Liveness probe failed: Get \"http://10.244.1.50:8080/healthz?deep=1\": dial tcp 10.244.1.50:\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T08:23:32Z",
+      "event": "inventory error_ratio_5xx increase: 0.0 \u2192 0.181232",
+      "kind": "onset",
+      "observation_id": "O6",
+      "source": "prometheus"
+    },
+    {
+      "time": "2026-10-14T08:23:32Z",
+      "event": "inventory errors_by_pod_rps[inventory-6ffc77fd45-5hvm2] increase: 0.0 \u2192 0.177778",
+      "kind": "onset",
+      "observation_id": "O6",
+      "source": "prometheus"
+    },
+    {
+      "time": "2026-10-14T08:23:32Z",
+      "event": "inventory db_errors_rps[OperationalError] increase: 0.0 \u2192 0.044444",
+      "kind": "onset",
+      "observation_id": "O6",
+      "source": "prometheus"
+    },
+    {
+      "time": "2026-10-14T08:23:55Z",
+      "event": "event BackOff x3 on Pod/checkout-68fb58bcfd-92lpn: Back-off restarting failed container checkout in pod checkout-68fb58bcfd-92lpn_shop(a664d5\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T08:23:55Z",
+      "event": "event BackOff x3 on Pod/checkout-68fb58bcfd-jsmz4: Back-off restarting failed container checkout in pod checkout-68fb58bcfd-jsmz4_shop(f450fc\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T08:23:56Z",
+      "event": "event BackOff x3 on Pod/checkout-68fb58bcfd-jlw7x: Back-off restarting failed container checkout in pod checkout-68fb58bcfd-jlw7x_shop(153907\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T08:24:36.975Z",
+      "event": "alert ShopEdgeHigh5xxRate fired (critical)",
+      "kind": "alert",
+      "observation_id": "O1",
+      "source": "alertmanager"
+    },
+    {
+      "time": "2026-10-14T08:25:30.406183699Z",
+      "event": "first log: error connecting in 'pool-<n>': connection timeout expired (x7)",
+      "kind": "log",
+      "observation_id": "O5",
+      "source": "kubernetes-logs"
+    },
+    {
+      "time": "2026-10-14T08:25:37.366083219Z",
+      "event": "first log: schema check deferred error=couldn't get a connection after <n> sec (x1)",
+      "kind": "log",
+      "observation_id": "O5",
+      "source": "kubernetes-logs"
+    },
+    {
+      "time": "2026-10-14T08:25:37.367953316Z",
+      "event": "first log: ERROR: Traceback (most recent call last): (x1)",
+      "kind": "log",
+      "observation_id": "O5",
+      "source": "kubernetes-logs"
+    },
+    {
+      "time": "2026-10-14T08:25:37.368099086Z",
+      "event": "first log: asyncio.exceptions.CancelledError (x1)",
+      "kind": "log",
+      "observation_id": "O5",
+      "source": "kubernetes-logs"
+    }
+  ],
+  "security": {
+    "events": [],
+    "model_notes": []
+  },
+  "observations": [
+    {
+      "id": "O1",
+      "round": 0,
+      "tool": "active_alerts",
+      "args": {},
+      "purpose": "what is alerting and since when",
+      "ok": true,
+      "source": "alertmanager",
+      "flagged": 0
+    },
+    {
+      "id": "O2",
+      "round": 0,
+      "tool": "get_events",
+      "args": {
+        "namespace": "shop",
+        "minutes": 60,
+        "warnings_only": true
+      },
+      "purpose": "recent warning events",
+      "ok": true,
+      "source": "kubernetes",
+      "flagged": 0
+    },
+    {
+      "id": "O3",
+      "round": 0,
+      "tool": "recent_changes",
+      "args": {
+        "namespace": "shop",
+        "minutes": 120
+      },
+      "purpose": "what changed recently",
+      "ok": true,
+      "source": "kubernetes",
+      "flagged": 0
+    },
+    {
+      "id": "O4",
+      "round": 0,
+      "tool": "cluster_overview",
+      "args": {
+        "namespace": "shop"
+      },
+      "purpose": "resource-level health snapshot",
+      "ok": true,
+      "source": "kubernetes",
+      "flagged": 0
+    },
+    {
+      "id": "O5",
+      "round": 1,
+      "tool": "pod_logs",
+      "args": {
+        "namespace": "shop",
+        "pod": "checkout-68fb58bcfd-92lpn",
+        "previous": true
+      },
+      "purpose": "To see the specific error or timeout message from the /healthz?deep=1 handler before the pod was killed.",
+      "ok": true,
+      "source": "kubernetes-logs",
+      "flagged": 0
+    },
+    {
+      "id": "O6",
+      "round": 1,
+      "tool": "workload_metrics",
+      "args": {
+        "namespace": "shop",
+        "workload": "inventory"
+      },
+      "purpose": "To check if the inventory service is currently experiencing high latency or errors that would impact checkout.",
+      "ok": true,
+      "source": "prometheus",
+      "flagged": 0
+    },
+    {
+      "id": "O7",
+      "round": 1,
+      "tool": "find_traces",
+      "args": {
+        "service": "checkout",
+        "errors_only": true
+      },
+      "purpose": "To identify which dependency is causing the /healthz?deep=1 call to exceed the 1s timeout.",
+      "ok": true,
+      "source": "jaeger",
+      "flagged": 0
+    }
+  ],
+  "rounds": [
+    {
+      "round": 0,
+      "hypotheses_added": [
+        "H1",
+        "H2"
+      ],
+      "hypotheses_retired": [],
+      "calls": [
+        {
+          "observation": "O1",
+          "tool": "active_alerts",
+          "args": {},
+          "purpose": "what is alerting and since when",
+          "ok": true
+        },
+        {
+          "observation": "O2",
+          "tool": "get_events",
+          "args": {
+            "namespace": "shop",
+            "minutes": 60,
+            "warnings_only": true
+          },
+          "purpose": "recent warning events",
+          "ok": true
+        },
+        {
+          "observation": "O3",
+          "tool": "recent_changes",
+          "args": {
+            "namespace": "shop",
+            "minutes": 120
+          },
+          "purpose": "what changed recently",
+          "ok": true
+        },
+        {
+          "observation": "O4",
+          "tool": "cluster_overview",
+          "args": {
+            "namespace": "shop"
+          },
+          "purpose": "resource-level health snapshot",
+          "ok": true
+        }
+      ],
+      "evidence_accepted": 3,
+      "evidence_rejected": 0,
+      "posteriors": {},
+      "decision": "",
+      "notes": ""
+    },
+    {
+      "round": 1,
+      "hypotheses_added": [
+        "H3"
+      ],
+      "hypotheses_retired": [],
+      "calls": [
+        {
+          "observation": "O5",
+          "tool": "pod_logs",
+          "args": {
+            "namespace": "shop",
+            "pod": "checkout-68fb58bcfd-92lpn",
+            "previous": true
+          },
+          "purpose": "To see the specific error or timeout message from the /healthz?deep=1 handler before the pod was killed.",
+          "ok": true
+        },
+        {
+          "observation": "O6",
+          "tool": "workload_metrics",
+          "args": {
+            "namespace": "shop",
+            "workload": "inventory"
+          },
+          "purpose": "To check if the inventory service is currently experiencing high latency or errors that would impact checkout.",
+          "ok": true
+        },
+        {
+          "observation": "O7",
+          "tool": "find_traces",
+          "args": {
+            "service": "checkout",
+            "errors_only": true
+          },
+          "purpose": "To identify which dependency is causing the /healthz?deep=1 call to exceed the 1s timeout.",
+          "ok": true
+        }
+      ],
+      "evidence_accepted": 2,
+      "evidence_rejected": 2,
+      "posteriors": {
+        "H1": 0.961,
+        "H2": 0.008,
+        "H3": 0.024,
+        "unexplained": 0.007
+      },
+      "decision": "confident: H1 p=0.96, margin 0.94, sources ['kubernetes', 'kubernetes-logs']",
+      "notes": ""
+    }
+  ],
+  "stats": {
+    "rounds": 1,
+    "tool_calls": 7,
+    "evidence_accepted": 5,
+    "evidence_rejected": 2,
+    "llm_usage": {
+      "calls": 3,
+      "input_tokens": 41027,
+      "output_tokens": 7158,
+      "models": [
+        "google_genai:gemini-3.5-flash",
+        "google_genai:gemini-3.6-flash",
+        "google_genai:gemini-3-flash-preview"
+      ]
+    }
+  }
+}

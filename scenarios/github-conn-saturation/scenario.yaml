@@ -19,9 +19,11 @@ why_hard: >
   (k8s), the error text (logs/traces) and the error onset (metrics).
 category: configuration
 ground_truth:
-  components: [checkout-config, checkout]
+  components: [checkout-config]
   categories: [configuration]
-  keywords: [DB_POOL_SIZE, pool, max_connections, too many clients, connection]
+  # the root-cause statement must name one of these for a 'correct' verdict
+  mechanism: [db_pool_size, pool size, checkout-config]
+  keywords: [DB_POOL_SIZE, pool, max_connections, too many clients, connect]
   must_not_blame: [inventory, edge, postgres]
 multi_source: true
 incident: "The checkout service is experiencing a sudden increase in 5xx errors."

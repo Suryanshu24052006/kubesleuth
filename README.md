@@ -57,7 +57,7 @@ in a log, the worst it could do is make more read-only queries.
 - **It's frugal with the model.** One LLM call per investigation round (about 6 per incident), retries on
   rate limits and overloads, and automatic fallback to another model when a free daily quota runs out.
 - **It's tested on a real cluster, not just in theory.** A GitHub Actions workflow builds the whole
-  environment from scratch, breaks it six ways and scores the agent. Those runs found 8 real problems,
+  environment from scratch, breaks it six ways and scores the agent. Those runs found 9 real problems,
   all fixed (see [results/](results/README.md)).
 - **It asks useful questions.** When choosing what to query next, the agent is asked for queries whose
   answer would be different depending on which explanation is true, not ones that just confirm its
@@ -92,7 +92,7 @@ injects every scenario and lets the agent investigate. The results are saved to 
 ### Without a cluster (about 2 minutes)
 ```bash
 make venv                                   # needs Python 3.11+
-make test                                   # 83 tests
+make test                                   # 88 tests
 make demo-offline REASONER=rules            # runs on a recorded incident, no API key needed
 make security-probe-offline                 # throws 14 attacks at the broker
 ANTHROPIC_API_KEY=... make demo-offline     # same incident, with the LLM
@@ -150,29 +150,33 @@ make security-demo   # RBAC, credentials, network policy and broker attack check
 
 **Live, on a real cluster.** The [`live-eval`](.github/workflows/live.yml) workflow builds the whole
 environment from scratch on a GitHub-hosted machine (`make up`), runs the security demo, then injects every
-scenario and lets the agent investigate:
+scenario and lets two reasoners investigate the same live incident. Three full runs, 36 investigations,
+graded strictly (the root-cause statement must name the right component *and* mechanism):
 
-| | Run 1 | Run 2 (after fixing what run 1 exposed) |
-|---|---|---|
-| Baseline (rules), correct root cause | 3 / 6 | **4 / 6**, none wrong |
-| LLM agent (Gemini, free tier), correct root cause | 2 / 5 (6th: quota) | **4 / 6**, 1 partial, none wrong, high confidence (0.89–0.99) on all 4 |
-| Security demo on the live cluster | passed | passed: RBAC, no credentials in the agent pod, network isolation, 14/14 attacks blocked |
+| | Baseline (rules) | LLM agent (Gemini, free tier) | Either one |
+|---|---|---|---|
+| Correct root cause | **10 / 18** | **8 / 17** (+4 partially right) | **15 / 18** |
+| Security demo on the live cluster | passed in all 3 runs: RBAC, no credentials in the agent pod, network isolation, 14/14 attacks blocked | | |
 
-In run 2, at least one of the two approaches found the root cause in **all 6** scenarios. Per-scenario
-reports, the security demo output and the 8 problems the live runs exposed (each with its fix and test) are
-in **[results/](results/README.md)**. Those problems include a broker bug that credited `kubectl scale`
-to the Kubernetes controller instead of the person who ran it.
+The two are complementary. The baseline wins when one recent change explains everything (AWS S3 and EBS,
+Knight Capital: 9/9). The LLM wins when the cause has to be reasoned out across sources (Chef's aggressive
+probe 3/3, Cloudflare's exact regex rule 2/3). Neither has solved the GitHub scenario, where the failing
+service is only a victim. Per-scenario reports, the security demo output and the 9 problems the live runs
+exposed (each with its fix and test) are in **[results/](results/README.md)**. They include a broker bug that
+credited `kubectl scale` to the Kubernetes controller, and a scorer that was too lenient until I re-graded
+everything strictly.
 
-**Automated tests.** 83 tests run on every push ([ci](.github/workflows/ci.yml)):
+**Automated tests.** 88 tests run on every push ([ci](.github/workflows/ci.yml)):
 - policy and PromQL scoping, credential redaction and injection flagging;
 - the MCP protocol end to end, including denied calls, rate limiting and the audit log;
 - the evidence ledger;
 - full scripted investigations, including one where the model is deliberately hijacked and one with
   live-sized results;
 - the LLM path through LangChain structured output (one call per round, quota fallback, overload retries);
+- the evaluation scorer (it must not credit victim-blaming answers);
 - manifest validation against the Kubernetes 1.33 schemas.
 
 **Honest limits.** The free Gemini tier is the bottleneck for LLM results (a few requests per minute,
 about 20 per day per model). The runs are on a 4-vCPU machine, where heavy scenarios can also stress
-the cluster itself. Each scenario was run once per reasoner, so treat the numbers as indicative, not
-statistically strong.
+the cluster itself. Three runs per scenario show real variance (the LLM's Cloudflare verdicts went correct, correct, wrong),
+so treat the numbers as indicative, not statistically strong.

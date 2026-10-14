@@ -23,6 +23,8 @@ category: version_skew
 ground_truth:
   components: [pricing-legacy, pricing]
   categories: [version_skew, deployment, configuration, code_defect]
+  # the root-cause statement must name one of these for a 'correct' verdict
+  mechanism: [legacy, 0.9.7, stale, old version, older image, older version]
   keywords: [legacy, 0.9.7, stale, old version, powerpeg, smart_routing, version]
   must_not_blame: [checkout, edge, postgres]
 multi_source: true   # per-pod error metrics + Service backing workloads/images (k8s) + logs

@@ -22,6 +22,8 @@ category: probe_misconfiguration
 ground_truth:
   components: [checkout]
   categories: [probe_misconfiguration, configuration]
+  # the root-cause statement must name one of these for a 'correct' verdict
+  mechanism: [liveness, probe, health check, healthz]
   keywords: [liveness, probe, timeoutSeconds, health check, healthz]
   must_not_blame: [edge, inventory, pricing]
 multi_source: true   # probe diff (journal) + Unhealthy/Killing events + restarts (metrics) + DB span latency (traces)

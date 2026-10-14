@@ -1,9 +1,9 @@
 # kubesleuth evaluation, 20261013-104404
 
-Run on a GitHub-hosted runner (ubuntu-latest), kind v0.29.0, commit cb62b10b49d96a9acf6e64b11fb9585346d1b2bf, workflow run https://github.com/Suryanshu24052006/kubesleuth/actions/runs/38383868038
+Run on a GitHub-hosted runner (ubuntu-latest), kind v0.29.0, commit cb62b10b49d96a9acf6e64b11fb9585346d1b2bf, workflow run https://github.com/Suryanshu24052006/kubesleuth/actions/runs/38383868038 Graded with eval/score.py (strict scorer). Graded with eval/score.py (strict scorer).
 
-**rules**: correct 3/6, partial 1, inconclusive 1, wrong 1  
-**llm:google_genai:gemini-3.5-flash**: correct 2/5, partial 2, inconclusive 1, wrong 0  
+**rules**: correct 3/6, partial 0, inconclusive 1, wrong 2  
+**llm:google_genai:gemini-3.5-flash**: correct 2/5, partial 1, inconclusive 1, wrong 1  
 **llm**: correct 0/1, partial 0, inconclusive 0, wrong 0, errors 1  
 
 | Scenario | Reasoner | Alert fired | Verdict | Confidence | Evidence sources | Rounds | Tool calls | Rejected claims | Time (s) | Tokens | Root cause given by the agent |
@@ -11,8 +11,8 @@ Run on a GitHub-hosted runner (ubuntu-latest), kind v0.29.0, commit cb62b10b49d9
 | [aws-ebs-2012-latent-leak](aws-ebs-2012-latent-leak.rules.md) | rules | ShopEdgeLatencyHigh | **correct** | low (0.378) | kubernetes | 3 | 7 | 0 | 0.5 | 0 | Service telemetry-collector was deleted () so callers cannot reach it |
 | [aws-ebs-2012-latent-leak](aws-ebs-2012-latent-leak.llm-google_genai-gemini-3.5-flash.md) | llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview) | ShopEdgeLatencyHigh | **inconclusive** | inconclusive (0.0) |  | 2 | 12 | 0 | 215.6 | 36951 | The 'telemetry-collector' service was renamed to 'telemetry-collector-v2' without updating application configurations, causing DNS resolution failures and resou |
 | [aws-s3-2017-capacity-removal](aws-s3-2017-capacity-removal.rules.md) | rules | InfoInhibitor, ShopEdgeHigh5xxRate | **correct** | low (0.411) | kubernetes, prometheus | 4 | 10 | 0 | 0.6 | 0 | Capacity of inventory was reduced (spec.replicas 4->1) |
-| [aws-s3-2017-capacity-removal](aws-s3-2017-capacity-removal.llm-google_genai-gemini-3.5-flash.md) | llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview) | InfoInhibitor, ShopEdgeHigh5xxRate | **partial** | low (0.586) | kubernetes | 2 | 8 | 2 | 121.3 | 71507 | The container runtime (containerd) on node 'kubesleuth-worker' became unresponsive or crashed, preventing the Kubelet from performing health probes and managing |
-| [chef-2014-healthcheck-timeouts](chef-2014-healthcheck-timeouts.rules.md) | rules | ShopEdgeHigh5xxRate | **partial** | medium (0.633) | kubernetes, prometheus | 3 | 11 | 0 | 0.7 | 0 | Capacity of inventory was reduced (spec.replicas 4->1) |
+| [aws-s3-2017-capacity-removal](aws-s3-2017-capacity-removal.llm-google_genai-gemini-3.5-flash.md) | llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview) | InfoInhibitor, ShopEdgeHigh5xxRate | **wrong** | low (0.586) | kubernetes | 2 | 8 | 2 | 121.3 | 71507 | The container runtime (containerd) on node 'kubesleuth-worker' became unresponsive or crashed, preventing the Kubelet from performing health probes and managing |
+| [chef-2014-healthcheck-timeouts](chef-2014-healthcheck-timeouts.rules.md) | rules | ShopEdgeHigh5xxRate | **wrong** | medium (0.633) | kubernetes, prometheus | 3 | 11 | 0 | 0.7 | 0 | Capacity of inventory was reduced (spec.replicas 4->1) |
 | [chef-2014-healthcheck-timeouts](chef-2014-healthcheck-timeouts.llm-google_genai-gemini-3.5-flash.md) | llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview) | ShopEdgeHigh5xxRate | **correct** | low (0.586) | kubernetes | 2 | 8 | 1 | 92.7 | 51627 | The checkout deployment's liveness probe was reconfigured with an overly aggressive failureThreshold of 1 and a 'deep' health check path that exceeds the 1-seco |
 | [cloudflare-2019-waf-regex](cloudflare-2019-waf-regex.rules.md) | rules | InfoInhibitor | **wrong** | medium (0.56) | kubernetes, prometheus | 2 | 8 | 0 | 1.7 | 0 | Capacity of inventory was reduced (spec.replicas 4->1) |
 | [cloudflare-2019-waf-regex](cloudflare-2019-waf-regex.llm-google_genai-gemini-3.5-flash.md) | llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview, gemini-3.7-flash) | InfoInhibitor | **correct** | medium (0.91) | kubernetes | 2 | 8 | 0 | 298.8 | 50525 | The addition of a computationally complex, backtracking-prone WAF regular expression rule ('xss-inline-js-2019-07') in ConfigMap 'edge-waf-rules' caused catastr |

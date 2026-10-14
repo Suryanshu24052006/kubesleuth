@@ -23,6 +23,8 @@ category: capacity
 ground_truth:
   components: [inventory]
   categories: [capacity, resource_exhaustion]
+  # the root-cause statement must name one of these for a 'correct' verdict
+  mechanism: [replica, scale, scaled, scaling, capacity]
   keywords: [replica, scale, scaled, capacity, throttl, 4 to 1, "1/"]
   must_not_blame: [checkout, edge, postgres, catalog-indexer]
 multi_source: true   # scale event & managedFields (k8s) + throttling (metrics) + timeouts (traces/logs)
