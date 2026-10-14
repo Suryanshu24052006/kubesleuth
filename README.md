@@ -6,6 +6,8 @@
 An AI agent that investigates Kubernetes incidents and writes a root-cause analysis. Built for the
 Inter IIT Tech Meet 15.0 Prepathon (Development PS).
 
+**[Watch it investigate a real outage →](https://suryanshu24052006.github.io/kubesleuth/)** (replays of the live runs)
+
 It works like an on-call engineer: it forms competing hypotheses, gathers evidence from Kubernetes,
 metrics, logs, traces and change history, and only commits to a cause when several sources agree.
 When the evidence isn't there, it says so.
@@ -95,6 +97,7 @@ make security-demo          # live security checks
 | `broker/` | read-only MCP server: policy, redaction, change journal, 11 tools, log mining, metric onsets |
 | `shop/`, `deploy/`, `cluster/` | demo microservices, Kubernetes manifests (RBAC, NetworkPolicy), kind + Helm values |
 | `scenarios/`, `eval/`, `results/` | post-mortem reproductions, evaluation harness + scorer, live results |
+| `site/` | the showcase site, built from `results/` and published to GitHub Pages |
 | `docs/` | [write-up](docs/WRITEUP.md) · [security model](docs/SECURITY.md) · [Kubernetes concepts](docs/K8S_CONCEPTS.md) |
 
 **Limits:** LLM results are bounded by the free Gemini tier, runs are on a 4-vCPU machine, and three runs per

@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>kubesleuth</title>
+<meta name="description" content="An AI agent that investigates Kubernetes incidents, checks every claim against the cluster's own data, and names a root cause only when the evidence agrees. Tested live on six real post-mortem outages.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F3F4EF; --sheet:#FBFBF8; --ink:#16233B; --muted:#68707C; --line:#D9DCD3;
+  --cause:#2C5FD9; --cause-soft:#DCE5FA; --alert:#D98E1F; --alert-soft:#F6E6C8;
+  --rust:#A8432A; --rust-soft:#F1DCD5; --ok:#2E7D4F;
+  --sans:"Familjen Grotesk",system-ui,sans-serif; --serif:"Source Serif 4",Georgia,serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --paper:#111827; --sheet:#172033; --ink:#E7EAF0; --muted:#9AA3B2; --line:#2A3448;
+  --cause:#7FA2F5; --cause-soft:#22335A; --alert:#E9AE4E; --alert-soft:#3B3020;
+  --rust:#E08A70; --rust-soft:#3A2622; --ok:#6FCB94;
+}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--paper);color:var(--ink);font:18px/1.62 var(--serif);-webkit-font-smoothing:antialiased}
+a{color:var(--cause);text-underline-offset:3px}
+a:focus-visible,button:focus-visible,select:focus-visible{outline:3px solid var(--alert);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.prose{max-width:680px}
+h1,h2,h3{font-family:var(--sans);line-height:1.12;margin:0}
+h2{font-size:clamp(1.6rem,3.2vw,2.15rem);font-weight:700;letter-spacing:-.01em;margin-bottom:.5em}
+h3{font-size:1.1rem;font-weight:600}
+section{padding:72px 0 8px}
+p{margin:.7em 0}
+.muted{color:var(--muted)}
+
+/* header */
+header.top{border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding-top:16px;padding-bottom:14px;flex-wrap:wrap}
+.mark{font:700 1.15rem var(--sans);color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+nav{display:flex;gap:18px;flex-wrap:wrap;font:500 .95rem var(--sans)}
+nav a{color:var(--muted);text-decoration:none}nav a:hover{color:var(--ink)}
+
+/* hero */
+.wrap.hero{padding-top:56px;padding-bottom:28px}
+.hero h1{font-size:clamp(2.6rem,7vw,5.2rem);font-weight:700;letter-spacing:-.035em;line-height:.98;max-width:12ch}
+.hero .lede{font-size:clamp(1.1rem,1.6vw,1.28rem);max-width:640px;margin-top:22px}
+
+/* replay */
+.replay{background:var(--sheet);border:1px solid var(--line);border-radius:14px;margin-top:30px;overflow:hidden}
+.rp-head{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line)}
+.rp-head>div{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;min-width:0;flex:1 1 300px}
+.rp-head label{font:500 .9rem var(--sans);color:var(--muted)}
+.rp-head select{flex:1 1 240px;min-width:0;max-width:460px}
+select{font:500 .95rem var(--sans);color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:7px 10px;max-width:100%}
+.verdict{font:600 .85rem var(--sans);padding:3px 10px;border-radius:999px;white-space:nowrap}
+.v-correct{background:var(--cause-soft);color:var(--cause)}
+.v-partial{background:var(--alert-soft);color:var(--alert)}
+.v-wrong{background:var(--rust-soft);color:var(--rust)}
+.v-inconclusive,.v-error{background:var(--line);color:var(--muted)}
+.alertline{display:flex;gap:12px;align-items:flex-start;padding:16px 20px 4px}
+.alertline .dot{flex:none;width:12px;height:12px;border-radius:50%;background:var(--alert);margin-top:.5em;box-shadow:0 0 0 5px var(--alert-soft)}
+.alertline p{margin:0;font-size:1.05rem}
+.steps{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:14px 20px}
+.steps button{font:600 .9rem var(--sans);border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:8px;padding:6px 12px;cursor:pointer}
+.steps button[aria-current="step"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.steps .play{background:var(--cause);border-color:var(--cause);color:var(--sheet);margin-right:6px}
+.rp-body{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:0;border-top:1px solid var(--line)}
+.rp-body>div{padding:18px 20px 22px}
+.rp-body>div+div{border-left:1px solid var(--line)}
+.colhead{font:600 .95rem var(--sans);color:var(--muted);margin:0 0 12px}
+.hyp{margin:0 0 14px}
+.hyp .row{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.hyp .stmt{font-size:.98rem;line-height:1.4}
+.hyp .id{font:600 .85rem var(--sans);color:var(--muted);margin-right:6px}
+.hyp .p{font:600 .95rem var(--sans);font-variant-numeric:tabular-nums;min-width:3.2em;text-align:right}
+.hyp .meta{font:500 .8rem var(--sans);color:var(--muted)}
+.tag-symptom{color:var(--alert)}
+.bar{height:8px;background:var(--line);border-radius:5px;margin-top:6px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--cause);border-radius:5px;transition:width .7s cubic-bezier(.2,.7,.2,1)}
+.hyp.symptom .bar i{background:var(--alert)}
+.hyp.unexplained .bar i{background:var(--muted)}
+.hyp.leader .stmt{font-weight:600}
+.hyp.pending{opacity:.35}
+.calls{list-style:none;padding:0;margin:0 0 18px}
+.calls li{margin:0 0 8px;font-size:.92rem;line-height:1.4}
+.calls code,.ev code{font:500 .8rem/1.45 var(--mono)}
+.calls .blocked{color:var(--rust)}
+.ev{border-left:3px solid var(--cause);padding:2px 0 2px 12px;margin:0 0 12px;font-size:.92rem;line-height:1.45}
+.ev.contra{border-color:var(--rust)}
+.ev .q{display:block;background:var(--paper);border-radius:6px;padding:6px 8px;margin:4px 0;word-break:break-word}
+.ev .meta{font:500 .8rem var(--sans);color:var(--muted)}
+.none{color:var(--muted);font-size:.92rem}
+.conclusion{border-top:1px solid var(--line);padding:18px 20px 20px;display:none}
+.conclusion.show{display:block}
+.conclusion p{margin:.3em 0;max-width:80ch}
+.conclusion .rc{font-size:1.1rem}
+@media (max-width:760px){.rp-body{grid-template-columns:1fr}.rp-body>div+div{border-left:0;border-top:1px solid var(--line)}}
+
+/* results */
+.totals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:26px 0 30px;max-width:760px}
+.totals>div{border-top:3px solid var(--ink);padding-top:10px}
+.totals .n{font:700 clamp(2rem,5vw,2.8rem)/1 var(--sans);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.totals .l{font:500 .95rem var(--sans);color:var(--muted);margin-top:6px}
+.totals>.either{border-color:var(--cause)}
+.matrix{width:100%;border-collapse:collapse;font-size:.95rem}
+.matrix-wrap{overflow-x:auto}
+.matrix th,.matrix td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+.matrix thead th{font:600 .88rem var(--sans);color:var(--muted)}
+.matrix td.cell{text-align:center;width:72px}
+.matrix .sc{font-family:var(--sans);font-weight:600}
+.matrix .sc small{display:block;font-family:var(--serif);font-weight:400;color:var(--muted);font-size:.85rem}
+.chip{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:7px;font:700 .9rem var(--sans);cursor:pointer;border:0}
+.chip.correct{background:var(--cause);color:var(--sheet)}
+.chip.partial{background:var(--alert-soft);color:var(--alert);box-shadow:inset 0 0 0 1.5px var(--alert)}
+.chip.wrong{background:var(--rust-soft);color:var(--rust);box-shadow:inset 0 0 0 1.5px var(--rust)}
+.chip.inconclusive,.chip.error{background:transparent;color:var(--muted);box-shadow:inset 0 0 0 1.5px var(--line)}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font:500 .9rem var(--sans);color:var(--muted);margin-top:14px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend .chip{width:22px;height:22px;font-size:.75rem;cursor:default}
+.split{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;margin-top:22px}
+.split h3{margin-bottom:6px}
+@media (max-width:760px){.split,.totals{grid-template-columns:1fr}}
+
+/* how */
+.diagram{margin:26px 0 8px;max-width:860px}
+.diagram svg{width:100%;height:auto}
+.principles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 36px;margin-top:26px;max-width:960px}
+.principles h3{margin-bottom:4px}
+.principles p{margin:0;font-size:1rem}
+@media (max-width:760px){.principles{grid-template-columns:1fr}}
+
+/* outages */
+.outages{list-style:none;padding:0;margin:22px 0 0;max-width:900px}
+.outages li{display:grid;grid-template-columns:170px minmax(0,1fr);gap:4px 24px;padding:18px 0;border-top:1px solid var(--line)}
+.outages .who{font:600 1rem var(--sans)}
+.outages .who small{display:block;font-weight:500;color:var(--muted)}
+.outages h3{font-size:1.05rem;margin-bottom:4px}
+.outages p{margin:0;font-size:.98rem}
+@media (max-width:760px){.outages li{grid-template-columns:1fr}}
+
+/* security */
+.checks{columns:2 340px;column-gap:36px;list-style:none;padding:0;margin:22px 0 0;font-size:.95rem}
+.checks li{break-inside:avoid;padding:5px 0 5px 28px;position:relative;line-height:1.4}
+.checks li::before{content:"";position:absolute;left:2px;top:.55em;width:12px;height:7px;border-left:2.5px solid var(--ok);border-bottom:2.5px solid var(--ok);transform:rotate(-45deg)}
+
+/* lessons */
+.lessons{max-width:760px;padding-left:1.2em}
+.lessons li{margin:0 0 .7em}
+
+footer{border-top:1px solid var(--line);margin-top:80px;padding:28px 0 48px;font:500 .95rem var(--sans);color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between}
+footer a{color:var(--ink)}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="mark" href="#">kubesleuth</a>
+  <nav aria-label="Sections">
+    <a href="#replay">Replay</a><a href="#results">Results</a><a href="#how">How it works</a>
+    <a href="#outages">Outages</a><a href="#security">Security</a><a id="gh" href="https://github.com/Suryanshu24052006/kubesleuth">GitHub</a>
+  </nav>
+</div></header>
+
+<main>
+<div class="wrap hero">
+  <h1>Root causes, with receipts.</h1>
+  <p class="lede">kubesleuth is an AI agent that investigates Kubernetes incidents the way an on-call engineer does.
+  It weighs competing explanations, checks every claim word for word against the cluster's own data, and names a
+  root cause only when independent sources agree.</p>
+
+  <div class="replay" id="replay" aria-label="Investigation replay">
+    <div class="rp-head">
+      <div><label for="pick">Replay a real investigation</label><select id="pick"></select></div>
+      <span id="verdict" class="verdict"></span>
+    </div>
+    <div class="alertline"><span class="dot" aria-hidden="true"></span><p id="incident"></p></div>
+    <div class="steps" id="steps" role="group" aria-label="Investigation rounds"></div>
+    <div class="rp-body" aria-live="polite">
+      <div><p class="colhead">Hypotheses and their probability</p><div id="hyps"></div></div>
+      <div><p class="colhead">What the agent checked</p><ul class="calls" id="calls"></ul>
+        <p class="colhead">Evidence it accepted</p><div id="evidence"></div></div>
+    </div>
+    <div class="conclusion" id="conclusion"></div>
+  </div>
+  <p class="muted" style="font-size:.95rem;margin-top:12px">Every step above is replayed from a live run on a real cluster.
+  Probabilities are recomputed from the recorded evidence with the agent's own ledger arithmetic. Wrong and inconclusive
+  investigations are in the list too.</p>
+</div>
+
+<section id="results"><div class="wrap">
+  <div class="prose">
+    <h2>Six real outages, three live runs</h2>
+    <p>Each run builds a fresh cluster on a GitHub-hosted machine, breaks it the way a published post-mortem describes,
+    waits for the alert, and lets two reasoners investigate the same incident: a rule-based baseline and the LLM agent
+    (Gemini, free tier). An answer counts as correct only if it names the right component and the actual mechanism.</p>
+  </div>
+  <div class="totals" id="totals"></div>
+  <div class="matrix-wrap"><table class="matrix" id="matrix"></table></div>
+  <div class="legend" aria-hidden="true">
+    <span><i class="chip correct">✓</i>correct</span><span><i class="chip partial">½</i>partially right</span>
+    <span><i class="chip wrong">✗</i>wrong cause</span><span><i class="chip inconclusive">?</i>inconclusive or not run</span>
+    <span>B baseline, L LLM agent. Select a result to replay it.</span>
+  </div>
+  <div class="split prose" style="max-width:960px">
+    <div><h3>The baseline wins on single changes</h3>
+    <p>When one recent change explains everything, simple rules are fast and reliable: 9 of 9 on the S3, EBS and
+    Knight Capital outages.</p></div>
+    <div><h3>The LLM wins on reasoning</h3>
+    <p>When the cause has to be worked out across sources, such as an amplifying health check or one bad regex
+    rule, only the LLM gets there: 3 of 3 on Chef, 2 of 3 on Cloudflare.</p></div>
+  </div>
+</div></section>
+
+<section id="how"><div class="wrap">
+  <div class="prose">
+    <h2>How it works</h2>
+    <p>Two processes that never share credentials. The agent talks to the language model but cannot touch the cluster.
+    A small read-only broker is the only way in, and it can only read one namespace.</p>
+  </div>
+  <div class="diagram" aria-label="Architecture diagram">
+    <svg viewBox="0 0 860 300" role="img" aria-labelledby="dg-t">
+      <title id="dg-t">Alertmanager triggers the agent; the agent queries the broker over MCP; the broker reads Kubernetes, Prometheus, Loki and Jaeger.</title>
+      <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="currentColor"/></marker></defs>
+      <g font-family="Familjen Grotesk, sans-serif" fill="none" stroke-width="1.5" style="color:var(--muted)">
+        <rect x="10" y="20" width="170" height="64" rx="10" style="stroke:var(--alert);fill:var(--alert-soft)"/>
+        <text x="95" y="48" text-anchor="middle" style="fill:var(--ink)" font-size="15" font-weight="600">Alertmanager</text>
+        <text x="95" y="68" text-anchor="middle" style="fill:var(--muted)" font-size="12.5">alert fires</text>
+        <path d="M180 52H262" stroke="currentColor" marker-end="url(#ah)"/>
+        <rect x="264" y="10" width="300" height="84" rx="10" style="stroke:var(--cause);fill:var(--cause-soft)"/>
+        <text x="414" y="40" text-anchor="middle" style="fill:var(--ink)" font-size="16" font-weight="700">agent</text>
+        <text x="414" y="60" text-anchor="middle" style="fill:var(--ink)" font-size="12.5">hypotheses, evidence ledger, LLM</text>
+        <text x="414" y="78" text-anchor="middle" style="fill:var(--muted)" font-size="12">no cluster credentials</text>
+        <path d="M564 52H646" stroke="currentColor" marker-end="url(#ah)"/>
+        <rect x="648" y="20" width="200" height="64" rx="10" style="stroke:var(--line);fill:var(--sheet)"/>
+        <text x="748" y="48" text-anchor="middle" style="fill:var(--ink)" font-size="15" font-weight="600">RCA report</text>
+        <text x="748" y="68" text-anchor="middle" style="fill:var(--muted)" font-size="12.5">cause, evidence, doubts</text>
+        <path d="M414 94V150" stroke="currentColor" marker-end="url(#ah)"/>
+        <text x="424" y="127" style="fill:var(--muted)" font-size="12">MCP, 11 read-only tools</text>
+        <rect x="264" y="152" width="300" height="64" rx="10" style="stroke:var(--ink);fill:var(--sheet)"/>
+        <text x="414" y="180" text-anchor="middle" style="fill:var(--ink)" font-size="16" font-weight="700">broker</text>
+        <text x="414" y="200" text-anchor="middle" style="fill:var(--muted)" font-size="12.5">read-only, one namespace, redacts and audits</text>
+        <path d="M300 216L140 262" stroke="currentColor" marker-end="url(#ah)"/><path d="M380 216L330 262" stroke="currentColor" marker-end="url(#ah)"/>
+        <path d="M450 216L520 262" stroke="currentColor" marker-end="url(#ah)"/><path d="M530 216L712 262" stroke="currentColor" marker-end="url(#ah)"/>
+        <g font-size="13.5" font-weight="600" style="fill:var(--ink)" text-anchor="middle">
+          <text x="120" y="282">Kubernetes API</text><text x="320" y="282">Prometheus</text>
+          <text x="530" y="282">Loki logs</text><text x="730" y="282">Jaeger traces</text></g>
+      </g>
+    </svg>
+  </div>
+  <div class="principles">
+    <div><h3>No made-up evidence</h3><p>Every piece of evidence must quote a tool's output word for word. Code checks
+    the quote exists; if it doesn't, the claim is thrown out and shown as rejected.</p></div>
+    <div><h3>Confidence from evidence, not from the model</h3><p>The model grades evidence; code turns it into
+    probabilities. High confidence needs at least two independent sources and nothing strongly against it.</p></div>
+    <div><h3>Symptoms are never the answer</h3><p>Error spikes, restarts and failed probes are tracked as things that
+    need explaining, and the agent is not allowed to report one as the root cause.</p></div>
+    <div><h3>It knows what changed, and who changed it</h3><p>The broker records field-level diffs, the person or
+    tool behind each one, and whether the change is still in effect: <code style="font:.85em var(--mono)">DB_POOL_SIZE 4 → 30, by kubectl</code>.</p></div>
+  </div>
+</div></section>
+
+<section id="outages"><div class="wrap">
+  <div class="prose"><h2>The outages it investigates</h2>
+  <p>Each scenario recreates the mechanism of a published post-mortem, including the part that made it hard to diagnose.
+  A pod that keeps logging prompt-injection messages runs in every scenario.</p></div>
+  <ul class="outages" id="outlist"></ul>
+</div></section>
+
+<section id="security"><div class="wrap">
+  <div class="prose"><h2>Safe even if the model is fooled</h2>
+  <p>The agent has no cluster credentials, can only reach the broker, and the broker has no tool that writes, deletes,
+  runs commands or reads secrets. These checks passed on the live cluster in all three runs.</p></div>
+  <ul class="checks" id="checks"></ul>
+</div></section>
+
+<section id="lessons"><div class="wrap">
+  <div class="prose"><h2>What running it for real taught me</h2>
+  <p>The live runs found nine problems that tests on recorded data never showed. Each one is fixed and guarded by a test.</p></div>
+  <ol class="lessons">
+    <li>Live tool results are far bigger than test data; a trimming marker crashed the agent's timeline.</li>
+    <li>Port-forward tunnels died silently, so early evaluations never reached the cluster.</li>
+    <li>A retired model kept the run going and produced a misleading "inconclusive" instead of an error.</li>
+    <li>Free-tier limits forced a redesign to one model call per round, with retries and model fallback.</li>
+    <li>Models returned near-miss JSON; parsing now normalises it while evidence still has to pass the quote check.</li>
+    <li>A broker bug credited <code style="font:.85em var(--mono)">kubectl scale</code> to the Kubernetes controller instead of the person.</li>
+    <li>Changes already reverted by an earlier scenario misled the baseline; changes now say if they are still in effect.</li>
+    <li>The small test machine got so loaded that containerd refused connections; resets now restart only what changed.</li>
+    <li>My first scorer was too lenient and credited an answer that blamed a victim; all runs were re-graded strictly.</li>
+  </ol>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <span>kubesleuth, built for the Inter IIT Tech Meet 15.0 Prepathon by Suryanshu Gautam Chandel</span>
+  <span><a href="https://github.com/Suryanshu24052006/kubesleuth">Code</a> &nbsp; <a href="https://github.com/Suryanshu24052006/kubesleuth/blob/main/docs/WRITEUP.md">Write-up</a> &nbsp; <a href="https://github.com/Suryanshu24052006/kubesleuth/tree/main/results">Raw results</a></span>
+</div></footer>
+
+<script>
+(async function () {
+  const D = await (await fetch("data.json")).json();
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const VERDICT = {correct:"Correct root cause", partial:"Partially right", wrong:"Wrong cause", inconclusive:"Inconclusive", error:"Did not run"};
+  const SYM = {correct:"✓", partial:"½", wrong:"✗", inconclusive:"?", error:"?"};
+  const byKey = Object.fromEntries(D.investigations.map((i) => [i.key, i]));
+  const company = (sid) => D.scenarios[sid].short;
+
+  // ---------- replay
+  const pick = $("pick");
+  for (const run of D.runs) {
+    const g = document.createElement("optgroup"); g.label = `${run.label}, ${run.date}`;
+    for (const sid of D.order) for (const kind of ["llm", "rules"]) {
+      const inv = byKey[`${run.id}/${sid}/${kind}`]; if (!inv) continue;
+      const o = document.createElement("option"); o.value = inv.key;
+      o.textContent = `${company(sid)}: ${kind === "llm" ? "LLM agent" : "baseline"} (${VERDICT[inv.verdict].toLowerCase()})`;
+      g.appendChild(o);
+    }
+    pick.appendChild(g);
+  }
+  let cur = null, step = 0, timer = null;
+
+  function load(key, startAt) {
+    cur = byKey[key]; if (!cur) return;
+    pick.value = key; stop();
+    $("verdict").className = `verdict v-${cur.verdict}`; $("verdict").textContent = VERDICT[cur.verdict];
+    $("incident").textContent = cur.incident;
+    const s = $("steps"); s.innerHTML = "";
+    const play = document.createElement("button"); play.className = "play"; play.textContent = "Play";
+    play.onclick = () => (timer ? stop() : start()); s.appendChild(play);
+    cur.steps.forEach((st, i) => {
+      const b = document.createElement("button"); b.textContent = st.label; b.onclick = () => { stop(); show(i); };
+      s.appendChild(b);
+    });
+    show(startAt ?? 0);
+  }
+  function start() {
+    if (step >= cur.steps.length - 1) show(0);
+    $("steps").querySelector(".play").textContent = "Pause";
+    timer = setInterval(() => { if (step < cur.steps.length - 1) show(step + 1); else stop(); }, reduce ? 2600 : 1900);
+  }
+  function stop() { clearInterval(timer); timer = null; const p = $("steps").querySelector(".play"); if (p) p.textContent = "Play"; }
+
+  function show(i) {
+    step = i; const st = cur.steps[i];
+    [...$("steps").querySelectorAll("button:not(.play)")].forEach((b, j) => b.toggleAttribute("aria-current", j === i) || (j === i && b.setAttribute("aria-current", "step")));
+    // hypotheses: born ones show their probability; unborn ones are faded
+    const post = st.posteriors, ids = cur.hypotheses.map((h) => h.id);
+    const leader = Object.entries(post).filter(([k]) => k !== "unexplained").sort((a, b) => b[1] - a[1])[0]?.[0];
+    const rows = cur.hypotheses.map((h) => ({...h, p: post[h.id], born: h.id in post}))
+      .sort((a, b) => (b.born - a.born) || ((b.p ?? 0) - (a.p ?? 0)) || ids.indexOf(a.id) - ids.indexOf(b.id));
+    rows.push({id: "", statement: "None of the above (unexplained)", p: post.unexplained, born: true, unexplained: true});
+    $("hyps").innerHTML = rows.map((h) => `
+      <div class="hyp ${h.layer === "symptom" ? "symptom" : ""} ${h.unexplained ? "unexplained" : ""} ${h.id === leader ? "leader" : ""} ${h.born ? "" : "pending"}">
+        <div class="row"><div class="stmt">${h.id ? `<span class="id">${esc(h.id)}</span>` : ""}${esc(h.statement)}</div>
+        <div class="p">${h.born ? Math.round((h.p ?? 0) * 100) + "%" : ""}</div></div>
+        ${h.id ? `<div class="meta">${esc(h.component)}${h.layer === "symptom" ? ' <span class="tag-symptom">symptom, cannot be the answer</span>' : ""}${h.born ? "" : " (proposed later)"}</div>` : ""}
+        <div class="bar"><i data-w="${h.born ? (h.p ?? 0) * 100 : 0}"></i></div></div>`).join("");
+    requestAnimationFrame(() => $("hyps").querySelectorAll(".bar i").forEach((e) => (e.style.width = e.dataset.w + "%")));
+    $("calls").innerHTML = st.calls.length ? st.calls.map((c) => `<li><code>${esc(c.tool)}(${esc(Object.entries(c.args).map(([k, v]) => `${k}=${v}`).join(", "))})</code>
+      ${c.blocked ? `<span class="blocked">blocked: ${esc(c.blocked)}</span>` : `<span class="muted">${esc(c.purpose)}</span>`}</li>`).join("")
+      : `<li class="none">No new tool calls this round.</li>`;
+    $("evidence").innerHTML = st.evidence.length ? st.evidence.map((e) => `<div class="ev ${e.stance === "contradicts" ? "contra" : ""}">
+      <span class="meta">${esc(e.hyp)} ${e.stance === "contradicts" ? "contradicted" : "supported"}, ${esc(e.strength)}, from ${esc(e.source)}</span>
+      <code class="q">${esc(e.quote)}</code>${esc(e.why)}</div>`).join("")
+      : `<p class="none">No new verified evidence this round.</p>`;
+    const c = $("conclusion"), last = i === cur.steps.length - 1;
+    c.classList.toggle("show", last);
+    if (last) c.innerHTML = `<p class="colhead">Conclusion, confidence ${esc(cur.confidence)} (${Math.round(cur.posterior * 100)}%)</p>
+      <p class="rc">${esc(cur.root_cause || "No root cause named.")}</p>
+      <p class="muted" style="font-size:.95rem">${esc(VERDICT[cur.verdict])} against the post-mortem's known cause. ${cur.models.length ? "Models used: " + esc(cur.models.join(", ")) + ". " : ""}<a href="${esc(cur.report)}">Read the full report</a>.</p>`;
+  }
+  pick.onchange = () => load(pick.value);
+  load(D.featured);
+  if (reduce) show(cur.steps.length - 1); else setTimeout(start, 900);
+
+  // ---------- results
+  const tally = {rules: [0, 0], llm: [0, 0]}; let either = 0, cases = 0;
+  for (const sid of D.order) for (const run of D.runs) {
+    const m = (D.matrix[sid] || {})[run.id] || {};
+    for (const k of ["rules", "llm"]) if (m[k]) { tally[k][1] += m[k] === "error" ? 0 : 1; tally[k][0] += m[k] === "correct"; }
+    cases++; either += (m.rules === "correct" || m.llm === "correct");
+  }
+  $("totals").innerHTML = `<div><div class="n">${tally.rules[0]}/${tally.rules[1]}</div><div class="l">baseline correct</div></div>
+    <div><div class="n">${tally.llm[0]}/${tally.llm[1]}</div><div class="l">LLM agent correct</div></div>
+    <div class="either"><div class="n">${either}/${cases}</div><div class="l">solved by at least one</div></div>`;
+  let html = `<thead><tr><th scope="col">Outage</th>${D.runs.map((r) => `<th scope="col" colspan="2" style="text-align:center">${r.label}</th>`).join("")}</tr>
+    <tr><th></th>${D.runs.map(() => `<th style="text-align:center">B</th><th style="text-align:center">L</th>`).join("")}</tr></thead><tbody>`;
+  for (const sid of D.order) {
+    const s = D.scenarios[sid];
+    html += `<tr><td class="sc">${esc(company(sid))}<small>${esc(s.title)}</small></td>`;
+    for (const run of D.runs) for (const k of ["rules", "llm"]) {
+      const v = ((D.matrix[sid] || {})[run.id] || {})[k] || "error", key = `${run.id}/${sid}/${k}`;
+      html += `<td class="cell">${byKey[key] ? `<button class="chip ${v}" data-key="${key}" aria-label="${esc(run.label)}, ${k === "llm" ? "LLM agent" : "baseline"}: ${esc(VERDICT[v])}. Replay it.">${SYM[v]}</button>`
+        : `<span class="chip ${v}" aria-label="${esc(VERDICT[v])}">${SYM[v]}</span>`}</td>`;
+    }
+    html += `</tr>`;
+  }
+  $("matrix").innerHTML = html + "</tbody>";
+  $("matrix").addEventListener("click", (e) => { const b = e.target.closest("button[data-key]"); if (b) { load(b.dataset.key); $("replay").scrollIntoView({behavior: reduce ? "auto" : "smooth"}); } });
+
+  // ---------- outages
+  $("outlist").innerHTML = D.order.map((sid) => { const s = D.scenarios[sid]; return `<li>
+    <div class="who">${esc(company(sid))}<small>${esc(s.date)}</small></div>
+    <div><h3>${esc(s.title)}</h3><p>${esc(s.why_hard)} ${s.url ? `<a href="${esc(s.url)}">Read the post-mortem</a>.` : ""}</p></div></li>`; }).join("");
+
+  // ---------- security
+  $("checks").innerHTML = D.security.map((c) => `<li>${esc(c.check)}</li>`).join("");
+})();
+</script>
+</body>
+</html>
