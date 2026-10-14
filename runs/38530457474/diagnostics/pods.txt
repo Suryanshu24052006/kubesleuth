@@ -1,0 +1,50 @@
+NAMESPACE            NAME                                               READY   STATUS    RESTARTS      AGE     IP            NODE                       NOMINATED NODE   READINESS GATES
+chaos-mesh           chaos-controller-manager-5f76bd8f66-7g57p          1/1     Running   0             68m     10.244.1.16   kubesleuth-worker          <none>           <none>
+chaos-mesh           chaos-daemon-h8skx                                 1/1     Running   0             68m     10.244.1.14   kubesleuth-worker          <none>           <none>
+chaos-mesh           chaos-dashboard-6465b58bcc-6xphw                   1/1     Running   0             68m     10.244.1.15   kubesleuth-worker          <none>           <none>
+chaos-mesh           chaos-dns-server-558955948b-hz5nt                  1/1     Running   0             68m     10.244.1.17   kubesleuth-worker          <none>           <none>
+kube-system          coredns-674b8bbfcf-gs2ph                           1/1     Running   0             71m     10.244.0.2    kubesleuth-control-plane   <none>           <none>
+kube-system          coredns-674b8bbfcf-zsb46                           1/1     Running   0             71m     10.244.0.3    kubesleuth-control-plane   <none>           <none>
+kube-system          etcd-kubesleuth-control-plane                      1/1     Running   0             71m     172.18.0.3    kubesleuth-control-plane   <none>           <none>
+kube-system          kindnet-p9zjl                                      1/1     Running   0             71m     172.18.0.3    kubesleuth-control-plane   <none>           <none>
+kube-system          kindnet-tcdzl                                      1/1     Running   0             71m     172.18.0.2    kubesleuth-worker          <none>           <none>
+kube-system          kube-apiserver-kubesleuth-control-plane            1/1     Running   0             71m     172.18.0.3    kubesleuth-control-plane   <none>           <none>
+kube-system          kube-controller-manager-kubesleuth-control-plane   1/1     Running   0             71m     172.18.0.3    kubesleuth-control-plane   <none>           <none>
+kube-system          kube-proxy-dbwgj                                   1/1     Running   0             71m     172.18.0.3    kubesleuth-control-plane   <none>           <none>
+kube-system          kube-proxy-md9gt                                   1/1     Running   0             71m     172.18.0.2    kubesleuth-worker          <none>           <none>
+kube-system          kube-scheduler-kubesleuth-control-plane            1/1     Running   0             71m     172.18.0.3    kubesleuth-control-plane   <none>           <none>
+kube-system          metrics-server-6f665c9d54-m5kjr                    1/1     Running   0             68m     10.244.1.13   kubesleuth-worker          <none>           <none>
+kubesleuth           kubesleuth-agent-6977c864cc-cqmgs                  1/1     Running   0             66m     10.244.1.43   kubesleuth-worker          <none>           <none>
+kubesleuth           kubesleuth-broker-6b79ff45f4-z5xvm                 1/1     Running   0             66m     10.244.1.39   kubesleuth-worker          <none>           <none>
+local-path-storage   local-path-provisioner-7dc846544d-85wzm            1/1     Running   0             71m     10.244.0.4    kubesleuth-control-plane   <none>           <none>
+monitoring           alertmanager-kps-alertmanager-0                    2/2     Running   0             70m     10.244.1.6    kubesleuth-worker          <none>           <none>
+monitoring           kps-grafana-f896bd644-gj2c5                        3/3     Running   0             70m     10.244.1.5    kubesleuth-worker          <none>           <none>
+monitoring           kps-kube-state-metrics-7976d647b4-nxvbj            1/1     Running   0             70m     10.244.1.3    kubesleuth-worker          <none>           <none>
+monitoring           kps-operator-cc4559ccc-k97md                       1/1     Running   0             70m     10.244.1.4    kubesleuth-worker          <none>           <none>
+monitoring           kps-prometheus-node-exporter-47vbw                 1/1     Running   0             70m     172.18.0.2    kubesleuth-worker          <none>           <none>
+monitoring           kps-prometheus-node-exporter-r445m                 1/1     Running   0             70m     172.18.0.3    kubesleuth-control-plane   <none>           <none>
+monitoring           prometheus-kps-prometheus-0                        2/2     Running   0             70m     10.244.1.7    kubesleuth-worker          <none>           <none>
+observability        alloy-64dbfd4b7d-48tk6                             2/2     Running   0             69m     10.244.1.11   kubesleuth-worker          <none>           <none>
+observability        jaeger-7c4bb6bcb8-tlnv5                            1/1     Running   1 (31m ago)   68m     10.244.1.12   kubesleuth-worker          <none>           <none>
+observability        loki-0                                             2/2     Running   0             70m     10.244.1.10   kubesleuth-worker          <none>           <none>
+shop                 catalog-indexer-6f6b545fdb-27c8g                   1/1     Running   0             41m     10.244.1.44   kubesleuth-worker          <none>           <none>
+shop                 catalog-indexer-6f6b545fdb-7gbtg                   1/1     Running   0             66m     10.244.1.20   kubesleuth-worker          <none>           <none>
+shop                 catalog-indexer-6f6b545fdb-mmpx4                   1/1     Running   0             41m     10.244.1.45   kubesleuth-worker          <none>           <none>
+shop                 checkout-769f6446f6-99247                          1/1     Running   0             8m33s   10.244.1.60   kubesleuth-worker          <none>           <none>
+shop                 checkout-769f6446f6-ddkjq                          1/1     Running   0             8m33s   10.244.1.61   kubesleuth-worker          <none>           <none>
+shop                 checkout-769f6446f6-mkvjj                          1/1     Running   0             8m26s   10.244.1.62   kubesleuth-worker          <none>           <none>
+shop                 edge-6675f7688f-btmm6                              1/1     Running   0             23m     10.244.1.56   kubesleuth-worker          <none>           <none>
+shop                 edge-6675f7688f-rvxfg                              1/1     Running   1 (25m ago)   28m     10.244.1.55   kubesleuth-worker          <none>           <none>
+shop                 inventory-6ffc77fd45-5hvm2                         1/1     Running   0             41m     10.244.1.47   kubesleuth-worker          <none>           <none>
+shop                 inventory-6ffc77fd45-dvnzz                         1/1     Running   2 (41m ago)   66m     10.244.1.30   kubesleuth-worker          <none>           <none>
+shop                 inventory-6ffc77fd45-kqvzl                         1/1     Running   0             41m     10.244.1.46   kubesleuth-worker          <none>           <none>
+shop                 inventory-6ffc77fd45-td6fs                         1/1     Running   0             41m     10.244.1.48   kubesleuth-worker          <none>           <none>
+shop                 loadgen-786bccd86d-hcltl                           1/1     Running   0             66m     10.244.1.29   kubesleuth-worker          <none>           <none>
+shop                 postgres-0                                         1/1     Running   0             66m     10.244.1.42   kubesleuth-worker          <none>           <none>
+shop                 pricing-95c99775f-rtmsj                            1/1     Running   0             66m     10.244.1.32   kubesleuth-worker          <none>           <none>
+shop                 pricing-95c99775f-z5psf                            1/1     Running   0             66m     10.244.1.36   kubesleuth-worker          <none>           <none>
+shop                 recommendations-7bd4dd95d6-gfbqx                   1/1     Running   0             66m     10.244.1.34   kubesleuth-worker          <none>           <none>
+shop                 recommendations-7bd4dd95d6-pxghg                   1/1     Running   0             66m     10.244.1.33   kubesleuth-worker          <none>           <none>
+shop                 review-bot-5dd44db4dd-dk78n                        1/1     Running   0             66m     10.244.1.35   kubesleuth-worker          <none>           <none>
+shop                 telemetry-collector-865ccb84c6-htm9x               1/1     Running   0             66m     10.244.1.37   kubesleuth-worker          <none>           <none>
+traefik              traefik-5478bbd884-gr95w                           1/1     Running   0             68m     10.244.0.5    kubesleuth-control-plane   <none>           <none>

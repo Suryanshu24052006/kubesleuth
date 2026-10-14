@@ -1,0 +1,306 @@
+{"time": "2026-10-14T07:50:06.162684+00:00", "level": "INFO", "msg": "Starting collector"}
+{"time": "2026-10-14T07:50:06.162875+00:00", "level": "WARNING", "msg": "No folder annotation was provided, defaulting to k8s-sidecar-target-directory"}
+{"time": "2026-10-14T07:50:06.163009+00:00", "level": "INFO", "msg": "Loading incluster config ..."}
+{"time": "2026-10-14T07:50:06.163506+00:00", "level": "INFO", "msg": "Config for cluster api at 'https://10.96.0.1:443' loaded..."}
+{"time": "2026-10-14T07:50:06.163574+00:00", "level": "INFO", "msg": "Unique filenames will not be enforced."}
+{"time": "2026-10-14T07:50:06.163628+00:00", "level": "INFO", "msg": "5xx response content will not be enabled."}
+level=info ts=2026-10-14T08:51:05.785352936Z caller=recalculate_owned_streams.go:49 msg="starting recalculate owned streams job"
+level=info ts=2026-10-14T08:51:05.785388099Z caller=recalculate_owned_streams.go:52 msg="completed recalculate owned streams job"
+level=error ts=2026-10-14T08:51:06.86417744Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:07.964381473Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:09.065028869Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:10.164150626Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:11.264143587Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:12.364137989Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:13.464139267Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:14.564475291Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:15.664748501Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:16.764080142Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:17.864005479Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:18.96433098Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:20.064637Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:21.164875829Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:22.264500376Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:23.364733973Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:24.46559098Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:25.564113184Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:26.66829405Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:27.764459916Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:28.864616922Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:29.965224759Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:31.065777238Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:32.164034863Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:51:32.220072878Z caller=memberlist_client.go:552 msg="initiating cleanup of obsolete entries"
+level=error ts=2026-10-14T08:51:33.264835362Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:34.36443818Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:35.46418583Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:51:35.784323444Z caller=recalculate_owned_streams.go:49 msg="starting recalculate owned streams job"
+level=info ts=2026-10-14T08:51:35.784361571Z caller=recalculate_owned_streams.go:52 msg="completed recalculate owned streams job"
+level=error ts=2026-10-14T08:51:36.566120451Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:37.664868755Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:38.764197035Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:39.87994691Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:40.965831116Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:42.464429004Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:44.464034362Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:47.264777591Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:48.76473569Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:50.463946061Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:51.966361464Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:51:56.365545445Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:52:02.220250917Z caller=memberlist_client.go:552 msg="initiating cleanup of obsolete entries"
+level=info ts=2026-10-14T08:52:05.756897507Z caller=table_manager.go:136 index-store=tsdb-2024-04-01 msg="uploading tables"
+level=info ts=2026-10-14T08:52:05.756940221Z caller=index_set.go:86 msg="uploading table loki_index_20740"
+level=info ts=2026-10-14T08:52:05.756947001Z caller=index_set.go:107 msg="finished uploading table loki_index_20740"
+level=info ts=2026-10-14T08:52:05.756954312Z caller=index_set.go:186 msg="cleaning up unwanted indexes from table loki_index_20740"
+level=info ts=2026-10-14T08:52:05.785493427Z caller=recalculate_owned_streams.go:49 msg="starting recalculate owned streams job"
+level=info ts=2026-10-14T08:52:05.785526157Z caller=recalculate_owned_streams.go:52 msg="completed recalculate owned streams job"
+level=error ts=2026-10-14T08:52:07.263974634Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:52:11.365647669Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:52:14.465021962Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:52:17.264567692Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:52:26.364611605Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:52:32.219752934Z caller=memberlist_client.go:552 msg="initiating cleanup of obsolete entries"
+level=info ts=2026-10-14T08:52:35.785008328Z caller=recalculate_owned_streams.go:49 msg="starting recalculate owned streams job"
+level=info ts=2026-10-14T08:52:35.78504977Z caller=recalculate_owned_streams.go:52 msg="completed recalculate owned streams job"
+level=error ts=2026-10-14T08:52:37.264215268Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:52:41.363730098Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:52:44.464130798Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:52:46.40956327Z caller=flush.go:304 component=ingester msg="flushing stream" user=fake fp=a7b319d2923c43b5 immediate=false num_chunks=1 total_comp="82 B" avg_comp="82 B" total_uncomp="4.0 kB" avg_uncomp="4.0 kB" idle=1 labels="{app=\"checkout\", container=\"checkout\", instance=\"shop/checkout-69cf4467b9-tmkf9:checkout\", job=\"loki.source.kubernetes.pods\", namespace=\"shop\", pod=\"checkout-69cf4467b9-tmkf9\", service_name=\"checkout\"}"
+level=info ts=2026-10-14T08:52:46.710481135Z caller=flush.go:304 component=ingester msg="flushing stream" user=fake fp=a33c818b26cacfec immediate=false num_chunks=1 total_comp="82 B" avg_comp="82 B" total_uncomp="4.4 kB" avg_uncomp="4.4 kB" idle=1 labels="{app=\"checkout\", container=\"checkout\", instance=\"shop/checkout-69cf4467b9-mtmgb:checkout\", job=\"loki.source.kubernetes.pods\", namespace=\"shop\", pod=\"checkout-69cf4467b9-mtmgb\", service_name=\"checkout\"}"
+level=info ts=2026-10-14T08:52:47.010612431Z caller=flush.go:304 component=ingester msg="flushing stream" user=fake fp=0b4ef42006dc8fe8 immediate=false num_chunks=1 total_comp="82 B" avg_comp="82 B" total_uncomp="3.9 kB" avg_uncomp="3.9 kB" idle=1 labels="{app=\"checkout\", container=\"checkout\", instance=\"shop/checkout-69cf4467b9-2cjfb:checkout\", job=\"loki.source.kubernetes.pods\", namespace=\"shop\", pod=\"checkout-69cf4467b9-2cjfb\", service_name=\"checkout\"}"
+level=error ts=2026-10-14T08:52:47.264526129Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:52:56.364673328Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:53:02.219742876Z caller=memberlist_client.go:552 msg="initiating cleanup of obsolete entries"
+level=info ts=2026-10-14T08:53:05.756804249Z caller=table_manager.go:136 index-store=tsdb-2024-04-01 msg="uploading tables"
+level=info ts=2026-10-14T08:53:05.756838731Z caller=index_set.go:86 msg="uploading table loki_index_20740"
+level=info ts=2026-10-14T08:53:05.756845251Z caller=index_set.go:107 msg="finished uploading table loki_index_20740"
+level=info ts=2026-10-14T08:53:05.75685108Z caller=index_set.go:186 msg="cleaning up unwanted indexes from table loki_index_20740"
+level=info ts=2026-10-14T08:53:05.785015551Z caller=recalculate_owned_streams.go:49 msg="starting recalculate owned streams job"
+level=info ts=2026-10-14T08:53:05.7850613Z caller=recalculate_owned_streams.go:52 msg="completed recalculate owned streams job"
+level=error ts=2026-10-14T08:53:07.263973901Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:53:11.36434763Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:53:14.464553225Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:53:17.264519887Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:53:26.36423775Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:53:32.21930111Z caller=memberlist_client.go:552 msg="initiating cleanup of obsolete entries"
+level=info ts=2026-10-14T08:53:35.784782569Z caller=recalculate_owned_streams.go:49 msg="starting recalculate owned streams job"
+level=info ts=2026-10-14T08:53:35.784825664Z caller=recalculate_owned_streams.go:52 msg="completed recalculate owned streams job"
+level=error ts=2026-10-14T08:53:37.263838429Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:53:41.363930314Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:53:44.564203145Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:53:47.264475824Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:53:53.361758001Z caller=flush.go:304 component=ingester msg="flushing stream" user=fake fp=b2a3681c7e730b92 immediate=false num_chunks=1 total_comp="69 B" avg_comp="69 B" total_uncomp="5.6 kB" avg_uncomp="5.6 kB" idle=1 labels="{app=\"checkout\", container=\"checkout\", instance=\"shop/checkout-68fb58bcfd-jlw7x:checkout\", job=\"loki.source.kubernetes.pods\", level=\"error\", namespace=\"shop\", pod=\"checkout-68fb58bcfd-jlw7x\", service_name=\"checkout\"}"
+level=error ts=2026-10-14T08:53:53.56417525Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:53:53.662422669Z caller=flush.go:304 component=ingester msg="flushing stream" user=fake fp=2ef558e493a97e66 immediate=false num_chunks=1 total_comp="69 B" avg_comp="69 B" total_uncomp="2.8 kB" avg_uncomp="2.8 kB" idle=1 labels="{app=\"checkout\", container=\"checkout\", instance=\"shop/checkout-68fb58bcfd-jsmz4:checkout\", job=\"loki.source.kubernetes.pods\", level=\"error\", namespace=\"shop\", pod=\"checkout-68fb58bcfd-jsmz4\", service_name=\"checkout\"}"
+level=info ts=2026-10-14T08:53:53.962769308Z caller=flush.go:304 component=ingester msg="flushing stream" user=fake fp=d253c1a7f46f9cf6 immediate=false num_chunks=1 total_comp="69 B" avg_comp="69 B" total_uncomp="837 B" avg_uncomp="837 B" idle=1 labels="{app=\"checkout\", container=\"checkout\", instance=\"shop/checkout-68fb58bcfd-92lpn:checkout\", job=\"loki.source.kubernetes.pods\", level=\"error\", namespace=\"shop\", pod=\"checkout-68fb58bcfd-92lpn\", service_name=\"checkout\"}"
+level=error ts=2026-10-14T08:53:56.363846928Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:53:58.264641519Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:54:02.22006203Z caller=memberlist_client.go:552 msg="initiating cleanup of obsolete entries"
+level=info ts=2026-10-14T08:54:05.756459441Z caller=table_manager.go:136 index-store=tsdb-2024-04-01 msg="uploading tables"
+level=info ts=2026-10-14T08:54:05.756492411Z caller=index_set.go:86 msg="uploading table loki_index_20740"
+level=info ts=2026-10-14T08:54:05.756499321Z caller=index_set.go:107 msg="finished uploading table loki_index_20740"
+level=info ts=2026-10-14T08:54:05.756505591Z caller=index_set.go:186 msg="cleaning up unwanted indexes from table loki_index_20740"
+level=info ts=2026-10-14T08:54:05.784840191Z caller=recalculate_owned_streams.go:49 msg="starting recalculate owned streams job"
+level=info ts=2026-10-14T08:54:05.78486628Z caller=recalculate_owned_streams.go:52 msg="completed recalculate owned streams job"
+level=error ts=2026-10-14T08:54:07.26448958Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:54:11.363925671Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:54:14.664282368Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:54:17.265595725Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:54:26.365458451Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:54:26.934111743Z caller=checkpoint.go:498 msg="atomic checkpoint finished" old=/var/loki/wal/checkpoint.000011.tmp new=/var/loki/wal/checkpoint.000011
+level=info ts=2026-10-14T08:54:26.936075472Z caller=checkpoint.go:569 msg="checkpoint done" time=4m21.151531542s
+level=info ts=2026-10-14T08:54:32.220149008Z caller=memberlist_client.go:552 msg="initiating cleanup of obsolete entries"
+level=info ts=2026-10-14T08:54:35.784862618Z caller=recalculate_owned_streams.go:49 msg="starting recalculate owned streams job"
+level=info ts=2026-10-14T08:54:35.784902128Z caller=recalculate_owned_streams.go:52 msg="completed recalculate owned streams job"
+level=error ts=2026-10-14T08:54:37.264757846Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:54:41.364701604Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:54:44.764493028Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:54:47.264803972Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:54:52.664586401Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:54:56.364743819Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:55:02.219558335Z caller=memberlist_client.go:552 msg="initiating cleanup of obsolete entries"
+level=info ts=2026-10-14T08:55:05.756690161Z caller=table_manager.go:136 index-store=tsdb-2024-04-01 msg="uploading tables"
+level=info ts=2026-10-14T08:55:05.756679064Z caller=table_manager.go:239 index-store=tsdb-2024-04-01 msg="syncing tables"
+level=info ts=2026-10-14T08:55:05.756719085Z caller=index_set.go:86 msg="uploading table loki_index_20740"
+level=info ts=2026-10-14T08:55:05.756724713Z caller=index_set.go:107 msg="finished uploading table loki_index_20740"
+level=info ts=2026-10-14T08:55:05.756730331Z caller=index_set.go:186 msg="cleaning up unwanted indexes from table loki_index_20740"
+level=info ts=2026-10-14T08:55:05.756857172Z caller=table_manager.go:300 index-store=tsdb-2024-04-01 msg="query readiness setup completed" duration=2.724µs distinct_users_len=0 distinct_users=
+level=info ts=2026-10-14T08:55:05.784363539Z caller=checkpoint.go:611 msg="starting checkpoint"
+level=info ts=2026-10-14T08:55:05.784369027Z caller=recalculate_owned_streams.go:49 msg="starting recalculate owned streams job"
+level=info ts=2026-10-14T08:55:05.784402547Z caller=recalculate_owned_streams.go:52 msg="completed recalculate owned streams job"
+level=info ts=2026-10-14T08:55:05.784525393Z caller=checkpoint.go:336 msg="attempting checkpoint for" dir=/var/loki/wal/checkpoint.000012
+level=error ts=2026-10-14T08:55:07.266431787Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:55:11.363848775Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:55:14.763880661Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:55:17.264901726Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:55:26.363754286Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:55:32.219843067Z caller=memberlist_client.go:552 msg="initiating cleanup of obsolete entries"
+level=info ts=2026-10-14T08:55:35.785528004Z caller=recalculate_owned_streams.go:49 msg="starting recalculate owned streams job"
+level=info ts=2026-10-14T08:55:35.785554814Z caller=recalculate_owned_streams.go:52 msg="completed recalculate owned streams job"
+level=error ts=2026-10-14T08:55:37.264418626Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:55:41.364964147Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:55:44.764343017Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:55:47.264696186Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:55:52.254221667Z caller=flush.go:304 component=ingester msg="flushing stream" user=fake fp=332a3099cac4d45a immediate=false num_chunks=1 total_comp="68 B" avg_comp="68 B" total_uncomp="2.1 kB" avg_uncomp="2.1 kB" idle=1 labels="{app=\"checkout\", container=\"checkout\", instance=\"shop/checkout-68fb58bcfd-92lpn:checkout\", job=\"loki.source.kubernetes.pods\", level=\"info\", namespace=\"shop\", pod=\"checkout-68fb58bcfd-92lpn\", service_name=\"checkout\"}"
+level=info ts=2026-10-14T08:55:52.554398188Z caller=flush.go:304 component=ingester msg="flushing stream" user=fake fp=afb3f2af51463cd4 immediate=false num_chunks=1 total_comp="82 B" avg_comp="82 B" total_uncomp="6.7 kB" avg_uncomp="6.7 kB" idle=1 labels="{app=\"checkout\", container=\"checkout\", instance=\"shop/checkout-68fb58bcfd-92lpn:checkout\", job=\"loki.source.kubernetes.pods\", namespace=\"shop\", pod=\"checkout-68fb58bcfd-92lpn\", service_name=\"checkout\"}"
+level=info ts=2026-10-14T08:55:52.854850064Z caller=flush.go:304 component=ingester msg="flushing stream" user=fake fp=c0d943be87309ce8 immediate=false num_chunks=1 total_comp="82 B" avg_comp="82 B" total_uncomp="6.7 kB" avg_uncomp="6.7 kB" idle=1 labels="{app=\"checkout\", container=\"checkout\", instance=\"shop/checkout-68fb58bcfd-jlw7x:checkout\", job=\"loki.source.kubernetes.pods\", namespace=\"shop\", pod=\"checkout-68fb58bcfd-jlw7x\", service_name=\"checkout\"}"
+level=info ts=2026-10-14T08:55:53.154564504Z caller=flush.go:304 component=ingester msg="flushing stream" user=fake fp=e2c7bae5fee19632 immediate=false num_chunks=1 total_comp="71 B" avg_comp="71 B" total_uncomp="961 B" avg_uncomp="961 B" idle=1 labels="{app=\"checkout\", container=\"checkout\", instance=\"shop/checkout-68fb58bcfd-jlw7x:checkout\", job=\"loki.source.kubernetes.pods\", level=\"warning\", namespace=\"shop\", pod=\"checkout-68fb58bcfd-jlw7x\", service_name=\"checkout\"}"
+level=info ts=2026-10-14T08:55:53.454627233Z caller=flush.go:304 component=ingester msg="flushing stream" user=fake fp=8ae1284f4789fa93 immediate=false num_chunks=1 total_comp="68 B" avg_comp="68 B" total_uncomp="2.1 kB" avg_uncomp="2.1 kB" idle=1 labels="{app=\"checkout\", container=\"checkout\", instance=\"shop/checkout-68fb58bcfd-jlw7x:checkout\", job=\"loki.source.kubernetes.pods\", level=\"info\", namespace=\"shop\", pod=\"checkout-68fb58bcfd-jlw7x\", service_name=\"checkout\"}"
+level=info ts=2026-10-14T08:55:53.75491971Z caller=flush.go:304 component=ingester msg="flushing stream" user=fake fp=12e6b517d7e72d7d immediate=false num_chunks=1 total_comp="71 B" avg_comp="71 B" total_uncomp="961 B" avg_uncomp="961 B" idle=1 labels="{app=\"checkout\", container=\"checkout\", instance=\"shop/checkout-68fb58bcfd-92lpn:checkout\", job=\"loki.source.kubernetes.pods\", level=\"warning\", namespace=\"shop\", pod=\"checkout-68fb58bcfd-92lpn\", service_name=\"checkout\"}"
+level=error ts=2026-10-14T08:55:56.363842506Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:56:02.220229326Z caller=memberlist_client.go:552 msg="initiating cleanup of obsolete entries"
+level=error ts=2026-10-14T08:56:03.36499941Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:56:05.264881603Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:56:05.75607615Z caller=table_manager.go:136 index-store=tsdb-2024-04-01 msg="uploading tables"
+level=info ts=2026-10-14T08:56:05.756113496Z caller=index_set.go:86 msg="uploading table loki_index_20740"
+level=info ts=2026-10-14T08:56:05.756120887Z caller=index_set.go:107 msg="finished uploading table loki_index_20740"
+level=info ts=2026-10-14T08:56:05.756126476Z caller=index_set.go:186 msg="cleaning up unwanted indexes from table loki_index_20740"
+level=info ts=2026-10-14T08:56:05.784974228Z caller=recalculate_owned_streams.go:49 msg="starting recalculate owned streams job"
+level=info ts=2026-10-14T08:56:05.785010427Z caller=recalculate_owned_streams.go:52 msg="completed recalculate owned streams job"
+level=error ts=2026-10-14T08:56:06.363782172Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:56:07.865567616Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:56:09.263920626Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:56:11.36419583Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:56:12.664168149Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:56:14.764234175Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:56:17.264072846Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:56:24.280084364Z caller=flush.go:304 component=ingester msg="flushing stream" user=fake fp=a627c54c1c5f4dc9 immediate=false num_chunks=1 total_comp="68 B" avg_comp="68 B" total_uncomp="2.1 kB" avg_uncomp="2.1 kB" idle=1 labels="{app=\"checkout\", container=\"checkout\", instance=\"shop/checkout-68fb58bcfd-jsmz4:checkout\", job=\"loki.source.kubernetes.pods\", level=\"info\", namespace=\"shop\", pod=\"checkout-68fb58bcfd-jsmz4\", service_name=\"checkout\"}"
+level=info ts=2026-10-14T08:56:24.880604165Z caller=flush.go:304 component=ingester msg="flushing stream" user=fake fp=8ddbd11a24a448ff immediate=false num_chunks=1 total_comp="82 B" avg_comp="82 B" total_uncomp="6.7 kB" avg_uncomp="6.7 kB" idle=1 labels="{app=\"checkout\", container=\"checkout\", instance=\"shop/checkout-68fb58bcfd-jsmz4:checkout\", job=\"loki.source.kubernetes.pods\", namespace=\"shop\", pod=\"checkout-68fb58bcfd-jsmz4\", service_name=\"checkout\"}"
+level=error ts=2026-10-14T08:56:26.363993811Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:56:26.680153136Z caller=flush.go:304 component=ingester msg="flushing stream" user=fake fp=cec605c4e0cc67c8 immediate=false num_chunks=1 total_comp="71 B" avg_comp="71 B" total_uncomp="961 B" avg_uncomp="961 B" idle=1 labels="{app=\"checkout\", container=\"checkout\", instance=\"shop/checkout-68fb58bcfd-jsmz4:checkout\", job=\"loki.source.kubernetes.pods\", level=\"warning\", namespace=\"shop\", pod=\"checkout-68fb58bcfd-jsmz4\", service_name=\"checkout\"}"
+level=info ts=2026-10-14T08:56:32.219235516Z caller=memberlist_client.go:552 msg="initiating cleanup of obsolete entries"
+level=info ts=2026-10-14T08:56:35.784288794Z caller=recalculate_owned_streams.go:49 msg="starting recalculate owned streams job"
+level=info ts=2026-10-14T08:56:35.784329816Z caller=recalculate_owned_streams.go:52 msg="completed recalculate owned streams job"
+level=error ts=2026-10-14T08:56:37.26379678Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:56:41.363859679Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:56:44.764621883Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:56:47.264023762Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:56:56.363977038Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:57:02.219580763Z caller=memberlist_client.go:552 msg="initiating cleanup of obsolete entries"
+level=error ts=2026-10-14T08:57:03.763964235Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:57:05.756871242Z caller=table_manager.go:136 index-store=tsdb-2024-04-01 msg="uploading tables"
+level=info ts=2026-10-14T08:57:05.756907076Z caller=index_set.go:86 msg="uploading table loki_index_20740"
+level=info ts=2026-10-14T08:57:05.756913686Z caller=index_set.go:107 msg="finished uploading table loki_index_20740"
+level=info ts=2026-10-14T08:57:05.756918493Z caller=index_set.go:186 msg="cleaning up unwanted indexes from table loki_index_20740"
+level=info ts=2026-10-14T08:57:05.784695159Z caller=recalculate_owned_streams.go:49 msg="starting recalculate owned streams job"
+level=info ts=2026-10-14T08:57:05.784726906Z caller=recalculate_owned_streams.go:52 msg="completed recalculate owned streams job"
+level=error ts=2026-10-14T08:57:07.264607408Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:57:11.36457725Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:57:14.863918669Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:57:17.264020682Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:57:21.03303941Z caller=flush.go:304 component=ingester msg="flushing stream" user=fake fp=cffe5fc34c7fe190 immediate=false num_chunks=1 total_comp="68 B" avg_comp="68 B" total_uncomp="179 B" avg_uncomp="179 B" idle=1 labels="{app=\"checkout\", container=\"checkout\", instance=\"shop/checkout-69cf4467b9-jx2vp:checkout\", job=\"loki.source.kubernetes.pods\", level=\"info\", namespace=\"shop\", pod=\"checkout-69cf4467b9-jx2vp\", service_name=\"checkout\"}"
+level=info ts=2026-10-14T08:57:21.333909661Z caller=flush.go:304 component=ingester msg="flushing stream" user=fake fp=f212ef6a5c6c86c1 immediate=false num_chunks=1 total_comp="68 B" avg_comp="68 B" total_uncomp="360 B" avg_uncomp="360 B" idle=1 labels="{app=\"checkout\", container=\"checkout\", instance=\"shop/checkout-69cf4467b9-lgzff:checkout\", job=\"loki.source.kubernetes.pods\", level=\"info\", namespace=\"shop\", pod=\"checkout-69cf4467b9-lgzff\", service_name=\"checkout\"}"
+level=info ts=2026-10-14T08:57:21.633150216Z caller=flush.go:304 component=ingester msg="flushing stream" user=fake fp=691690ea8567411c immediate=false num_chunks=1 total_comp="68 B" avg_comp="68 B" total_uncomp="360 B" avg_uncomp="360 B" idle=1 labels="{app=\"checkout\", container=\"checkout\", instance=\"shop/checkout-69cf4467b9-7vdxz:checkout\", job=\"loki.source.kubernetes.pods\", level=\"info\", namespace=\"shop\", pod=\"checkout-69cf4467b9-7vdxz\", service_name=\"checkout\"}"
+level=error ts=2026-10-14T08:57:26.364070686Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:57:32.219849708Z caller=memberlist_client.go:552 msg="initiating cleanup of obsolete entries"
+level=error ts=2026-10-14T08:57:32.864612017Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:57:35.784355693Z caller=recalculate_owned_streams.go:49 msg="starting recalculate owned streams job"
+level=info ts=2026-10-14T08:57:35.784394932Z caller=recalculate_owned_streams.go:52 msg="completed recalculate owned streams job"
+level=error ts=2026-10-14T08:57:37.263876296Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:57:41.364504438Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:57:44.864604088Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:57:47.264141574Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:57:56.364464833Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:58:02.219865787Z caller=memberlist_client.go:552 msg="initiating cleanup of obsolete entries"
+level=info ts=2026-10-14T08:58:05.756522409Z caller=table_manager.go:136 index-store=tsdb-2024-04-01 msg="uploading tables"
+level=info ts=2026-10-14T08:58:05.756553435Z caller=index_set.go:86 msg="uploading table loki_index_20740"
+level=info ts=2026-10-14T08:58:05.756558553Z caller=index_set.go:107 msg="finished uploading table loki_index_20740"
+level=info ts=2026-10-14T08:58:05.756562539Z caller=index_set.go:186 msg="cleaning up unwanted indexes from table loki_index_20740"
+level=info ts=2026-10-14T08:58:05.785304334Z caller=recalculate_owned_streams.go:49 msg="starting recalculate owned streams job"
+level=info ts=2026-10-14T08:58:05.785329982Z caller=recalculate_owned_streams.go:52 msg="completed recalculate owned streams job"
+level=error ts=2026-10-14T08:58:07.264751113Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:58:11.363832935Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:58:14.964722206Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:58:17.264379493Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:58:21.864176192Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:58:23.463824758Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:58:26.163729271Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:58:27.264151954Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:58:29.964327808Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:58:32.220193696Z caller=memberlist_client.go:552 msg="initiating cleanup of obsolete entries"
+level=error ts=2026-10-14T08:58:32.964112434Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:58:35.784753741Z caller=recalculate_owned_streams.go:49 msg="starting recalculate owned streams job"
+level=info ts=2026-10-14T08:58:35.784789014Z caller=recalculate_owned_streams.go:52 msg="completed recalculate owned streams job"
+level=error ts=2026-10-14T08:58:36.663747176Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:58:40.563998404Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:58:44.964123904Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:58:47.263878396Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:58:50.263914867Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:58:51.46471598Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:58:53.364307414Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:58:54.663859191Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:58:55.964782891Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:58:56.544954308Z caller=flush.go:304 component=ingester msg="flushing stream" user=fake fp=284ad8824d970ab4 immediate=false num_chunks=1 total_comp="71 B" avg_comp="71 B" total_uncomp="10 kB" avg_uncomp="10 kB" idle=1 labels="{app=\"pricing\", container=\"pricing\", instance=\"shop/pricing-95c99775f-rtmsj:pricing\", job=\"loki.source.kubernetes.pods\", namespace=\"shop\", pod=\"pricing-95c99775f-rtmsj\", service_name=\"pricing\"}"
+level=info ts=2026-10-14T08:58:56.845194408Z caller=flush.go:304 component=ingester msg="flushing stream" user=fake fp=0875c524c597aa71 immediate=false num_chunks=1 total_comp="71 B" avg_comp="71 B" total_uncomp="10 kB" avg_uncomp="10 kB" idle=1 labels="{app=\"pricing\", container=\"pricing\", instance=\"shop/pricing-95c99775f-z5psf:pricing\", job=\"loki.source.kubernetes.pods\", namespace=\"shop\", pod=\"pricing-95c99775f-z5psf\", service_name=\"pricing\"}"
+level=info ts=2026-10-14T08:58:57.145678777Z caller=flush.go:304 component=ingester msg="flushing stream" user=fake fp=a3aeb4b5209abb45 immediate=false num_chunks=1 total_comp="71 B" avg_comp="71 B" total_uncomp="10 kB" avg_uncomp="10 kB" idle=1 labels="{app=\"recommendations\", container=\"recommendations\", instance=\"shop/recommendations-7bd4dd95d6-pxghg:recommendations\", job=\"loki.source.kubernetes.pods\", namespace=\"shop\", pod=\"recommendations-7bd4dd95d6-pxghg\", service_name=\"recommendations\"}"
+level=error ts=2026-10-14T08:58:57.264022872Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:58:57.445331974Z caller=flush.go:304 component=ingester msg="flushing stream" user=fake fp=e1779b310e42bca3 immediate=false num_chunks=1 total_comp="76 B" avg_comp="76 B" total_uncomp="10 kB" avg_uncomp="10 kB" idle=1 labels="{app=\"inventory\", container=\"inventory\", instance=\"shop/inventory-6ffc77fd45-kqvzl:inventory\", job=\"loki.source.kubernetes.pods\", namespace=\"shop\", pod=\"inventory-6ffc77fd45-kqvzl\", service_name=\"inventory\"}"
+level=info ts=2026-10-14T08:58:57.745901912Z caller=flush.go:304 component=ingester msg="flushing stream" user=fake fp=13eee41325efa7c7 immediate=false num_chunks=1 total_comp="71 B" avg_comp="71 B" total_uncomp="10 kB" avg_uncomp="10 kB" idle=1 labels="{app=\"loadgen\", container=\"loadgen\", instance=\"shop/loadgen-786bccd86d-hcltl:loadgen\", job=\"loki.source.kubernetes.pods\", namespace=\"shop\", pod=\"loadgen-786bccd86d-hcltl\", service_name=\"loadgen\"}"
+level=info ts=2026-10-14T08:58:58.045518863Z caller=flush.go:304 component=ingester msg="flushing stream" user=fake fp=cf2495901fb1aad0 immediate=false num_chunks=1 total_comp="71 B" avg_comp="71 B" total_uncomp="10 kB" avg_uncomp="10 kB" idle=1 labels="{app=\"recommendations\", container=\"recommendations\", instance=\"shop/recommendations-7bd4dd95d6-gfbqx:recommendations\", job=\"loki.source.kubernetes.pods\", namespace=\"shop\", pod=\"recommendations-7bd4dd95d6-gfbqx\", service_name=\"recommendations\"}"
+level=error ts=2026-10-14T08:58:58.866805537Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:00.764153626Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:59:02.219718235Z caller=memberlist_client.go:552 msg="initiating cleanup of obsolete entries"
+level=error ts=2026-10-14T08:59:02.264191381Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:03.764682999Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:05.263854995Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:59:05.756049472Z caller=table_manager.go:136 index-store=tsdb-2024-04-01 msg="uploading tables"
+level=info ts=2026-10-14T08:59:05.756090133Z caller=index_set.go:86 msg="uploading table loki_index_20740"
+level=info ts=2026-10-14T08:59:05.756099347Z caller=index_set.go:107 msg="finished uploading table loki_index_20740"
+level=info ts=2026-10-14T08:59:05.75610767Z caller=index_set.go:186 msg="cleaning up unwanted indexes from table loki_index_20740"
+level=info ts=2026-10-14T08:59:05.78508885Z caller=recalculate_owned_streams.go:49 msg="starting recalculate owned streams job"
+level=info ts=2026-10-14T08:59:05.785121529Z caller=recalculate_owned_streams.go:52 msg="completed recalculate owned streams job"
+level=error ts=2026-10-14T08:59:06.66374741Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:59:10.072155358Z caller=checkpoint.go:498 msg="atomic checkpoint finished" old=/var/loki/wal/checkpoint.000012.tmp new=/var/loki/wal/checkpoint.000012
+level=info ts=2026-10-14T08:59:10.073287954Z caller=checkpoint.go:569 msg="checkpoint done" time=4m4.288598244s
+level=error ts=2026-10-14T08:59:11.364239512Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:14.963680084Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:17.264255398Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:18.864222925Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:20.264165632Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:22.764125464Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:26.365964457Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:27.764072508Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:29.064343779Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:30.464612369Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:31.664017949Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:59:32.219533913Z caller=memberlist_client.go:552 msg="initiating cleanup of obsolete entries"
+level=error ts=2026-10-14T08:59:34.064337406Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:35.663978563Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T08:59:35.785101727Z caller=recalculate_owned_streams.go:49 msg="starting recalculate owned streams job"
+level=info ts=2026-10-14T08:59:35.785139695Z caller=recalculate_owned_streams.go:52 msg="completed recalculate owned streams job"
+level=error ts=2026-10-14T08:59:37.26392515Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:39.164775711Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:41.364217849Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:43.264645768Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:44.864482432Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:47.265355938Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:48.764257318Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:50.464619623Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:51.764131643Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:52.864116965Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:54.063948278Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:55.963937188Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:57.064442889Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T08:59:59.96457414Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T09:00:02.219616486Z caller=memberlist_client.go:552 msg="initiating cleanup of obsolete entries"
+level=error ts=2026-10-14T09:00:02.365437509Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T09:00:03.464065536Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T09:00:04.564251815Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T09:00:05.756682464Z caller=table_manager.go:239 index-store=tsdb-2024-04-01 msg="syncing tables"
+level=info ts=2026-10-14T09:00:05.756694176Z caller=table_manager.go:136 index-store=tsdb-2024-04-01 msg="uploading tables"
+level=info ts=2026-10-14T09:00:05.756718293Z caller=index_set.go:86 msg="uploading table loki_index_20740"
+level=info ts=2026-10-14T09:00:05.756723491Z caller=index_set.go:107 msg="finished uploading table loki_index_20740"
+level=info ts=2026-10-14T09:00:05.756728097Z caller=index_set.go:186 msg="cleaning up unwanted indexes from table loki_index_20740"
+level=info ts=2026-10-14T09:00:05.756845319Z caller=table_manager.go:300 index-store=tsdb-2024-04-01 msg="query readiness setup completed" duration=2.744µs distinct_users_len=0 distinct_users=
+level=info ts=2026-10-14T09:00:05.78428873Z caller=recalculate_owned_streams.go:49 msg="starting recalculate owned streams job"
+level=info ts=2026-10-14T09:00:05.78432233Z caller=recalculate_owned_streams.go:52 msg="completed recalculate owned streams job"
+level=info ts=2026-10-14T09:00:05.784315836Z caller=checkpoint.go:611 msg="starting checkpoint"
+level=info ts=2026-10-14T09:00:05.784408476Z caller=checkpoint.go:336 msg="attempting checkpoint for" dir=/var/loki/wal/checkpoint.000013
+level=error ts=2026-10-14T09:00:07.16673688Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T09:00:11.364097055Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=info ts=2026-10-14T09:00:11.919847694Z caller=compactor.go:798 msg="compacting table" table-name=loki_index_20740
+level=info ts=2026-10-14T09:00:11.920007866Z caller=table.go:132 table-name=loki_index_20740 msg="listed files" count=0
+level=info ts=2026-10-14T09:00:11.920141797Z caller=compactor.go:803 msg="finished compacting table" table-name=loki_index_20740
+level=error ts=2026-10-14T09:00:13.464323613Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0
+level=error ts=2026-10-14T09:00:15.064391013Z caller=push.go:202 org_id=fake msg="negative structured metadata bytes received" userID=fake retentionHours=24 isAggregatedMetric=false policyName= size=0

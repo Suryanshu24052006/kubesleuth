@@ -1,0 +1,963 @@
+{
+  "id": "20261014-081659-4a2d6a",
+  "incident": "Checkout requests are timing out and the edge is returning 5xx.",
+  "namespace": "shop",
+  "reasoner": "rules",
+  "started_at": "2026-10-14T08:16:59Z",
+  "finished_at": "2026-10-14T08:16:59Z",
+  "duration_s": 0.3,
+  "stop_reason": "model judged evidence sufficient; H3 p=0.72 (medium)",
+  "title": "RCA: Capacity of inventory was reduced (spec.replicas 4->1)",
+  "root_cause": {
+    "hypothesis": "H3",
+    "statement": "Capacity of inventory was reduced (spec.replicas 4->1)",
+    "component": "inventory",
+    "category": "capacity"
+  },
+  "confidence": {
+    "label": "medium",
+    "posterior": 0.721,
+    "explanation": "Medium: well supported, but some evidence is single-source or an alternative is not fully excluded."
+  },
+  "causal_chain": [
+    {
+      "step": "'throttl' observed: \"container_restarts\", \"cpu_cores\", \"cpu_throttled_ratio\", \"db_errors_rps\", \"depe",
+      "observation_ids": [
+        "O5"
+      ]
+    },
+    {
+      "step": "'throttl' observed: \"container_restarts\", \"cpu_cores\", \"cpu_throttled_ratio\", \"db_errors_rps\", \"depe",
+      "observation_ids": [
+        "O7"
+      ]
+    },
+    {
+      "step": "'throttl' observed: 1\\u2581\\u2581\", \"unit\": \"cores\"}], \"cpu_throttled_ratio\": [{\"labels\": {\"pod\": \"c",
+      "observation_ids": [
+        "O6"
+      ]
+    },
+    {
+      "step": "'throttl' observed near inventory: ration in PagerDuty.\\n\"}, {\"alert\": \"CPUThrottlingHigh\", \"severity\": \"info\", \"st",
+      "observation_ids": [
+        "O1"
+      ]
+    },
+    {
+      "step": "'timeout' observed near inventory: hz\\\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+      "observation_ids": [
+        "O2"
+      ]
+    }
+  ],
+  "facts": [],
+  "hypotheses": [
+    {
+      "id": "H3",
+      "statement": "Capacity of inventory was reduced (spec.replicas 4->1)",
+      "mechanism": "fewer replicas saturate",
+      "component": "inventory",
+      "category": "capacity",
+      "layer": "cause",
+      "status": "active",
+      "retired_reason": "",
+      "posterior": 0.721,
+      "supporting": 6,
+      "contradicting": 0,
+      "sources": [
+        "alertmanager",
+        "kubernetes",
+        "prometheus"
+      ],
+      "strong_contradictions": 0
+    },
+    {
+      "id": "H2",
+      "statement": "Capacity of catalog-indexer was reduced (spec.replicas 3->1)",
+      "mechanism": "fewer replicas saturate",
+      "component": "catalog-indexer",
+      "category": "capacity",
+      "layer": "cause",
+      "status": "active",
+      "retired_reason": "",
+      "posterior": 0.197,
+      "supporting": 6,
+      "contradicting": 0,
+      "sources": [
+        "alertmanager",
+        "kubernetes",
+        "prometheus"
+      ],
+      "strong_contradictions": 0
+    },
+    {
+      "id": "H1",
+      "statement": "Service telemetry-collector-v2 was deleted () so callers cannot reach it",
+      "mechanism": "no endpoints / DNS",
+      "component": "telemetry-collector-v2",
+      "category": "dependency",
+      "layer": "cause",
+      "status": "active",
+      "retired_reason": "",
+      "posterior": 0.031,
+      "supporting": 1,
+      "contradicting": 0,
+      "sources": [
+        "kubernetes"
+      ],
+      "strong_contradictions": 0
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "hypothesis": "H2",
+      "observation": "O5",
+      "source": "prometheus",
+      "stance": "supports",
+      "strength": "weak",
+      "weight": 0.5,
+      "quote": "\"container_restarts\", \"cpu_cores\", \"cpu_throttled_ratio\", \"db_errors_rps\", \"dependency_failures_rps\", \"erro",
+      "rationale": "'throttl' observed"
+    },
+    {
+      "id": "E2",
+      "hypothesis": "H3",
+      "observation": "O5",
+      "source": "prometheus",
+      "stance": "supports",
+      "strength": "weak",
+      "weight": 0.5,
+      "quote": "\"container_restarts\", \"cpu_cores\", \"cpu_throttled_ratio\", \"db_errors_rps\", \"dependency_failures_rps\", \"erro",
+      "rationale": "'throttl' observed"
+    },
+    {
+      "id": "E3",
+      "hypothesis": "H2",
+      "observation": "O7",
+      "source": "prometheus",
+      "stance": "supports",
+      "strength": "weak",
+      "weight": 0.3,
+      "quote": "\"container_restarts\", \"cpu_cores\", \"cpu_throttled_ratio\", \"db_errors_rps\", \"dependency_failures_rps\", \"erro",
+      "rationale": "'throttl' observed"
+    },
+    {
+      "id": "E4",
+      "hypothesis": "H3",
+      "observation": "O7",
+      "source": "prometheus",
+      "stance": "supports",
+      "strength": "weak",
+      "weight": 0.3,
+      "quote": "\"container_restarts\", \"cpu_cores\", \"cpu_throttled_ratio\", \"db_errors_rps\", \"dependency_failures_rps\", \"erro",
+      "rationale": "'throttl' observed"
+    },
+    {
+      "id": "E5",
+      "hypothesis": "H2",
+      "observation": "O6",
+      "source": "prometheus",
+      "stance": "supports",
+      "strength": "moderate",
+      "weight": 0.432,
+      "quote": "1\\u2581\\u2581\", \"unit\": \"cores\"}], \"cpu_throttled_ratio\": [{\"labels\": {\"pod\": \"catalog-indexer-6f6b545fdb-7",
+      "rationale": "'throttl' observed near catalog-indexer"
+    },
+    {
+      "id": "E6",
+      "hypothesis": "H3",
+      "observation": "O6",
+      "source": "prometheus",
+      "stance": "supports",
+      "strength": "weak",
+      "weight": 0.18,
+      "quote": "1\\u2581\\u2581\", \"unit\": \"cores\"}], \"cpu_throttled_ratio\": [{\"labels\": {\"pod\": \"catalog-indexer-6f6b545fdb-7",
+      "rationale": "'throttl' observed"
+    },
+    {
+      "id": "E7",
+      "hypothesis": "H2",
+      "observation": "O1",
+      "source": "alertmanager",
+      "stance": "supports",
+      "strength": "weak",
+      "weight": 0.5,
+      "quote": "ration in PagerDuty.\\n\"}, {\"alert\": \"CPUThrottlingHigh\", \"severity\": \"info\", \"state\": \"active\", \"starts_at\"",
+      "rationale": "'throttl' observed"
+    },
+    {
+      "id": "E8",
+      "hypothesis": "H3",
+      "observation": "O1",
+      "source": "alertmanager",
+      "stance": "supports",
+      "strength": "moderate",
+      "weight": 1.2,
+      "quote": "ration in PagerDuty.\\n\"}, {\"alert\": \"CPUThrottlingHigh\", \"severity\": \"info\", \"state\": \"active\", \"starts_at\"",
+      "rationale": "'throttl' observed near inventory"
+    },
+    {
+      "id": "E9",
+      "hypothesis": "H1",
+      "observation": "O2",
+      "source": "kubernetes",
+      "stance": "supports",
+      "strength": "weak",
+      "weight": 0.5,
+      "quote": "\\\": dial tcp 10.244.1.27:8080: connect: connection refused\", \"count\": 17, \"first_seen\": \"2026-10-14T07:53:33Z\", \"last_",
+      "rationale": "'connection refused' observed"
+    },
+    {
+      "id": "E10",
+      "hypothesis": "H2",
+      "observation": "O2",
+      "source": "kubernetes",
+      "stance": "supports",
+      "strength": "weak",
+      "weight": 0.5,
+      "quote": "hz\\\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)\", \"count\": 11, \"first_seen",
+      "rationale": "'timeout' observed"
+    },
+    {
+      "id": "E11",
+      "hypothesis": "H3",
+      "observation": "O2",
+      "source": "kubernetes",
+      "stance": "supports",
+      "strength": "moderate",
+      "weight": 1.2,
+      "quote": "hz\\\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)\", \"count\": 11, \"first_seen",
+      "rationale": "'timeout' observed near inventory"
+    },
+    {
+      "id": "E12",
+      "hypothesis": "H2",
+      "observation": "O9",
+      "source": "prometheus",
+      "stance": "supports",
+      "strength": "weak",
+      "weight": 0.108,
+      "quote": "8\\u2588\\u2587\", \"unit\": \"cores\"}], \"cpu_throttled_ratio\": [{\"labels\": {\"pod\": \"inventory-6ffc77fd45-28b67\"}",
+      "rationale": "'throttl' observed"
+    },
+    {
+      "id": "E13",
+      "hypothesis": "H3",
+      "observation": "O9",
+      "source": "prometheus",
+      "stance": "supports",
+      "strength": "moderate",
+      "weight": 0.259,
+      "quote": "8\\u2588\\u2587\", \"unit\": \"cores\"}], \"cpu_throttled_ratio\": [{\"labels\": {\"pod\": \"inventory-6ffc77fd45-28b67\"}",
+      "rationale": "'throttl' observed near inventory"
+    }
+  ],
+  "rejected_evidence": [],
+  "alternatives": [],
+  "uncertainty": [
+    "Baseline rule reasoner: causal links are keyword-based, verify manually."
+  ],
+  "remediation": [
+    "Review and revert the implicated change if confirmed."
+  ],
+  "timeline": [
+    {
+      "time": "2026-10-14T07:49:52.298Z",
+      "event": "alert Watchdog fired (none)",
+      "kind": "alert",
+      "observation_id": "O1",
+      "source": "alertmanager"
+    },
+    {
+      "time": "2026-10-14T07:53:29+00:00",
+      "event": "configmap/checkout-config last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:29+00:00",
+      "event": "configmap/edge-waf-rules last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:29+00:00",
+      "event": "configmap/feature-flags last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:29+00:00",
+      "event": "configmap/kube-root-ca.crt last-write (by kube-controller-manager)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:29+00:00",
+      "event": "service/catalog-indexer last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:29+00:00",
+      "event": "service/checkout last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:29+00:00",
+      "event": "service/edge last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:29+00:00",
+      "event": "service/inventory last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:29+00:00",
+      "event": "service/postgres last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:29+00:00",
+      "event": "service/pricing last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "deployment/catalog-indexer modified: spec.replicas 3 \u2192 1 (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "deployment/inventory modified: spec.replicas 4 \u2192 1 (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "rollout/catalog-indexer new-revision",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "rollout/checkout new-revision",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "rollout/edge new-revision",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "rollout/inventory new-revision",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "rollout/loadgen new-revision",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "rollout/pricing new-revision",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "rollout/recommendations new-revision",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "rollout/review-bot new-revision",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "rollout/telemetry-collector new-revision",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "service/recommendations last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "deployment/checkout last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "deployment/edge last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "deployment/loadgen last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "deployment/pricing last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "deployment/recommendations last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "deployment/review-bot last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "deployment/telemetry-collector last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "statefulset/postgres last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:30+00:00",
+      "event": "hpa/edge last-write (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:33Z",
+      "event": "event Unhealthy x17 on Pod/inventory-6ffc77fd45-28b67,inventory-6ffc77fd45-dnb7n: Readiness probe failed: Get \"http://10.244.1.27:8080/healthz\": dial tcp 10.244.1.27:8080: \u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:33Z",
+      "event": "event Unhealthy x11 on Pod/catalog-indexer-6f6b545fdb-7gbtg,catalog-indexer-6f6b545fdb-pmnvz: Readiness probe failed: Get \"http://10.244.1.20:8080/healthz\": dial tcp 10.244.1.20:8080: \u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:33Z",
+      "event": "event Unhealthy x12 on Pod/checkout-69cf4467b9-2cjfb,checkout-69cf4467b9-mtmgb: Readiness probe failed: Get \"http://10.244.1.25:8080/readyz\": dial tcp 10.244.1.25:8080: c\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:33Z",
+      "event": "event Unhealthy x5 on Pod/edge-6675f7688f-dtglc,edge-6675f7688f-qfm4b: Readiness probe failed: Get \"http://10.244.1.22:8080/healthz\": dial tcp 10.244.1.22:8080: \u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:34Z",
+      "event": "event Unhealthy x5 on Pod/pricing-95c99775f-rtmsj,pricing-95c99775f-z5psf: Readiness probe failed: Get \"http://10.244.1.32:8080/healthz\": dial tcp 10.244.1.32:8080: \u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:34Z",
+      "event": "event Unhealthy x6 on Pod/recommendations-7bd4dd95d6-gfbqx,recommendations-7bd4dd95d6-pxghg: Readiness probe failed: Get \"http://10.244.1.34:8080/healthz\": dial tcp 10.244.1.34:8080: \u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:34Z",
+      "event": "event Unhealthy x3 on Pod/telemetry-collector-865ccb84c6-htm9x: Readiness probe failed: Get \"http://10.244.1.37:8080/healthz\": dial tcp 10.244.1.37:8080: \u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:35Z",
+      "event": "event Unhealthy x1 on Pod/edge-6675f7688f-dtglc: Liveness probe failed: Get \"http://10.244.1.22:8080/healthz\": dial tcp 10.244.1.22:8080: c\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:40Z",
+      "event": "event Unhealthy x3 on Pod/catalog-indexer-6f6b545fdb-7gbtg,catalog-indexer-6f6b545fdb-pmnvz: Liveness probe failed: Get \"http://10.244.1.20:8080/healthz\": dial tcp 10.244.1.20:8080: c\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:40Z",
+      "event": "event Unhealthy x3 on Pod/checkout-69cf4467b9-2cjfb,checkout-69cf4467b9-mtmgb: Liveness probe failed: Get \"http://10.244.1.25:8080/healthz\": dial tcp 10.244.1.25:8080: c\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:43Z",
+      "event": "event FailedCreatePodSandBox x1 on Pod/postgres-0: Failed to create pod sandbox: rpc error: code = Unavailable desc = error reading from serv\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:45Z",
+      "event": "event FailedGetResourceMetric x2 on HorizontalPodAutoscaler/edge: failed to get cpu utilization: unable to get metrics for resource cpu: no metrics returned\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:45Z",
+      "event": "event FailedComputeMetricsReplicas x2 on HorizontalPodAutoscaler/edge: invalid metrics (1 invalid out of 1), first error is: failed to get cpu resource metric va\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:45Z",
+      "event": "event InspectFailed x1 on Pod/postgres-0: Failed to inspect image \"\": rpc error: code = Unavailable desc = connection error: desc = \u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:45Z",
+      "event": "event Failed x1 on Pod/postgres-0: Error: ImageInspectError",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T07:53:50Z",
+      "event": "event Unhealthy x1 on Pod/postgres-0: Readiness probe failed: /var/run/postgresql:5432 - no response\n",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T08:01:26+00:00",
+      "event": "service/telemetry-collector-v2 created (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T08:01:26Z",
+      "event": "service/telemetry-collector deleted",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T08:09:11.323Z",
+      "event": "alert CPUThrottlingHigh fired (info)",
+      "kind": "alert",
+      "observation_id": "O1",
+      "source": "alertmanager"
+    },
+    {
+      "time": "2026-10-14T08:11:26.323Z",
+      "event": "alert CPUThrottlingHigh fired (info)",
+      "kind": "alert",
+      "observation_id": "O1",
+      "source": "alertmanager"
+    },
+    {
+      "time": "2026-10-14T08:12:26Z",
+      "event": "service/telemetry-collector-v2 deleted",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T08:12:27+00:00",
+      "event": "service/telemetry-collector created (by kubectl-client-side-apply)",
+      "kind": "change",
+      "observation_id": "O4",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T08:15:36Z",
+      "event": "event Unhealthy x11 on Pod/inventory-6ffc77fd45-dvnzz: Readiness probe failed: Get \"http://10.244.1.30:8080/healthz\": context deadline exceeded (\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T08:15:43Z",
+      "event": "event Unhealthy x4 on Pod/inventory-6ffc77fd45-dvnzz: Liveness probe failed: Get \"http://10.244.1.30:8080/healthz\": context deadline exceeded (C\u2026",
+      "kind": "event",
+      "observation_id": "O2",
+      "source": "kubernetes"
+    },
+    {
+      "time": "2026-10-14T08:15:44Z",
+      "event": "inventory cpu_throttled_ratio[inventory-6ffc77fd45-dvnzz] increase: 0.11215 \u2192 1.0",
+      "kind": "onset",
+      "observation_id": "O9",
+      "source": "prometheus"
+    },
+    {
+      "time": "2026-10-14T08:16:51.975Z",
+      "event": "alert ShopEdgeHigh5xxRate fired (critical)",
+      "kind": "alert",
+      "observation_id": "O1",
+      "source": "alertmanager"
+    }
+  ],
+  "security": {
+    "events": [],
+    "model_notes": []
+  },
+  "observations": [
+    {
+      "id": "O1",
+      "round": 0,
+      "tool": "active_alerts",
+      "args": {},
+      "purpose": "what is alerting and since when",
+      "ok": true,
+      "source": "alertmanager",
+      "flagged": 0
+    },
+    {
+      "id": "O2",
+      "round": 0,
+      "tool": "get_events",
+      "args": {
+        "namespace": "shop",
+        "minutes": 60,
+        "warnings_only": true
+      },
+      "purpose": "recent warning events",
+      "ok": true,
+      "source": "kubernetes",
+      "flagged": 0
+    },
+    {
+      "id": "O3",
+      "round": 0,
+      "tool": "cluster_overview",
+      "args": {
+        "namespace": "shop"
+      },
+      "purpose": "resource-level health snapshot",
+      "ok": true,
+      "source": "kubernetes",
+      "flagged": 0
+    },
+    {
+      "id": "O4",
+      "round": 0,
+      "tool": "recent_changes",
+      "args": {
+        "namespace": "shop",
+        "minutes": 120
+      },
+      "purpose": "what changed recently",
+      "ok": true,
+      "source": "kubernetes",
+      "flagged": 0
+    },
+    {
+      "id": "O5",
+      "round": 1,
+      "tool": "workload_metrics",
+      "args": {
+        "namespace": "shop",
+        "workload": "kps-kubelet",
+        "minutes": 30
+      },
+      "purpose": "symptom onset",
+      "ok": true,
+      "source": "prometheus",
+      "flagged": 0
+    },
+    {
+      "id": "O6",
+      "round": 1,
+      "tool": "workload_metrics",
+      "args": {
+        "namespace": "shop",
+        "workload": "catalog-indexer",
+        "minutes": 30
+      },
+      "purpose": "test H2",
+      "ok": true,
+      "source": "prometheus",
+      "flagged": 0
+    },
+    {
+      "id": "O7",
+      "round": 1,
+      "tool": "workload_metrics",
+      "args": {
+        "namespace": "shop",
+        "workload": "telemetry-collector-v2",
+        "minutes": 30
+      },
+      "purpose": "test H1",
+      "ok": true,
+      "source": "prometheus",
+      "flagged": 0
+    },
+    {
+      "id": "O8",
+      "round": 1,
+      "tool": "find_traces",
+      "args": {
+        "service": "kps-kubelet",
+        "minutes": 15
+      },
+      "purpose": "where do errors originate?",
+      "ok": true,
+      "source": "jaeger",
+      "flagged": 0
+    },
+    {
+      "id": "O9",
+      "round": 2,
+      "tool": "workload_metrics",
+      "args": {
+        "namespace": "shop",
+        "workload": "inventory",
+        "minutes": 30
+      },
+      "purpose": "test H3",
+      "ok": true,
+      "source": "prometheus",
+      "flagged": 0
+    }
+  ],
+  "rounds": [
+    {
+      "round": 0,
+      "hypotheses_added": [],
+      "hypotheses_retired": [],
+      "calls": [
+        {
+          "observation": "O1",
+          "tool": "active_alerts",
+          "args": {},
+          "purpose": "what is alerting and since when",
+          "ok": true
+        },
+        {
+          "observation": "O2",
+          "tool": "get_events",
+          "args": {
+            "namespace": "shop",
+            "minutes": 60,
+            "warnings_only": true
+          },
+          "purpose": "recent warning events",
+          "ok": true
+        },
+        {
+          "observation": "O3",
+          "tool": "cluster_overview",
+          "args": {
+            "namespace": "shop"
+          },
+          "purpose": "resource-level health snapshot",
+          "ok": true
+        },
+        {
+          "observation": "O4",
+          "tool": "recent_changes",
+          "args": {
+            "namespace": "shop",
+            "minutes": 120
+          },
+          "purpose": "what changed recently",
+          "ok": true
+        }
+      ],
+      "evidence_accepted": 0,
+      "evidence_rejected": 0,
+      "posteriors": {},
+      "decision": "",
+      "notes": ""
+    },
+    {
+      "round": 1,
+      "hypotheses_added": [
+        "H1",
+        "H2",
+        "H3"
+      ],
+      "hypotheses_retired": [],
+      "calls": [
+        {
+          "observation": "O5",
+          "tool": "workload_metrics",
+          "args": {
+            "namespace": "shop",
+            "workload": "kps-kubelet",
+            "minutes": 30
+          },
+          "purpose": "symptom onset",
+          "ok": true
+        },
+        {
+          "observation": "O6",
+          "tool": "workload_metrics",
+          "args": {
+            "namespace": "shop",
+            "workload": "catalog-indexer",
+            "minutes": 30
+          },
+          "purpose": "test H2",
+          "ok": true
+        },
+        {
+          "observation": "O7",
+          "tool": "workload_metrics",
+          "args": {
+            "namespace": "shop",
+            "workload": "telemetry-collector-v2",
+            "minutes": 30
+          },
+          "purpose": "test H1",
+          "ok": true
+        },
+        {
+          "observation": "O8",
+          "tool": "find_traces",
+          "args": {
+            "service": "kps-kubelet",
+            "minutes": 15
+          },
+          "purpose": "where do errors originate?",
+          "ok": true
+        }
+      ],
+      "evidence_accepted": 11,
+      "evidence_rejected": 0,
+      "posteriors": {
+        "H1": 0.038,
+        "H2": 0.216,
+        "H3": 0.682,
+        "unexplained": 0.063
+      },
+      "decision": "continue",
+      "notes": ""
+    },
+    {
+      "round": 2,
+      "hypotheses_added": [],
+      "hypotheses_retired": [],
+      "calls": [
+        {
+          "observation": "O9",
+          "tool": "workload_metrics",
+          "args": {
+            "namespace": "shop",
+            "workload": "inventory",
+            "minutes": 30
+          },
+          "purpose": "test H3",
+          "ok": true
+        }
+      ],
+      "evidence_accepted": 2,
+      "evidence_rejected": 0,
+      "posteriors": {
+        "H1": 0.031,
+        "H2": 0.197,
+        "H3": 0.721,
+        "unexplained": 0.051
+      },
+      "decision": "continue",
+      "notes": ""
+    },
+    {
+      "round": 3,
+      "hypotheses_added": [],
+      "hypotheses_retired": [],
+      "calls": [],
+      "evidence_accepted": 0,
+      "evidence_rejected": 0,
+      "posteriors": {
+        "H1": 0.031,
+        "H2": 0.197,
+        "H3": 0.721,
+        "unexplained": 0.051
+      },
+      "decision": "model judged evidence sufficient; H3 p=0.72 (medium)",
+      "notes": ""
+    }
+  ],
+  "stats": {
+    "rounds": 3,
+    "tool_calls": 9,
+    "evidence_accepted": 13,
+    "evidence_rejected": 0,
+    "llm_usage": null
+  }
+}

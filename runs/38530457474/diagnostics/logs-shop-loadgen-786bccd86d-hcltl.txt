@@ -1,0 +1,281 @@
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+{"ts": "2026-10-14T07:53:38.036Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "service started", "role": "loadgen", "pod": "loadgen-786bccd86d-hcltl"}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+{"ts": "2026-10-14T07:54:08.138Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 323, "err": 263}
+{"ts": "2026-10-14T07:54:38.197Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 581, "err": 0}
+{"ts": "2026-10-14T07:55:08.207Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 593, "err": 0}
+{"ts": "2026-10-14T07:55:38.257Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 586, "err": 0}
+{"ts": "2026-10-14T07:56:08.315Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 593, "err": 0}
+{"ts": "2026-10-14T07:56:38.334Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 582, "err": 0}
+{"ts": "2026-10-14T07:57:08.374Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 600, "err": 0}
+{"ts": "2026-10-14T07:57:38.505Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 617, "err": 0}
+{"ts": "2026-10-14T07:58:08.514Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 571, "err": 0}
+{"ts": "2026-10-14T07:58:38.580Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 578, "err": 0}
+{"ts": "2026-10-14T07:59:08.582Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 624, "err": 0}
+{"ts": "2026-10-14T07:59:38.602Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 611, "err": 0}
+{"ts": "2026-10-14T08:00:08.662Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 586, "err": 0}
+{"ts": "2026-10-14T08:00:38.760Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 588, "err": 0}
+{"ts": "2026-10-14T08:01:08.801Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 557, "err": 0}
+{"ts": "2026-10-14T08:01:38.843Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 621, "err": 0}
+{"ts": "2026-10-14T08:02:08.861Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 536, "err": 0}
+{"ts": "2026-10-14T08:02:38.863Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 624, "err": 0}
+{"ts": "2026-10-14T08:03:08.927Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 584, "err": 0}
+{"ts": "2026-10-14T08:03:38.981Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 630, "err": 0}
+{"ts": "2026-10-14T08:04:09.077Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 601, "err": 0}
+{"ts": "2026-10-14T08:04:39.080Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 595, "err": 0}
+{"ts": "2026-10-14T08:05:09.092Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 626, "err": 0}
+{"ts": "2026-10-14T08:05:39.093Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 525, "err": 0}
+{"ts": "2026-10-14T08:06:09.177Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 619, "err": 0}
+{"ts": "2026-10-14T08:06:39.201Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 588, "err": 0}
+{"ts": "2026-10-14T08:07:09.351Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 592, "err": 0}
+{"ts": "2026-10-14T08:07:39.375Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 590, "err": 0}
+{"ts": "2026-10-14T08:08:09.383Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 560, "err": 0}
+{"ts": "2026-10-14T08:08:39.414Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 550, "err": 0}
+{"ts": "2026-10-14T08:09:09.435Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 585, "err": 0}
+{"ts": "2026-10-14T08:09:39.466Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 579, "err": 0}
+{"ts": "2026-10-14T08:10:09.521Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 614, "err": 0}
+{"ts": "2026-10-14T08:10:39.549Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 599, "err": 0}
+{"ts": "2026-10-14T08:11:09.704Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 638, "err": 0}
+{"ts": "2026-10-14T08:11:39.718Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 605, "err": 0}
+{"ts": "2026-10-14T08:12:09.780Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 575, "err": 0}
+{"ts": "2026-10-14T08:12:39.794Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 599, "err": 0}
+{"ts": "2026-10-14T08:13:09.979Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 573, "err": 0}
+{"ts": "2026-10-14T08:13:40.024Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 600, "err": 1}
+{"ts": "2026-10-14T08:14:10.073Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 604, "err": 0}
+{"ts": "2026-10-14T08:14:40.132Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 585, "err": 0}
+{"ts": "2026-10-14T08:15:10.139Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 575, "err": 0}
+{"ts": "2026-10-14T08:15:40.150Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 375, "err": 178}
+{"ts": "2026-10-14T08:16:10.201Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 662}
+{"ts": "2026-10-14T08:16:40.214Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 627}
+{"ts": "2026-10-14T08:17:10.367Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 620}
+{"ts": "2026-10-14T08:17:40.371Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 595}
+{"ts": "2026-10-14T08:18:10.389Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 610}
+{"ts": "2026-10-14T08:18:40.424Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 634}
+{"ts": "2026-10-14T08:19:10.449Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 143, "err": 462}
+{"ts": "2026-10-14T08:19:40.470Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 574, "err": 2}
+{"ts": "2026-10-14T08:20:10.481Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 594, "err": 0}
+{"ts": "2026-10-14T08:20:40.533Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 606, "err": 0}
+{"ts": "2026-10-14T08:21:10.554Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 583, "err": 0}
+{"ts": "2026-10-14T08:21:40.556Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 571, "err": 0}
+{"ts": "2026-10-14T08:22:10.578Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 568, "err": 0}
+{"ts": "2026-10-14T08:22:40.606Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 586, "err": 4}
+{"ts": "2026-10-14T08:23:10.616Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 618, "err": 0}
+{"ts": "2026-10-14T08:23:40.653Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 122, "err": 429}
+{"ts": "2026-10-14T08:24:10.719Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 585}
+{"ts": "2026-10-14T08:24:40.729Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 606}
+{"ts": "2026-10-14T08:25:10.732Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 578}
+{"ts": "2026-10-14T08:25:40.738Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 574}
+{"ts": "2026-10-14T08:26:10.745Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 584}
+{"ts": "2026-10-14T08:26:40.758Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 560}
+{"ts": "2026-10-14T08:27:10.771Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 448, "err": 189}
+{"ts": "2026-10-14T08:27:40.826Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 573, "err": 0}
+{"ts": "2026-10-14T08:28:10.853Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 616, "err": 0}
+Exception while exporting Span batch.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/site-packages/urllib3/connection.py", line 239, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/usr/local/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 793, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 499, in _make_request
+    conn.request(
+  File "/usr/local/lib/python3.12/site-packages/urllib3/connection.py", line 567, in request
+    self.endheaders()
+  File "/usr/local/lib/python3.12/http/client.py", line 1381, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.12/http/client.py", line 1141, in _send_output
+    self.send(msg)
+  File "/usr/local/lib/python3.12/http/client.py", line 1085, in send
+    self.connect()
+  File "/usr/local/lib/python3.12/site-packages/urllib3/connection.py", line 398, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/urllib3/connection.py", line 254, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: HTTPConnection(host='jaeger.observability.svc', port=4318): Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/site-packages/requests/adapters.py", line 696, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 847, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/urllib3/util/retry.py", line 555, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='jaeger.observability.svc', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='jaeger.observability.svc', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 139, in _export
+    resp = self._session.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/requests/sessions.py", line 712, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/requests/sessions.py", line 651, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/requests/sessions.py", line 784, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/requests/adapters.py", line 729, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='jaeger.observability.svc', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='jaeger.observability.svc', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/site-packages/urllib3/connection.py", line 239, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/usr/local/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 793, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 499, in _make_request
+    conn.request(
+  File "/usr/local/lib/python3.12/site-packages/urllib3/connection.py", line 567, in request
+    self.endheaders()
+  File "/usr/local/lib/python3.12/http/client.py", line 1381, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.12/http/client.py", line 1141, in _send_output
+    self.send(msg)
+  File "/usr/local/lib/python3.12/http/client.py", line 1085, in send
+    self.connect()
+  File "/usr/local/lib/python3.12/site-packages/urllib3/connection.py", line 398, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/urllib3/connection.py", line 254, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: HTTPConnection(host='jaeger.observability.svc', port=4318): Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/site-packages/requests/adapters.py", line 696, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 847, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/urllib3/util/retry.py", line 555, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='jaeger.observability.svc', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='jaeger.observability.svc', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/site-packages/opentelemetry/sdk/trace/export/__init__.py", line 362, in _export_batch
+    self.span_exporter.export(self.spans_list[:idx])  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 204, in export
+    return self._export_serialized_spans(serialized_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 174, in _export_serialized_spans
+    resp = self._export(serialized_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 147, in _export
+    resp = self._session.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/requests/sessions.py", line 712, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/requests/sessions.py", line 651, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/requests/sessions.py", line 784, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/requests/adapters.py", line 729, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='jaeger.observability.svc', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='jaeger.observability.svc', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+{"ts": "2026-10-14T08:28:40.869Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 593, "err": 0}
+{"ts": "2026-10-14T08:29:10.985Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 584, "err": 0}
+{"ts": "2026-10-14T08:29:41.033Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 601, "err": 0}
+{"ts": "2026-10-14T08:30:11.057Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 640, "err": 0}
+{"ts": "2026-10-14T08:30:41.088Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 583, "err": 0}
+{"ts": "2026-10-14T08:31:11.198Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 523, "err": 2}
+{"ts": "2026-10-14T08:31:41.216Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 390, "err": 174}
+{"ts": "2026-10-14T08:32:11.262Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 484, "err": 89}
+{"ts": "2026-10-14T08:32:41.329Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 533, "err": 95}
+{"ts": "2026-10-14T08:33:11.467Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 470, "err": 77}
+{"ts": "2026-10-14T08:33:41.560Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 605, "err": 22}
+{"ts": "2026-10-14T08:34:11.583Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 395, "err": 76}
+{"ts": "2026-10-14T08:34:41.642Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 445, "err": 158}
+{"ts": "2026-10-14T08:35:11.762Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 439, "err": 135}
+{"ts": "2026-10-14T08:35:41.789Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 601, "err": 40}
+{"ts": "2026-10-14T08:36:11.813Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 497, "err": 16}
+{"ts": "2026-10-14T08:36:41.860Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 448, "err": 144}
+{"ts": "2026-10-14T08:37:11.871Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 571, "err": 81}
+{"ts": "2026-10-14T08:37:41.895Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 626, "err": 0}
+{"ts": "2026-10-14T08:38:11.911Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 605, "err": 0}
+{"ts": "2026-10-14T08:38:41.917Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 594, "err": 0}
+{"ts": "2026-10-14T08:39:11.946Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 599, "err": 0}
+{"ts": "2026-10-14T08:39:41.981Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 481, "err": 133}
+{"ts": "2026-10-14T08:40:12.091Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 627}
+{"ts": "2026-10-14T08:40:42.150Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 601}
+{"ts": "2026-10-14T08:41:12.224Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 591}
+{"ts": "2026-10-14T08:41:42.246Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 575}
+{"ts": "2026-10-14T08:42:12.249Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 619}
+{"ts": "2026-10-14T08:42:42.344Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 610}
+{"ts": "2026-10-14T08:43:12.467Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 547}
+{"ts": "2026-10-14T08:43:42.543Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 566}
+{"ts": "2026-10-14T08:44:12.569Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 608}
+{"ts": "2026-10-14T08:44:42.607Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 566}
+{"ts": "2026-10-14T08:45:12.680Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 581}
+{"ts": "2026-10-14T08:45:42.752Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 580}
+{"ts": "2026-10-14T08:46:12.769Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 559}
+{"ts": "2026-10-14T08:46:42.795Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 536}
+{"ts": "2026-10-14T08:47:12.795Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 581}
+{"ts": "2026-10-14T08:47:42.817Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 631}
+{"ts": "2026-10-14T08:48:12.825Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 572}
+{"ts": "2026-10-14T08:48:42.990Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 594}
+{"ts": "2026-10-14T08:49:13.119Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 597}
+{"ts": "2026-10-14T08:49:43.150Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 592}
+{"ts": "2026-10-14T08:50:13.160Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 603}
+{"ts": "2026-10-14T08:50:43.212Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 604}
+{"ts": "2026-10-14T08:51:13.271Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 0, "err": 578}
+{"ts": "2026-10-14T08:51:43.391Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 65, "err": 529}
+{"ts": "2026-10-14T08:52:13.397Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 603, "err": 7}
+{"ts": "2026-10-14T08:52:43.412Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 568, "err": 0}
+{"ts": "2026-10-14T08:53:13.434Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 548, "err": 0}
+{"ts": "2026-10-14T08:53:43.487Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 587, "err": 0}
+{"ts": "2026-10-14T08:54:13.626Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 589, "err": 0}
+{"ts": "2026-10-14T08:54:43.691Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 609, "err": 0}
+{"ts": "2026-10-14T08:55:13.709Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 633, "err": 0}
+{"ts": "2026-10-14T08:55:43.719Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 608, "err": 0}
+{"ts": "2026-10-14T08:56:13.736Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 572, "err": 9}
+{"ts": "2026-10-14T08:56:43.745Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 583, "err": 1}
+{"ts": "2026-10-14T08:57:13.791Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 563, "err": 1}
+{"ts": "2026-10-14T08:57:43.797Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 594, "err": 0}
+{"ts": "2026-10-14T08:58:13.926Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 609, "err": 0}
+{"ts": "2026-10-14T08:58:43.948Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 564, "err": 11}
+{"ts": "2026-10-14T08:59:13.949Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 602, "err": 16}
+{"ts": "2026-10-14T08:59:43.956Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 631, "err": 16}
+{"ts": "2026-10-14T09:00:13.987Z", "level": "info", "svc": "loadgen", "version": "1.4.0", "msg": "load stats", "ok": 555, "err": 16}

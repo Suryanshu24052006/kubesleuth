@@ -1,0 +1,345 @@
+[
+  {
+    "scenario": "aws-ebs-2012-latent-leak",
+    "reasoner": "rules",
+    "reasoner_detail": "rules",
+    "alert": "InfoInhibitor",
+    "verdict": "correct",
+    "component_hit": true,
+    "category_hit": true,
+    "keyword_hits": [
+      "telemetry",
+      "collector"
+    ],
+    "blamed_symptom": false,
+    "confidence": "low",
+    "posterior": 0.378,
+    "evidence_sources": [
+      "kubernetes"
+    ],
+    "multi_source": false,
+    "rounds": 3,
+    "tool_calls": 7,
+    "evidence_rejected": 0,
+    "security_events": 0,
+    "duration_s": 0.3,
+    "tokens": 0,
+    "root_cause": "Service telemetry-collector was deleted () so callers cannot reach it",
+    "report": "aws-ebs-2012-latent-leak.rules.md"
+  },
+  {
+    "scenario": "aws-ebs-2012-latent-leak",
+    "reasoner": "llm:google_genai:gemini-3.5-flash",
+    "reasoner_detail": "llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview)",
+    "alert": "InfoInhibitor",
+    "verdict": "partial",
+    "component_hit": false,
+    "category_hit": true,
+    "keyword_hits": [],
+    "blamed_symptom": false,
+    "confidence": "high",
+    "posterior": 0.903,
+    "evidence_sources": [
+      "kubernetes",
+      "prometheus"
+    ],
+    "multi_source": true,
+    "rounds": 4,
+    "tool_calls": 19,
+    "evidence_rejected": 5,
+    "security_events": 0,
+    "duration_s": 447.9,
+    "tokens": 96890,
+    "root_cause": "A simultaneous rollout of all services in the 'shop' namespace triggered transient node-level resource exhaustion and containerd socket saturation on the 'kubesleuth-worker' node.",
+    "report": "aws-ebs-2012-latent-leak.llm-google_genai-gemini-3.5-flash.md"
+  },
+  {
+    "scenario": "aws-s3-2017-capacity-removal",
+    "reasoner": "rules",
+    "reasoner_detail": "rules",
+    "alert": "CPUThrottlingHigh, ShopEdgeHigh5xxRate",
+    "verdict": "correct",
+    "component_hit": true,
+    "category_hit": true,
+    "keyword_hits": [
+      "replica",
+      "capacity",
+      "throttl"
+    ],
+    "blamed_symptom": false,
+    "confidence": "medium",
+    "posterior": 0.721,
+    "evidence_sources": [
+      "alertmanager",
+      "kubernetes",
+      "prometheus"
+    ],
+    "multi_source": true,
+    "rounds": 3,
+    "tool_calls": 9,
+    "evidence_rejected": 0,
+    "security_events": 0,
+    "duration_s": 0.3,
+    "tokens": 0,
+    "root_cause": "Capacity of inventory was reduced (spec.replicas 4->1)",
+    "report": "aws-s3-2017-capacity-removal.rules.md"
+  },
+  {
+    "scenario": "aws-s3-2017-capacity-removal",
+    "reasoner": "llm:google_genai:gemini-3.5-flash",
+    "reasoner_detail": "llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview)",
+    "alert": "CPUThrottlingHigh, ShopEdgeHigh5xxRate",
+    "verdict": "partial",
+    "component_hit": true,
+    "category_hit": true,
+    "keyword_hits": [
+      "replica",
+      "throttl",
+      "4 to 1"
+    ],
+    "blamed_symptom": true,
+    "confidence": "high",
+    "posterior": 0.84,
+    "evidence_sources": [
+      "kubernetes-logs",
+      "loki"
+    ],
+    "multi_source": true,
+    "rounds": 2,
+    "tool_calls": 11,
+    "evidence_rejected": 4,
+    "security_events": 0,
+    "duration_s": 112.8,
+    "tokens": 66294,
+    "root_cause": "Postgres connection pool exhaustion, likely triggered by a service rollout and the scaling down of the inventory service, which concentrated database demand and hit the max_connections limit.",
+    "report": "aws-s3-2017-capacity-removal.llm-google_genai-gemini-3.5-flash.md"
+  },
+  {
+    "scenario": "chef-2014-healthcheck-timeouts",
+    "reasoner": "rules",
+    "reasoner_detail": "rules",
+    "alert": "ShopEdgeHigh5xxRate",
+    "verdict": "inconclusive",
+    "component_hit": true,
+    "category_hit": false,
+    "keyword_hits": [],
+    "blamed_symptom": false,
+    "confidence": "inconclusive",
+    "posterior": 0.302,
+    "evidence_sources": [
+      "kubernetes"
+    ],
+    "multi_source": false,
+    "rounds": 3,
+    "tool_calls": 9,
+    "evidence_rejected": 0,
+    "security_events": 0,
+    "duration_s": 0.3,
+    "tokens": 0,
+    "root_cause": "Service checkout has no healthy backends",
+    "report": "chef-2014-healthcheck-timeouts.rules.md"
+  },
+  {
+    "scenario": "chef-2014-healthcheck-timeouts",
+    "reasoner": "llm:google_genai:gemini-3.5-flash",
+    "reasoner_detail": "llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview)",
+    "alert": "ShopEdgeHigh5xxRate",
+    "verdict": "correct",
+    "component_hit": true,
+    "category_hit": true,
+    "keyword_hits": [
+      "liveness",
+      "probe",
+      "health check"
+    ],
+    "blamed_symptom": false,
+    "confidence": "high",
+    "posterior": 0.961,
+    "evidence_sources": [
+      "kubernetes",
+      "kubernetes-logs"
+    ],
+    "multi_source": true,
+    "rounds": 1,
+    "tool_calls": 7,
+    "evidence_rejected": 2,
+    "security_events": 0,
+    "duration_s": 89.0,
+    "tokens": 48185,
+    "root_cause": "The checkout service was configured with an overly aggressive 'deep' liveness probe (1s timeout, failureThreshold=1) that failed when its dependencies (Postgres and Inventory) slowed down due to a database connection bottleneck.",
+    "report": "chef-2014-healthcheck-timeouts.llm-google_genai-gemini-3.5-flash.md"
+  },
+  {
+    "scenario": "cloudflare-2019-waf-regex",
+    "reasoner": "rules",
+    "reasoner_detail": "rules",
+    "alert": "InfoInhibitor",
+    "verdict": "inconclusive",
+    "component_hit": true,
+    "category_hit": true,
+    "keyword_hits": [
+      "waf",
+      "rule",
+      "edge-waf-rules"
+    ],
+    "blamed_symptom": false,
+    "confidence": "inconclusive",
+    "posterior": 0.215,
+    "evidence_sources": [
+      "kubernetes"
+    ],
+    "multi_source": false,
+    "rounds": 3,
+    "tool_calls": 8,
+    "evidence_rejected": 0,
+    "security_events": 0,
+    "duration_s": 0.3,
+    "tokens": 0,
+    "root_cause": "ConfigMap edge-waf-rules change (data.rules.json {\"rules\": [\n  {\"id\": \"sqli-union-select\", \"pattern\": \"(?i)union\\\\s+select\", \"action\": \"block\"},\n  {\"id\": \"path-traversal\", \"pattern\": \"\\\\.\\\\./\\\\.\\\\./\", \"action\": \"block\"}\n]}\n->{\"rules\": [\n  {\"id\": \"sqli-union-select\", \"pattern\": \"(?i)union\\\\s+select\", \"action\": \"block\"},\n  {\"id\": \"path-traversal\", \"pattern\": \"\\\\.\\\\./\\\\.\\\\./\", \"action\": \"block\"},\n  {\"id\": \"xss-inline-js-2019-07\", \"pattern\": \"(?:(?:\\\\\\\"|'|\\\\]|\\\\}|\\\\\\\\|\\\\d|(?:nan|infinity|true|false|null|undefined|symbol|math)|\\\\`|\\\\-|\\\\+)+[)]*;?((?:\\\\s|-|~|!|{}|\\\\|\\\\||\\\\+)*.*(?:.*=.*)))\", \"action\": \"log\"}\n]}) broke a dependent service",
+    "report": "cloudflare-2019-waf-regex.rules.md"
+  },
+  {
+    "scenario": "cloudflare-2019-waf-regex",
+    "reasoner": "llm:google_genai:gemini-3.5-flash",
+    "reasoner_detail": "llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview, gemini-3.7-flash)",
+    "alert": "InfoInhibitor",
+    "verdict": "wrong",
+    "component_hit": true,
+    "category_hit": false,
+    "keyword_hits": [],
+    "blamed_symptom": true,
+    "confidence": "high",
+    "posterior": 0.988,
+    "evidence_sources": [
+      "jaeger",
+      "kubernetes-logs",
+      "prometheus"
+    ],
+    "multi_source": true,
+    "rounds": 1,
+    "tool_calls": 8,
+    "evidence_rejected": 1,
+    "security_events": 0,
+    "duration_s": 275.7,
+    "tokens": 60926,
+    "root_cause": "The checkout service became unresponsive and dropped connections starting at 08:13Z, causing downstream ConnectTimeout errors and 502 responses in the edge service.",
+    "report": "cloudflare-2019-waf-regex.llm-google_genai-gemini-3.5-flash.md"
+  },
+  {
+    "scenario": "github-conn-saturation",
+    "reasoner": "rules",
+    "reasoner_detail": "rules",
+    "alert": "CPUThrottlingHigh, InfoInhibitor",
+    "verdict": "inconclusive",
+    "component_hit": true,
+    "category_hit": true,
+    "keyword_hits": [
+      "db_pool_size",
+      "pool",
+      "connection"
+    ],
+    "blamed_symptom": false,
+    "confidence": "inconclusive",
+    "posterior": 0.291,
+    "evidence_sources": [
+      "kubernetes"
+    ],
+    "multi_source": false,
+    "rounds": 3,
+    "tool_calls": 8,
+    "evidence_rejected": 0,
+    "security_events": 0,
+    "duration_s": 0.3,
+    "tokens": 0,
+    "root_cause": "ConfigMap checkout-config change (data.DB_POOL_SIZE 4->30) broke a dependent service",
+    "report": "github-conn-saturation.rules.md"
+  },
+  {
+    "scenario": "github-conn-saturation",
+    "reasoner": "llm:google_genai:gemini-3.5-flash",
+    "reasoner_detail": "llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview, gemini-3.7-flash, gemini-flash-latest, gemini-3.8-flash, gemini-3.5-flash-lite)",
+    "alert": "CPUThrottlingHigh, InfoInhibitor",
+    "verdict": "correct",
+    "component_hit": true,
+    "category_hit": false,
+    "keyword_hits": [
+      "connection"
+    ],
+    "blamed_symptom": false,
+    "confidence": "medium",
+    "posterior": 0.955,
+    "evidence_sources": [
+      "loki",
+      "prometheus"
+    ],
+    "multi_source": true,
+    "rounds": 3,
+    "tool_calls": 11,
+    "evidence_rejected": 3,
+    "security_events": 0,
+    "duration_s": 634.2,
+    "tokens": 64640,
+    "root_cause": "The inventory service is encountering database connection failures, causing all stock lookup queries to return HTTP 500 errors which cascade into 100% 5xx errors on the checkout service.",
+    "report": "github-conn-saturation.llm-google_genai-gemini-3.5-flash.md"
+  },
+  {
+    "scenario": "knight-2012-stale-version-flag",
+    "reasoner": "rules",
+    "reasoner_detail": "rules",
+    "alert": "CPUThrottlingHigh, InfoInhibitor",
+    "verdict": "correct",
+    "component_hit": true,
+    "category_hit": true,
+    "keyword_hits": [
+      "legacy",
+      "0.9.7"
+    ],
+    "blamed_symptom": false,
+    "confidence": "low",
+    "posterior": 0.429,
+    "evidence_sources": [
+      "kubernetes",
+      "prometheus"
+    ],
+    "multi_source": true,
+    "rounds": 4,
+    "tool_calls": 9,
+    "evidence_rejected": 15,
+    "security_events": 0,
+    "duration_s": 0.3,
+    "tokens": 0,
+    "root_cause": "Newly created workload pricing-legacy serves traffic with different code",
+    "report": "knight-2012-stale-version-flag.rules.md"
+  },
+  {
+    "scenario": "knight-2012-stale-version-flag",
+    "reasoner": "llm:google_genai:gemini-3.5-flash",
+    "reasoner_detail": "llm:google_genai:gemini-3.5-flash (models used: gemini-3.5-flash, gemini-3.6-flash, gemini-3-flash-preview, gemini-3.7-flash, gemini-flash-latest, gemini-3.8-flash, gemini-3.5-flash-lite)",
+    "alert": "CPUThrottlingHigh, InfoInhibitor",
+    "verdict": "correct",
+    "component_hit": true,
+    "category_hit": true,
+    "keyword_hits": [
+      "legacy",
+      "powerpeg",
+      "smart_routing"
+    ],
+    "blamed_symptom": false,
+    "confidence": "high",
+    "posterior": 0.978,
+    "evidence_sources": [
+      "kubernetes",
+      "kubernetes-logs",
+      "prometheus"
+    ],
+    "multi_source": true,
+    "rounds": 2,
+    "tool_calls": 9,
+    "evidence_rejected": 3,
+    "security_events": 0,
+    "duration_s": 153.7,
+    "tokens": 53255,
+    "root_cause": "Enabling the smart_routing feature flag routed checkout traffic to the newly created pricing-legacy deployment, which runs an older image and fails readiness probes, causing checkout error rates to spike.",
+    "report": "knight-2012-stale-version-flag.llm-google_genai-gemini-3.5-flash.md"
+  }
+]

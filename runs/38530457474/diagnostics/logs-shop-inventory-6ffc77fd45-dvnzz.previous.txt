@@ -1,0 +1,30 @@
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+{"ts": "2026-10-14T08:16:54.419Z", "level": "info", "svc": "inventory", "version": "1.4.0", "msg": "service started", "role": "inventory", "pod": "inventory-6ffc77fd45-dvnzz"}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+{"ts": "2026-10-14T08:17:18.241Z", "level": "error", "svc": "inventory", "version": "1.4.0", "msg": "stock lookup failed", "error": "ConnectionTimeout", "detail": "connection timeout expired"}
+{"ts": "2026-10-14T08:17:22.414Z", "level": "error", "svc": "inventory", "version": "1.4.0", "msg": "stock lookup failed", "error": "OperationalError", "detail": "connection failed: connection to server at \"10.96.36.109\", port 5432 failed: FATAL:  sorry, too many clients already"}
+{"ts": "2026-10-14T08:17:44.044Z", "level": "error", "svc": "inventory", "version": "1.4.0", "msg": "stock lookup failed", "error": "OperationalError", "detail": "connection failed: connection to server at \"10.96.36.109\", port 5432 failed: FATAL:  sorry, too many clients already"}
+{"ts": "2026-10-14T08:17:44.240Z", "level": "error", "svc": "inventory", "version": "1.4.0", "msg": "stock lookup failed", "error": "OperationalError", "detail": "connection failed: connection to server at \"10.96.36.109\", port 5432 failed: FATAL:  sorry, too many clients already"}
+{"ts": "2026-10-14T08:17:44.242Z", "level": "error", "svc": "inventory", "version": "1.4.0", "msg": "stock lookup failed", "error": "OperationalError", "detail": "connection failed: connection to server at \"10.96.36.109\", port 5432 failed: FATAL:  sorry, too many clients already"}
+{"ts": "2026-10-14T08:18:05.333Z", "level": "error", "svc": "inventory", "version": "1.4.0", "msg": "stock lookup failed", "error": "OperationalError", "detail": "connection failed: connection to server at \"10.96.36.109\", port 5432 failed: FATAL:  sorry, too many clients already"}
+{"ts": "2026-10-14T08:18:05.449Z", "level": "error", "svc": "inventory", "version": "1.4.0", "msg": "stock lookup failed", "error": "OperationalError", "detail": "connection failed: connection to server at \"10.96.36.109\", port 5432 failed: FATAL:  sorry, too many clients already"}
+{"ts": "2026-10-14T08:18:27.614Z", "level": "error", "svc": "inventory", "version": "1.4.0", "msg": "stock lookup failed", "error": "OperationalError", "detail": "connection failed: connection to server at \"10.96.36.109\", port 5432 failed: FATAL:  sorry, too many clients already"}
+{"ts": "2026-10-14T08:18:27.736Z", "level": "error", "svc": "inventory", "version": "1.4.0", "msg": "stock lookup failed", "error": "OperationalError", "detail": "connection failed: connection to server at \"10.96.36.109\", port 5432 failed: FATAL:  sorry, too many clients already"}
+{"ts": "2026-10-14T08:18:27.738Z", "level": "error", "svc": "inventory", "version": "1.4.0", "msg": "stock lookup failed", "error": "OperationalError", "detail": "connection failed: connection to server at \"10.96.36.109\", port 5432 failed: FATAL:  sorry, too many clients already"}
+{"ts": "2026-10-14T08:18:27.839Z", "level": "error", "svc": "inventory", "version": "1.4.0", "msg": "stock lookup failed", "error": "OperationalError", "detail": "connection failed: connection to server at \"10.96.36.109\", port 5432 failed: FATAL:  sorry, too many clients already"}
+INFO:     Shutting down
+INFO:     Waiting for connections to close. (CTRL+C to force quit)
+INFO:     Waiting for background tasks to complete. (CTRL+C to force quit)
+{"ts": "2026-10-14T08:18:48.939Z", "level": "error", "svc": "inventory", "version": "1.4.0", "msg": "stock lookup failed", "error": "ConnectionTimeout", "detail": "connection timeout expired"}
+{"ts": "2026-10-14T08:18:48.945Z", "level": "error", "svc": "inventory", "version": "1.4.0", "msg": "stock lookup failed", "error": "ConnectionTimeout", "detail": "connection timeout expired"}
+{"ts": "2026-10-14T08:18:56.136Z", "level": "error", "svc": "inventory", "version": "1.4.0", "msg": "stock lookup failed", "error": "ConnectionTimeout", "detail": "connection timeout expired"}
+{"ts": "2026-10-14T08:18:57.243Z", "level": "error", "svc": "inventory", "version": "1.4.0", "msg": "stock lookup failed", "error": "OperationalError", "detail": "connection failed: connection to server at \"10.96.36.109\", port 5432 failed: FATAL:  sorry, too many clients already"}
+{"ts": "2026-10-14T08:18:57.539Z", "level": "error", "svc": "inventory", "version": "1.4.0", "msg": "stock lookup failed", "error": "OperationalError", "detail": "connection failed: connection to server at \"10.96.36.109\", port 5432 failed: FATAL:  sorry, too many clients already"}
+{"ts": "2026-10-14T08:19:00.943Z", "level": "error", "svc": "inventory", "version": "1.4.0", "msg": "stock lookup failed", "error": "OperationalError", "detail": "connection failed: connection to server at \"10.96.36.109\", port 5432 failed: FATAL:  sorry, too many clients already"}
+{"ts": "2026-10-14T08:19:01.934Z", "level": "error", "svc": "inventory", "version": "1.4.0", "msg": "stock lookup failed", "error": "OperationalError", "detail": "connection failed: connection to server at \"10.96.36.109\", port 5432 failed: FATAL:  sorry, too many clients already"}
+{"ts": "2026-10-14T08:19:03.544Z", "level": "error", "svc": "inventory", "version": "1.4.0", "msg": "stock lookup failed", "error": "OperationalError", "detail": "connection failed: connection to server at \"10.96.36.109\", port 5432 failed: FATAL:  sorry, too many clients already"}
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [1]
