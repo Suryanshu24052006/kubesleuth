@@ -12,6 +12,41 @@ It works like an on-call engineer: it forms competing hypotheses, gathers eviden
 metrics, logs, traces and change history, and only commits to a cause when several sources agree.
 When the evidence isn't there, it says so.
 
+## What it does
+
+1. **An alert fires** (say, checkout is returning 5xx). Alertmanager sends it to kubesleuth, or you start it from the CLI.
+2. **It triages.** It reads the alert, the affected workloads, recent events and what changed in the namespace lately.
+3. **It lists suspects.** It writes competing explanations ("the new DB pool size exhausted Postgres", "a node is
+   overloaded", …) and treats errors, restarts and failed probes as symptoms that need explaining.
+4. **It investigates.** Each round it picks the queries that best separate the suspects (pod state, PromQL, logs,
+   traces, change history) and records what supports or contradicts each one, quoting the data word for word.
+5. **It decides.** Code turns the evidence into probabilities. It stops when one cause clearly leads and is backed by
+   independent sources, or when it runs out of budget.
+6. **It writes the RCA:** the root cause, the evidence chain, a timeline, what it ruled out and why, open doubts,
+   and suggested next steps. A human makes any fix; kubesleuth never changes the cluster.
+
+## Why it's useful day to day
+
+- **Faster on-call.** At 3 a.m. the first 20 minutes usually go to opening dashboards, tailing logs and asking
+  "did anyone deploy?". kubesleuth does that sweep in parallel and hands the on-call engineer a drafted RCA with
+  links to the evidence, so they start from a lead instead of a blank screen.
+- **"What changed, and who changed it?"** answered in one line. Most incidents follow a change; the change journal
+  shows field-level diffs, the person or tool behind each, and whether the change is still live.
+- **Cause, not noise.** One bad change can trip a dozen alerts across services. Separating the victim (the service
+  that errors) from the cause (the upstream change) is where people lose the most time; that is exactly what the
+  GitHub scenario tests.
+- **Safe to point at production.** It can only read one namespace, has no credentials of its own, redacts secrets
+  and logs every query, so a platform team can let it run without worrying about it "fixing" things.
+- **Honest when unsure.** It says "inconclusive" and lists what it couldn't check, instead of a confident wrong
+  answer that sends people down the wrong path.
+- **Better post-mortems.** Every report has the same structure, a timeline and quoted evidence, which is a solid first
+  draft for the write-up and a record of what was checked.
+- **Teaching tool.** Junior engineers can read how a cause was narrowed down step by step, and the six scenarios
+  double as hands-on practice for debugging Kubernetes.
+
+It is a research prototype tested on a demo shop, not a product. The same design (read-only broker, evidence
+ledger, MCP tools) is what you would need to run it against a real cluster.
+
 ## Architecture
 
 ```

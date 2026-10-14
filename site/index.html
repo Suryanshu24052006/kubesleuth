@@ -159,7 +159,7 @@ footer a{color:var(--ink)}
 <header class="top"><div class="wrap">
   <a class="mark" href="#">kubesleuth</a>
   <nav aria-label="Sections">
-    <a href="#replay">Replay</a><a href="#results">Results</a><a href="#how">How it works</a>
+    <a href="#replay">Replay</a><a href="#why">Why</a><a href="#results">Results</a><a href="#how">How it works</a>
     <a href="#outages">Outages</a><a href="#security">Security</a><a id="gh" href="https://github.com/Suryanshu24052006/kubesleuth">GitHub</a>
   </nav>
 </div></header>
@@ -189,6 +189,31 @@ footer a{color:var(--ink)}
   Probabilities are recomputed from the recorded evidence with the agent's own ledger arithmetic. Wrong and inconclusive
   investigations are in the list too.</p>
 </div>
+
+<section id="why"><div class="wrap">
+  <div class="prose">
+    <h2>What it does, and why it helps on a normal day</h2>
+    <p>When an alert fires, kubesleuth reads the alert, looks at what changed recently, writes down competing
+    explanations, and then queries pods, metrics, logs, traces and change history until one cause is clearly ahead
+    and backed by independent sources. It ends with a root-cause report: the cause, the quoted evidence, a timeline,
+    what it ruled out, and what is still uncertain. It never changes the cluster; a person makes the fix.</p>
+  </div>
+  <div class="principles">
+    <div><h3>Faster on-call</h3><p>The first minutes of an incident usually go to opening dashboards, tailing logs and
+    asking whether anyone deployed. kubesleuth does that sweep and hands the on-call engineer a drafted RCA, so they
+    start from a lead instead of a blank screen.</p></div>
+    <div><h3>What changed, and who changed it</h3><p>Most incidents follow a change. The change journal answers that in
+    one line, with the diff, the person or tool behind it, and whether it is still in effect.</p></div>
+    <div><h3>Cause, not noise</h3><p>One bad change can trip alerts across several services. Telling the service that
+    fails apart from the change that broke it is where people lose the most time.</p></div>
+    <div><h3>Safe to run in production</h3><p>It can only read, only one namespace, with no credentials of its own,
+    secrets redacted and every query logged. Nobody has to worry about it "fixing" things.</p></div>
+    <div><h3>Honest when unsure</h3><p>It says "inconclusive" and lists what it couldn't check, rather than giving a
+    confident wrong answer that sends the team down the wrong path.</p></div>
+    <div><h3>Post-mortems and teaching</h3><p>Every report has the same structure and quoted evidence: a solid first draft
+    for the write-up, and a step-by-step record juniors can learn from.</p></div>
+  </div>
+</div></section>
 
 <section id="results"><div class="wrap">
   <div class="prose">
