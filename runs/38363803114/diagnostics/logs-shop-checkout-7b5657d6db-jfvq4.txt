@@ -1,7 +1,0 @@
-INFO:     Started server process [1]
-INFO:     Waiting for application startup.
-{"ts": "2026-10-13T08:49:42.453Z", "level": "info", "svc": "checkout", "version": "1.4.0", "msg": "opening database pool", "min_size": 4, "max_size": 4}
-INFO:     Application startup complete.
-INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
-{"ts": "2026-10-13T08:49:42.575Z", "level": "info", "svc": "checkout", "version": "1.4.0", "msg": "service started", "role": "checkout", "pod": "checkout-7b5657d6db-jfvq4"}
-{"ts": "2026-10-13T08:49:46.689Z", "level": "error", "svc": "checkout", "version": "1.4.0", "msg": "upstream connection error", "error": "ConnectError", "detail": "All connection attempts failed"}

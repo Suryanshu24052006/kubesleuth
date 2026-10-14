@@ -1,7 +1,0 @@
-INFO:     Started server process [1]
-INFO:     Waiting for application startup.
-{"ts": "2026-10-13T07:45:01.756Z", "level": "info", "svc": "pricing", "version": "1.4.0", "msg": "service started", "role": "pricing", "pod": "pricing-95c99775f-kj9cv"}
-INFO:     Application startup complete.
-INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
-{"ts": "2026-10-13T08:44:16.303Z", "level": "info", "svc": "pricing", "version": "1.4.0", "msg": "configuration reloaded", "file": "/etc/flags/flags.json", "digest": "14b581f06ee3"}
-{"ts": "2026-10-13T08:50:02.159Z", "level": "info", "svc": "pricing", "version": "1.4.0", "msg": "configuration reloaded", "file": "/etc/flags/flags.json", "digest": "1a16de7360f6"}
